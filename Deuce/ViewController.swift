@@ -8,6 +8,7 @@
 
 import UIKit
 import WatchConnectivity
+import GoogleMobileAds
 
 class ViewController: UIViewController, WCSessionDelegate  {
     /** Called when the session has completed activation. If session state is WCSessionActivationStateNotActivated there will be an error with more details. */
@@ -32,6 +33,8 @@ class ViewController: UIViewController, WCSessionDelegate  {
     @IBOutlet weak var playerTwoMatchScoreLabel: UILabel!
     @IBOutlet weak var playerTwoServingLabel: UILabel!
     
+    @IBOutlet weak var bannerView: GADBannerView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -41,6 +44,13 @@ class ViewController: UIViewController, WCSessionDelegate  {
             ScoreManager.determineWhoServes()
             updateServingLabels()
         }
+        bannerView.adSize = kGADAdSizeSmartBannerPortrait
+        bannerView.adUnitID = "ca-app-pub-8970886331444312/2500597617"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        let request = GADRequest()
+        request.testDevices = [ kGADSimulatorID,                      // All simulators
+                                "e35b407201643dd0d1e1369739471903"];  // Sample device ID
     }
     
     required init(coder aDecoder: NSCoder) {

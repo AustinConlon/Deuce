@@ -1,0 +1,39 @@
+
+/* Class = "UILabel"; text = "Serving"; ObjectID = "6vl-sG-miK"; */
+"6vl-sG-miK.text" = "Serving";
+
+/* Class = "UILabel"; text = "Match score: 0"; ObjectID = "MRo-2w-3UJ"; */
+"MRo-2w-3UJ.text" = "Match score: 0";
+
+/* Class = "UIButton"; normalTitle = "Start new match"; ObjectID = "N0V-ua-fdJ"; */
+"N0V-ua-fdJ.normalTitle" = "Start new match";
+
+/* Class = "UILabel"; text = "Serving"; ObjectID = "N7g-xU-IMo"; */
+"N7g-xU-IMo.text" = "Serving";
+
+/* Class = "UIButton"; normalTitle = "Love"; ObjectID = "ULJ-3R-sYb"; */
+"ULJ-3R-sYb.normalTitle" = "Love";
+
+/* Class = "UIButton"; normalTitle = "Love"; ObjectID = "VRB-7l-NVD"; */
+"VRB-7l-NVD.normalTitle" = "Love";
+
+/* Class = "UISegmentedControl"; j86-GE-gp9.segmentTitles[0] = "Tiebreaker set"; ObjectID = "j86-GE-gp9"; */
+"j86-GE-gp9.segmentTitles[0]" = "Tiebreaker set";
+
+/* Class = "UISegmentedControl"; j86-GE-gp9.segmentTitles[1] = "Advantage set"; ObjectID = "j86-GE-gp9"; */
+"j86-GE-gp9.segmentTitles[1]" = "Advantage set";
+
+/* Class = "UILabel"; text = "Player with paired Watch"; ObjectID = "kJ8-a9-A1S"; */
+"kJ8-a9-A1S.text" = "Player with paired Watch";
+
+/* Class = "UILabel"; text = "One set"; ObjectID = "m99-mh-3zd"; */
+"m99-mh-3zd.text" = "One set";
+
+/* Class = "UILabel"; text = "Set score: 0"; ObjectID = "mId-uY-M8g"; */
+"mId-uY-M8g.text" = "Set score: 0";
+
+/* Class = "UILabel"; text = "Match score: 0"; ObjectID = "mj9-x2-Jy6"; */
+"mj9-x2-Jy6.text" = "Match score: 0";
+
+/* Class = "UILabel"; text = "Set score: 0"; ObjectID = "sDM-8i-gw9"; */
+"sDM-8i-gw9.text" = "Set score: 0";

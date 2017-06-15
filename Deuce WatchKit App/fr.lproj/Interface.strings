@@ -1,0 +1,39 @@
+
+/* Class = "WKInterfaceLabel"; text = "One set"; ObjectID = "6nH-Bn-VTw"; */
+"6nH-Bn-VTw.text" = "One set";
+
+/* Class = "WKInterfaceSwitch"; title = "Advantage set"; ObjectID = "9RJ-n2-dtb"; */
+"9RJ-n2-dtb.title" = "Advantage set";
+
+/* Class = "WKInterfaceLabel"; text = "Love"; ObjectID = "9fp-xg-3SA"; */
+"9fp-xg-3SA.text" = "Love";
+
+/* Class = "WKInterfaceLabel"; text = "Serving"; ObjectID = "EJr-ah-qJY"; */
+"EJr-ah-qJY.text" = "Serving";
+
+/* Class = "WKInterfaceLabel"; text = "0"; ObjectID = "Fi3-CN-ldL"; */
+"Fi3-CN-ldL.text" = "0";
+
+/* Class = "WKInterfaceLabel"; text = "Alert Label"; ObjectID = "IdU-wH-bcW"; */
+"IdU-wH-bcW.text" = "Alert Label";
+
+/* Class = "WKInterfaceLabel"; text = "0"; ObjectID = "L6l-u0-MCE"; */
+"L6l-u0-MCE.text" = "0";
+
+/* Class = "WKInterfaceLabel"; text = "0"; ObjectID = "OFh-a5-wp2"; */
+"OFh-a5-wp2.text" = "0";
+
+/* Class = "WKInterfaceButton"; title = "Start"; ObjectID = "Rvm-Qn-Mwd"; */
+"Rvm-Qn-Mwd.title" = "Start";
+
+/* Class = "WKInterfaceLabel"; text = "Love"; ObjectID = "gnp-Ie-dM4"; */
+"gnp-Ie-dM4.text" = "Love";
+
+/* Class = "WKInterfaceLabel"; text = "0"; ObjectID = "no9-vd-L6Q"; */
+"no9-vd-L6Q.text" = "0";
+
+/* Class = "WKInterfaceLabel"; text = "Server will be randomly chosen"; ObjectID = "nwi-G3-dRQ"; */
+"nwi-G3-dRQ.text" = "Server will be randomly chosen";
+
+/* Class = "WKInterfaceLabel"; text = "Serving"; ObjectID = "xxe-gX-FFj"; */
+"xxe-gX-FFj.text" = "Serving";
