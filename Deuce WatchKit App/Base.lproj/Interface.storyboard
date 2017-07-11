@@ -40,7 +40,6 @@
                             <variation key="device=watch38mm" height="30"/>
                             <variation key="device=watch42mm" height="38"/>
                             <connections>
-                                <action selector="chooseSeriesToBeFiveSets" destination="AgC-eL-Hgc" id="fQQ-aA-soi"/>
                                 <segue destination="Hlr-PA-eca" kind="push" id="dKg-du-zDx"/>
                             </connections>
                         </button>

@@ -4,6 +4,21 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Deuce Intents Extension iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
+		<key>Deuce Intents Extension iOSUI.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
+		</dict>
+		<key>Deuce Intents Extension watchOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
 		<key>Deuce WatchKit App (Notification).xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -33,6 +48,26 @@
 			<true/>
 		</dict>
 		<key>FB51A0261DEAD77C00B2E195</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB9180141F00B30C0028AFE0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB9180241F00B3780028AFE0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB91802D1F00B3780028AFE0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB9180481F00B48E0028AFE0</key>
 		<dict>
 			<key>primary</key>
 			<true/>

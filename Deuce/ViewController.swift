@@ -48,9 +48,6 @@ class ViewController: UIViewController, WCSessionDelegate  {
         bannerView.adUnitID = "ca-app-pub-8970886331444312/2500597617"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
-        let request = GADRequest()
-        request.testDevices = [ kGADSimulatorID,                      // All simulators
-                                "e35b407201643dd0d1e1369739471903"];  // Sample device ID
     }
     
     required init(coder aDecoder: NSCoder) {

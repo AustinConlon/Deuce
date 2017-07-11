@@ -50,6 +50,7 @@ class ScoreManager {
     }
     
     class func switchServer() {
+        WKInterfaceDevice.current().play(.stop)
         switch ScoreManager.server {
         case .first?:
             ScoreManager.server = .second
@@ -58,8 +59,6 @@ class ScoreManager {
         default:
             break
         }
-        
-        WKInterfaceDevice.current().play(.notification)
     }
     
     func scorePoint() {

@@ -56,7 +56,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         // If the user presses the back button and then Start to restart the match
         ScoreManager.reset()
         session.sendMessage(["new match" : "reset"], replyHandler: nil)
-        WKInterfaceDevice.current().play(.start)
     }
     
     override func willActivate() {
@@ -96,21 +95,21 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @IBAction func incrementFirstPlayerScore(_ sender: Any) {
+        WKInterfaceDevice.current().play(.click)
         playerOne.scorePoint()
         updateFirstPlayerGameScoreLabel()
         updateSetScoreLabels()
         updateMatchScoreLabels()
         session.sendMessage(["scored" : "first player"], replyHandler: nil)
-        WKInterfaceDevice.current().play(.click)
     }
     
     @IBAction func incrementSecondPlayerScore(_ sender: Any) {
+        WKInterfaceDevice.current().play(.click)
         playerTwo.scorePoint()
         updateSecondPlayerGameScoreLabel()
         updateSetScoreLabels()
         updateMatchScoreLabels()
         session.sendMessage(["scored" : "second player"], replyHandler: nil)
-        WKInterfaceDevice.current().play(.click)
     }
     
     func updateFirstPlayerGameScoreLabel() {
@@ -265,6 +264,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 }
                 updateServingLabels()
             case _ where message["scored"] != nil:
+                WKInterfaceDevice.current().play(.click)
                 switch message["scored"] as! String {
                 case "first player":
                     playerOne.scorePoint()
@@ -282,7 +282,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 if let _ = ScoreManager.winner {
                     updateLabelsForEndOfMatch()
                 }
-                WKInterfaceDevice.current().play(.click)
             case _ where message["start new match"] != nil:
                 ScoreManager.reset()
                 ScoreManager.determineWhoServes()
