@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize the Google Mobile Ads SDK.
         GADMobileAds.configure(withApplicationID: "1:829731180250:ios:80582d0edc6dcebb")
         
-        INPreferences.requestSiriAuthorization()
+//        INPreferences.requestSiriAuthorization()
         
         return true
     }
