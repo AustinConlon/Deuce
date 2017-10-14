@@ -8,7 +8,6 @@
 
 import UIKit
 import WatchConnectivity
-import GoogleMobileAds
 
 class ViewController: UIViewController, WCSessionDelegate  {
     /** Called when the session has completed activation. If session state is WCSessionActivationStateNotActivated there will be an error with more details. */
@@ -33,8 +32,6 @@ class ViewController: UIViewController, WCSessionDelegate  {
     @IBOutlet weak var playerTwoMatchScoreLabel: UILabel!
     @IBOutlet weak var playerTwoServingLabel: UILabel!
     
-    @IBOutlet weak var bannerView: GADBannerView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -44,10 +41,6 @@ class ViewController: UIViewController, WCSessionDelegate  {
             ScoreManager.determineWhoServes()
             updateServingLabels()
         }
-        bannerView.adSize = kGADAdSizeSmartBannerPortrait
-        bannerView.adUnitID = "ca-app-pub-8970886331444312/2500597617"
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -78,18 +71,34 @@ class ViewController: UIViewController, WCSessionDelegate  {
         default:
             matchLengthLabel.text = "One set"
         }
-        session?.sendMessage(["match length" : ScoreManager.matchLength], replyHandler: nil)
-        session?.sendMessage(["match length text" : matchLengthLabel.text as Any], replyHandler: nil)
+        do {
+            try session?.updateApplicationContext(["match length" : ScoreManager.matchLength])
+        } catch {
+            print("Unable to update application context.")
+        }
+        do {
+            try session?.updateApplicationContext(["match length text" : matchLengthLabel.text as Any])
+        } catch {
+            print("Unable to update application context.")
+        }
     }
     
     @IBAction func changeTypeOfSet(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             ScoreManager.setType = .tiebreak
-            session?.sendMessage(["set type" : "Tiebreaker set"], replyHandler: nil)
+            do {
+                try session?.updateApplicationContext(["set type" : "Tiebreaker set"])
+            } catch {
+                print("Unable to update application context.")
+            }
         case 1:
             ScoreManager.setType = .advantage
-            session?.sendMessage(["set type" : "Advantage set"], replyHandler: nil)
+            do {
+                try session?.updateApplicationContext(["set type" : "Advantage set"])
+            } catch {
+                print("Unable to update application context.")
+            }
         default:
             break
         }
@@ -98,7 +107,11 @@ class ViewController: UIViewController, WCSessionDelegate  {
     @IBAction func startNewMatch(_ sender: Any) {
         ScoreManager.reset()
         updateLabelsForNewMatch()
-        session?.sendMessage(["start new match" : "reset"], replyHandler: nil)
+        do {
+            try session?.updateApplicationContext(["start new match" : "reset"])
+        } catch {
+            print("Unable to update application context.")
+        }
     }
     
     @IBAction func incrementFirstPlayerScore(_ sender: Any) {
@@ -106,7 +119,11 @@ class ViewController: UIViewController, WCSessionDelegate  {
         updateFirstPlayerGameScoreLabel()
         updateSetScoreLabels()
         updateMatchScoreLabels()
-        session?.sendMessage(["scored" : "first player"], replyHandler: nil)
+        do {
+            try session?.updateApplicationContext(["scored" : "first player"])
+        } catch {
+            print("Unable to update application context.")
+        }
         hideSettingsControls()
     }
     
@@ -115,7 +132,11 @@ class ViewController: UIViewController, WCSessionDelegate  {
         updateSecondPlayerGameScoreLabel()
         updateSetScoreLabels()
         updateMatchScoreLabels()
-        session?.sendMessage(["scored" : "second player"], replyHandler: nil)
+        do {
+            try session?.updateApplicationContext(["scored" : "second player"])
+        } catch {
+            print("Unable to update application context.")
+        }
         hideSettingsControls()
     }
     

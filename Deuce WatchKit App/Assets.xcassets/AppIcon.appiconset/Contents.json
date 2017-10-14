@@ -3,7 +3,7 @@
     {
       "size" : "24x24",
       "idiom" : "watch",
-      "filename" : "Notification Center 38mm.png",
+      "filename" : "Deuce-8.png",
       "scale" : "2x",
       "role" : "notificationCenter",
       "subtype" : "38mm"
@@ -11,7 +11,7 @@
     {
       "size" : "27.5x27.5",
       "idiom" : "watch",
-      "filename" : "Notification Center 42mm.png",
+      "filename" : "Deuce-1.png",
       "scale" : "2x",
       "role" : "notificationCenter",
       "subtype" : "42mm"
@@ -19,21 +19,21 @@
     {
       "size" : "29x29",
       "idiom" : "watch",
-      "filename" : "Companion Settings 2x.png",
+      "filename" : "Deuce-2.png",
       "role" : "companionSettings",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "watch",
-      "filename" : "Companion Settings 3x.png",
+      "filename" : "Deuce-3.png",
       "role" : "companionSettings",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "watch",
-      "filename" : "Home Screen (All).png",
+      "filename" : "Deuce-4.png",
       "scale" : "2x",
       "role" : "appLauncher",
       "subtype" : "38mm"
@@ -41,7 +41,7 @@
     {
       "size" : "86x86",
       "idiom" : "watch",
-      "filename" : "Short Look 38mm.png",
+      "filename" : "Deuce-5.png",
       "scale" : "2x",
       "role" : "quickLook",
       "subtype" : "38mm"
@@ -49,10 +49,16 @@
     {
       "size" : "98x98",
       "idiom" : "watch",
-      "filename" : "Short Look 42mm.png",
+      "filename" : "Deuce-6.png",
       "scale" : "2x",
       "role" : "quickLook",
       "subtype" : "42mm"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "watch-marketing",
+      "filename" : "Deuce-7.png",
+      "scale" : "1x"
     }
   ],
   "info" : {

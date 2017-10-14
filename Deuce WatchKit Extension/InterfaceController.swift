@@ -233,16 +233,16 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         playerTwoServingLabel?.setHidden(true)
     }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         DispatchQueue.main.sync {
-            switch message {
-            case _ where message["match length"] != nil:
-                ScoreManager.matchLength = message["match length"] as! Int
-                matchLengthSlider.setValue(message["match length"] as! Float)
-            case _ where message["match length text"] != nil:
-                matchLengthLabel.setText(message["match length text"] as? String)
-            case _ where message["set type"] != nil:
-                switch message["set type"] as! String {
+            switch applicationContext {
+            case _ where applicationContext["match length"] != nil:
+                ScoreManager.matchLength = applicationContext["match length"] as! Int
+                matchLengthSlider.setValue(applicationContext["match length"] as! Float)
+            case _ where applicationContext["match length text"] != nil:
+                matchLengthLabel.setText(applicationContext["match length text"] as? String)
+            case _ where applicationContext["set type"] != nil:
+                switch applicationContext["set type"] as! String {
                 case "Tiebreaker set":
                     ScoreManager.setType = .tiebreak
                     setTypeSwitch.setOn(false)
@@ -252,9 +252,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 default:
                     break
                 }
-                setTypeSwitch.setTitle(message["set type"] as? String)
-            case _ where message["server"] != nil:
-                switch message["server"] as! String {
+                setTypeSwitch.setTitle(applicationContext["set type"] as? String)
+            case _ where applicationContext["server"] != nil:
+                switch applicationContext["server"] as! String {
                 case "first player":
                     ScoreManager.server = .first
                 case "second player":
@@ -263,9 +263,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                     break
                 }
                 updateServingLabels()
-            case _ where message["scored"] != nil:
+            case _ where applicationContext["scored"] != nil:
                 WKInterfaceDevice.current().play(.click)
-                switch message["scored"] as! String {
+                switch applicationContext["scored"] as! String {
                 case "first player":
                     playerOne.scorePoint()
                     updateFirstPlayerGameScoreLabel()
@@ -282,7 +282,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 if let _ = ScoreManager.winner {
                     updateLabelsForEndOfMatch()
                 }
-            case _ where message["start new match"] != nil:
+            case _ where applicationContext["start new match"] != nil:
                 ScoreManager.reset()
                 ScoreManager.determineWhoServes()
                 updateServingLabels()
