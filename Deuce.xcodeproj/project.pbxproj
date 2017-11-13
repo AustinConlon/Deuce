@@ -23,6 +23,7 @@
 		FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A0411DEAD77C00B2E195 /* NotificationController.swift */; };
 		FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0431DEAD77C00B2E195 /* Assets.xcassets */; };
 		FB8341A11E8780130003244C /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8341A01E8780130003244C /* ScoreManager.swift */; };
+		FB863C221F97F118003BA2D1 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB863C211F97F117003BA2D1 /* ComplicationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,16 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FB7D986C1FA8AEED00A15961 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FB9180201F00B30C0028AFE0 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -119,10 +130,8 @@
 		FB51A0431DEAD77C00B2E195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB51A0451DEAD77C00B2E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB8341A01E8780130003244C /* ScoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreManager.swift; sourceTree = "<group>"; };
+		FB863C211F97F117003BA2D1 /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComplicationController.swift; path = "../../Sample/Sample WatchKit Extension/ComplicationController.swift"; sourceTree = "<group>"; };
 		FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deuce WatchKit Extension.entitlements"; sourceTree = "<group>"; };
-		FB91802F1F00B3780028AFE0 /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
-		FBCE7F181EDEEA5200084C0B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		FBCE7F191EDEEA5200084C0B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Interface.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +174,6 @@
 				FB51A02B1DEAD77C00B2E195 /* Deuce WatchKit App */,
 				FB51A03A1DEAD77C00B2E195 /* Deuce WatchKit Extension */,
 				FB51A00B1DEAD77C00B2E195 /* Products */,
-				FB94920A1E84C6020018F073 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -222,6 +230,7 @@
 				FB3280351EABDA3C00D6B92B /* ScoreManager.swift */,
 				FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */,
 				FB51A0411DEAD77C00B2E195 /* NotificationController.swift */,
+				FB863C211F97F117003BA2D1 /* ComplicationController.swift */,
 				FB51A0431DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0451DEAD77C00B2E195 /* Info.plist */,
 				FB51A03B1DEAD77C00B2E195 /* Supporting Files */,
@@ -237,14 +246,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FB94920A1E84C6020018F073 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FB91802F1F00B3780028AFE0 /* IntentsUI.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -257,6 +258,7 @@
 				FB51A0081DEAD77C00B2E195 /* Resources */,
 				FB51A04F1DEAD77C00B2E195 /* Embed Watch Content */,
 				FB9180441F00B3780028AFE0 /* Embed App Extensions */,
+				FB7D986C1FA8AEED00A15961 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -328,8 +330,8 @@
 		FB51A0021DEAD77C00B2E195 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastSwiftUpdateCheck = 0910;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Austin Conlon";
 				TargetAttributes = {
 					FB51A0091DEAD77C00B2E195 = {
@@ -345,7 +347,7 @@
 								enabled = 0;
 							};
 							com.apple.Siri = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.iCloud = {
 								enabled = 0;
@@ -461,6 +463,7 @@
 			files = (
 				FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */,
 				FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */,
+				FB863C221F97F118003BA2D1 /* ComplicationController.swift in Sources */,
 				FB51A03E1DEAD77C00B2E195 /* InterfaceController.swift in Sources */,
 				FB3280361EABDA3C00D6B92B /* ScoreManager.swift in Sources */,
 			);
@@ -499,7 +502,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				FB51A0171DEAD77C00B2E195 /* Base */,
-				FBCE7F181EDEEA5200084C0B /* fr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -508,7 +510,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				FB51A02D1DEAD77C00B2E195 /* Base */,
-				FBCE7F191EDEEA5200084C0B /* fr */,
 			);
 			name = Interface.storyboard;
 			sourceTree = "<group>";
@@ -708,6 +709,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
@@ -727,6 +729,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;

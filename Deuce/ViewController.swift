@@ -20,6 +20,7 @@ class ViewController: UIViewController, WCSessionDelegate  {
     @IBOutlet weak var matchLengthStepper: UIStepper!
     @IBOutlet weak var matchLengthLabel: UILabel!
     @IBOutlet weak var setTypeSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var startNewMatchButton: UIButton!
     
     @IBOutlet weak var playerOneGameScoreLabel: UIButton!
     @IBOutlet weak var playerOneSetScoreLabel: UILabel!
@@ -40,6 +41,8 @@ class ViewController: UIViewController, WCSessionDelegate  {
             playerWithPairedAppleWatchLabel.isHidden = true
             ScoreManager.determineWhoServes()
             updateServingLabels()
+        } else {
+            startNewMatchButton.isHidden = true
         }
     }
     

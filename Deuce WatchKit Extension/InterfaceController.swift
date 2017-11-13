@@ -1,3 +1,4 @@
+
 //
 //  InterfaceController.swift
 //  Deuce WatchKit Extension
@@ -26,11 +27,13 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var playerOneSetScoreLabel: WKInterfaceLabel!
     @IBOutlet var playerOneGameScoreLabel: WKInterfaceLabel!
     @IBOutlet var playerOneMatchScoreLabel: WKInterfaceLabel!
+    @IBOutlet var playerOneBreakPointLabel: WKInterfaceLabel!
     
     @IBOutlet var playerTwoServingLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoSetScoreLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoGameScoreLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoMatchScoreLabel: WKInterfaceLabel!
+    @IBOutlet var playerTwoBreakPointLabel: WKInterfaceLabel!
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
@@ -126,9 +129,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             case .first?:
                 switch ScoreManager.server {
                 case .first?:
-                    playerOneGameScoreLabel.setText("Advantage in")
+                    playerOneGameScoreLabel.setText("Ad in")
                 case .second?:
-                    playerOneGameScoreLabel.setText("Advantage out")
+                    playerOneGameScoreLabel.setText("Ad out")
                 default:
                     break
                 }
@@ -155,9 +158,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             case .second?:
                 switch ScoreManager.server {
                 case .first?:
-                    playerTwoGameScoreLabel.setText("Advantage out")
+                    playerTwoGameScoreLabel.setText("Ad out")
                 case .second?:
-                    playerTwoGameScoreLabel.setText("Advantage in")
+                    playerTwoGameScoreLabel.setText("Ad in")
                 default:
                     break
                 }
@@ -183,6 +186,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     func updateSetScoreLabels() {
+        WKInterfaceDevice.current().play(.stop)
         switch ScoreManager.isInTiebreakGame {
         case true:
             playerOneSetScoreLabel.setText("Tiebreak")
