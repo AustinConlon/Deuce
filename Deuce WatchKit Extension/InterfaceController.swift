@@ -87,6 +87,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBAction func changeSetType(_ value: Bool) {
         switch value {
         case false:
+            DispatchQueue.main.sync {
+                pushController(withName: "Start", context: nil)
+            }
             ScoreManager.setType = .tiebreak
             setTypeSwitch.setTitle("Tiebreaker set")
             session.sendMessage(["set type" : "Tiebreaker set"], replyHandler: nil)
@@ -268,6 +271,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 }
                 updateServingLabels()
             case _ where applicationContext["scored"] != nil:
+                DispatchQueue.main.sync {
+                    pushController(withName: "Scoreboard", context: nil)
+                }
                 WKInterfaceDevice.current().play(.click)
                 switch applicationContext["scored"] as! String {
                 case "first player":

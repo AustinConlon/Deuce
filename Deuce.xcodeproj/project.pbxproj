@@ -24,6 +24,8 @@
 		FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0431DEAD77C00B2E195 /* Assets.xcassets */; };
 		FB8341A11E8780130003244C /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8341A01E8780130003244C /* ScoreManager.swift */; };
 		FB863C221F97F118003BA2D1 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB863C211F97F117003BA2D1 /* ComplicationController.swift */; };
+		FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */; };
+		FBF535E41FC1BE01008C6449 /* ScoreboardInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E31FC1BE01008C6449 /* ScoreboardInterfaceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +134,8 @@
 		FB8341A01E8780130003244C /* ScoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreManager.swift; sourceTree = "<group>"; };
 		FB863C211F97F117003BA2D1 /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComplicationController.swift; path = "../../Sample/Sample WatchKit Extension/ComplicationController.swift"; sourceTree = "<group>"; };
 		FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deuce WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "\U0010SettingsInterfaceController.swift"; sourceTree = "<group>"; };
+		FBF535E31FC1BE01008C6449 /* ScoreboardInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardInterfaceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +231,8 @@
 			children = (
 				FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */,
 				FB51A03D1DEAD77C00B2E195 /* InterfaceController.swift */,
+				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
+				FBF535E31FC1BE01008C6449 /* ScoreboardInterfaceController.swift */,
 				FB3280351EABDA3C00D6B92B /* ScoreManager.swift */,
 				FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */,
 				FB51A0411DEAD77C00B2E195 /* NotificationController.swift */,
@@ -347,7 +353,7 @@
 								enabled = 0;
 							};
 							com.apple.Siri = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.iCloud = {
 								enabled = 0;
@@ -462,6 +468,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */,
+				FBF535E41FC1BE01008C6449 /* ScoreboardInterfaceController.swift in Sources */,
+				FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */,
 				FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */,
 				FB863C221F97F118003BA2D1 /* ComplicationController.swift in Sources */,
 				FB51A03E1DEAD77C00B2E195 /* InterfaceController.swift in Sources */,
@@ -709,7 +717,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
@@ -729,7 +736,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;

@@ -8,10 +8,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
     </dependencies>
     <scenes>
-        <!--Game settings-->
+        <!--Settings-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="Choose series length" id="AgC-eL-Hgc" userLabel="Game settings" customClass="InterfaceController" customModule="Deuce_WatchKit_App" customModuleProvider="target">
+                <controller identifier="Settings" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
                         <label alignment="center" text="One set" id="6nH-Bn-VTw">
                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
@@ -37,11 +37,10 @@
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="backgroundColor" red="0.015686274510000001" green="0.87058823529999996" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
-                            <variation key="device=watch38mm" height="30"/>
+                            <variation key="device=watch38mm" height="30">
+                                <fontDescription key="font" type="system" weight="semibold" pointSize="18"/>
+                            </variation>
                             <variation key="device=watch42mm" height="38"/>
-                            <connections>
-                                <segue destination="Hlr-PA-eca" kind="push" id="dKg-du-zDx"/>
-                            </connections>
                         </button>
                         <label height="24" alignment="center" text="Server will be randomly chosen" textAlignment="center" id="nwi-G3-dRQ">
                             <fontDescription key="font" type="system" pointSize="10"/>

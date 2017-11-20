@@ -42,7 +42,7 @@ class ViewController: UIViewController, WCSessionDelegate  {
             ScoreManager.determineWhoServes()
             updateServingLabels()
         } else {
-            startNewMatchButton.isHidden = true
+//            startNewMatchButton.isHidden = true
         }
     }
     
