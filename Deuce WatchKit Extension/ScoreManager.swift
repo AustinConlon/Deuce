@@ -23,9 +23,14 @@ class ScoreManager {
         case first, second
     }
     
+    enum ServingSide {
+        case left, right
+    }
+    
     static var matchLength = 1
     static var setType = SetType.advantage
     static var server: Player?
+    var servingSide: ServingSide
     static var isDeuce = false
     static var isInTiebreakGame = false
     static var advantage: Player?
@@ -38,6 +43,12 @@ class ScoreManager {
     // MARK: Initialization
     init(player: Player) {
         self.playerThatScored = player
+        switch player {
+        case .first:
+            servingSide = .left
+        case .second:
+            servingSide = .right
+        }
     }
     
     // MARK: ScoreManager
@@ -46,6 +57,35 @@ class ScoreManager {
             ScoreManager.server = .first
         } else {
             ScoreManager.server = .second
+        }
+    }
+    
+    func updateServingSideAfterPoint() {
+        switch ScoreManager.server {
+        case .first?:
+            if (playerOne.gameScore, playerTwo.gameScore) == (0, 0) {
+                playerOne.servingSide = .left
+            } else {
+                switch playerOne.servingSide {
+                case .left:
+                    playerOne.servingSide = .right
+                case .right:
+                    playerOne.servingSide = .left
+                }
+            }
+        case .second?:
+            if (playerOne.gameScore, playerTwo.gameScore) == (0, 0) {
+                playerTwo.servingSide = .right
+            } else {
+                switch playerTwo.servingSide {
+                case .left:
+                    playerTwo.servingSide = .right
+                case .right:
+                    playerTwo.servingSide = .left
+                }
+            }
+        default:
+            break
         }
     }
     
@@ -83,6 +123,7 @@ class ScoreManager {
         default:
             scoreAdvantageSituation()
         }
+        updateServingSideAfterPoint()
     }
     
     func scoreAdvantageSituation() {
@@ -115,6 +156,8 @@ class ScoreManager {
         playerTwo.gameScore = 0
         ScoreManager.advantage = nil
         incrementSetScore()
+        playerOne.servingSide = .left
+        playerTwo.servingSide = .right
     }
     
     func incrementSetScore() {

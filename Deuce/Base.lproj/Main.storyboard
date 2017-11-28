@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13770" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina5_5" orientation="portrait">
+    <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,157 +18,211 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULJ-3R-sYb" userLabel="Player One Game Score Label">
-                                <rect key="frame" x="36" y="333" width="106" height="70"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="48"/>
-                                <state key="normal" title="Love">
-                                    <color key="titleColor" red="0.35240155458450317" green="0.78345412015914917" blue="0.97859376668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ykn-Fz-NEg" userLabel="Match Length">
+                                <rect key="frame" x="16.5" y="29" width="287" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="wRo-wh-pKn"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="One set"/>
+                                    <segment title="Best-of 3"/>
+                                    <segment title="Best-of 5"/>
+                                    <segment title="Best-of 7"/>
+                                </segments>
+                                <color key="tintColor" red="0.94901960784313721" green="0.95686274509803915" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
-                                    <action selector="incrementFirstPlayerScore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u4z-Xy-fZi"/>
+                                    <action selector="changeMatchLength:" destination="BYZ-38-t0r" eventType="valueChanged" id="28F-g3-820"/>
                                 </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sDM-8i-gw9" userLabel="Player One Set Score Label">
-                                <rect key="frame" x="42" y="411" width="95" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mId-uY-M8g" userLabel="Player Two Set Score Label">
-                                <rect key="frame" x="278" y="411" width="95" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Serving" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6vl-sG-miK" userLabel="Player Two Serving Label">
-                                <rect key="frame" x="295" y="304" width="60" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Serving" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7g-xU-IMo" userLabel="Player One Serving Label">
-                                <rect key="frame" x="59" y="304" width="60" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Paired Watch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJ8-a9-A1S">
-                                <rect key="frame" x="288" y="284" width="75" height="12"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="10"/>
-                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VRB-7l-NVD" userLabel="Player Two Game Score Label">
-                                <rect key="frame" x="272" y="333" width="106" height="70"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="48"/>
-                                <state key="normal" title="Love">
-                                    <color key="titleColor" red="0.35240155458450317" green="0.78345412015914917" blue="0.97859376668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="incrementSecondPlayerScore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7T0-0C-8ol"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MRo-2w-3UJ" userLabel="Player One Match Score Label">
-                                <rect key="frame" x="31" y="440" width="117" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mj9-x2-Jy6" userLabel="Player Two Match Score Label">
-                                <rect key="frame" x="267" y="440" width="117" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="j86-GE-gp9">
-                                <rect key="frame" x="105.66666666666669" y="65" width="203" height="29"/>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="j86-GE-gp9" userLabel="Set Type">
+                                <rect key="frame" x="58.5" y="65" width="203" height="29"/>
                                 <segments>
                                     <segment title="Tiebreaker set"/>
                                     <segment title="Advantage set"/>
                                 </segments>
-                                <color key="tintColor" red="0.94804149866104126" green="0.9559209942817688" blue="0.99815565347671509" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.94901960784313721" green="0.95686274509803915" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="changeTypeOfSet:" destination="BYZ-38-t0r" eventType="valueChanged" id="e45-BA-ytt"/>
                                 </connections>
                             </segmentedControl>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" continuous="NO" autorepeat="NO" value="1" minimumValue="1" maximumValue="7" stepValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="8i9-4W-alg">
-                                <rect key="frame" x="105.66666666666669" y="28" width="94" height="29"/>
-                                <color key="tintColor" red="0.94804149866104126" green="0.9559209942817688" blue="0.99815565347671509" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="changeMatchLength:" destination="BYZ-38-t0r" eventType="valueChanged" id="IT8-W9-qgm"/>
-                                </connections>
-                            </stepper>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r7H-B8-qNE">
-                                <rect key="frame" x="147.66666666666666" y="101" width="117.99999999999997" height="30"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                <state key="normal" title="Start New Match">
-                                    <color key="titleColor" red="0.41876637935638428" green="0.87778455018997192" blue="0.45013260841369629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r7H-B8-qNE" userLabel="Start Match Button">
+                                <rect key="frame" x="96.5" y="101" width="127" height="40"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <state key="normal" title="Start Match">
+                                    <color key="titleColor" red="0.41960784313725491" green="0.8784313725490196" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="startNewMatch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9qB-75-JtO"/>
+                                    <action selector="startMatch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eXS-3D-9ZZ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="One set" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m99-mh-3zd">
-                                <rect key="frame" x="206.66666666666666" y="33" width="54.999999999999972" height="18"/>
-                                <color key="tintColor" red="0.94804149866104126" green="0.9559209942817688" blue="0.99815565347671509" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The player starting on the left side won the coin toss. Select their choice to serve or receive first." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhK-WH-oWy" userLabel="Announcement">
+                                <rect key="frame" x="15.5" y="149" width="288" height="57.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="jP7-Gf-irc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <color key="textColor" red="0.94901960784313721" green="0.95686274509803915" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Serving" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7g-xU-IMo" userLabel="Left Side Serving Status">
+                                <rect key="frame" x="59" y="176" width="63" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Serving" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6vl-sG-miK" userLabel="Right Side Serving Status">
+                                <rect key="frame" x="198" y="176" width="63" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="0.94901960784313721" green="0.95686274509803915" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULJ-3R-sYb" userLabel="Score Point For Left Side">
+                                <rect key="frame" x="35.5" y="205" width="110" height="70"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="48"/>
+                                <state key="normal" title="Love">
+                                    <color key="titleColor" red="0.35240155458450317" green="0.78345412015914917" blue="0.97859376668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="scorePointForLeftSide:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jRW-lS-8DB"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VRB-7l-NVD" userLabel="Score Point For Right Side">
+                                <rect key="frame" x="174" y="205" width="110" height="70"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="48"/>
+                                <state key="normal" title="Love">
+                                    <color key="titleColor" red="0.35240155458450317" green="0.78345412015914917" blue="0.97859376668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="scorePointForRightSide:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pPt-B9-tz1"/>
+                                </connections>
+                            </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sDM-8i-gw9" userLabel="Left Side Set Score">
+                                <rect key="frame" x="42" y="283" width="98" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mId-uY-M8g" userLabel="Right Side Set Score">
+                                <rect key="frame" x="181" y="283" width="98" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MRo-2w-3UJ" userLabel="Left Side Match Score">
+                                <rect key="frame" x="30" y="312" width="122" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mj9-x2-Jy6" userLabel="Right Side Match Score">
+                                <rect key="frame" x="169" y="312" width="122" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.94893461465835571" green="0.95691746473312378" blue="0.99988085031509399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLC-KY-3Og" userLabel="Start Watch Left Side">
+                                <rect key="frame" x="45" y="300" width="91" height="40"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <state key="normal" title="Watch">
+                                    <color key="titleColor" red="0.35270136590000001" green="0.78436356780000005" blue="0.98026961089999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="setPlayerWithPairedWatchToStartLeftSide:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bSX-vq-zn6"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHK-ZJ-qhl" userLabel="Start Watch Right Side">
+                                <rect key="frame" x="183" y="300" width="91" height="40"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <state key="normal" title="Watch">
+                                    <color key="titleColor" red="0.35270136590000001" green="0.78436356780000005" blue="0.98026961089999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="setPlayerWithPairedWatchToStartRightSide:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8HM-t7-KSA"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wa-Qe-Q4P" userLabel="Set Left Side To Serve First">
+                                <rect key="frame" x="32.5" y="340.5" width="116" height="40"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <state key="normal" title="Serve First">
+                                    <color key="titleColor" red="0.41960784309999999" green="0.87843137250000003" blue="0.45098039220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="setLeftSideToServeFirst:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JlR-IV-nxp"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A3o-od-bpp" userLabel="Set Right Side To Serve First">
+                                <rect key="frame" x="171" y="340.5" width="116" height="40"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <state key="normal" title="Serve First">
+                                    <color key="titleColor" red="0.41960784309999999" green="0.87843137250000003" blue="0.45098039220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="setRightSideToServeFirst:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QGB-oe-TzD"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ULJ-3R-sYb" firstAttribute="top" secondItem="N7g-xU-IMo" secondAttribute="bottom" constant="8" id="2VP-YL-LYW"/>
+                            <constraint firstItem="ykn-Fz-NEg" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="9" id="31t-jN-XSy"/>
                             <constraint firstItem="sDM-8i-gw9" firstAttribute="centerX" secondItem="N7g-xU-IMo" secondAttribute="centerX" id="76w-is-BpM"/>
-                            <constraint firstItem="6vl-sG-miK" firstAttribute="top" secondItem="kJ8-a9-A1S" secondAttribute="bottom" constant="8" id="AoH-Y2-2Lk"/>
-                            <constraint firstItem="8i9-4W-alg" firstAttribute="centerY" secondItem="m99-mh-3zd" secondAttribute="centerY" id="ER2-Xh-DX8"/>
-                            <constraint firstItem="8i9-4W-alg" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="FeI-Am-1LE"/>
+                            <constraint firstItem="j86-GE-gp9" firstAttribute="centerX" secondItem="r7H-B8-qNE" secondAttribute="centerX" id="7Ho-CO-OV6"/>
+                            <constraint firstItem="A3o-od-bpp" firstAttribute="top" secondItem="xHK-ZJ-qhl" secondAttribute="bottom" constant="0.5" id="88U-st-hrR"/>
+                            <constraint firstItem="ykn-Fz-NEg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9GK-BM-wEX"/>
+                            <constraint firstItem="jhK-WH-oWy" firstAttribute="top" secondItem="r7H-B8-qNE" secondAttribute="bottom" constant="8" id="9aD-tu-JZZ"/>
+                            <constraint firstItem="A3o-od-bpp" firstAttribute="centerX" secondItem="VRB-7l-NVD" secondAttribute="centerX" id="AA3-En-Nlb"/>
                             <constraint firstItem="mj9-x2-Jy6" firstAttribute="top" secondItem="6vl-sG-miK" secondAttribute="bottom" constant="115" id="GbW-7O-HJT"/>
+                            <constraint firstItem="jhK-WH-oWy" firstAttribute="centerX" secondItem="r7H-B8-qNE" secondAttribute="centerX" id="HJ7-cW-V3X"/>
+                            <constraint firstItem="xHK-ZJ-qhl" firstAttribute="centerX" secondItem="A3o-od-bpp" secondAttribute="centerX" id="I8P-qp-t1k"/>
                             <constraint firstItem="mId-uY-M8g" firstAttribute="top" secondItem="6vl-sG-miK" secondAttribute="bottom" constant="86" id="Ka4-lP-bZK"/>
+                            <constraint firstItem="ykn-Fz-NEg" firstAttribute="centerX" secondItem="j86-GE-gp9" secondAttribute="centerX" id="Mmx-cf-BOf"/>
                             <constraint firstAttribute="trailing" secondItem="6vl-sG-miK" secondAttribute="trailing" constant="59" id="N0I-eB-J0q"/>
-                            <constraint firstItem="j86-GE-gp9" firstAttribute="centerX" secondItem="r7H-B8-qNE" secondAttribute="centerX" id="Nqn-EC-0Tt"/>
                             <constraint firstItem="VRB-7l-NVD" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="OGj-tu-UJm"/>
                             <constraint firstItem="MRo-2w-3UJ" firstAttribute="centerX" secondItem="N7g-xU-IMo" secondAttribute="centerX" id="QnI-Tc-d1k"/>
-                            <constraint firstItem="j86-GE-gp9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="U5z-m8-pHD"/>
+                            <constraint firstItem="j86-GE-gp9" firstAttribute="top" secondItem="ykn-Fz-NEg" secondAttribute="bottom" constant="9" id="RGc-st-u0e"/>
+                            <constraint firstItem="7wa-Qe-Q4P" firstAttribute="top" secondItem="LLC-KY-3Og" secondAttribute="bottom" constant="0.5" id="S42-SZ-duR"/>
                             <constraint firstItem="MRo-2w-3UJ" firstAttribute="top" secondItem="N7g-xU-IMo" secondAttribute="bottom" constant="115" id="WsV-5N-F9X"/>
                             <constraint firstItem="mId-uY-M8g" firstAttribute="centerX" secondItem="6vl-sG-miK" secondAttribute="centerX" id="XFL-lr-uAG"/>
+                            <constraint firstItem="A3o-od-bpp" firstAttribute="top" secondItem="VRB-7l-NVD" secondAttribute="bottom" constant="65.5" id="XU1-m6-hy7"/>
                             <constraint firstItem="ULJ-3R-sYb" firstAttribute="centerX" secondItem="N7g-xU-IMo" secondAttribute="centerX" id="amh-fZ-nXq"/>
-                            <constraint firstItem="8i9-4W-alg" firstAttribute="leading" secondItem="j86-GE-gp9" secondAttribute="leading" id="clx-q5-bn1"/>
-                            <constraint firstItem="kJ8-a9-A1S" firstAttribute="centerX" secondItem="6vl-sG-miK" secondAttribute="centerX" id="f0P-7Q-nh9"/>
+                            <constraint firstItem="7wa-Qe-Q4P" firstAttribute="centerX" secondItem="ULJ-3R-sYb" secondAttribute="centerX" id="dSM-AZ-EA7"/>
                             <constraint firstItem="N7g-xU-IMo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="59" id="fpu-Ri-3c6"/>
-                            <constraint firstItem="r7H-B8-qNE" firstAttribute="top" secondItem="j86-GE-gp9" secondAttribute="bottom" constant="8" symbolic="YES" id="lAw-0V-oFk"/>
+                            <constraint firstItem="r7H-B8-qNE" firstAttribute="top" secondItem="j86-GE-gp9" secondAttribute="bottom" constant="8" symbolic="YES" id="ihI-xx-kfu"/>
                             <constraint firstItem="VRB-7l-NVD" firstAttribute="top" secondItem="6vl-sG-miK" secondAttribute="bottom" constant="8" id="lrW-Db-ji8"/>
-                            <constraint firstItem="m99-mh-3zd" firstAttribute="leading" secondItem="8i9-4W-alg" secondAttribute="trailing" constant="7" id="oB2-zo-29M"/>
+                            <constraint firstItem="7wa-Qe-Q4P" firstAttribute="top" secondItem="ULJ-3R-sYb" secondAttribute="bottom" constant="65.5" id="ru8-8Z-pCM"/>
                             <constraint firstItem="ULJ-3R-sYb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="sPV-Rf-4Yj"/>
                             <constraint firstItem="mj9-x2-Jy6" firstAttribute="centerX" secondItem="6vl-sG-miK" secondAttribute="centerX" id="tM0-fW-U6j"/>
-                            <constraint firstItem="j86-GE-gp9" firstAttribute="top" secondItem="8i9-4W-alg" secondAttribute="bottom" constant="8" symbolic="YES" id="wdx-jl-571"/>
+                            <constraint firstItem="LLC-KY-3Og" firstAttribute="centerX" secondItem="7wa-Qe-Q4P" secondAttribute="centerX" id="y16-AR-1vW"/>
                             <constraint firstItem="sDM-8i-gw9" firstAttribute="top" secondItem="N7g-xU-IMo" secondAttribute="bottom" constant="86" id="yAg-7w-zBX"/>
                             <constraint firstItem="VRB-7l-NVD" firstAttribute="centerX" secondItem="6vl-sG-miK" secondAttribute="centerX" id="yGM-z8-cPF"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="matchLengthLabel" destination="m99-mh-3zd" id="JQm-SN-MI2"/>
-                        <outlet property="matchLengthStepper" destination="8i9-4W-alg" id="8sZ-eR-tor"/>
-                        <outlet property="playerOneGameScoreLabel" destination="ULJ-3R-sYb" id="vsf-e8-u48"/>
-                        <outlet property="playerOneMatchScoreLabel" destination="MRo-2w-3UJ" id="SY2-4c-I7d"/>
-                        <outlet property="playerOneServingLabel" destination="N7g-xU-IMo" id="iiD-Zw-Ji4"/>
-                        <outlet property="playerOneSetScoreLabel" destination="sDM-8i-gw9" id="1Cu-JN-7Iq"/>
-                        <outlet property="playerTwoGameScoreLabel" destination="VRB-7l-NVD" id="anh-UQ-bSk"/>
-                        <outlet property="playerTwoMatchScoreLabel" destination="mj9-x2-Jy6" id="D2p-Zl-P16"/>
-                        <outlet property="playerTwoServingLabel" destination="6vl-sG-miK" id="LjU-gB-Rd4"/>
-                        <outlet property="playerTwoSetScoreLabel" destination="mId-uY-M8g" id="jIS-U9-8BO"/>
-                        <outlet property="playerWithPairedAppleWatchLabel" destination="kJ8-a9-A1S" id="Bji-3v-fIf"/>
+                        <outlet property="announcementLabel" destination="jhK-WH-oWy" id="5lI-1m-ceZ"/>
+                        <outlet property="changeMatchLengthSegmentedControl" destination="ykn-Fz-NEg" id="RpQ-f0-vhM"/>
+                        <outlet property="leftSideGameScoreButton" destination="ULJ-3R-sYb" id="Yog-Vh-cXs"/>
+                        <outlet property="leftSideMatchScoreLabel" destination="MRo-2w-3UJ" id="QK9-QS-ywX"/>
+                        <outlet property="leftSideServesFirstButton" destination="7wa-Qe-Q4P" id="azv-x8-6oT"/>
+                        <outlet property="leftSideServingStatusLabel" destination="N7g-xU-IMo" id="brk-hZ-egf"/>
+                        <outlet property="leftSideSetScoreLabel" destination="sDM-8i-gw9" id="o73-GM-97B"/>
+                        <outlet property="leftSideStartsWithPairedWatch" destination="LLC-KY-3Og" id="WYS-MK-6L9"/>
+                        <outlet property="rightSideGameScoreButton" destination="VRB-7l-NVD" id="yTE-nC-XNN"/>
+                        <outlet property="rightSideMatchScoreLabel" destination="mj9-x2-Jy6" id="0r6-y3-Slm"/>
+                        <outlet property="rightSideServesFirstButton" destination="A3o-od-bpp" id="qeG-dy-8bt"/>
+                        <outlet property="rightSideServingStatusLabel" destination="6vl-sG-miK" id="7PD-pb-KHP"/>
+                        <outlet property="rightSideSetScoreLabel" destination="mId-uY-M8g" id="mkC-UG-VfV"/>
+                        <outlet property="rightSideStartsWithPairedWatch" destination="xHK-ZJ-qhl" id="3DL-3M-Ycx"/>
                         <outlet property="setTypeSegmentedControl" destination="j86-GE-gp9" id="1Wv-fs-fu0"/>
                         <outlet property="startNewMatchButton" destination="r7H-B8-qNE" id="oLv-X8-AlA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="133.09859154929578" y="121.875"/>
+            <point key="canvasLocation" x="131.25" y="121.25"/>
         </scene>
     </scenes>
 </document>
