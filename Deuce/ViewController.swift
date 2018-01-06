@@ -68,29 +68,34 @@ class ViewController: UIViewController, WCSessionDelegate  {
         default:
             ScoreManager.matchLength = 1
         }
-        session.sendMessage(["match length" : ScoreManager.matchLength], replyHandler: nil)
+        session?.sendMessage(["match length" : ScoreManager.matchLength], replyHandler: nil)
     }
     
     @IBAction func changeTypeOfSet(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             ScoreManager.setType = .tiebreak
-            session.sendMessage(["set type" : "Tiebreaker set"], replyHandler: nil)
+            session?.sendMessage(["set type" : "Tiebreaker set"], replyHandler: nil)
         case 1:
             ScoreManager.setType = .advantage
-            session.sendMessage(["set type" : "Advantage set"], replyHandler: nil)
+            session?.sendMessage(["set type" : "Advantage set"], replyHandler: nil)
         default:
             break
         }
     }
     
     @IBAction func startMatch(_ sender: Any) {
-        session.sendMessage(["start" : "new match"], replyHandler: nil)
-        if session.isWatchAppInstalled {
-            askToSelectStartingSideOfPairedWatch()
-            leftSideGameScoreButton.isHidden = true
-            rightSideGameScoreButton.isHidden = true
-        } else {
+        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone {
+            session.sendMessage(["start" : "new match"], replyHandler: nil)
+            if session.isWatchAppInstalled {
+                askToSelectStartingSideOfPairedWatch()
+                leftSideGameScoreButton.isHidden = true
+                rightSideGameScoreButton.isHidden = true
+            } else {
+                askToSelectStartingServer()
+            }
+        }
+        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
             askToSelectStartingServer()
         }
         changeMatchLengthSegmentedControl.isHidden = true
@@ -129,13 +134,13 @@ class ViewController: UIViewController, WCSessionDelegate  {
     }
     
     @IBAction func setLeftSideToServeFirst(_ sender: Any) {
-        session.sendMessage(["server" : "first player"], replyHandler: nil)
+        session?.sendMessage(["server" : "first player"], replyHandler: nil)
         ScoreManager.server = .first
         updateLabelsForBeginningOfMatch()
     }
     
     @IBAction func setRightSideToServeFirst(_ sender: Any) {
-        session.sendMessage(["server" : "second player"], replyHandler: nil)
+        session?.sendMessage(["server" : "second player"], replyHandler: nil)
         ScoreManager.server = .second
         updateLabelsForBeginningOfMatch()
     }
@@ -145,7 +150,7 @@ class ViewController: UIViewController, WCSessionDelegate  {
         updateLeftSideGameScoreLabel()
         updateSetScoreLabels()
         updateMatchScoreLabels()
-        session.sendMessage(["scored" : "first player"], replyHandler: nil)
+        session?.sendMessage(["scored" : "first player"], replyHandler: nil)
     }
     
     @IBAction func scorePointForRightSide(_ sender: Any) {
@@ -153,7 +158,7 @@ class ViewController: UIViewController, WCSessionDelegate  {
         updateRightSideGameScoreLabel()
         updateSetScoreLabels()
         updateMatchScoreLabels()
-        session.sendMessage(["scored" : "second player"], replyHandler: nil)
+        session?.sendMessage(["scored" : "second player"], replyHandler: nil)
     }
     
     func updateLeftSideGameScoreLabel() {

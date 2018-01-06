@@ -32,11 +32,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
-    }
-
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        ScoreManager.reset()
         ScoreManager.determineWhoServes()
         updateServingLabels()
         
@@ -45,14 +42,12 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             session.delegate = self
             session.activate()
             sendServingStatusToPhone()
+            session.sendMessage(["start new match" : "reset"], replyHandler: nil)
         }
     }
 
     override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
         super.didDeactivate()
-        ScoreManager.reset()
-        session.sendMessage(["start new match" : "reset"], replyHandler: nil)
     }
     
     func updateServingLabels() {
@@ -98,8 +93,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBAction func firstPlayerScored(_ sender: Any) {
         playerOne.scorePoint()
-        print("Player one serving side is \(playerOne.servingSide))")
-        print("Player two serving side is \(playerTwo.servingSide))")
         playHaptic()
         session.sendMessage(["scored" : "first player"], replyHandler: nil)
         updateFirstPlayerGameScoreLabel()
@@ -110,8 +103,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBAction func secondPlayerScored(_ sender: Any) {
         playerTwo.scorePoint()
-        print("Player one serving side is \(playerOne.servingSide)")
-        print("Player two serving side is \(playerTwo.servingSide)")
         playHaptic()
         session.sendMessage(["scored" : "second player"], replyHandler: nil)
         updateSecondPlayerGameScoreLabel()

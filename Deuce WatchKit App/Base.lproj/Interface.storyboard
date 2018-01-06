@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13770" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch42" orientation="portrait">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13770"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
     </dependencies>
     <scenes>
@@ -83,7 +83,7 @@
                                     <color key="textColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="font" type="boldSystem" pointSize="34"/>
                                     <variation key="device=watch38mm">
-                                        <fontDescription key="font" type="system" weight="semibold" pointSize="25"/>
+                                        <fontDescription key="font" type="boldSystem" pointSize="25"/>
                                     </variation>
                                 </label>
                                 <group width="1" alignment="left" verticalAlignment="bottom" id="WHC-SB-fwj">
@@ -141,7 +141,7 @@
                                     <color key="textColor" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="font" type="boldSystem" pointSize="34"/>
                                     <variation key="device=watch38mm">
-                                        <fontDescription key="font" type="system" weight="semibold" pointSize="25"/>
+                                        <fontDescription key="font" type="boldSystem" pointSize="25"/>
                                     </variation>
                                 </label>
                                 <group width="1" alignment="left" verticalAlignment="bottom" id="Dfd-Nm-wxU">
