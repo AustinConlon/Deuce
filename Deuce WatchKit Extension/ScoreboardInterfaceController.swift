@@ -21,20 +21,17 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var playerOneTapGestureRecognizer: WKTapGestureRecognizer!
     @IBOutlet var playerOneGameScoreLabel: WKInterfaceLabel!
     @IBOutlet var playerOneSetScoreLabel: WKInterfaceLabel!
-    @IBOutlet var playerOneMatchScoreLabel: WKInterfaceLabel!
     
     // Person wearing Apple Watch
     @IBOutlet var playerTwoServingStatusLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoTapGestureRecognizer: WKTapGestureRecognizer!
     @IBOutlet var playerTwoGameScoreLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoSetScoreLabel: WKInterfaceLabel!
-    @IBOutlet var playerTwoMatchScoreLabel: WKInterfaceLabel!
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         super.willActivate()
         ScoreManager.reset()
-        ScoreManager.determineWhoServes()
         updateServingLabels()
         
         if (WCSession.isSupported()) {
@@ -45,33 +42,40 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             session.sendMessage(["start new match" : "reset"], replyHandler: nil)
         }
     }
+    
+    override func willActivate() {
+        WKExtension.shared().isFrontmostTimeoutExtended = true
+    }
 
     override func didDeactivate() {
         super.didDeactivate()
+        WKExtension.shared().isFrontmostTimeoutExtended = true
     }
     
     func updateServingLabels() {
         switch ScoreManager.server {
-        case .first?:
+        case .first:
             playerOneServingStatusLabel?.setHidden(false)
             playerTwoServingStatusLabel?.setHidden(true)
             switch playerOne.servingSide {
-            case .left:
+            case .left?:
                 playerOneServingStatusLabel.setHorizontalAlignment(.left)
-            case .right:
+            case .right?:
                 playerOneServingStatusLabel.setHorizontalAlignment(.right)
+            case .none:
+                break
             }
-        case .second?:
+        case .second:
             playerOneServingStatusLabel?.setHidden(true)
             playerTwoServingStatusLabel?.setHidden(false)
             switch playerTwo.servingSide {
-            case .left:
+            case .left?:
                 playerTwoServingStatusLabel.setHorizontalAlignment(.left)
-            case .right:
+            case .right?:
                 playerTwoServingStatusLabel.setHorizontalAlignment(.right)
+            case .none:
+                break
             }
-        default:
-            break
         }
     }
     
@@ -82,12 +86,10 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func sendServingStatusToPhone() {
         switch ScoreManager.server {
-        case .first?:
+        case .first:
             session.sendMessage(["server" : "first player"], replyHandler: nil)
-        case .second?:
+        case .second:
             session.sendMessage(["server" : "second player"], replyHandler: nil)
-        default:
-            break
         }
     }
     
@@ -97,7 +99,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         session.sendMessage(["scored" : "first player"], replyHandler: nil)
         updateFirstPlayerGameScoreLabel()
         updateSetScoreLabels()
-        updateMatchScoreLabels()
         updateServingLabels()
     }
     
@@ -107,7 +108,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         session.sendMessage(["scored" : "second player"], replyHandler: nil)
         updateSecondPlayerGameScoreLabel()
         updateSetScoreLabels()
-        updateMatchScoreLabels()
         updateServingLabels()
     }
     
@@ -137,25 +137,21 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             resetGameScoreLabels()
         case (15...30, false):
             playerOneGameScoreLabel.setText(String(playerOne.gameScore))
-        case (40, true):
+        case (_, true):
             updateGameScoreLabelsForDeuce()
-        case (40, false):
+        case (_, false):
             switch ScoreManager.advantage {
             case .first?:
                 switch ScoreManager.server {
-                case .first?:
+                case .first:
                     playerOneGameScoreLabel.setText("Ad in")
-                case .second?:
+                case .second:
                     playerOneGameScoreLabel.setText("Ad out")
-                default:
-                    break
                 }
                 playerTwoGameScoreLabel.setText("🎾")
             default:
                 playerOneGameScoreLabel.setText(String(playerOne.gameScore))
             }
-        default:
-            break
         }
     }
     
@@ -166,25 +162,21 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             resetGameScoreLabels()
         case (15...30, false):
             playerTwoGameScoreLabel.setText(String(playerTwo.gameScore))
-        case (40, true):
+        case (_, true):
             updateGameScoreLabelsForDeuce()
-        case (40, false):
+        case (_, false):
             switch ScoreManager.advantage {
             case .second?:
                 switch ScoreManager.server {
-                case .first?:
+                case .first:
                     playerTwoGameScoreLabel.setText("Ad out")
-                case .second?:
+                case .second:
                     playerTwoGameScoreLabel.setText("Ad in")
-                default:
-                    break
                 }
                 playerOneGameScoreLabel.setText("🎾")
             default:
                 playerTwoGameScoreLabel.setText(String(playerTwo.gameScore))
             }
-        default:
-            break
         }
     }
     
@@ -209,11 +201,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             playerOneSetScoreLabel.setText(String(playerOne.setScore))
             playerTwoSetScoreLabel.setText(String(playerTwo.setScore))
         }
-    }
-    
-    func updateMatchScoreLabels() {
-        playerOneMatchScoreLabel.setText(String(playerOne.matchScore))
-        playerTwoMatchScoreLabel.setText(String(playerTwo.matchScore))
         if let _ = ScoreManager.winner {
             updateLabelsForEndOfMatch()
         }
@@ -262,7 +249,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
                 playHaptic()
                 updateServingLabels()
                 updateSetScoreLabels()
-                updateMatchScoreLabels()
                 if let _ = ScoreManager.winner {
                     updateLabelsForEndOfMatch()
                 }

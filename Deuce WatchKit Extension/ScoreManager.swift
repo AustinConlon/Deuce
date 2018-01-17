@@ -29,16 +29,36 @@ class ScoreManager {
     
     static var matchLength = 1
     static var setType = SetType.advantage
-    static var server: Player?
-    var servingSide: ServingSide
+    static var server: Player = determineWhoServes() {
+        didSet {
+            switch server { // Server always starts on the right side of the court from their perspective
+            case .first:
+                playerOne.servingSide = .left
+                playerTwo.servingSide = nil
+            case .second:
+                playerOne.servingSide = nil
+                playerTwo.servingSide = .right
+            }
+        }
+    }
+    var servingSide: ServingSide? // Start on right side at the beginning of each game
     static var isDeuce = false
     static var isInTiebreakGame = false
     static var advantage: Player?
     static var winner: Player?
     var playerThatScored: Player // For determining whether the first player or the second player object is calling the scoring method
-    var gameScore = 0
-    var setScore = 0
-    var matchScore = 0
+    var gameScore = 0 {
+        didSet {
+            updateServingSideOfServer()
+        }
+    }
+    var gamesWon = 0 {
+        didSet {
+            ScoreManager.resetGameScores()
+            ScoreManager.switchServer()
+        }
+    }
+    var setsWon = 0
     
     // MARK: Initialization
     init(player: Player) {
@@ -52,52 +72,54 @@ class ScoreManager {
     }
     
     // MARK: ScoreManager
-    class func determineWhoServes() {
+    class func determineWhoServes() -> Player {
         if ((arc4random_uniform(2)) == 0) {
-            ScoreManager.server = .first
+            return .first
         } else {
-            ScoreManager.server = .second
+            return .second
         }
     }
     
-    func updateServingSideAfterPoint() {
+    func updateServingSideOfServer() {
         switch ScoreManager.server {
-        case .first?:
+        case .first:
             if (playerOne.gameScore, playerTwo.gameScore) == (0, 0) {
                 playerOne.servingSide = .left
             } else {
                 switch playerOne.servingSide {
-                case .left:
+                case .left?:
                     playerOne.servingSide = .right
-                case .right:
+                case .right?:
                     playerOne.servingSide = .left
+                case .none:
+                    break
                 }
             }
-        case .second?:
+        case .second:
             if (playerOne.gameScore, playerTwo.gameScore) == (0, 0) {
                 playerTwo.servingSide = .right
             } else {
                 switch playerTwo.servingSide {
-                case .left:
+                case .left?:
                     playerTwo.servingSide = .right
-                case .right:
+                case .right?:
                     playerTwo.servingSide = .left
+                case .none:
+                    break
                 }
             }
-        default:
-            break
         }
     }
     
     class func switchServer() {
         switch ScoreManager.server {
-        case .first?:
+        case .first:
             ScoreManager.server = .second
-        case .second?:
+        case .second:
             ScoreManager.server = .first
-        default:
-            break
         }
+        playerOne.servingSide = .left
+        playerTwo.servingSide = .right
     }
     
     func scorePoint() {
@@ -123,7 +145,6 @@ class ScoreManager {
         default:
             scoreAdvantageSituation()
         }
-        updateServingSideAfterPoint()
     }
     
     func scoreAdvantageSituation() {
@@ -133,18 +154,26 @@ class ScoreManager {
             case .first:
                 playerOne.wonGame()
             case .second:
+                playerTwo.gameScore += 1
                 ScoreManager.advantage = nil
                 ScoreManager.isDeuce = true
             }
         case .second?:
             switch playerThatScored {
             case .first:
+                playerOne.gameScore += 1
                 ScoreManager.advantage = nil
                 ScoreManager.isDeuce = true
             case .second:
                 playerTwo.wonGame()
             }
         default:
+            switch playerThatScored {
+            case .first:
+                playerOne.gameScore += 1
+            case .second:
+                playerTwo.gameScore += 1
+            }
             ScoreManager.advantage = playerThatScored
             ScoreManager.isDeuce = false
         }
@@ -152,40 +181,36 @@ class ScoreManager {
     
     func wonGame() {
         ScoreManager.switchServer()
-        playerOne.gameScore = 0
-        playerTwo.gameScore = 0
         ScoreManager.advantage = nil
         incrementSetScore()
-        playerOne.servingSide = .left
-        playerTwo.servingSide = .right
     }
     
     func incrementSetScore() {
-        switch (playerOne.setScore, playerTwo.setScore) {
+        switch (playerOne.gamesWon, playerTwo.gamesWon) {
         case (0...4, 0...4):
-            setScore += 1
+            gamesWon += 1
         case (5, 0...4):
             switch playerThatScored {
             case .first:
                 wonSet()
             case .second:
-                setScore += 1
+                gamesWon += 1
             }
         case (0...4, 5):
             switch playerThatScored {
             case .first:
-                setScore += 1
+                gamesWon += 1
             case .second:
                 wonSet()
             }
         case (5, 5):
-            setScore += 1
+            gamesWon += 1
         case (6, 5):
             switch playerThatScored {
             case .first:
                 wonSet()
             case .second:
-                setScore += 1
+                gamesWon += 1
                 if ScoreManager.setType == .tiebreak {
                     ScoreManager.isInTiebreakGame = true
                 }
@@ -193,7 +218,7 @@ class ScoreManager {
         case (5, 6):
             switch playerThatScored {
             case .first:
-                setScore += 1
+                gamesWon += 1
                 if ScoreManager.setType == .tiebreak {
                     ScoreManager.isInTiebreakGame = true
                 }
@@ -205,21 +230,21 @@ class ScoreManager {
                 wonSet()
                 ScoreManager.isInTiebreakGame = false
             } else {
-                setScore += 1
+                gamesWon += 1
             }
         default: // Advantage set
             switch playerThatScored {
             case .first:
-                if playerOne.setScore == (playerTwo.setScore + 1)  {
+                if playerOne.gamesWon == (playerTwo.gamesWon + 1)  {
                     wonSet()
                 } else {
-                    setScore += 1
+                    gamesWon += 1
                 }
             case .second:
-                if playerTwo.setScore == (playerOne.setScore + 1) {
+                if playerTwo.gamesWon == (playerOne.gamesWon + 1) {
                     wonSet()
                 } else {
-                    setScore += 1
+                    gamesWon += 1
                 }
             }
         }
@@ -231,23 +256,23 @@ class ScoreManager {
     }
     
     func resetSetScore() {
-        playerOne.setScore = 0
-        playerTwo.setScore = 0
+        playerOne.gamesWon = 0
+        playerTwo.gamesWon = 0
     }
     
     func incrementMatchScore() {
-        matchScore += 1
+        setsWon += 1
         switch ScoreManager.matchLength {
         case 3:
-            if matchScore == 2 {
+            if setsWon == 2 {
                 wonMatch()
             }
         case 5:
-            if matchScore == 3 {
+            if setsWon == 3 {
                 wonMatch()
             }
         case 7:
-            if matchScore == 4 {
+            if setsWon == 4 {
                 wonMatch()
             }
         default:
@@ -273,12 +298,12 @@ class ScoreManager {
     }
     
     class func resetSetScores() {
-        playerOne.setScore = 0
-        playerTwo.setScore = 0
+        playerOne.gamesWon = 0
+        playerTwo.gamesWon = 0
     }
     
     class func resetMatchScores() {
-        playerOne.matchScore = 0
-        playerTwo.matchScore = 0
+        playerOne.setsWon = 0
+        playerTwo.setsWon = 0
     }
 }
