@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="watchOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
     </dependencies>
@@ -23,16 +24,19 @@
                                 <action selector="matchLengthSlider:" destination="AgC-eL-Hgc" id="afN-r0-XtM"/>
                             </connections>
                         </slider>
-                        <switch width="1" height="38" alignment="left" value="YES" title="Advantage set" id="9RJ-n2-dtb">
-                            <fontDescription key="font" type="system" pointSize="14"/>
-                            <color key="tintColor" red="0.41960784313725491" green="0.8784313725490196" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <variation key="device=watch38mm" height="30">
-                                <fontDescription key="font" type="system" pointSize="11"/>
-                            </variation>
-                            <connections>
-                                <action selector="changeSetType:" destination="AgC-eL-Hgc" id="B7P-SD-RVd"/>
-                            </connections>
-                        </switch>
+                        <label alignment="center" text="Choose Type of Set" id="vXF-tc-VuJ">
+                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                        </label>
+                        <group width="1" alignment="left" id="U4Q-j1-q8U">
+                            <items>
+                                <button width="0.5" alignment="left" title="Tiebreak" id="qoe-Eq-dDa">
+                                    <fontDescription key="font" type="system" pointSize="13"/>
+                                </button>
+                                <button width="0.5" alignment="right" title="Advantage" id="OUk-7K-jnk">
+                                    <fontDescription key="font" type="system" pointSize="12"/>
+                                </button>
+                            </items>
+                        </group>
                         <button width="1" height="35" alignment="left" title="Start" id="Rvm-Qn-Mwd">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="backgroundColor" red="0.41960784313725491" green="0.8784313725490196" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -45,17 +49,10 @@
                                 <action selector="start" destination="AgC-eL-Hgc" id="bu2-8w-Xby"/>
                             </connections>
                         </button>
-                        <label height="24" alignment="center" text="Server will be randomly chosen" textAlignment="center" id="nwi-G3-dRQ">
-                            <fontDescription key="font" type="system" pointSize="10"/>
-                            <variation key="device=watch38mm">
-                                <fontDescription key="font" type="system" pointSize="8"/>
-                            </variation>
-                        </label>
                     </items>
                     <connections>
                         <outlet property="matchLengthLabel" destination="6nH-Bn-VTw" id="ApB-uN-XgR"/>
                         <outlet property="matchLengthSlider" destination="H3i-Wl-J5d" id="Xoh-Ss-feP"/>
-                        <outlet property="setTypeSwitch" destination="9RJ-n2-dtb" id="pcS-jT-W4b"/>
                     </connections>
                 </controller>
             </objects>
@@ -79,23 +76,53 @@
                                         </label>
                                     </items>
                                 </group>
-                                <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player One Game Score">
+                                <label height="38" alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player One Game Score">
                                     <color key="textColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="font" type="boldSystem" pointSize="34"/>
-                                    <variation key="device=watch38mm">
+                                    <variation key="device=watch38mm" height="29">
                                         <fontDescription key="font" type="boldSystem" pointSize="25"/>
                                     </variation>
+                                    <variation key="device=watch42mm" height="38"/>
                                 </label>
                                 <group width="1" alignment="left" verticalAlignment="bottom" id="WHC-SB-fwj">
                                     <items>
-                                        <label alignment="right" text="0" id="OFh-a5-wp2" userLabel="Player One Set Score">
+                                        <label alignment="right" text="0" id="OFh-a5-wp2" userLabel="First Set">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="font" type="boldSystem" pointSize="14"/>
                                             <variation key="device=watch38mm">
                                                 <fontDescription key="font" type="boldSystem" pointSize="13"/>
                                             </variation>
                                         </label>
+                                        <label alignment="right" text="0" id="L1K-Jm-tbW" userLabel="First Set">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="14"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
+                                        <label alignment="right" text="0" id="0Jn-aR-Qa2" userLabel="First Set">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="14"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
+                                        <label alignment="right" text="0" id="u4b-2M-Nyv" userLabel="First Set">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="14"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
+                                        <label alignment="right" verticalAlignment="bottom" text="0" id="XS6-LH-hIm" userLabel="First Set">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="14"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
                                     </items>
+                                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 </group>
                             </items>
                             <gestureRecognizers>
@@ -106,10 +133,11 @@
                                 </tapGestureRecognizer>
                             </gestureRecognizers>
                             <color key="backgroundColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="0.17000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-                            <edgeInsets key="margins" left="3" right="3" top="1" bottom="1"/>
-                            <variation key="device=watch38mm" height="73"/>
-                            <variation key="device=watch42mm" height="85"/>
+                            <edgeInsets key="margins" left="3" right="3" top="1" bottom="0.0"/>
+                            <variation key="device=watch38mm" height="71"/>
+                            <variation key="device=watch42mm" height="82"/>
                         </group>
+                        <separator alignment="center" id="ga3-rh-Pt9"/>
                         <group width="1" height="74" alignment="left" layout="vertical" id="RaQ-zM-xjo">
                             <items>
                                 <group width="1" alignment="left" id="KES-XQ-eua">
@@ -121,14 +149,43 @@
                                                 <fontDescription key="font" type="boldSystem" pointSize="13"/>
                                             </variation>
                                         </label>
+                                        <label alignment="right" text="0" id="4tU-JM-iWz" userLabel="First Set">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="14"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
+                                        <label alignment="right" text="0" id="hx4-J3-sHf" userLabel="First Set">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="14"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
+                                        <label alignment="right" text="0" id="I01-iK-EgC" userLabel="First Set">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="14"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
+                                        <label alignment="right" text="0" id="MEh-SW-iVZ" userLabel="First Set">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="14"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
                                     </items>
                                 </group>
-                                <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player Two Game Score">
+                                <label height="38" alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player Two Game Score">
                                     <color key="textColor" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="font" type="boldSystem" pointSize="34"/>
-                                    <variation key="device=watch38mm">
+                                    <variation key="device=watch38mm" height="29">
                                         <fontDescription key="font" type="boldSystem" pointSize="25"/>
                                     </variation>
+                                    <variation key="device=watch42mm" height="38"/>
                                 </label>
                                 <group width="1" alignment="left" verticalAlignment="bottom" id="Dfd-Nm-wxU">
                                     <items>
@@ -140,6 +197,7 @@
                                             </variation>
                                         </label>
                                     </items>
+                                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 </group>
                             </items>
                             <gestureRecognizers>
@@ -150,25 +208,22 @@
                                 </tapGestureRecognizer>
                             </gestureRecognizers>
                             <color key="backgroundColor" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                            <edgeInsets key="margins" left="3" right="3" top="1" bottom="1"/>
-                            <variation key="device=watch38mm" height="73"/>
-                            <variation key="device=watch42mm" height="85"/>
+                            <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
+                            <variation key="device=watch38mm" height="71"/>
+                            <variation key="device=watch42mm" height="82"/>
                         </group>
                     </items>
-                    <menu key="menu" id="93j-hM-KO1"/>
                     <connections>
                         <outlet property="playerOneGameScoreLabel" destination="9fp-xg-3SA" id="vwq-f4-US3"/>
                         <outlet property="playerOneServingStatusLabel" destination="xxe-gX-FFj" id="la0-Ia-GUq"/>
-                        <outlet property="playerOneSetScoreLabel" destination="OFh-a5-wp2" id="Uk9-tc-O8i"/>
                         <outlet property="playerOneTapGestureRecognizer" destination="2hP-To-KA9" id="8FD-3N-goh"/>
                         <outlet property="playerTwoGameScoreLabel" destination="gnp-Ie-dM4" id="CqW-YX-paX"/>
                         <outlet property="playerTwoServingStatusLabel" destination="EJr-ah-qJY" id="cp8-F8-bY2"/>
-                        <outlet property="playerTwoSetScoreLabel" destination="no9-vd-L6Q" id="hxT-2O-PMJ"/>
                         <outlet property="playerTwoTapGestureRecognizer" destination="7bl-KV-306" id="kIg-Ez-Wsv"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="464" y="343"/>
+            <point key="canvasLocation" x="695" y="345"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
@@ -192,6 +247,105 @@
                 <controller id="4sK-HA-Art" customClass="NotificationController" customModule="Deuce_WatchKit_App" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="468" y="643"/>
+        </scene>
+        <!--Scoreboard Interface Controller-->
+        <scene sceneID="N7u-gJ-uJc">
+            <objects>
+                <controller id="3dw-f6-57H" customClass="ScoreboardInterfaceController" customModule="Deuce_WatchKit_Extension">
+                    <items>
+                        <group width="1" height="74" alignment="left" layout="vertical" id="K6S-ve-i9h">
+                            <items>
+                                <group width="1" alignment="left" id="7VN-aD-HLC">
+                                    <items>
+                                        <label alignment="left" hidden="YES" text="Serving" id="7vb-G2-EGG" userLabel="Player One Serving Status">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="14"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
+                                    </items>
+                                </group>
+                                <label alignment="center" text="Won Coin Toss" id="Vw5-Nt-fED" userLabel="Player Two Serving Status">
+                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                    <variation key="device=watch38mm">
+                                        <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                    </variation>
+                                </label>
+                                <label height="38" alignment="center" verticalAlignment="center" text="Serve First" baselineAdjustment="alignCenters" id="hu5-DX-TqG" userLabel="Player One Game Score">
+                                    <color key="textColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="font" type="boldSystem" pointSize="34"/>
+                                    <variation key="device=watch38mm" height="29">
+                                        <fontDescription key="font" type="boldSystem" pointSize="25"/>
+                                    </variation>
+                                    <variation key="device=watch42mm" height="38">
+                                        <fontDescription key="font" type="boldSystem" pointSize="30"/>
+                                    </variation>
+                                </label>
+                            </items>
+                            <gestureRecognizers>
+                                <tapGestureRecognizer id="TfB-2s-Hs9">
+                                    <connections>
+                                        <action selector="firstPlayerScored:" destination="3dw-f6-57H" id="msy-ku-Fm5"/>
+                                    </connections>
+                                </tapGestureRecognizer>
+                            </gestureRecognizers>
+                            <color key="backgroundColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="0.17000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                            <edgeInsets key="margins" left="3" right="3" top="1" bottom="0.0"/>
+                            <variation key="device=watch38mm" height="71"/>
+                            <variation key="device=watch42mm" height="82"/>
+                        </group>
+                        <separator alignment="center" id="OX4-5e-d8u"/>
+                        <group width="1" height="74" alignment="left" layout="vertical" id="aT8-XW-vaf">
+                            <items>
+                                <label height="38" alignment="center" verticalAlignment="center" text="Serve First" baselineAdjustment="alignCenters" id="N3T-pv-aUt" userLabel="Player Two Game Score">
+                                    <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="font" type="boldSystem" pointSize="34"/>
+                                    <variation key="device=watch38mm" height="29">
+                                        <fontDescription key="font" type="boldSystem" pointSize="25"/>
+                                    </variation>
+                                    <variation key="device=watch42mm" height="38">
+                                        <fontDescription key="font" type="boldSystem" pointSize="30"/>
+                                    </variation>
+                                </label>
+                                <group width="1" alignment="left" verticalAlignment="bottom" id="msA-Yk-kSg">
+                                    <items>
+                                        <label alignment="center" text="Won Coin Toss" id="ZRd-Jd-CMY" userLabel="Player Two Serving Status">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            <variation key="device=watch38mm">
+                                                <fontDescription key="font" type="boldSystem" pointSize="13"/>
+                                            </variation>
+                                        </label>
+                                    </items>
+                                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                </group>
+                            </items>
+                            <gestureRecognizers>
+                                <tapGestureRecognizer id="ic9-E8-0Jn">
+                                    <connections>
+                                        <action selector="secondPlayerScored:" destination="3dw-f6-57H" id="Fzd-oy-cDH"/>
+                                    </connections>
+                                </tapGestureRecognizer>
+                            </gestureRecognizers>
+                            <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                            <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
+                            <variation key="device=watch38mm" height="71"/>
+                            <variation key="device=watch42mm" height="82"/>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="playerOneGameScoreLabel" destination="hu5-DX-TqG" id="CPY-sH-q0e"/>
+                        <outlet property="playerOneServingStatusLabel" destination="7vb-G2-EGG" id="fk2-Lu-yFf"/>
+                        <outlet property="playerOneTapGestureRecognizer" destination="TfB-2s-Hs9" id="OcC-ql-bYA"/>
+                        <outlet property="playerTwoGameScoreLabel" destination="N3T-pv-aUt" id="ADZ-yP-0K8"/>
+                        <outlet property="playerTwoServingStatusLabel" destination="ZRd-Jd-CMY" id="wxs-zb-mxg"/>
+                        <outlet property="playerTwoTapGestureRecognizer" destination="ic9-E8-0Jn" id="bXg-Jk-tzW"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="467" y="345"/>
         </scene>
     </scenes>
     <color key="tintColor" red="0.68628549579999998" green="0.99103605750000001" blue="0.30952829120000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
