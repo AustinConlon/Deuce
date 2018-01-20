@@ -198,6 +198,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             playerOneSetScoreLabel.setText("Tiebreak")
             playerTwoSetScoreLabel.setText("Tiebreak")
         default:
+            print("jizz")
             //playerOneSetScoreLabel.setText(String(playerOne.gamesWon))
             //playerTwoSetScoreLabel.setText(String(playerTwo.gamesWon))
         }
