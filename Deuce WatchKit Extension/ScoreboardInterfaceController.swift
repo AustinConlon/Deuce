@@ -198,8 +198,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             playerOneSetScoreLabel.setText("Tiebreak")
             playerTwoSetScoreLabel.setText("Tiebreak")
         default:
-            playerOneSetScoreLabel.setText(String(playerOne.gamesWon))
-            playerTwoSetScoreLabel.setText(String(playerTwo.gamesWon))
+            //playerOneSetScoreLabel.setText(String(playerOne.gamesWon))
+            //playerTwoSetScoreLabel.setText(String(playerTwo.gamesWon))
         }
         if let _ = ScoreManager.winner {
             updateLabelsForEndOfMatch()

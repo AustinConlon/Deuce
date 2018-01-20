@@ -7,11 +7,22 @@
 //
 
 import UIKit
+import WatchConnectivity
 
-class MatchHistoryTableViewController: UITableViewController {
+class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate  {
+    
+    var matchs = [Match]() {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
+    var session: WCSession!
+    var isConnected: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        initializeView()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -23,7 +34,53 @@ class MatchHistoryTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    //MARK: Helper Methods -----------
+    
+    func initializeView() {
+        if (WCSession.isSupported()) {
+            let session = WCSession.default()
+            session.delegate = self
+            session.activate() // activate the session
+        }
+    }
+    
+    func createNewMatchCell() {
+        let match = Match(player: "Bijans", opponent: "Aussie", date: "04/21/1994",isLive: true)
+        matchs.insert(match, at: 0)
+    }
+    
+    //MARK: SessionDelegate delegate
+    
+    func session(_ session: WCSession, activationDidCompleteWith : WCSessionActivationState, error: Error?) {
+        
+        if !session.isPaired { // Check if the iPhone is paired with the Apple Watch
+            let alert = UIAlertController(title: "pls", message: "Connect Your Watch.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            isConnected = false
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        DispatchQueue.main.sync {
+            if let val = message["in_progress"] {
+                createNewMatchCell()
+            }
+        }
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("Inactivated")
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        print("deactivated")
+    }
+    
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -33,13 +90,30 @@ class MatchHistoryTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 13
+        return matchs.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "match", for: indexPath)
-
-        // Configure the cell...
+        let cellIdentifier = "match"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MatchHistoryTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of MealTableViewCell.")
+        }
+        let match = matchs[indexPath.row]
+        
+        cell.playerName.text = match.player
+        cell.opponentName.text = match.opponent
+        
+        cell.playerSetScores.addSetScore(Score: 0)
+        cell.opponentSetScores.addSetScore(Score: 0)
+        
+        if match.isLive {
+            cell.dateLabel.text = "LIVE"
+            cell.dateLabel.textColor = UIColor.red
+        } else {
+            cell.dateLabel.text = match.date
+        }
+            
+            
 
         return cell
     }

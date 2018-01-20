@@ -8,7 +8,15 @@
 
 import UIKit
 
-class MatchHistoryTableViewCell: UITableViewCell {
+class MatchHistoryTableViewCell: UITableViewCell{
+
+    @IBOutlet weak var playerName: UILabel!
+    @IBOutlet weak var opponentName: UILabel!
+    
+    @IBOutlet weak var playerSetScores: MatchScores!
+    @IBOutlet weak var opponentSetScores: MatchScores!
+    
+    @IBOutlet weak var dateLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
