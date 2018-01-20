@@ -11,14 +11,13 @@ import Foundation
 class Match {
     var player: String
     var opponent: String
-    
     var playerScores = [UInt8]()
     var opponentScores = [UInt8]()
-    
     var date: String
+    var isLive: Bool
     
     
-    init(player: String, opponent: String, date:String) {
+    init(player: String, opponent: String, date:String, isLive: Bool) {
         // Initialize stored properties.
         if player.isEmpty {
             self.player = "player"
@@ -32,6 +31,7 @@ class Match {
             self.opponent = opponent
         }
         self.date = date
+        self.isLive = isLive
     }
     
 }

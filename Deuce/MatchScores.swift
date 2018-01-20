@@ -28,12 +28,14 @@ class MatchScores: UIStackView {
     //MARK: public methods
     func addSetScore(Score: Int8) {
         let newLabel: UILabel = UILabel()
-        newLabel.backgroundColor = UIColor.white
+        
+        newLabel.backgroundColor = UIColor.black
+        newLabel.textColor = UIColor.green
         
         // Add constraints
         newLabel.translatesAutoresizingMaskIntoConstraints = false
         newLabel.heightAnchor.constraint(equalToConstant: 21.0).isActive = true
-        newLabel.widthAnchor.constraint(equalToConstant: 21.0).isActive = true
+        //newLabel.widthAnchor.constraint(equalToConstant: 21.0).isActive = true
         newLabel.text = String(Score)
         
         addArrangedSubview(newLabel)

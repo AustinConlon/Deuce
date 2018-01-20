@@ -11,7 +11,11 @@ import WatchConnectivity
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate  {
     
-    var matchs = [Match]()
+    var matchs = [Match]() {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
     
     var session: WCSession!
     var isConnected: Bool = true
@@ -19,7 +23,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeView()
-        loadSampleGame()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -42,9 +45,9 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }
     }
     
-    func loadSampleGame() {
-        let match = Match(player: "Bijan", opponent: "Aussie", date: "04/21/1994")
-        matchs.append(match)
+    func createNewMatchCell() {
+        let match = Match(player: "Bijans", opponent: "Aussie", date: "04/21/1994",isLive: true)
+        matchs.insert(match, at: 0)
     }
     
     //MARK: SessionDelegate delegate
@@ -64,7 +67,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.sync {
             if let val = message["in_progress"] {
-                print(val)
+                createNewMatchCell()
             }
         }
     }
@@ -99,7 +102,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         cell.playerName.text = match.player
         cell.opponentName.text = match.opponent
-        cell.dateLabel.text = match.date
+        
+        cell.playerSetScores.addSetScore(Score: 0)
+        cell.opponentSetScores.addSetScore(Score: 0)
+        
+        if match.isLive {
+            cell.dateLabel.text = "LIVE"
+            cell.dateLabel.textColor = UIColor.red
+        } else {
+            cell.dateLabel.text = match.date
+        }
+            
+            
 
         return cell
     }

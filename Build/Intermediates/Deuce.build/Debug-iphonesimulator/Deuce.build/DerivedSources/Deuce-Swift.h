@@ -230,7 +230,7 @@ SWIFT_CLASS("_TtC5Deuce31MatchHistoryTableViewController")
 - (void)viewDidLoad;
 - (void)didReceiveMemoryWarning;
 - (void)initializeView SWIFT_DEPRECATED_OBJC("Swift method 'MatchHistoryTableViewController.initializeView()' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-- (void)loadSampleGame SWIFT_DEPRECATED_OBJC("Swift method 'MatchHistoryTableViewController.loadSampleGame()' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
+- (void)createNewMatchCell SWIFT_DEPRECATED_OBJC("Swift method 'MatchHistoryTableViewController.createNewMatchCell()' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
 - (void)session:(WCSession * _Nonnull)session activationDidCompleteWithState:(WCSessionActivationState)activationDidCompleteWith error:(NSError * _Nullable)error;
 - (void)session:(WCSession * _Nonnull)session didReceiveMessage:(NSDictionary<NSString *, id> * _Nonnull)message;
 - (void)sessionDidBecomeInactive:(WCSession * _Nonnull)session;

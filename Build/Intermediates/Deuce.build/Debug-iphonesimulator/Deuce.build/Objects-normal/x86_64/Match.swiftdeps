@@ -8,6 +8,7 @@ provides-member:
 provides-dynamic-lookup:
 depends-top-level:
 - "AssignmentPrecedence"
+- "Bool"
 - "Match"
 - "String"
 - !private "StringLiteralType"
@@ -59,11 +60,13 @@ depends-member:
 - !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
 - !private ["s25LosslessStringConvertibleP", "init"]
 - !private ["s25LosslessStringConvertibleP", "isEmpty"]
+- ["5Deuce5MatchC", "Bool"]
 - ["5Deuce5MatchC", "String"]
 - ["5Deuce5MatchC", "UInt8"]
 - ["5Deuce5MatchC", "date"]
 - ["5Deuce5MatchC", "deinit"]
 - ["5Deuce5MatchC", "init"]
+- ["5Deuce5MatchC", "isLive"]
 - ["5Deuce5MatchC", "opponent"]
 - ["5Deuce5MatchC", "opponentScores"]
 - ["5Deuce5MatchC", "player"]
@@ -214,4 +217,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.2.sdk/System/Library/Frameworks/Contacts.framework/Headers/Contacts.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.2.sdk/System/Library/Frameworks/Intents.framework/Headers/Intents.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator11.2.sdk/System/Library/Frameworks/WatchConnectivity.framework/Headers/WatchConnectivity.apinotes"
-interface-hash: "df45f98c1a24ee7ccba254a0d19541c5"
+interface-hash: "22775f070f02c3f08af0c7999b37a246"
