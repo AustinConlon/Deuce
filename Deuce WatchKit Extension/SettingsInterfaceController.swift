@@ -73,6 +73,8 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @IBAction func start() {
+        print("sending InProgress")
+        session.sendMessage(["in_progress": true], replyHandler: nil)
         pushController(withName: "Scoreboard", context: nil)
     }
     
