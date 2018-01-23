@@ -23,6 +23,7 @@ depends-top-level:
 - !private "+="
 - !private "-"
 - !private "-="
+- !private "<"
 - !private "=="
 - "AssignmentPrecedence"
 - "Bool"

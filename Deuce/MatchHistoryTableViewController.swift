@@ -106,13 +106,16 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 currMatch.nextGame()
             }
         } else {
-            if msg == "player" {
+            if msg == "player" && currMatch.playerScores[last] < 3 {
                 currMatch.playerScores[last] += 1
-            } else {
+            } else if msg == "opponent" && currMatch.opponentScores[last] < 3 {
                 currMatch.opponentScores[last] += 1
+            } else {
+                print("nextGame Triggered")
+                currMatch.inDeuce = false
+                currMatch.nextGame()
             }
         }
-        
         
         if currMatch.playerScores[last] == 3 && currMatch.opponentScores[last] == 3 {
             currMatch.inDeuce = true
