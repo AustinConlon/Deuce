@@ -230,11 +230,12 @@ SWIFT_CLASS("_TtC5Deuce31MatchHistoryTableViewController")
 - (void)viewDidLoad;
 - (void)didReceiveMemoryWarning;
 - (void)initializeView SWIFT_DEPRECATED_OBJC("Swift method 'MatchHistoryTableViewController.initializeView()' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-- (void)createNewMatchCell SWIFT_DEPRECATED_OBJC("Swift method 'MatchHistoryTableViewController.createNewMatchCell()' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
+- (void)createNewMatchCellWithMaxSets:(NSInteger)maxSets SWIFT_DEPRECATED_OBJC("Swift method 'MatchHistoryTableViewController.createNewMatchCell(maxSets:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
 - (void)session:(WCSession * _Nonnull)session activationDidCompleteWithState:(WCSessionActivationState)activationDidCompleteWith error:(NSError * _Nullable)error;
 - (void)session:(WCSession * _Nonnull)session didReceiveMessage:(NSDictionary<NSString *, id> * _Nonnull)message;
 - (void)sessionDidBecomeInactive:(WCSession * _Nonnull)session;
 - (void)sessionDidDeactivate:(WCSession * _Nonnull)session;
+- (void)updateScoreWithMsg:(NSString * _Nonnull)msg SWIFT_DEPRECATED_OBJC("Swift method 'MatchHistoryTableViewController.updateScore(msg:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
 - (NSInteger)numberOfSectionsInTableView:(UITableView * _Nonnull)tableView SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)tableView:(UITableView * _Nonnull)tableView numberOfRowsInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
 - (UITableViewCell * _Nonnull)tableView:(UITableView * _Nonnull)tableView cellForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
@@ -248,7 +249,8 @@ SWIFT_CLASS("_TtC5Deuce11MatchScores")
 @interface MatchScores : UIStackView
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
-- (void)addSetScoreWithScore:(int8_t)Score SWIFT_DEPRECATED_OBJC("Swift method 'MatchScores.addSetScore(Score:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
+- (void)populateStackWithPlayerScores:(NSArray<NSNumber *> * _Nonnull)playerScores SWIFT_DEPRECATED_OBJC("Swift method 'MatchScores.populateStack(playerScores:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
+- (void)clearStack SWIFT_DEPRECATED_OBJC("Swift method 'MatchScores.clearStack()' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
 @end
 
 @class UISegmentedControl;

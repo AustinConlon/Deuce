@@ -19,7 +19,7 @@ depends-top-level:
 - !private "!="
 - "AssignmentPrecedence"
 - "Bool"
-- !private "BooleanLiteralType"
+- "BooleanLiteralType"
 - !private "CastingPrecedence"
 - !private "Dictionary"
 - !private "DispatchQueue"
@@ -37,7 +37,6 @@ depends-top-level:
 - "WKInterfaceLabel"
 - "WKInterfaceSlider"
 - "WKInterfaceSwitch"
-- !private "print"
 - !private "~="
 depends-member:
 - !private ["s23BidirectionalCollectionP", "init"]
@@ -57,7 +56,6 @@ depends-member:
 - !private ["s7CVarArgP", "main"]
 - !private ["s7CVarArgP", "matchLengthLabel"]
 - !private ["s7CVarArgP", "matchLengthSlider"]
-- !private ["s7CVarArgP", "print"]
 - !private ["s7CVarArgP", "pushController"]
 - !private ["s7CVarArgP", "sendMessage"]
 - ["s7CVarArgP", "session"]
@@ -92,7 +90,6 @@ depends-member:
 - !private ["s28CustomDebugStringConvertibleP", "main"]
 - !private ["s28CustomDebugStringConvertibleP", "matchLengthLabel"]
 - !private ["s28CustomDebugStringConvertibleP", "matchLengthSlider"]
-- !private ["s28CustomDebugStringConvertibleP", "print"]
 - !private ["s28CustomDebugStringConvertibleP", "pushController"]
 - !private ["s28CustomDebugStringConvertibleP", "sendMessage"]
 - ["s28CustomDebugStringConvertibleP", "session"]
@@ -130,7 +127,6 @@ depends-member:
 - !private ["s23CustomStringConvertibleP", "main"]
 - !private ["s23CustomStringConvertibleP", "matchLengthLabel"]
 - !private ["s23CustomStringConvertibleP", "matchLengthSlider"]
-- !private ["s23CustomStringConvertibleP", "print"]
 - !private ["s23CustomStringConvertibleP", "pushController"]
 - !private ["s23CustomStringConvertibleP", "sendMessage"]
 - ["s23CustomStringConvertibleP", "session"]
@@ -175,7 +171,6 @@ depends-member:
 - !private ["s9EquatableP", "main"]
 - !private ["s9EquatableP", "matchLengthLabel"]
 - !private ["s9EquatableP", "matchLengthSlider"]
-- !private ["s9EquatableP", "print"]
 - !private ["s9EquatableP", "pushController"]
 - !private ["s9EquatableP", "sendMessage"]
 - ["s9EquatableP", "session"]
@@ -216,7 +211,6 @@ depends-member:
 - !private ["s8HashableP", "main"]
 - !private ["s8HashableP", "matchLengthLabel"]
 - !private ["s8HashableP", "matchLengthSlider"]
-- !private ["s8HashableP", "print"]
 - !private ["s8HashableP", "pushController"]
 - !private ["s8HashableP", "sendMessage"]
 - ["s8HashableP", "session"]
@@ -266,7 +260,6 @@ depends-member:
 - !private ["So8NSObjectC", "main"]
 - ["So8NSObjectC", "matchLengthLabel"]
 - ["So8NSObjectC", "matchLengthSlider"]
-- !private ["So8NSObjectC", "print"]
 - !private ["So8NSObjectC", "pushController"]
 - !private ["So8NSObjectC", "sendMessage"]
 - ["So8NSObjectC", "session"]
@@ -296,7 +289,6 @@ depends-member:
 - !private ["So16NSObjectProtocolP", "main"]
 - !private ["So16NSObjectProtocolP", "matchLengthLabel"]
 - !private ["So16NSObjectProtocolP", "matchLengthSlider"]
-- !private ["So16NSObjectProtocolP", "print"]
 - !private ["So16NSObjectProtocolP", "pushController"]
 - !private ["So16NSObjectProtocolP", "sendMessage"]
 - ["So16NSObjectProtocolP", "session"]
@@ -344,7 +336,6 @@ depends-member:
 - ["24Deuce_WatchKit_Extension27SettingsInterfaceControllerC", "init"]
 - ["24Deuce_WatchKit_Extension27SettingsInterfaceControllerC", "matchLengthLabel"]
 - ["24Deuce_WatchKit_Extension27SettingsInterfaceControllerC", "matchLengthSlider"]
-- !private ["24Deuce_WatchKit_Extension27SettingsInterfaceControllerC", "print"]
 - !private ["24Deuce_WatchKit_Extension27SettingsInterfaceControllerC", "pushController"]
 - ["24Deuce_WatchKit_Extension27SettingsInterfaceControllerC", "session"]
 - ["24Deuce_WatchKit_Extension27SettingsInterfaceControllerC", "sessionDidBecomeInactive"]
@@ -372,7 +363,6 @@ depends-member:
 - !private ["So17WCSessionDelegateP", "WCSession"]
 - !private ["So17WCSessionDelegateP", "matchLengthLabel"]
 - !private ["So17WCSessionDelegateP", "matchLengthSlider"]
-- !private ["So17WCSessionDelegateP", "print"]
 - !private ["So17WCSessionDelegateP", "pushController"]
 - ["So17WCSessionDelegateP", "session"]
 - ["So17WCSessionDelegateP", "sessionDidBecomeInactive"]
@@ -400,7 +390,6 @@ depends-member:
 - ["So21WKInterfaceControllerC", "init"]
 - ["So21WKInterfaceControllerC", "matchLengthLabel"]
 - ["So21WKInterfaceControllerC", "matchLengthSlider"]
-- !private ["So21WKInterfaceControllerC", "print"]
 - !private ["So21WKInterfaceControllerC", "pushController"]
 - ["So21WKInterfaceControllerC", "session"]
 - ["So21WKInterfaceControllerC", "sessionDidBecomeInactive"]
@@ -447,7 +436,6 @@ depends-member:
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "main"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "matchLengthLabel"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "matchLengthSlider"]
-- !private ["10Foundation27_KeyValueCodingAndObservingP", "print"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "pushController"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "sendMessage"]
 - ["10Foundation27_KeyValueCodingAndObservingP", "session"]

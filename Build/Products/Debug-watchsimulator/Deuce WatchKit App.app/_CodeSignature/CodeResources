@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		IPGZM47tP+2BS4IGDjre1llJfTg=
+		T7wsrbsVPP3b70Xz/DU//6h5TPc=
 		</data>
 		<key>Base.lproj/Interface-notification.plist</key>
 		<data>
@@ -14,7 +14,7 @@
 		</data>
 		<key>Base.lproj/Interface.plist</key>
 		<data>
-		xIszLBZg+FTVC8DQ2EfDDomTYS4=
+		sJJ323hYjcd+wxIIWsxFJgnKBwQ=
 		</data>
 		<key>Frameworks/libswiftCore.dylib</key>
 		<data>
@@ -86,7 +86,7 @@
 		</data>
 		<key>PlugIns/Deuce WatchKit Extension.appex/Deuce WatchKit Extension</key>
 		<data>
-		VlexyvY/6f8O9Av8O4NRzysMcio=
+		4/UzIhvpQ5pkajzLaw3JGl8MDSk=
 		</data>
 		<key>PlugIns/Deuce WatchKit Extension.appex/Info.plist</key>
 		<data>
@@ -111,11 +111,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			IPGZM47tP+2BS4IGDjre1llJfTg=
+			T7wsrbsVPP3b70Xz/DU//6h5TPc=
 			</data>
 			<key>hash2</key>
 			<data>
-			bMie3OXkQyzH9QuaVojw9Obxlk1FzauGhkx1RsjKFEE=
+			T623F/G5DLNhTxaozadNrgnJrE4vRNp4XpSQ1L2ROXo=
 			</data>
 		</dict>
 		<key>Base.lproj/Interface-notification.plist</key>
@@ -133,11 +133,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			xIszLBZg+FTVC8DQ2EfDDomTYS4=
+			sJJ323hYjcd+wxIIWsxFJgnKBwQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			V+K1bfQTTii60WRpjZNI1MfsPa0MsvTzmBJUk84aDSA=
+			j8HyOee3WaG6giJq5cjU5qpRVDhQs3NN6XBP0GTeDl8=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCore.dylib</key>
@@ -309,11 +309,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VlexyvY/6f8O9Av8O4NRzysMcio=
+			4/UzIhvpQ5pkajzLaw3JGl8MDSk=
 			</data>
 			<key>hash2</key>
 			<data>
-			fkSxtPk4iXCMUyh3qBXW88lEZfX7BpDKfl9O8b2OdD8=
+			9Sc6qqtGdvmxpe/7LUcA//P+mttWmqiIwxcQFsL9ZUA=
 			</data>
 		</dict>
 		<key>PlugIns/Deuce WatchKit Extension.appex/Info.plist</key>

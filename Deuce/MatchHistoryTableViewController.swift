@@ -10,7 +10,7 @@ import UIKit
 import WatchConnectivity
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate  {
-    
+        
     var matchs = [Match]() {
         didSet {
             self.tableView.reloadData()
@@ -23,6 +23,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeView()
+        print("in did load")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -45,8 +46,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }
     }
     
-    func createNewMatchCell() {
-        let match = Match(player: "Bijans", opponent: "Aussie", date: "04/21/1994",isLive: true)
+    func createNewMatchCell(maxSets: Int) {
+        let match = Match(player: "Bijans", opponent: "Aussie", date: "04/21/1994",maxSets: maxSets,isLive: true)
         matchs.insert(match, at: 0)
     }
     
@@ -66,8 +67,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.sync {
-            if let val = message["in_progress"] {
-                createNewMatchCell()
+            if let val = message["live"] {
+                createNewMatchCell(maxSets: val as! Int)
+            } else if let val = message["score"] {
+                updateScore(msg: val as! String)
             }
         }
     }
@@ -80,6 +83,42 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         print("deactivated")
     }
     
+    //class methods
+    func updateScore(msg: String) {
+        
+        let currMatch = self.matchs.filter( {(value: Match) -> Bool in
+            return value.isLive
+        })[0]
+        let last = currMatch.playerScores.count - 1
+        
+        if currMatch.inDeuce {
+            if msg == "player" && currMatch.opponentScores[last] == 4 {
+                currMatch.opponentScores[last] -= 1
+            } else if msg == "player" && currMatch.playerScores[last] == currMatch.opponentScores[last] {
+                currMatch.playerScores[last] += 1
+            } else if msg == "opponent" && currMatch.playerScores[last] == 4 {
+                currMatch.playerScores[last] -= 1
+            } else if msg == "opponent" && currMatch.playerScores[last] == currMatch.opponentScores[last] {
+                currMatch.opponentScores[last] += 1
+            } else {
+                print("nextGame Triggered")
+                currMatch.inDeuce = false
+                currMatch.nextGame()
+            }
+        } else {
+            if msg == "player" {
+                currMatch.playerScores[last] += 1
+            } else {
+                currMatch.opponentScores[last] += 1
+            }
+        }
+        
+        
+        if currMatch.playerScores[last] == 3 && currMatch.opponentScores[last] == 3 {
+            currMatch.inDeuce = true
+        }
+        self.tableView.reloadData()
+    }
     
     // MARK: - Table view data source
 
@@ -96,15 +135,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "match"
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MatchHistoryTableViewCell  else {
-            fatalError("The dequeued cell is not an instance of MealTableViewCell.")
+            fatalError("The dequeued cell is not an instance of MatchTableViewCell.")
         }
         let match = matchs[indexPath.row]
         
         cell.playerName.text = match.player
         cell.opponentName.text = match.opponent
         
-        cell.playerSetScores.addSetScore(Score: 0)
-        cell.opponentSetScores.addSetScore(Score: 0)
+        cell.playerSetScores.clearStack()
+        cell.playerSetScores.populateStack(playerScores: match.playerScores)
+        
+        cell.opponentSetScores.clearStack()
+        cell.opponentSetScores.populateStack(playerScores: match.opponentScores)
         
         if match.isLive {
             cell.dateLabel.text = "LIVE"
@@ -113,8 +155,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             cell.dateLabel.text = match.date
         }
             
-            
-
         return cell
     }
 

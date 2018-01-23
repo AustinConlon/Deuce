@@ -19,7 +19,7 @@ depends-top-level:
 - !private "!="
 - "AssignmentPrecedence"
 - "Bool"
-- !private "BooleanLiteralType"
+- "BooleanLiteralType"
 - !private "CastingPrecedence"
 - !private "Dictionary"
 - !private "DispatchQueue"

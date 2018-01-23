@@ -74,11 +74,11 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		cEtinT+VRTnpRc71P+/PycWpLaw=
+		3wCoLn68ppAu7VP9lmtbc+NEIt8=
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		+GJUal/MgjGYBtNjYibqpmj00lE=
+		W80TTahZKe8NOUG5XkLQaFoZpWk=
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -86,15 +86,15 @@
 		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		GsxJMDMqqY8k4QlYY0IjMO6r5SU=
+		3vSUnQ5oR/Z8Z8o9epbS8TjRiJg=
 		</data>
 		<key>Base.lproj/Main.storyboardc/IK4-br-vsG-view-QAq-lR-bJ6.nib/objects-11.0+.nib</key>
 		<data>
-		HNlZHM0i1E9g6xnBrQrUU9jfrYc=
+		H++bSOGsXBzGLoZ56Mjh6UPTOtw=
 		</data>
 		<key>Base.lproj/Main.storyboardc/IK4-br-vsG-view-QAq-lR-bJ6.nib/runtime.nib</key>
 		<data>
-		PNXHFP81xNKUfgITScv6gbK571A=
+		x1bwzawxc016ruT0xRMcSjH7jbw=
 		</data>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
 		<data>
@@ -102,11 +102,11 @@
 		</data>
 		<key>Base.lproj/Main.storyboardc/UINavigationController-8bG-JW-CSv.nib/objects-11.0+.nib</key>
 		<data>
-		62Xz0qpU6F1hl+ILfW/RtNs7f8c=
+		PfYvwb8UWJTzyhj4Igy51TfUPso=
 		</data>
 		<key>Base.lproj/Main.storyboardc/UINavigationController-8bG-JW-CSv.nib/runtime.nib</key>
 		<data>
-		2RbDvWgaNGaUFVP9NybpncIp/5I=
+		bRvBEU0frAl+CxZt+LukAXTRd8g=
 		</data>
 		<key>Frameworks/libswiftContacts.dylib</key>
 		<data>
@@ -182,7 +182,7 @@
 		</data>
 		<key>Watch/Deuce WatchKit App.app/Assets.car</key>
 		<data>
-		IPGZM47tP+2BS4IGDjre1llJfTg=
+		T7wsrbsVPP3b70Xz/DU//6h5TPc=
 		</data>
 		<key>Watch/Deuce WatchKit App.app/Base.lproj/Interface-notification.plist</key>
 		<dict>
@@ -197,14 +197,14 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			xIszLBZg+FTVC8DQ2EfDDomTYS4=
+			sJJ323hYjcd+wxIIWsxFJgnKBwQ=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
 		<key>Watch/Deuce WatchKit App.app/Deuce WatchKit App</key>
 		<data>
-		piCGw4JPHjMiWq7MTEiu3jvtggk=
+		Ys6AbaXyuwXh+7GtZy908/2euDM=
 		</data>
 		<key>Watch/Deuce WatchKit App.app/Frameworks/libswiftCore.dylib</key>
 		<data>
@@ -276,7 +276,7 @@
 		</data>
 		<key>Watch/Deuce WatchKit App.app/PlugIns/Deuce WatchKit Extension.appex/Deuce WatchKit Extension</key>
 		<data>
-		VlexyvY/6f8O9Av8O4NRzysMcio=
+		4/UzIhvpQ5pkajzLaw3JGl8MDSk=
 		</data>
 		<key>Watch/Deuce WatchKit App.app/PlugIns/Deuce WatchKit Extension.appex/Info.plist</key>
 		<data>
@@ -288,7 +288,7 @@
 		</data>
 		<key>Watch/Deuce WatchKit App.app/_CodeSignature/CodeResources</key>
 		<data>
-		/hN9av+QWq1ypeylGiw16JvDI04=
+		KXbV6jsicKM2pYZUnK/zeCYjn6o=
 		</data>
 		<key>Watch/Deuce WatchKit App.app/_WatchKitStub/WK</key>
 		<data>
@@ -496,22 +496,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			cEtinT+VRTnpRc71P+/PycWpLaw=
+			3wCoLn68ppAu7VP9lmtbc+NEIt8=
 			</data>
 			<key>hash2</key>
 			<data>
-			C21A9vVkaLX6Qo/U1t8Im/L8v14UvDHGkIKzj+Wwb7o=
+			VhjW76Bls/320WQThlzVlahssHOCr8iPiIHHe2FVI34=
 			</data>
 		</dict>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			+GJUal/MgjGYBtNjYibqpmj00lE=
+			W80TTahZKe8NOUG5XkLQaFoZpWk=
 			</data>
 			<key>hash2</key>
 			<data>
-			op18NFNXb98JVCRaMRWPhkks6PrUR1cXJeflom+40wg=
+			0wmRSWw8++XaRJd2ORr7TZJIEQPBrHTaayE6U4XFxuI=
 			</data>
 		</dict>
 		<key>Base.lproj/LaunchScreen.storyboardc/Info.plist</key>
@@ -529,33 +529,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GsxJMDMqqY8k4QlYY0IjMO6r5SU=
+			3vSUnQ5oR/Z8Z8o9epbS8TjRiJg=
 			</data>
 			<key>hash2</key>
 			<data>
-			9ehBUrWX5MT7z+tRo4c16sJHmdIl4Z7CR7y0g/0wQwE=
+			eMTGSNMuZZcFsMc2yazESRPkJykVSS7++UIXupWc7Ss=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/IK4-br-vsG-view-QAq-lR-bJ6.nib/objects-11.0+.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			HNlZHM0i1E9g6xnBrQrUU9jfrYc=
+			H++bSOGsXBzGLoZ56Mjh6UPTOtw=
 			</data>
 			<key>hash2</key>
 			<data>
-			XXCNa62jBwzC2xFn3bUlPwMX5VOfnZBfBwzymB/X6C4=
+			JlSaOe2p70lM/nZAr6j9gABAGKBfho5OVP3LgwFQXkM=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/IK4-br-vsG-view-QAq-lR-bJ6.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			PNXHFP81xNKUfgITScv6gbK571A=
+			x1bwzawxc016ruT0xRMcSjH7jbw=
 			</data>
 			<key>hash2</key>
 			<data>
-			L2kdM4hmpVBeqxg9RQqtCYTyZfq5bZcYKSOB5wmucRE=
+			MPI0o/m7LqNnBP4awkRJeRE63HcVESF5BDwja/kz3g4=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/Info.plist</key>
@@ -573,22 +573,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			62Xz0qpU6F1hl+ILfW/RtNs7f8c=
+			PfYvwb8UWJTzyhj4Igy51TfUPso=
 			</data>
 			<key>hash2</key>
 			<data>
-			7Wlul4PfxBgG3iKXOb5snILhLs/B0HbCU6BJOmDrUsE=
+			dDU4nfpFOXMWNPLTnHsj6zn8YXsI3pCECD1x4C5RCtI=
 			</data>
 		</dict>
 		<key>Base.lproj/Main.storyboardc/UINavigationController-8bG-JW-CSv.nib/runtime.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			2RbDvWgaNGaUFVP9NybpncIp/5I=
+			bRvBEU0frAl+CxZt+LukAXTRd8g=
 			</data>
 			<key>hash2</key>
 			<data>
-			STQEx5WBpjU7FXfsrX1SOAjiHNSdV0SewAZZw4hK+pY=
+			2CJSpr3Pn4VrIeXIISp/+xwm2lDKCwo7GvxF37BL7I0=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftContacts.dylib</key>
@@ -771,11 +771,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			IPGZM47tP+2BS4IGDjre1llJfTg=
+			T7wsrbsVPP3b70Xz/DU//6h5TPc=
 			</data>
 			<key>hash2</key>
 			<data>
-			bMie3OXkQyzH9QuaVojw9Obxlk1FzauGhkx1RsjKFEE=
+			T623F/G5DLNhTxaozadNrgnJrE4vRNp4XpSQ1L2ROXo=
 			</data>
 		</dict>
 		<key>Watch/Deuce WatchKit App.app/Base.lproj/Interface-notification.plist</key>
@@ -795,11 +795,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			xIszLBZg+FTVC8DQ2EfDDomTYS4=
+			sJJ323hYjcd+wxIIWsxFJgnKBwQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			V+K1bfQTTii60WRpjZNI1MfsPa0MsvTzmBJUk84aDSA=
+			j8HyOee3WaG6giJq5cjU5qpRVDhQs3NN6XBP0GTeDl8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -808,11 +808,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			piCGw4JPHjMiWq7MTEiu3jvtggk=
+			Ys6AbaXyuwXh+7GtZy908/2euDM=
 			</data>
 			<key>hash2</key>
 			<data>
-			cWSlNZuEhJt3QIOzqZUAca4seTDnTOvwe4EQWSZ3A6E=
+			U+Qk0ddxOb2D3JE0XIbEeoCxEgZiXD+bzP2dWQqRHOo=
 			</data>
 		</dict>
 		<key>Watch/Deuce WatchKit App.app/Frameworks/libswiftCore.dylib</key>
@@ -1006,11 +1006,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VlexyvY/6f8O9Av8O4NRzysMcio=
+			4/UzIhvpQ5pkajzLaw3JGl8MDSk=
 			</data>
 			<key>hash2</key>
 			<data>
-			fkSxtPk4iXCMUyh3qBXW88lEZfX7BpDKfl9O8b2OdD8=
+			9Sc6qqtGdvmxpe/7LUcA//P+mttWmqiIwxcQFsL9ZUA=
 			</data>
 		</dict>
 		<key>Watch/Deuce WatchKit App.app/PlugIns/Deuce WatchKit Extension.appex/Info.plist</key>
@@ -1039,11 +1039,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/hN9av+QWq1ypeylGiw16JvDI04=
+			KXbV6jsicKM2pYZUnK/zeCYjn6o=
 			</data>
 			<key>hash2</key>
 			<data>
-			LxkI+2VFZyLFUxnaAtZlr2gcbOfXjZgv8lUCY0Y4YS0=
+			7Pfzmc7U4fpOtdS71/b4wKcVGOZAKXinwwQQRmor2pI=
 			</data>
 		</dict>
 		<key>Watch/Deuce WatchKit App.app/_WatchKitStub/WK</key>
