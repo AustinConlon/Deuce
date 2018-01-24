@@ -12,13 +12,15 @@
         <!--Settings-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="Settings" title="Settings" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
+                <controller identifier="Settings" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
                         <label alignment="center" text="One set" id="6nH-Bn-VTw">
                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                         </label>
                         <slider width="1" height="23" alignment="left" continuous="YES" value="1" minimum="1" maximum="7" steps="3" id="H3i-Wl-J5d">
                             <color key="color" red="0.41960784313725491" green="0.8784313725490196" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <variation key="device=watch38mm" height="23"/>
+                            <variation key="device=watch42mm" height="28"/>
                             <connections>
                                 <action selector="matchLengthSlider:" destination="AgC-eL-Hgc" id="afN-r0-XtM"/>
                             </connections>
@@ -30,24 +32,33 @@
                             <color key="titleColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="backgroundColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
-                            <variation key="device=watch38mm">
+                            <variation key="device=watch38mm" height="23">
                                 <fontDescription key="font" type="system" pointSize="16"/>
+                            </variation>
+                            <variation key="device=watch42mm" height="28">
+                                <fontDescription key="font" type="system" pointSize="17"/>
                             </variation>
                         </button>
                         <button width="1" height="23" alignment="left" verticalAlignment="bottom" title="Tiebreak" id="3DW-gV-pSx">
                             <color key="titleColor" red="0.015686274510000001" green="0.87058823529999996" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="backgroundColor" red="0.015686274510000001" green="0.87058823529999996" blue="0.4431372549" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
-                            <variation key="device=watch38mm">
+                            <variation key="device=watch38mm" height="23">
                                 <fontDescription key="font" type="system" pointSize="16"/>
+                            </variation>
+                            <variation key="device=watch42mm" height="28">
+                                <fontDescription key="font" type="system" pointSize="17"/>
                             </variation>
                         </button>
                         <button width="1" height="23" alignment="left" verticalAlignment="bottom" title="Start" id="Rvm-Qn-Mwd">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="backgroundColor" red="0.41960784313725491" green="0.8784313725490196" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
-                            <variation key="device=watch38mm">
-                                <fontDescription key="font" type="system" weight="semibold" pointSize="17"/>
+                            <variation key="device=watch38mm" height="23">
+                                <fontDescription key="font" type="system" weight="semibold" pointSize="18"/>
+                            </variation>
+                            <variation key="device=watch42mm" height="28">
+                                <fontDescription key="font" type="system" weight="semibold" pointSize="19"/>
                             </variation>
                             <connections>
                                 <action selector="start" destination="AgC-eL-Hgc" id="bu2-8w-Xby"/>
@@ -255,7 +266,7 @@
         <!--Server-->
         <scene sceneID="N7u-gJ-uJc">
             <objects>
-                <controller title="Server" id="3dw-f6-57H" customClass="ScoreboardInterfaceController" customModule="Deuce_WatchKit_Extension">
+                <controller identifier="c" title="Server" id="3dw-f6-57H" customClass="ScoreboardInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
                         <group width="1" height="74" alignment="left" layout="vertical" id="K6S-ve-i9h">
                             <items>
