@@ -10,7 +10,7 @@ import UIKit
 
 class MatchScores: UIStackView {
     
-    private let scoreKey = [0: " 0", 1: " 15", 2: " 30", 3: " 40", 4: " 40"]
+    private let scoreKey = [0: "0", 1: "15", 2: "30", 3: "40", 4: "40"]
 
     private var setScores = [UILabel]()
     private var currSet = UILabel()
@@ -21,10 +21,12 @@ class MatchScores: UIStackView {
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
+        self.spacing = 4.0
     }
     
     private func addToStack(newScore: String) {
         let newLabel = UILabel()
+        newLabel.textAlignment = NSTextAlignment.center
         
         newLabel.text = newScore
         newLabel.backgroundColor = UIColor.black
@@ -33,7 +35,7 @@ class MatchScores: UIStackView {
         // Add constraints
         newLabel.translatesAutoresizingMaskIntoConstraints = false
         newLabel.heightAnchor.constraint(equalToConstant: 21.0).isActive = true
-        //newLabel.widthAnchor.constraint(equalToConstant: 21.0).isActive = true
+        newLabel.widthAnchor.constraint(equalToConstant: 21.0).isActive = true
         
         addArrangedSubview(newLabel)
         setScores.append(newLabel)
@@ -43,7 +45,7 @@ class MatchScores: UIStackView {
     func populateStack( playerScores: [Int], maxSets: Int, isLive: Bool) {
         if maxSets == 1 {
             if (!isLive) {
-               addToStack(newScore: String(playerScores[0]))
+               addToStack(newScore:  String(playerScores[0]))
             } else {
                 addToStack(newScore: scoreKey[playerScores[0]]!)
             }

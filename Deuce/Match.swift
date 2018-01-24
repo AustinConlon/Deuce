@@ -19,6 +19,9 @@ class Match {
     var playerNumGamesWon = 0
     var opponentNumGamesWon = 0
     
+    var playerSetsWon = 0
+    var opponentSetsWon = 0
+    
     var date: String
     var inDeuce: Bool
     var isLive: Bool
@@ -53,6 +56,11 @@ class Match {
         }
         
         if ( (playerNumGamesWon >= 6 || opponentNumGamesWon >= 6) && abs(playerNumGamesWon - opponentNumGamesWon) >= 2) {
+            if winner == "player" {
+                playerSetsWon += 1
+            } else {
+                opponentSetsWon += 1
+            }
             nextSet()
         } else {
             let last = playerScores.count - 1
@@ -69,7 +77,7 @@ class Match {
         opponentScores[last] = opponentNumGamesWon
         
         let winCond = (maxSets/2) + 1
-        if (playerScores.count == winCond || opponentScores.count == winCond)  {
+        if (playerSetsWon == winCond || opponentSetsWon == winCond)  {
             self.isLive = false // game over
         } else {
             playerNumGamesWon = 0
