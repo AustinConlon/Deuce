@@ -47,7 +47,11 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     }
     
     func createNewMatchCell(maxSets: Int) {
-        let match = Match(player: "Bijans", opponent: "Aussie", date: "04/21/1994",maxSets: maxSets,isLive: true)
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        let currDate = formatter.string(from: date)
+        let match = Match(player: "Bijans", opponent: "Aussie", date: currDate,maxSets: maxSets,isLive: true)
         matchs.insert(match, at: 0)
     }
     
@@ -155,6 +159,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             cell.dateLabel.text = "LIVE"
             cell.dateLabel.textColor = UIColor.red
         } else {
+            cell.dateLabel.textColor = UIColor.green
             cell.dateLabel.text = match.date
         }
             
