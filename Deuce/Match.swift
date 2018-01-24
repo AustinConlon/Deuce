@@ -52,7 +52,7 @@ class Match {
             opponentNumGamesWon += 1
         }
         
-        if ( (playerNumGamesWon >= 6 || playerNumGamesWon >= 6) && abs(playerNumGamesWon - opponentNumGamesWon) >= 2) {
+        if ( (playerNumGamesWon >= 6 || opponentNumGamesWon >= 6) && abs(playerNumGamesWon - opponentNumGamesWon) >= 2) {
             nextSet()
         } else {
             let last = playerScores.count - 1
@@ -63,13 +63,14 @@ class Match {
     
     func nextSet() {
         print("next Set")
-        print(" ")
+        print(String(playerNumGamesWon) + "-" + String(opponentNumGamesWon))
         let last = playerScores.count - 1
         playerScores[last] = playerNumGamesWon
         opponentScores[last] = opponentNumGamesWon
         
-        if (playerScores.count == (maxSets/2) + 1)  {
-            self.isLive = false
+        let winCond = (maxSets/2) + 1
+        if (playerScores.count == winCond || opponentScores.count == winCond)  {
+            self.isLive = false // game over
         } else {
             playerNumGamesWon = 0
             opponentNumGamesWon = 0
