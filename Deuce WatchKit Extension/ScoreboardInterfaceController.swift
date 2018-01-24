@@ -96,7 +96,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBAction func firstPlayerScored(_ sender: Any) {
         playerOne.scorePoint()
         playHaptic()
-        session.sendMessage(["scored" : "first player"], replyHandler: nil)
+        session.sendMessage(["score" : "player"], replyHandler: nil)
+        print("first player scored")
         updateFirstPlayerGameScoreLabel()
         updateSetScoreLabels()
         updateServingLabels()
@@ -105,7 +106,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBAction func secondPlayerScored(_ sender: Any) {
         playerTwo.scorePoint()
         playHaptic()
-        session.sendMessage(["scored" : "second player"], replyHandler: nil)
+        print("2nd playa scored")
+        session.sendMessage(["score" : "opponent"], replyHandler: nil)
         updateSecondPlayerGameScoreLabel()
         updateSetScoreLabels()
         updateServingLabels()

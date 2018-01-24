@@ -14,6 +14,7 @@ let playerOne = ScoreManager(player: .first)
 let playerTwo = ScoreManager(player: .second)
 
 class ScoreManager {
+    
     // MARK: Properties
     enum SetType {
         case tiebreak, advantage
@@ -45,7 +46,10 @@ class ScoreManager {
     static var isDeuce = false
     static var isInTiebreakGame = false
     static var advantage: Player?
-    static var winner: Player?
+    
+    
+    static var winner: Player? 
+    
     var playerThatScored: Player // For determining whether the first player or the second player object is calling the scoring method
     var gameScore = 0 {
         didSet {
