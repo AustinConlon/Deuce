@@ -1,9 +1,0 @@
-version: "Apple Swift version 4.0.3 (swiftlang-900.0.74.1 clang-900.0.39.2)"
-options: "bb7f95f09f8e47c1f6c226de40f9a014"
-build_time: [1516687733, 493346000]
-inputs:
-  "/Users/Bijibaba/Dropbox/Programs/Deuce/Deuce WatchKit Extension/NotificationController.swift": [1516442863, 0]
-  "/Users/Bijibaba/Dropbox/Programs/Deuce/Deuce WatchKit Extension/ScoreboardInterfaceController.swift": [1516678760, 0]
-  "/Users/Bijibaba/Dropbox/Programs/Deuce/Deuce WatchKit Extension/\x10SettingsInterfaceController.swift": [1516687733, 0]
-  "/Users/Bijibaba/Dropbox/Programs/Deuce/Deuce WatchKit Extension/ExtensionDelegate.swift": [1516442863, 0]
-  "/Users/Bijibaba/Dropbox/Programs/Deuce/Deuce WatchKit Extension/ScoreManager.swift": [1516660134, 0]
