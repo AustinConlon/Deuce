@@ -107,7 +107,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             } else {
                 print("nextGame Triggered")
                 currMatch.inDeuce = false
-                currMatch.nextGame()
+                currMatch.nextGame(winner: msg)
             }
         } else {
             if msg == "player" && currMatch.playerScores[last] < 3 {
@@ -117,7 +117,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             } else {
                 print("nextGame Triggered")
                 currMatch.inDeuce = false
-                currMatch.nextGame()
+                currMatch.nextGame(winner: msg)
             }
         }
         
@@ -150,10 +150,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         cell.opponentName.text = match.opponent
         
         cell.playerSetScores.clearStack()
-        cell.playerSetScores.populateStack(playerScores: match.playerScores)
+        cell.playerSetScores.populateStack(playerScores: match.playerScores, maxSets: match.maxSets, isLive: match.isLive)
         
         cell.opponentSetScores.clearStack()
-        cell.opponentSetScores.populateStack(playerScores: match.opponentScores)
+        cell.opponentSetScores.populateStack(playerScores: match.opponentScores, maxSets: match.maxSets, isLive: match.isLive)
         
         if match.isLive {
             cell.dateLabel.text = "LIVE"

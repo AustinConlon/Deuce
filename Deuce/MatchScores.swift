@@ -24,7 +24,7 @@ class MatchScores: UIStackView {
     }
     
     private func addToStack(newScore: String) {
-        var newLabel = UILabel()
+        let newLabel = UILabel()
         
         newLabel.text = newScore
         newLabel.backgroundColor = UIColor.black
@@ -40,11 +40,31 @@ class MatchScores: UIStackView {
     }
     
     //MARK: public methods
-    func populateStack( playerScores: [Int]) {
-            playerScores.map( {(score: Int ) in
-                addToStack(newScore: scoreKey[score]!)
-            })
+    func populateStack( playerScores: [Int], maxSets: Int, isLive: Bool) {
+        if maxSets == 1 {
+            if (!isLive) {
+               addToStack(newScore: String(playerScores[0]))
+            } else {
+                addToStack(newScore: scoreKey[playerScores[0]]!)
+            }
+        } else {
+            if (!isLive) {
+                playerScores.map( { (score: Int) in
+                    addToStack(newScore: String(score))
+                })
+            } else {
+                for (i, score) in playerScores.enumerated() {
+                    if (i == playerScores.count - 1) {
+                        addToStack(newScore: scoreKey[score]!)
+                    } else {
+                        addToStack(newScore: String(score))
+                    }
+                }
+                
+            }
+        }
     }
+    
     func clearStack() {
         setScores.map({ (label: UILabel) in
             self.removeArrangedSubview(label)
