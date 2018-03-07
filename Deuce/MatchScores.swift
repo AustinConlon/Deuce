@@ -10,10 +10,9 @@ import UIKit
 
 class MatchScores: UIStackView {
     
-    private let scoreKey = [0: " 0", 1: " 15", 2: " 30", 3: " 40", 4: " 40"]
+    private let scoreKey = [0: "0", 1: "15", 2: "30", 3: "40", 4: "40"]
 
     private var setScores = [UILabel]()
-    private var currSet = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,21 +20,21 @@ class MatchScores: UIStackView {
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
+        self.spacing = 2
     }
     
     private func addToStack(newScore: String) {
         let newLabel = UILabel()
+        addArrangedSubview(newLabel)
         
         newLabel.text = newScore
         newLabel.backgroundColor = UIColor.black
         newLabel.textColor = UIColor.green
         
         // Add constraints
-        newLabel.translatesAutoresizingMaskIntoConstraints = false
         newLabel.heightAnchor.constraint(equalToConstant: 21.0).isActive = true
-        //newLabel.widthAnchor.constraint(equalToConstant: 21.0).isActive = true
+        newLabel.widthAnchor.constraint(equalToConstant: 21.0).isActive = true
         
-        addArrangedSubview(newLabel)
         setScores.append(newLabel)
     }
     
@@ -43,7 +42,7 @@ class MatchScores: UIStackView {
     func populateStack( playerScores: [Int], maxSets: Int, isLive: Bool) {
         if maxSets == 1 {
             if (!isLive) {
-               addToStack(newScore: String(playerScores[0]))
+               addToStack(newScore:  String(playerScores[0]))
             } else {
                 addToStack(newScore: scoreKey[playerScores[0]]!)
             }
@@ -54,7 +53,7 @@ class MatchScores: UIStackView {
                 })
             } else {
                 for (i, score) in playerScores.enumerated() {
-                    if (i == playerScores.count - 1) {
+                    if (i == playerScores.count - 1) { //one set match
                         addToStack(newScore: scoreKey[score]!)
                     } else {
                         addToStack(newScore: String(score))
