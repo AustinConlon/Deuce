@@ -9,9 +9,12 @@
 /* Begin PBXBuildFile section */
 		702F58FA2011AFB00064DB54 /* MatchScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702F58F92011AFB00064DB54 /* MatchScores.swift */; };
 		702F58FC2011C7920064DB54 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702F58FB2011C7920064DB54 /* Match.swift */; };
+		FB162E7920202B3500EAABA3 /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7820202B3500EAABA3 /* MatchManager.swift */; };
+		FB162E7B20202BF500EAABA3 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7A20202BF500EAABA3 /* Player.swift */; };
+		FB162E7D20202F9C00EAABA3 /* SetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7C20202F9B00EAABA3 /* SetManager.swift */; };
+		FB162E7F2020AD0500EAABA3 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7E2020AD0400EAABA3 /* GameManager.swift */; };
 		FB28ABBD20043E6100AAEE93 /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB28ABBC20043E6100AAEE93 /* MatchHistoryTableViewController.swift */; };
 		FB28ABBF20043F3000AAEE93 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB28ABBE20043F3000AAEE93 /* MatchHistoryTableViewCell.swift */; };
-		FB3280361EABDA3C00D6B92B /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* ScoreManager.swift */; };
 		FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */; };
 		FB51A0101DEAD77C00B2E195 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00F1DEAD77C00B2E195 /* ViewController.swift */; };
 		FB51A0131DEAD77C00B2E195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0111DEAD77C00B2E195 /* Main.storyboard */; };
@@ -26,6 +29,7 @@
 		FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A0411DEAD77C00B2E195 /* NotificationController.swift */; };
 		FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0431DEAD77C00B2E195 /* Assets.xcassets */; };
 		FB8341A11E8780130003244C /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8341A01E8780130003244C /* ScoreManager.swift */; };
+		FBDF8324202317AD00891889 /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* ScoreManager.swift */; };
 		FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */; };
 		FBF535E41FC1BE01008C6449 /* ScoreboardInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E31FC1BE01008C6449 /* ScoreboardInterfaceController.swift */; };
 /* End PBXBuildFile section */
@@ -112,6 +116,10 @@
 /* Begin PBXFileReference section */
 		702F58F92011AFB00064DB54 /* MatchScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchScores.swift; sourceTree = "<group>"; };
 		702F58FB2011C7920064DB54 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		FB162E7820202B3500EAABA3 /* MatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
+		FB162E7A20202BF500EAABA3 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		FB162E7C20202F9B00EAABA3 /* SetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetManager.swift; sourceTree = "<group>"; };
+		FB162E7E2020AD0400EAABA3 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		FB28ABBC20043E6100AAEE93 /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
 		FB28ABBE20043F3000AAEE93 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		FB3280351EABDA3C00D6B92B /* ScoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreManager.swift; sourceTree = "<group>"; };
@@ -238,6 +246,10 @@
 			isa = PBXGroup;
 			children = (
 				FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */,
+				FB162E7A20202BF500EAABA3 /* Player.swift */,
+				FB162E7E2020AD0400EAABA3 /* GameManager.swift */,
+				FB162E7C20202F9B00EAABA3 /* SetManager.swift */,
+				FB162E7820202B3500EAABA3 /* MatchManager.swift */,
 				FB3280351EABDA3C00D6B92B /* ScoreManager.swift */,
 				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
 				FBF535E31FC1BE01008C6449 /* ScoreboardInterfaceController.swift */,
@@ -477,11 +489,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB162E7D20202F9C00EAABA3 /* SetManager.swift in Sources */,
+				FB162E7F2020AD0500EAABA3 /* GameManager.swift in Sources */,
 				FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */,
+				FBDF8324202317AD00891889 /* ScoreManager.swift in Sources */,
 				FBF535E41FC1BE01008C6449 /* ScoreboardInterfaceController.swift in Sources */,
 				FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */,
 				FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */,
-				FB3280361EABDA3C00D6B92B /* ScoreManager.swift in Sources */,
+				FB162E7B20202BF500EAABA3 /* Player.swift in Sources */,
+				FB162E7920202B3500EAABA3 /* MatchManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

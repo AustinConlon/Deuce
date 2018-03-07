@@ -10,18 +10,21 @@ import WatchKit
 import Foundation
 import WatchConnectivity
 
-class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
+class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKCrownDelegate {
     // MARK: Properties
     var session: WCSession!
     
+    var maximumNumberOfSetsInMatch = 1 // Default match length is 1 set, other options are a best-of 3 and best-of 5 series.
+    var typeOfSet: TypeOfSet?
+    
     @IBOutlet var matchLengthLabel: WKInterfaceLabel!
     @IBOutlet var matchLengthSlider: WKInterfaceSlider!
-    @IBOutlet var setTypeSwitch: WKInterfaceSwitch!
+    @IBOutlet var typeOfSetLabel: WKInterfaceLabel!
+    @IBOutlet var startButton: WKInterfaceButton!
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
-        
-        // Configure interface objects here.
+        crownSequencer.delegate = self
     }
 
     override func willActivate() {
@@ -38,86 +41,82 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
+    
+    func updateLabelForTypeOfSet() {
+        if typeOfSet == nil {
+            switch maximumNumberOfSetsInMatch {
+            case 1:
+                typeOfSetLabel.setText("Type of set")
+            default:
+                typeOfSetLabel.setText("Type of sets")
+            }
+        }
+        switch (maximumNumberOfSetsInMatch, typeOfSet) {
+        case (1, .advantage?):
+            typeOfSetLabel.setText("Advantage set")
+        case (1, .tiebreak?):
+            typeOfSetLabel.setText("Tiebreak set")
+        case (_, .advantage?):
+            typeOfSetLabel.setText("Advantage sets")
+        case (_, .tiebreak?):
+            typeOfSetLabel.setText("Tiebreak sets")
+        case (_, .none):
+            break
+        }
+    }
 
     @IBAction func matchLengthSlider(_ value: Float) {
-        ScoreManager.matchLength = Int(value)
-        let matchLengthText: String
+        maximumNumberOfSetsInMatch = Int(value)
         switch value {
         case 3:
-            matchLengthText = "Best-of three sets"
+            matchLengthLabel.setText("Best-of three sets")
         case 5:
-            matchLengthText = "Best-of five sets"
-        case 7:
-            matchLengthText = "Best-of seven sets"
+            matchLengthLabel.setText("Best-of five sets")
         default:
-            matchLengthText = "One set"
+            matchLengthLabel.setText("One set")
         }
-        matchLengthLabel.setText(matchLengthText)
-        session.sendMessage(["match length" : ScoreManager.matchLength], replyHandler: nil)
+        updateLabelForTypeOfSet()
+        session.sendMessage(["match length" : maximumNumberOfSetsInMatch], replyHandler: nil)
     }
     
-    @IBAction func changeSetType(_ value: Bool) {
-        switch value {
-        case false:
-//            DispatchQueue.main.sync {
-//                pushController(withName: "Start", context: nil)
-//            }
-            ScoreManager.setType = .tiebreak
-            setTypeSwitch.setTitle("Tiebreaker set")
-            session.sendMessage(["set type" : "Tiebreaker set"], replyHandler: nil)
-        case true:
-            ScoreManager.setType = .advantage
-            setTypeSwitch.setTitle("Advantage set")
-            session.sendMessage(["set type" : "Advantage set"], replyHandler: nil)
-        }
+    @IBAction func chooseTypeOfSetToBeAdvantage() {
+        typeOfSet = .advantage
+        updateLabelForTypeOfSet()
+        startButton.setHidden(false)
+        session.sendMessage(["set type" : "Advantage set"], replyHandler: nil)
+    }
+    
+    @IBAction func chooseTypeOfSetToBeTiebreak() {
+        typeOfSet = .tiebreak
+        updateLabelForTypeOfSet()
+        startButton.setHidden(false)
+        session.sendMessage(["set type" : "Tiebreaker set"], replyHandler: nil)
     }
     
     @IBAction func start() {
-        print(ScoreManager.matchLength)
-        session.sendMessage(["live": ScoreManager.matchLength], replyHandler: nil)
-        pushController(withName: "Scoreboard", context: nil)
+        let chooseOpponentToServeFirst = WKAlertAction(title: "Opponent", style: .`default`) {
+            self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil)
+            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet!, playerThatWillServeFirst: .opponent)
+            self.presentController(withName: "scoreboard", context: match)
+            WKInterfaceDevice.current().play(.start)
+        }
+        let chooseYourselfToServeFirst = WKAlertAction(title: "You", style: .`default`) {
+            self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil)
+            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet!, playerThatWillServeFirst: .you)
+            self.presentController(withName: "scoreboard", context: match)
+            WKInterfaceDevice.current().play(.start)
+        }
+        var coinTossWinner: String
+        switch MatchManager.coinTossWinner {
+        case .opponent:
+            coinTossWinner = "You"
+        case .you:
+            coinTossWinner = "Your opponent"
+        }
+        presentAlert(withTitle: "\(coinTossWinner) won the coin toss.", message: "Who will serve first?", preferredStyle: .actionSheet, actions: [chooseOpponentToServeFirst, chooseYourselfToServeFirst])
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        DispatchQueue.main.sync {
-            switch message {
-            case _ where message["match length"] != nil:
-                switch message["match length"] as! Int {
-                case 3:
-                    ScoreManager.matchLength = 3
-                    matchLengthLabel.setText("Best-of 3 sets")
-                    matchLengthSlider.setValue(3)
-                case 5:
-                    ScoreManager.matchLength = 5
-                    matchLengthLabel.setText("Best-of 5 sets")
-                    matchLengthSlider.setValue(5)
-                case 7:
-                    ScoreManager.matchLength = 7
-                    matchLengthLabel.setText("Best-of 7 sets")
-                    matchLengthSlider.setValue(7)
-                default:
-                    ScoreManager.matchLength = 1
-                    matchLengthSlider.setValue(1)
-                }
-            case _ where message["set type"] != nil:
-                switch message["set type"] as! String {
-                case "Tiebreaker set":
-                    ScoreManager.setType = .tiebreak
-                    setTypeSwitch.setOn(false)
-                case "Advantage set":
-                    ScoreManager.setType = .advantage
-                    setTypeSwitch.setOn(true)
-                default:
-                    break
-                }
-                setTypeSwitch.setTitle(message["set type"] as? String)
-            case _ where message["start"] != nil:
-                start()
-            default:
-                break
-            }
-        }
-    }
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) { }
 }
