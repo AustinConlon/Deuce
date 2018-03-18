@@ -83,9 +83,6 @@ class ScoreManager {
         default:
             scoreAdvantageSituation()
         }
-        if let advantage = ScoreManager.advantage {
-            print(advantage)
-        }
     }
     
     func scoreAdvantageSituation() {

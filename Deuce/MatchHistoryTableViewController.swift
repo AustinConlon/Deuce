@@ -23,7 +23,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeView()
-        print("in did load")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -79,13 +78,9 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }
     }
     
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        print("Inactivated")
-    }
+    func sessionDidBecomeInactive(_ session: WCSession) { }
     
-    func sessionDidDeactivate(_ session: WCSession) {
-        print("deactivated")
-    }
+    func sessionDidDeactivate(_ session: WCSession) { }
     
     //class methods
     func updateScore(msg: String) {
@@ -105,7 +100,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             } else if msg == "opponent" && currMatch.playerScores[last] == currMatch.opponentScores[last] {
                 currMatch.opponentScores[last] += 1
             } else {
-                print("nextGame Triggered")
                 currMatch.inDeuce = false
                 currMatch.nextGame(winner: msg)
             }
@@ -115,7 +109,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             } else if msg == "opponent" && currMatch.opponentScores[last] < 3 {
                 currMatch.opponentScores[last] += 1
             } else {
-                print("nextGame Triggered")
                 currMatch.inDeuce = false
                 currMatch.nextGame(winner: msg)
             }
