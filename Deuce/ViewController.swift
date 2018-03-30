@@ -38,8 +38,22 @@ class ViewController: UIViewController, WCSessionDelegate  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         hideServingLabels()
+        if !session.isPaired {
+            changeMatchLengthSegmentedControl.isHidden = false
+            setTypeSegmentedControl.isHidden = false
+            startNewMatchButton.isHidden = false
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if session.isPaired {
+            let alert = UIAlertController(title: "Start from Apple Watch", message: "To start the game, open Deuce for Apple Watch and then press the Start button.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -63,8 +77,6 @@ class ViewController: UIViewController, WCSessionDelegate  {
             ScoreManager.matchLength = 3
         case 2:
             ScoreManager.matchLength = 5
-        case 3:
-            ScoreManager.matchLength = 7
         default:
             ScoreManager.matchLength = 1
         }
@@ -101,6 +113,22 @@ class ViewController: UIViewController, WCSessionDelegate  {
         changeMatchLengthSegmentedControl.isHidden = true
         setTypeSegmentedControl.isHidden = true
         startNewMatchButton.isHidden = true
+        ScoreManager.reset()
+        updateLeftSideGameScoreLabel()
+        updateRightSideGameScoreLabel()
+        updateSetScoreLabels()
+        updateMatchScoreLabels()
+        leftSideServingStatusLabel.isHidden = true
+        leftSideGameScoreButton.isHidden = true
+        leftSideSetScoreLabel.isHidden = true
+        leftSideMatchScoreLabel.isHidden = true
+        rightSideServingStatusLabel.isHidden = true
+        rightSideGameScoreButton.isHidden = true
+        rightSideSetScoreLabel.isHidden = true
+        rightSideMatchScoreLabel.isHidden = true
+        startNewMatchButton.isHidden = true
+        leftSideGameScoreButton.isEnabled = true
+        rightSideGameScoreButton.isEnabled = true
     }
     
     func askToSelectStartingSideOfPairedWatch() {
@@ -114,9 +142,9 @@ class ViewController: UIViewController, WCSessionDelegate  {
         leftSideServesFirstButton.isHidden = false
         rightSideServesFirstButton.isHidden = false
         if ((arc4random_uniform(2)) == 0) {
-            announcementLabel.text = "The player starting on the left side won the coin toss. Ask them to choose which player will serve first and then select accordingly."
+            announcementLabel.text = "The player starting on your left side won the coin toss. Select their choice of who will serve first."
         } else {
-            announcementLabel.text = "The player starting on the right side won the coin toss. Ask them to choose which player will serve first and then select accordingly."
+            announcementLabel.text = "The player starting on your right side won the coin toss. Select their choice of who will serve first."
         }
         announcementLabel.isHidden = false
     }
@@ -232,14 +260,8 @@ class ViewController: UIViewController, WCSessionDelegate  {
     }
     
     func updateSetScoreLabels() {
-        switch ScoreManager.isInTiebreakGame {
-        case true:
-            leftSideSetScoreLabel.text = "Tiebreak game"
-            rightSideSetScoreLabel.text = "Tiebreak game"
-        default:
-            leftSideSetScoreLabel.text = "Set score: \(playerOne.setScore)"
-            rightSideSetScoreLabel.text = "Set score: \(playerTwo.setScore)"
-        }
+        leftSideSetScoreLabel.text = "Set score: \(playerOne.setScore)"
+        rightSideSetScoreLabel.text = "Set score: \(playerTwo.setScore)"
     }
     
     func updateMatchScoreLabels() {
@@ -264,6 +286,7 @@ class ViewController: UIViewController, WCSessionDelegate  {
         leftSideGameScoreButton.isEnabled = false
         rightSideGameScoreButton.isEnabled = false
         hideServingLabels()
+        startNewMatchButton.isHidden = false
     }
     
     func updateServingLabels() {
