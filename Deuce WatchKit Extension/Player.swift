@@ -9,7 +9,7 @@
 import Foundation
 
 enum Player {
-    case you, opponent
+    case one, two
 }
 
 // Server always starts on the right side, alternates after every point.

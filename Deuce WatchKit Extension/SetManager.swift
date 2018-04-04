@@ -19,19 +19,19 @@ class SetManager {
     // Number of games you and your opponent won.
     var setScore: (serverScore: Int, receiverScore: Int) = (0, 0)
     
-    var yourSetScore = 0 {
+    var playerOneSetScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
-            if (yourSetScore >= 6) && (yourSetScore - opponentSetScore >= marginToWinSetBy) { // You win the set.
+            if (playerOneSetScore >= 6) && (playerOneSetScore - playerTwoSetScore >= marginToWinSetBy) { // You win the set.
                 setEnded = true
             }
         }
     }
     
-    var opponentSetScore = 0 {
+    var playerTwoSetScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
-            if (opponentSetScore >= 6) && (opponentSetScore - yourSetScore >= marginToWinSetBy) { // Opponent wins the set.
+            if (playerTwoSetScore >= 6) && (playerTwoSetScore - playerOneSetScore >= marginToWinSetBy) { // Opponent wins the set.
                 setEnded = true
             }
         }
@@ -70,10 +70,10 @@ class SetManager {
     // Tennis scoring convention is to call out the server score before the receiver score.
     func updateScoreOrderBasedOnServer() {
         switch currentGame.server {
-        case .you?:
-            setScore = (yourSetScore, opponentSetScore)
-        case .opponent?:
-            setScore = (opponentSetScore, yourSetScore)
+        case .one?:
+            setScore = (playerOneSetScore, playerTwoSetScore)
+        case .two?:
+            setScore = (playerTwoSetScore, playerOneSetScore)
         case .none:
             break
         }

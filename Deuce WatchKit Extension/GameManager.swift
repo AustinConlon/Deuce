@@ -12,7 +12,7 @@ class GameManager {
     var gameScore: (serverScore: Int, receiverScore: Int) = (0, 0) {
         didSet {
             if gameScore != (0, 0) {
-                if isTiebreaker && (yourGameScore + opponentGameScore) % 2 == 1 {
+                if isTiebreaker && (playerOneGameScore + playerTwoGameScore) % 2 == 1 {
                     changeServer()
                 } else {
                     updateServingSide()
@@ -29,12 +29,12 @@ class GameManager {
         }
     }
     var servingSide: ServingSide?
-    var yourGameScore = 0 {
+    var playerOneGameScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
         }
     }
-    var opponentGameScore = 0 {
+    var playerTwoGameScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
         }
@@ -45,10 +45,10 @@ class GameManager {
     // Tennis scoring convention is to call out the server gameScore before the receiver gameScore.
     func updateScoreOrderBasedOnServer() {
         switch server {
-        case .you?:
-            gameScore = (yourGameScore, opponentGameScore)
-        case .opponent?:
-            gameScore = (opponentGameScore, yourGameScore)
+        case .one?:
+            gameScore = (playerOneGameScore, playerTwoGameScore)
+        case .two?:
+            gameScore = (playerTwoGameScore, playerOneGameScore)
         case .none:
             break
         }
@@ -56,9 +56,9 @@ class GameManager {
     
     func updateServingSide() {
         switch (server, servingSide) {
-        case (.you?, nil):
+        case (.one?, nil):
             servingSide = .right
-        case (.opponent?, nil):
+        case (.two?, nil):
             servingSide = .left
         default:
             serverSwitchesSides()
@@ -67,13 +67,13 @@ class GameManager {
     
     func serverSwitchesSides() {
         switch (server, servingSide) {
-        case (.you?, .right?):
+        case (.one?, .right?):
             servingSide = .left
-        case (.you?, .left?):
+        case (.one?, .left?):
             servingSide = .right
-        case (.opponent?, .left?):
+        case (.two?, .left?):
             servingSide = .right
-        case (.opponent?, .right?):
+        case (.two?, .right?):
             servingSide = .left
         default:
             break
@@ -82,16 +82,16 @@ class GameManager {
     
     func changeServer() {
         switch server { // Other player now serves.
-        case .you?:
-            server = .opponent
+        case .one?:
+            server = .two
             switch isTiebreaker {
             case true:
                 servingSide = .right
             case false:
                 servingSide = .left
             }
-        case .opponent?:
-            server = .you
+        case .two?:
+            server = .one
             switch isTiebreaker {
             case true:
                 servingSide = .left
@@ -105,23 +105,23 @@ class GameManager {
     
     func scorePointForYou() {
         switch server {
-        case .you?:
+        case .one?:
             switch gameScore {
             case (0...15, 0...40):
-                yourGameScore += 15
+                playerOneGameScore += 15
             case (30, 0...40):
-                yourGameScore += 10
+                playerOneGameScore += 10
             case (40, 0...30):
                 winGame()
             default:
                 enterDeuceOrAdvantageSituationAfterYouScored()
             }
-        case .opponent?:
+        case .two?:
             switch gameScore {
             case (0...40, 0...15):
-                yourGameScore += 15
+                playerOneGameScore += 15
             case (0...40, 30):
-                yourGameScore += 10
+                playerOneGameScore += 10
             case (0...30, 40):
                 winGame()
             default:
@@ -134,23 +134,23 @@ class GameManager {
     
     func scorePointForOpponent() {
         switch server {
-        case .opponent?:
+        case .two?:
             switch gameScore {
             case (0...15, 0...40):
-                opponentGameScore += 15
+                playerTwoGameScore += 15
             case (30, 0...40):
-                opponentGameScore += 10
+                playerTwoGameScore += 10
             case (40, 0...30):
                 winGame()
             default:
                 enterDeuceOrAdvantageSituationAfterOpponentScored()
             }
-        case .you?:
+        case .one?:
             switch gameScore {
             case (0...40, 0...15):
-                opponentGameScore += 15
+                playerTwoGameScore += 15
             case (0...40, 30):
-                opponentGameScore += 10
+                playerTwoGameScore += 10
             case (0...30, 40):
                 winGame()
             default:
@@ -162,46 +162,46 @@ class GameManager {
     }
     
     func scoreTiebreakForYou() {
-        yourGameScore += 1
-        if (yourGameScore >= 7) && (yourGameScore >= opponentGameScore + 2) {
+        playerOneGameScore += 1
+        if (playerOneGameScore >= 7) && (playerOneGameScore >= playerTwoGameScore + 2) {
             winGame()
         }
     }
     
     func scoreTiebreakForOpponent() {
-        opponentGameScore += 1
-        if (opponentGameScore >= 7) && (opponentGameScore >= yourGameScore + 2) {
+        playerTwoGameScore += 1
+        if (playerTwoGameScore >= 7) && (playerTwoGameScore >= playerOneGameScore + 2) {
             winGame()
         }
     }
     
     func enterDeuceOrAdvantageSituationAfterYouScored() {
-        if yourGameScore == opponentGameScore + 10 {
-            yourGameScore += 10
-        } else if yourGameScore == opponentGameScore - 1 {
-            yourGameScore += 1
-        } else if yourGameScore == opponentGameScore {
-            yourGameScore += 1
-        } else if yourGameScore == opponentGameScore + 1 {
+        if playerOneGameScore == playerTwoGameScore + 10 {
+            playerOneGameScore += 10
+        } else if playerOneGameScore == playerTwoGameScore - 1 {
+            playerOneGameScore += 1
+        } else if playerOneGameScore == playerTwoGameScore {
+            playerOneGameScore += 1
+        } else if playerOneGameScore == playerTwoGameScore + 1 {
             winGame()
         }
     }
     
     func enterDeuceOrAdvantageSituationAfterOpponentScored() {
-        if opponentGameScore == yourGameScore + 10 {
-            opponentGameScore += 10
-        } else if opponentGameScore == yourGameScore - 1 {
-            opponentGameScore += 1
-        } else if opponentGameScore == yourGameScore {
-            opponentGameScore += 1
-        } else if opponentGameScore == yourGameScore + 1 {
+        if playerTwoGameScore == playerOneGameScore + 10 {
+            playerTwoGameScore += 10
+        } else if playerTwoGameScore == playerOneGameScore - 1 {
+            playerTwoGameScore += 1
+        } else if playerTwoGameScore == playerOneGameScore {
+            playerTwoGameScore += 1
+        } else if playerTwoGameScore == playerOneGameScore + 1 {
             winGame()
         }
     }
     
     func winGame() {
-        yourGameScore = 0
-        opponentGameScore = 0
+        playerOneGameScore = 0
+        playerTwoGameScore = 0
         changeServer()
     }
 }

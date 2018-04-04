@@ -25,29 +25,29 @@ class MatchManager {
     static var coinTossWinner: Player {  // Winner of the coin toss decides whether to serve or receive first.
         get {
             if ((arc4random_uniform(2)) == 0) {
-                return .you
+                return .one
             } else {
-                return .opponent
+                return .two
             }
         }
     }
     // Number of sets you and your opponent won.
     var matchScore: (serverScore: Int, receiverScore: Int) = (0, 0)
-    var yourMatchScore = 0 {
+    var playerOneMatchScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
-            if yourMatchScore >= minumumNumberOfSetsToWinMatch {
+            if playerOneMatchScore >= minumumNumberOfSetsToWinMatch {
                 matchEnded = true
-                winner = .you
+                winner = .one
             }
         }
     }
-    var opponentMatchScore = 0 {
+    var playerTwoMatchScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
-            if opponentMatchScore >= minumumNumberOfSetsToWinMatch {
+            if playerTwoMatchScore >= minumumNumberOfSetsToWinMatch {
                 matchEnded = true
-                winner = .opponent
+                winner = .two
             }
         }
     }
@@ -81,16 +81,16 @@ class MatchManager {
     // Tennis scoring convention is to call out the server score before the receiver score.
     func updateScoreOrderBasedOnServer() {
         switch currentGame.server {
-        case .you?:
-            matchScore = (yourMatchScore, opponentMatchScore)
-        case .opponent?:
-            matchScore = (opponentMatchScore, yourMatchScore)
+        case .one?:
+            matchScore = (playerOneMatchScore, playerTwoMatchScore)
+        case .two?:
+            matchScore = (playerTwoMatchScore, playerOneMatchScore)
         case .none:
             break
         }
     }
     
-    func scorePointForYouInCurrentGame() {
+    func scorePointForPlayerOneInCurrentGame() {
         switch currentGame.isTiebreaker {
         case true:
             currentGame.scoreTiebreakForYou()
@@ -100,7 +100,7 @@ class MatchManager {
         checkYouWonGame()
     }
     
-    func scorePointForOpponentInCurrentGame() {
+    func scorePointForPlayerTwoInCurrentGame() {
         switch currentGame.isTiebreaker {
         case true:
             currentGame.scoreTiebreakForOpponent()
@@ -112,7 +112,7 @@ class MatchManager {
     
     func checkYouWonGame() {
         if currentGame.gameEnded == true {
-            currentSet.yourSetScore += 1
+            currentSet.playerOneSetScore += 1
             currentSet.games.append(GameManager())
         }
         checkYouWonSet()
@@ -120,7 +120,7 @@ class MatchManager {
     
     func checkOpponentWonGame() {
         if currentGame.gameEnded == true {
-            currentSet.opponentSetScore += 1
+            currentSet.playerTwoSetScore += 1
             currentSet.games.append(GameManager())
         }
         checkOpponentWonSet()
@@ -128,7 +128,7 @@ class MatchManager {
     
     func checkYouWonSet() {
         if currentSet.setEnded == true {
-            yourMatchScore += 1
+            playerOneMatchScore += 1
             if matchEnded == false {
                 sets.append(SetManager())
             }
@@ -137,7 +137,7 @@ class MatchManager {
     
     func checkOpponentWonSet() {
         if currentSet.setEnded == true {
-            opponentMatchScore += 1
+            playerTwoMatchScore += 1
             if matchEnded == false {
                 sets.append(SetManager())
             }

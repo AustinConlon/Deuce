@@ -96,21 +96,21 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKC
     @IBAction func start() {
         let chooseOpponentToServeFirst = WKAlertAction(title: "Opponent", style: .`default`) {
             self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil)
-            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet!, playerThatWillServeFirst: .opponent)
+            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet!, playerThatWillServeFirst: .two)
             self.presentController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
         let chooseYourselfToServeFirst = WKAlertAction(title: "You", style: .`default`) {
             self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil)
-            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet!, playerThatWillServeFirst: .you)
+            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet!, playerThatWillServeFirst: .one)
             self.presentController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
         var coinTossWinner: String
         switch MatchManager.coinTossWinner {
-        case .opponent:
+        case .one:
             coinTossWinner = "You"
-        case .you:
+        case .two:
             coinTossWinner = "Your opponent"
         }
         presentAlert(withTitle: "\(coinTossWinner) won the coin toss.", message: "Who will serve first?", preferredStyle: .actionSheet, actions: [chooseOpponentToServeFirst, chooseYourselfToServeFirst])

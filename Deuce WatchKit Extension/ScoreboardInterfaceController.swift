@@ -72,14 +72,14 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         WKExtension.shared().isFrontmostTimeoutExtended = true
     }
     
-    @IBAction func scorePointForOpponent(_ sender: Any) {
-        currentMatch.scorePointForOpponentInCurrentGame()
+    @IBAction func scorePointForPlayerTwo(_ sender: Any) {
+        currentMatch.scorePointForPlayerTwoInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
     }
     
-    @IBAction func scorePointForYou(_ sender: Any) {
-        currentMatch.scorePointForYouInCurrentGame()
+    @IBAction func scorePointForPlayerOne(_ sender: Any) {
+        currentMatch.scorePointForPlayerOneInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
     }
@@ -90,10 +90,10 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         updateSetScoresFromModel()
         if let winner = currentMatch.winner {
             switch winner {
-            case .you:
+            case .one:
                 yourGameScoreLabel.setText("🏆")
                 opponentGameScoreLabel.setHidden(true)
-            case .opponent:
+            case .two:
                 opponentGameScoreLabel.setText("🏆")
                 yourGameScoreLabel.setHidden(true)
             }
@@ -108,19 +108,19 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func updateServingLabelsFromModel() {
         switch (currentGame.server, currentGame.servingSide) {
-        case (.you?, .right?):
+        case (.one?, .right?):
             yourServingLabel.setHorizontalAlignment(.right)
             yourServingLabel.setHidden(false)
             opponentServingLabel.setHidden(true)
-        case (.you?, .left?):
+        case (.one?, .left?):
             yourServingLabel.setHorizontalAlignment(.left)
             yourServingLabel.setHidden(false)
             opponentServingLabel.setHidden(true)
-        case (.opponent?, .left?):
+        case (.two?, .left?):
             opponentServingLabel.setHorizontalAlignment(.left)
             opponentServingLabel.setHidden(false)
             yourServingLabel.setHidden(true)
-        case (.opponent?, .right?):
+        case (.two?, .right?):
             opponentServingLabel.setHorizontalAlignment(.right)
             opponentServingLabel.setHidden(false)
             yourServingLabel.setHidden(true)
@@ -132,8 +132,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     func updateGameScoresFromModel() {
         switch currentGame.isTiebreaker {
         case true:
-            yourGameScoreLabel.setText(String(currentGame.yourGameScore))
-            opponentGameScoreLabel.setText(String(currentGame.opponentGameScore))
+            yourGameScoreLabel.setText(String(currentGame.playerOneGameScore))
+            opponentGameScoreLabel.setText(String(currentGame.playerTwoGameScore))
         default:
             updateYourCurrentGameScoreFromModel()
             updateOpponentCurrentGameScoreFromModel()
@@ -141,54 +141,54 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     func updateYourCurrentGameScoreFromModel() {
-        switch currentGame.yourGameScore {
+        switch currentGame.playerOneGameScore {
         case 0:
             yourGameScoreLabel.setText("Love")
         case 15, 30:
-            yourGameScoreLabel.setText(String(currentGame.yourGameScore))
+            yourGameScoreLabel.setText(String(currentGame.playerOneGameScore))
         case 40:
-            if currentGame.opponentGameScore < 40 {
-                yourGameScoreLabel.setText(String(currentGame.yourGameScore))
-            } else if currentGame.opponentGameScore == 40 {
+            if currentGame.playerTwoGameScore < 40 {
+                yourGameScoreLabel.setText(String(currentGame.playerOneGameScore))
+            } else if currentGame.playerTwoGameScore == 40 {
                 yourGameScoreLabel.setText("Deuce")
             }
         default: // Alternating advantage and deuce situations.
-            if currentGame.yourGameScore == currentGame.opponentGameScore + 1 {
-                if currentGame.server == .you {
+            if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
+                if currentGame.server == .one {
                     yourGameScoreLabel.setText("Ad in")
                     opponentGameScoreLabel.setText("")
-                } else if currentGame.server == .opponent {
+                } else if currentGame.server == .two {
                     yourGameScoreLabel.setText("Ad out")
                     opponentGameScoreLabel.setText("")
                 }
-            } else if currentGame.yourGameScore == currentGame.opponentGameScore {
+            } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
                 yourGameScoreLabel.setText("Deuce")
             }
         }
     }
     
     func updateOpponentCurrentGameScoreFromModel() {
-        switch currentGame.opponentGameScore {
+        switch currentGame.playerTwoGameScore {
         case 0:
             opponentGameScoreLabel.setText("Love")
         case 15, 30:
-            opponentGameScoreLabel.setText(String(currentGame.opponentGameScore))
+            opponentGameScoreLabel.setText(String(currentGame.playerTwoGameScore))
         case 40:
-            if currentGame.yourGameScore < 40 {
-                opponentGameScoreLabel.setText(String(currentGame.opponentGameScore))
-            } else if currentGame.yourGameScore == 40 {
+            if currentGame.playerOneGameScore < 40 {
+                opponentGameScoreLabel.setText(String(currentGame.playerTwoGameScore))
+            } else if currentGame.playerOneGameScore == 40 {
                 opponentGameScoreLabel.setText("Deuce")
             }
         default: // Alternating advantage and deuce situations.
-            if currentGame.opponentGameScore == currentGame.yourGameScore + 1 {
-                if currentGame.server == .opponent {
+            if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
+                if currentGame.server == .two {
                     opponentGameScoreLabel.setText("Ad in")
                     yourGameScoreLabel.setText("")
-                } else if currentGame.server == .you {
+                } else if currentGame.server == .one {
                     opponentGameScoreLabel.setText("Ad out")
                     yourGameScoreLabel.setText("")
                 }
-            } else if currentGame.opponentGameScore == currentGame.yourGameScore {
+            } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
                 opponentGameScoreLabel.setText("Deuce")
             }
         }
@@ -216,46 +216,46 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     func updateCurrentSetScoreColumn() {
-        columnFiveYourSetScoreLabel.setText(String(currentSet.yourSetScore))
-        columnFiveOpponentSetScoreLabel.setText(String(currentSet.opponentSetScore))
+        columnFiveYourSetScoreLabel.setText(String(currentSet.playerOneSetScore))
+        columnFiveOpponentSetScoreLabel.setText(String(currentSet.playerTwoSetScore))
     }
     
     func updateSetScoresForEnteringSecondSet() {
-        columnFourYourSetScoreLabel.setText(String(currentMatch.sets[0].yourSetScore))
-        columnFourOpponentSetScoreLabel.setText(String(currentMatch.sets[0].opponentSetScore))
+        columnFourYourSetScoreLabel.setText(String(currentMatch.sets[0].playerOneSetScore))
+        columnFourOpponentSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoSetScore))
         columnFourYourSetScoreLabel.setHidden(false)
         columnFourOpponentSetScoreLabel.setHidden(false)
     }
     
     func updateSetScoresForEnteringThirdSet() {
-        columnThreeYourSetScoreLabel.setText(String(currentMatch.sets[0].yourSetScore))
-        columnThreeOpponentSetScoreLabel.setText(String(currentMatch.sets[0].opponentSetScore))
-        columnFourYourSetScoreLabel.setText(String(currentMatch.sets[1].yourSetScore))
-        columnFourOpponentSetScoreLabel.setText(String(currentMatch.sets[1].opponentSetScore))
+        columnThreeYourSetScoreLabel.setText(String(currentMatch.sets[0].playerOneSetScore))
+        columnThreeOpponentSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoSetScore))
+        columnFourYourSetScoreLabel.setText(String(currentMatch.sets[1].playerOneSetScore))
+        columnFourOpponentSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoSetScore))
         columnThreeYourSetScoreLabel.setHidden(false)
         columnThreeOpponentSetScoreLabel.setHidden(false)
     }
     
     func updateSetScoresForEnteringFourthSet() {
-        columnTwoYourSetScoreLabel.setText(String(currentMatch.sets[0].yourSetScore))
-        columnTwoOpponentSetScoreLabel.setText(String(currentMatch.sets[0].opponentSetScore))
-        columnThreeYourSetScoreLabel.setText(String(currentMatch.sets[1].yourSetScore))
-        columnThreeOpponentSetScoreLabel.setText(String(currentMatch.sets[1].opponentSetScore))
-        columnFourYourSetScoreLabel.setText(String(currentMatch.sets[2].yourSetScore))
-        columnFourOpponentSetScoreLabel.setText(String(currentMatch.sets[2].opponentSetScore))
+        columnTwoYourSetScoreLabel.setText(String(currentMatch.sets[0].playerOneSetScore))
+        columnTwoOpponentSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoSetScore))
+        columnThreeYourSetScoreLabel.setText(String(currentMatch.sets[1].playerOneSetScore))
+        columnThreeOpponentSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoSetScore))
+        columnFourYourSetScoreLabel.setText(String(currentMatch.sets[2].playerOneSetScore))
+        columnFourOpponentSetScoreLabel.setText(String(currentMatch.sets[2].playerTwoSetScore))
         columnTwoYourSetScoreLabel.setHidden(false)
         columnTwoOpponentSetScoreLabel.setHidden(false)
     }
     
     func updateSetScoresForEnteringFifthSet() {
-        columnOneYourSetScoreLabel.setText(String(currentMatch.sets[0].yourSetScore))
-        columnOneOpponentSetScoreLabel.setText(String(currentMatch.sets[0].opponentSetScore))
-        columnTwoYourSetScoreLabel.setText(String(currentMatch.sets[1].yourSetScore))
-        columnTwoOpponentSetScoreLabel.setText(String(currentMatch.sets[1].opponentSetScore))
-        columnThreeYourSetScoreLabel.setText(String(currentMatch.sets[2].yourSetScore))
-        columnThreeOpponentSetScoreLabel.setText(String(currentMatch.sets[2].opponentSetScore))
-        columnFourYourSetScoreLabel.setText(String(currentMatch.sets[3].yourSetScore))
-        columnFourOpponentSetScoreLabel.setText(String(currentMatch.sets[3].opponentSetScore))
+        columnOneYourSetScoreLabel.setText(String(currentMatch.sets[0].playerOneSetScore))
+        columnOneOpponentSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoSetScore))
+        columnTwoYourSetScoreLabel.setText(String(currentMatch.sets[1].playerOneSetScore))
+        columnTwoOpponentSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoSetScore))
+        columnThreeYourSetScoreLabel.setText(String(currentMatch.sets[2].playerOneSetScore))
+        columnThreeOpponentSetScoreLabel.setText(String(currentMatch.sets[2].playerTwoSetScore))
+        columnFourYourSetScoreLabel.setText(String(currentMatch.sets[3].playerOneSetScore))
+        columnFourOpponentSetScoreLabel.setText(String(currentMatch.sets[3].playerTwoSetScore))
         columnOneYourSetScoreLabel.setHidden(false)
         columnOneOpponentSetScoreLabel.setHidden(false)
     }
@@ -274,9 +274,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     func playHaptic() {
         switch currentMatch.matchEnded {
         case true:
-            if currentMatch.winner == .you {
+            if currentMatch.winner == .one {
                 WKInterfaceDevice.current().play(.success)
-            } else if currentMatch.winner == .opponent {
+            } else if currentMatch.winner == .two {
                 WKInterfaceDevice.current().play(.failure)
             }
         case false:
@@ -284,7 +284,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
                 // The point has concluded but not a game.
                 switch currentGame.isTiebreaker {
                 case true:
-                    if (currentGame.yourGameScore + currentGame.opponentGameScore) % 2 == 1 {
+                    if (currentGame.playerOneGameScore + currentGame.playerTwoGameScore) % 2 == 1 {
                         WKInterfaceDevice.current().play(.start)
                     } else {
                         WKInterfaceDevice.current().play(.click)

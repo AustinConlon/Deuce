@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14105" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch42" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <deployment identifier="watchOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14031"/>
     </dependencies>
@@ -174,7 +170,7 @@
                             <gestureRecognizers>
                                 <tapGestureRecognizer id="2hP-To-KA9" userLabel="Opponent Side Tap Gesture Recognizer">
                                     <connections>
-                                        <action selector="scorePointForOpponent:" destination="Hlr-PA-eca" id="d0J-Vy-ww0"/>
+                                        <action selector="scorePointForPlayerTwo:" destination="Hlr-PA-eca" id="d0J-Vy-ww0"/>
                                     </connections>
                                 </tapGestureRecognizer>
                             </gestureRecognizers>
@@ -269,7 +265,7 @@
                             <gestureRecognizers>
                                 <tapGestureRecognizer id="7bl-KV-306" userLabel="Your Side Tap Gesture Recognizer">
                                     <connections>
-                                        <action selector="scorePointForYou:" destination="Hlr-PA-eca" id="SOJ-zc-5zc"/>
+                                        <action selector="scorePointForPlayerOne:" destination="Hlr-PA-eca" id="SOJ-zc-5zc"/>
                                     </connections>
                                 </tapGestureRecognizer>
                             </gestureRecognizers>
