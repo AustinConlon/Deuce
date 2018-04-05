@@ -63,7 +63,8 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     override func viewDidAppear(_ animated: Bool) {
         if session.isPaired {
-            let alert = UIAlertController(title: "Start from Apple Watch", message: "To start the game, open Deuce for Apple Watch and then press the Start button.", preferredStyle: .alert)
+            startMatchButton.isEnabled = false
+            let alert = UIAlertController(title: "Start from Apple Watch", message: "To start, open Deuce on Apple Watch and then press the Start button.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
                 NSLog("The \"OK\" alert occured.")
             }))

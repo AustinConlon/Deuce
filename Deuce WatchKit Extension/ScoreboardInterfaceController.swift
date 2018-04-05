@@ -272,6 +272,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     func playHaptic() {
+        print(currentMatch.totalNumberOfGamesPlayed)
         switch currentMatch.matchEnded {
         case true:
             if currentMatch.winner == .one {
@@ -292,12 +293,12 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
                 case false:
                     WKInterfaceDevice.current().play(.click)
                 }
-            } else if (currentSet.games.count % 2 == 0) {
-                // The server is changing but you're not switching sides yet.
-                WKInterfaceDevice.current().play(.start)
-            } else if (currentSet.games.count % 2 == 1) {
-                // The server is changing and you're switching sides.
+            } else if (currentMatch.totalNumberOfGamesPlayed % 2 == 1) {
+                // Players switch servers but not ends of the court.
                 WKInterfaceDevice.current().play(.stop)
+            } else if (currentMatch.totalNumberOfGamesPlayed % 2 == 0) {
+                // Players switch servers and switch ends of the court.
+                WKInterfaceDevice.current().play(.start)
             }
         }
     }

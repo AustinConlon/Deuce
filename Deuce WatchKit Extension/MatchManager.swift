@@ -70,6 +70,18 @@ class MatchManager {
             return currentSet.currentGame
         }
     }
+    var totalNumberOfGamesPlayed: Int {
+        var totalNumberOfGamesPlayed = 0
+        for set in sets {
+            totalNumberOfGamesPlayed += set.playerOneSetScore
+            totalNumberOfGamesPlayed += set.playerTwoSetScore
+//            for game in set.games {
+//                totalNumberOfPointsPlayed += game.playerOneGameScore
+//                totalNumberOfPointsPlayed += game.playerTwoGameScore
+//            }
+        }
+        return totalNumberOfGamesPlayed
+    }
     
     init(_ maximumNumberOfSetsInMatch: Int, _ typeOfSet: TypeOfSet, playerThatWillServeFirst: Player) {
         self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch
