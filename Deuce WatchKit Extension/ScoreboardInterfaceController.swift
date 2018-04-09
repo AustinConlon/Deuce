@@ -73,12 +73,14 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
+        session.sendMessage(["score point" : "player two"], replyHandler: nil)
         currentMatch.scorePointForPlayerTwoInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
+        session.sendMessage(["score point" : "player one"], replyHandler: nil)
         currentMatch.scorePointForPlayerOneInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
@@ -272,7 +274,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     func playHaptic() {
-        print(currentMatch.totalNumberOfGamesPlayed)
         switch currentMatch.matchEnded {
         case true:
             if currentMatch.winner == .one {

@@ -32,9 +32,28 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             return scoreManager!.currentMatch
         }
     }
-    
-    var maximumNumberOfSetsInMatch = 1   // Matches are 1 set, best-of 3 sets, or best-of 5 sets.
-    var typeOfSet: TypeOfSet = .tiebreak // Tiebreak sets are more commonly played.
+    var maximumNumberOfSetsInMatch = 1 { // Matches are 1 set, best-of 3 sets, or best-of 5 sets.
+        didSet {
+            switch maximumNumberOfSetsInMatch {
+            case 3:
+                changeMatchLengthSegmentedControl.selectedSegmentIndex = 1
+            case 5:
+                changeMatchLengthSegmentedControl.selectedSegmentIndex = 2
+            default:
+                changeMatchLengthSegmentedControl.selectedSegmentIndex = 0
+            }
+        }
+    }
+    var typeOfSet: TypeOfSet = .tiebreak { // Tiebreak sets are more commonly played.
+        didSet {
+            switch typeOfSet {
+            case .advantage:
+                setTypeSegmentedControl.selectedSegmentIndex = 1
+            default:
+                setTypeSegmentedControl.selectedSegmentIndex = 0
+            }
+        }
+    }
     
     @IBOutlet weak var startMatchButton: UIBarButtonItem!
     @IBOutlet weak var endMatchButton: UIBarButtonItem!
@@ -125,9 +144,6 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
             askToSelectStartingServer()
         }
-        changeMatchLengthSegmentedControl.isHidden = true
-        setTypeSegmentedControl.isHidden = true
-        startMatchButton.isEnabled = false
     }
     
     @IBAction func stopMatch(_ sender: Any) {
@@ -146,13 +162,13 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     @IBAction func scorePointForLeftSide(_ sender: Any) {
-        scoreManager?.currentMatch.scorePointForPlayerOneInCurrentGame()
+        currentMatch.scorePointForPlayerOneInCurrentGame()
         updateLabelsFromModel()
         session?.sendMessage(["scored" : "first player"], replyHandler: nil)
     }
     
     @IBAction func scorePointForRightSide(_ sender: Any) {
-        scoreManager?.currentMatch.scorePointForPlayerTwoInCurrentGame()
+        currentMatch.scorePointForPlayerTwoInCurrentGame()
         updateLabelsFromModel()
         session?.sendMessage(["scored" : "second player"], replyHandler: nil)
     }
@@ -179,6 +195,9 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     func startScoring() {
+        changeMatchLengthSegmentedControl.isHidden = true
+        setTypeSegmentedControl.isHidden = true
+        startMatchButton.isEnabled = false
         endMatchButton.isEnabled = true
         updateLabelsFromModel()
         leftSideGameScoreButton.isEnabled = true
@@ -238,12 +257,12 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             leftSideGameScoreButton.setTitle(String(currentGame.playerOneGameScore), for: .normal)
             rightSideGameScoreButton.setTitle(String(currentGame.playerTwoGameScore), for: .normal)
         default:
-            updateYourCurrentGameScoreFromModel()
-            updateOpponentCurrentGameScoreFromModel()
+            updatePlayerOneGameScoreFromModel()
+            updatePlayerTwoGameScoreFromModel()
         }
     }
     
-    func updateYourCurrentGameScoreFromModel() {
+    func updatePlayerOneGameScoreFromModel() {
         switch currentGame.playerOneGameScore {
         case 0:
             leftSideGameScoreButton.setTitle("Love", for: .normal)
@@ -270,7 +289,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         }
     }
     
-    func updateOpponentCurrentGameScoreFromModel() {
+    func updatePlayerTwoGameScoreFromModel() {
         switch currentGame.playerTwoGameScore {
         case 0:
             rightSideGameScoreButton.setTitle("Love", for: .normal)
@@ -305,6 +324,45 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     func updateMatchScoresFromModel() {
         leftSideMatchScoreLabel.text = "Match score: \(currentMatch.playerOneMatchScore)"
         rightSideMatchScoreLabel.text = "Match score: \(currentMatch.playerTwoMatchScore)"
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        DispatchQueue.main.async {
+            if let maximumNumberOfSetsInMatch = message["match length"] {
+                self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch as! Int
+            } else if let typeOfSet = message["set type"] {
+                switch typeOfSet as! String {
+                case "Advantage set":
+                    self.typeOfSet = .advantage
+                default:
+                    self.typeOfSet = .tiebreak
+                }
+            } else if let firstServer = message["first server"] {
+                switch firstServer as! String {
+                case "player one":
+                    let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, playerThatWillServeFirst: .one)
+                    self.scoreManager = ScoreManager(match)
+                case "player two":
+                    let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, playerThatWillServeFirst: .two)
+                    self.scoreManager = ScoreManager(match)
+                default:
+                    break
+                }
+            } else if message["start"] != nil {
+                self.startScoring()
+            } else if let scorePoint = message["score point"] {
+                switch scorePoint as! String {
+                case "player one":
+                    self.currentMatch.scorePointForPlayerOneInCurrentGame()
+                    self.updateLabelsFromModel()
+                case "player two":
+                    self.currentMatch.scorePointForPlayerTwoInCurrentGame()
+                    self.updateLabelsFromModel()
+                default:
+                    break
+                }
+            }
+        }
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
