@@ -66,10 +66,13 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             session = WCSession.default()
             session.delegate = self
             session.activate()
-            session.sendMessage(["start new match" : "reset"], replyHandler: nil)
         }
         
         WKExtension.shared().isFrontmostTimeoutExtended = true
+    }
+    
+    override func didDeactivate() {
+        session.sendMessage(["end match" : "reset"], replyHandler: nil)
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {

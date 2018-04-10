@@ -147,18 +147,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     @IBAction func stopMatch(_ sender: Any) {
-        endMatchButton.isEnabled = false
-        startMatchButton.isEnabled = true
-        changeMatchLengthSegmentedControl.isHidden = false
-        setTypeSegmentedControl.isHidden = false
-        leftSideServingStatusLabel.isHidden = true
-        leftSideGameScoreButton.isHidden = true
-        leftSideSetScoreLabel.isHidden = true
-        leftSideMatchScoreLabel.isHidden = true
-        rightSideServingStatusLabel.isHidden = true
-        rightSideGameScoreButton.isHidden = true
-        rightSideSetScoreLabel.isHidden = true
-        rightSideMatchScoreLabel.isHidden = true
+        updateLabelsForEndOfMatch()
     }
     
     @IBAction func scorePointForLeftSide(_ sender: Any) {
@@ -237,6 +226,21 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             rightSideGameScoreButton.isEnabled = false
             endMatchButton.style = .done
         }
+    }
+    
+    func updateLabelsForEndOfMatch() {
+        endMatchButton.isEnabled = false
+        startMatchButton.isEnabled = true
+        changeMatchLengthSegmentedControl.isHidden = false
+        setTypeSegmentedControl.isHidden = false
+        leftSideServingStatusLabel.isHidden = true
+        leftSideGameScoreButton.isHidden = true
+        leftSideSetScoreLabel.isHidden = true
+        leftSideMatchScoreLabel.isHidden = true
+        rightSideServingStatusLabel.isHidden = true
+        rightSideGameScoreButton.isHidden = true
+        rightSideSetScoreLabel.isHidden = true
+        rightSideMatchScoreLabel.isHidden = true
     }
     
     func updateServingLabelsFromModel() {
@@ -361,6 +365,8 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
                 default:
                     break
                 }
+            } else if message["end match"] != nil {
+                self.updateLabelsForEndOfMatch()
             }
         }
     }

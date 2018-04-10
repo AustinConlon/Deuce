@@ -14,7 +14,22 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKC
     // MARK: Properties
     var session: WCSession!
     
-    var maximumNumberOfSetsInMatch = 1 // Default match length is 1 set, other options are a best-of 3 and best-of 5 series.
+    var maximumNumberOfSetsInMatch = 1 { // Default match length is 1 set, other options are a best-of 3 and best-of 5 series.
+        didSet {
+//            switch maximumNumberOfSetsInMatch {
+//            case 3:
+//                matchLengthSlider.setValue(3)
+//                matchLengthLabel.setText("Best-of three sets")
+//            case 5:
+//                matchLengthSlider.setValue(5)
+//                matchLengthLabel.setText("Best-of five sets")
+//            default:
+//                matchLengthSlider.setValue(1)
+//                matchLengthLabel.setText("One set")
+//            }
+//            updateLabelForTypeOfSet()
+        }
+    }
     var typeOfSet: TypeOfSet?
     
     @IBOutlet var matchLengthLabel: WKInterfaceLabel!
@@ -122,5 +137,29 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKC
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) { }
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        DispatchQueue.main.async {
+            if let maximumNumberOfSetsInMatch = message["match length"] {
+                self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch as! Int
+                switch self.maximumNumberOfSetsInMatch {
+                case 3:
+                    self.matchLengthSlider(3)
+                    self.matchLengthSlider.setValue(3)
+                case 5:
+                    self.matchLengthSlider(5)
+                    self.matchLengthSlider.setValue(5)
+                default:
+                    self.matchLengthSlider(1)
+                    self.matchLengthSlider.setValue(1)
+                }
+            } else if let typeOfSet = message["set type"] {
+                switch typeOfSet as! String {
+                case "Advantage set":
+                    self.typeOfSet = .advantage
+                default:
+                    self.typeOfSet = .tiebreak
+                }
+            }
+        }
+    }
 }
