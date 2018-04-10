@@ -122,10 +122,10 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         switch sender.selectedSegmentIndex {
         case 0:
             typeOfSet = .tiebreak
-            session?.sendMessage(["set type" : "Tiebreaker set"], replyHandler: nil)
+            session?.sendMessage(["type of set" : "tiebreak"], replyHandler: nil)
         case 1:
             typeOfSet = .advantage
-            session?.sendMessage(["set type" : "Advantage set"], replyHandler: nil)
+            session?.sendMessage(["type of set" : "advantage"], replyHandler: nil)
         default:
             break
         }
@@ -334,12 +334,14 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         DispatchQueue.main.async {
             if let maximumNumberOfSetsInMatch = message["match length"] {
                 self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch as! Int
-            } else if let typeOfSet = message["set type"] {
+            } else if let typeOfSet = message["type of set"] {
                 switch typeOfSet as! String {
-                case "Advantage set":
+                case "advantage":
                     self.typeOfSet = .advantage
+                    self.setTypeSegmentedControl.selectedSegmentIndex = 1
                 default:
                     self.typeOfSet = .tiebreak
+                    self.setTypeSegmentedControl.selectedSegmentIndex = 0
                 }
             } else if let firstServer = message["first server"] {
                 switch firstServer as! String {

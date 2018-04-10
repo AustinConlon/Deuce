@@ -14,22 +14,8 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKC
     // MARK: Properties
     var session: WCSession!
     
-    var maximumNumberOfSetsInMatch = 1 { // Default match length is 1 set, other options are a best-of 3 and best-of 5 series.
-        didSet {
-//            switch maximumNumberOfSetsInMatch {
-//            case 3:
-//                matchLengthSlider.setValue(3)
-//                matchLengthLabel.setText("Best-of three sets")
-//            case 5:
-//                matchLengthSlider.setValue(5)
-//                matchLengthLabel.setText("Best-of five sets")
-//            default:
-//                matchLengthSlider.setValue(1)
-//                matchLengthLabel.setText("One set")
-//            }
-//            updateLabelForTypeOfSet()
-        }
-    }
+    var maximumNumberOfSetsInMatch = 1 // Default match length is 1 set, other options are a best-of 3 and best-of 5 series.
+        
     var typeOfSet: TypeOfSet?
     
     @IBOutlet var matchLengthLabel: WKInterfaceLabel!
@@ -98,14 +84,14 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKC
         typeOfSet = .advantage
         updateLabelForTypeOfSet()
         startButton.setHidden(false)
-        session.sendMessage(["set type" : "Advantage set"], replyHandler: nil)
+        session.sendMessage(["type of set" : "advantage"], replyHandler: nil)
     }
     
     @IBAction func chooseTypeOfSetToBeTiebreak() {
         typeOfSet = .tiebreak
         updateLabelForTypeOfSet()
         startButton.setHidden(false)
-        session.sendMessage(["set type" : "Tiebreaker set"], replyHandler: nil)
+        session.sendMessage(["type of set" : "tiebreak"], replyHandler: nil)
     }
     
     @IBAction func start() {
@@ -152,9 +138,9 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKC
                     self.matchLengthSlider(1)
                     self.matchLengthSlider.setValue(1)
                 }
-            } else if let typeOfSet = message["set type"] {
+            } else if let typeOfSet = message["type of set"] {
                 switch typeOfSet as! String {
-                case "Advantage set":
+                case "advantage":
                     self.typeOfSet = .advantage
                 default:
                     self.typeOfSet = .tiebreak
