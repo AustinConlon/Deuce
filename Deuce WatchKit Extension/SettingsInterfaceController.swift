@@ -10,7 +10,7 @@ import WatchKit
 import Foundation
 import WatchConnectivity
 
-class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKCrownDelegate {
+class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     // MARK: Properties
     var session: WCSession!
     
@@ -25,7 +25,7 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKC
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
-        crownSequencer.delegate = self
+        session.sendMessage(["end match" : "reset"], replyHandler: nil)
     }
 
     override func willActivate() {
