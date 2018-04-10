@@ -115,8 +115,10 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate, WKC
         switch MatchManager.coinTossWinner {
         case .one:
             coinTossWinner = "You"
+            WKInterfaceDevice.current().play(.success)
         case .two:
             coinTossWinner = "Your opponent"
+            WKInterfaceDevice.current().play(.failure)
         }
         presentAlert(withTitle: "\(coinTossWinner) won the coin toss.", message: "Who will serve first?", preferredStyle: .actionSheet, actions: [chooseOpponentToServeFirst, chooseYourselfToServeFirst])
     }
