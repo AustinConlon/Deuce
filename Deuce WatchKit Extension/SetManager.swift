@@ -14,7 +14,7 @@ enum TypeOfSet {
 
 class SetManager {
     let minimumNumbersOfGamesToWinSet = 6
-    static var typeOfSet: TypeOfSet?
+    static var typeOfSet: TypeOfSet = .tiebreak
     
     // Number of games you and your opponent won.
     var setScore: (serverScore: Int, receiverScore: Int) = (0, 0)
@@ -46,6 +46,7 @@ class SetManager {
             }
         }
     }
+    
     var setEnded = false
     
     var games = [GameManager]() {

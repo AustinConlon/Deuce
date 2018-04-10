@@ -16,7 +16,7 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     var maximumNumberOfSetsInMatch = 1 // Default match length is 1 set, other options are a best-of 3 and best-of 5 series.
         
-    var typeOfSet: TypeOfSet?
+    var typeOfSet: TypeOfSet = .tiebreak
     
     @IBOutlet var matchLengthLabel: WKInterfaceLabel!
     @IBOutlet var matchLengthSlider: WKInterfaceSlider!
@@ -44,25 +44,22 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     func updateLabelForTypeOfSet() {
-        if typeOfSet == nil {
-            switch maximumNumberOfSetsInMatch {
-            case 1:
-                typeOfSetLabel.setText("Type of set")
-            default:
-                typeOfSetLabel.setText("Type of sets")
-            }
+        switch maximumNumberOfSetsInMatch {
+        case 1:
+            typeOfSetLabel.setText("Type of set")
+        default:
+            typeOfSetLabel.setText("Type of sets")
         }
+        
         switch (maximumNumberOfSetsInMatch, typeOfSet) {
-        case (1, .advantage?):
+        case (1, .advantage):
             typeOfSetLabel.setText("Advantage set")
-        case (1, .tiebreak?):
+        case (1, .tiebreak):
             typeOfSetLabel.setText("Tiebreak set")
-        case (_, .advantage?):
+        case (_, .advantage):
             typeOfSetLabel.setText("Advantage sets")
-        case (_, .tiebreak?):
+        case (_, .tiebreak):
             typeOfSetLabel.setText("Tiebreak sets")
-        case (_, .none):
-            break
         }
     }
 
@@ -99,7 +96,7 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
             self.session.sendMessage(["first server": "player two"], replyHandler: nil, errorHandler: nil)
             self.session.sendMessage(["start": "new match"], replyHandler: nil, errorHandler: nil)
             self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil)
-            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet!, playerThatWillServeFirst: .two)
+            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, playerThatWillServeFirst: .two)
             self.presentController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
@@ -107,7 +104,7 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
             self.session.sendMessage(["first server": "player one"], replyHandler: nil, errorHandler: nil)
             self.session.sendMessage(["start": "new match"], replyHandler: nil, errorHandler: nil)
             self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil)
-            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet!, playerThatWillServeFirst: .one)
+            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, playerThatWillServeFirst: .one)
             self.presentController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
