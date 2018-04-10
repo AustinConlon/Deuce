@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14111" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -35,13 +35,9 @@
                         <button width="1" height="23" alignment="left" title="Tiebreak" id="3DW-gV-pSx">
                             <color key="titleColor" red="0.015686274510000001" green="0.87058823529999996" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="backgroundColor" red="0.015686274510000001" green="0.87058823529999996" blue="0.4431372549" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
-                            <variation key="device=watch38mm" height="23">
-                                <fontDescription key="font" type="system" pointSize="16"/>
-                            </variation>
-                            <variation key="device=watch42mm" height="29">
-                                <fontDescription key="font" type="system" pointSize="17"/>
-                            </variation>
+                            <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                            <variation key="device=watch38mm" height="23"/>
+                            <variation key="device=watch42mm" height="29"/>
                             <connections>
                                 <action selector="chooseTypeOfSetToBeTiebreak" destination="AgC-eL-Hgc" id="2tz-d8-BXd"/>
                             </connections>
@@ -49,27 +45,19 @@
                         <button width="1" height="23" alignment="center" title="Advantage" id="HO4-aS-sOc">
                             <color key="titleColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="backgroundColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
-                            <variation key="device=watch38mm" height="23">
-                                <fontDescription key="font" type="system" pointSize="16"/>
-                            </variation>
-                            <variation key="device=watch42mm" height="29">
-                                <fontDescription key="font" type="system" pointSize="17"/>
-                            </variation>
+                            <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                            <variation key="device=watch38mm" height="23"/>
+                            <variation key="device=watch42mm" height="29"/>
                             <connections>
                                 <action selector="chooseTypeOfSetToBeAdvantage" destination="AgC-eL-Hgc" id="h34-Ew-nEY"/>
                             </connections>
                         </button>
-                        <button width="1" height="23" alignment="left" verticalAlignment="bottom" hidden="YES" title="Start" id="Rvm-Qn-Mwd">
+                        <button width="1" height="23" alignment="left" verticalAlignment="bottom" title="Coin Toss" id="Rvm-Qn-Mwd">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="backgroundColor" red="0.41960784313725491" green="0.8784313725490196" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="font" type="system" weight="semibold" pointSize="21"/>
-                            <variation key="device=watch38mm" height="23">
-                                <fontDescription key="font" type="system" weight="semibold" pointSize="18"/>
-                            </variation>
-                            <variation key="device=watch42mm" height="29">
-                                <fontDescription key="font" type="system" weight="semibold" pointSize="19"/>
-                            </variation>
+                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                            <variation key="device=watch38mm" height="23"/>
+                            <variation key="device=watch42mm" height="29"/>
                             <connections>
                                 <action selector="start" destination="AgC-eL-Hgc" id="bu2-8w-Xby"/>
                             </connections>

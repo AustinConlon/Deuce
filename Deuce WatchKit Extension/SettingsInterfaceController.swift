@@ -25,17 +25,17 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
+        if (WCSession.isSupported()) {
+            session = WCSession.default()
+            session.delegate = self
+            session.activate()
+        }
         session.sendMessage(["end match" : "reset"], replyHandler: nil)
     }
 
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        if (WCSession.isSupported()) {
-            session = WCSession.default()
-            session.delegate = self
-            session.activate()
-        }
     }
 
     override func didDeactivate() {
@@ -147,6 +147,8 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
                 default:
                     self.typeOfSet = .tiebreak
                 }
+                self.updateLabelForTypeOfSet()
+                self.startButton.setHidden(false)
             }
         }
     }
