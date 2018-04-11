@@ -11,8 +11,6 @@ import Foundation
 import WatchConnectivity
 
 class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
-    
     // MARK: Properties
     var session: WCSession!
     var scoreManager: ScoreManager?
@@ -69,6 +67,12 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
         
         WKExtension.shared().isFrontmostTimeoutExtended = true
+    }
+    
+    override func willDisappear() {
+        session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
+            print(Error)
+        })
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
@@ -301,5 +305,11 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
                 WKInterfaceDevice.current().play(.start)
             }
         }
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        
     }
 }

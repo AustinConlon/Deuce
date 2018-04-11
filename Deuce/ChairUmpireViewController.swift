@@ -32,6 +32,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             return scoreManager!.currentMatch
         }
     }
+    
     var maximumNumberOfSetsInMatch = 1 { // Matches are 1 set, best-of 3 sets, or best-of 5 sets.
         didSet {
             switch maximumNumberOfSetsInMatch {
@@ -44,6 +45,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             }
         }
     }
+    
     var typeOfSet: TypeOfSet = .tiebreak { // Tiebreak sets are more commonly played.
         didSet {
             switch typeOfSet {
@@ -54,6 +56,8 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             }
         }
     }
+    
+    var playerThatWillServeFirst: Player?
     
     @IBOutlet weak var startMatchButton: UIBarButtonItem!
     @IBOutlet weak var endMatchButton: UIBarButtonItem!
@@ -171,24 +175,24 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         }
         let alert = UIAlertController(title: "Coin Toss", message: coinTossResult, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Left Player", style: .default, handler: { _ in
-            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, playerThatWillServeFirst: .one)
-            self.scoreManager = ScoreManager(match)
+            self.playerThatWillServeFirst = .one
             self.startScoring()
         }))
         alert.addAction(UIAlertAction(title: "Right Player", style: .default, handler: { _ in
-            let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, playerThatWillServeFirst: .two)
-            self.scoreManager = ScoreManager(match)
+            self.playerThatWillServeFirst = .two
             self.startScoring()
         }))
         self.present(alert, animated: true, completion: nil)
     }
     
     func startScoring() {
+        let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, self.playerThatWillServeFirst!)
+        self.scoreManager = ScoreManager(match)
+        updateLabelsFromModel()
         changeMatchLengthSegmentedControl.isHidden = true
         setTypeSegmentedControl.isHidden = true
         startMatchButton.isEnabled = false
         endMatchButton.isEnabled = true
-        updateLabelsFromModel()
         leftSideGameScoreButton.isEnabled = true
         leftSideGameScoreButton.isHidden = false
         leftSideSetScoreLabel.isHidden = false
@@ -346,11 +350,9 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             } else if let firstServer = message["first server"] {
                 switch firstServer as! String {
                 case "player one":
-                    let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, playerThatWillServeFirst: .one)
-                    self.scoreManager = ScoreManager(match)
+                    self.playerThatWillServeFirst = .one
                 case "player two":
-                    let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, playerThatWillServeFirst: .two)
-                    self.scoreManager = ScoreManager(match)
+                    self.playerThatWillServeFirst = .two
                 default:
                     break
                 }
@@ -369,6 +371,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
                 }
             } else if message["end match"] != nil {
                 self.updateLabelsForEndOfMatch()
+                self.startMatchButton.isEnabled = false
             }
         }
     }
