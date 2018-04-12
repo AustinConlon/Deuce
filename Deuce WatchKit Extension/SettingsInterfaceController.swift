@@ -23,16 +23,25 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var typeOfSetLabel: WKInterfaceLabel!
     @IBOutlet var startButton: WKInterfaceButton!
     
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-    }
-    
-    override func didAppear() {
+    override init() {
+        super.init()
         if (WCSession.isSupported()) {
             session = WCSession.default()
             session.delegate = self
             session.activate()
         }
+    }
+    
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+    }
+    
+    override func didAppear() {
+//        if (WCSession.isSupported()) {
+//            session = WCSession.default()
+//            session.delegate = self
+//            session.activate()
+//        }
     }
 
     override func willActivate() {
@@ -101,9 +110,9 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBAction func start() {
         let chooseOpponentToServeFirst = WKAlertAction(title: "Opponent", style: .`default`) {
-            self.session.sendMessage(["first server": "player two"], replyHandler: nil, errorHandler: { Error in
+            self.session.sendMessage(["first server": "player two"], replyHandler: nil) { Error in
                 print(Error)
-            })
+            }
             self.session.sendMessage(["start": "new match"], replyHandler: nil, errorHandler: { Error in
                 print(Error)
             })
@@ -144,31 +153,29 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        DispatchQueue.main.async {
-            if let maximumNumberOfSetsInMatch = message["match length"] {
-                self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch as! Int
-                switch self.maximumNumberOfSetsInMatch {
-                case 3:
-                    self.matchLengthSlider(3)
-                    self.matchLengthSlider.setValue(3)
-                case 5:
-                    self.matchLengthSlider(5)
-                    self.matchLengthSlider.setValue(5)
-                default:
-                    self.matchLengthSlider(1)
-                    self.matchLengthSlider.setValue(1)
-                }
-            } else if let typeOfSet = message["type of set"] {
-                switch typeOfSet as! String {
-                case "advantage":
-                    self.typeOfSet = .advantage
-                default:
-                    self.typeOfSet = .tiebreak
-                }
-                self.updateLabelForTypeOfSet()
-                self.startButton.setHidden(false)
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        if let maximumNumberOfSetsInMatch = applicationContext["match length"] {
+            self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch as! Int
+            switch self.maximumNumberOfSetsInMatch {
+            case 3:
+                self.matchLengthSlider(3)
+                self.matchLengthSlider.setValue(3)
+            case 5:
+                self.matchLengthSlider(5)
+                self.matchLengthSlider.setValue(5)
+            default:
+                self.matchLengthSlider(1)
+                self.matchLengthSlider.setValue(1)
             }
+        } else if let typeOfSet = applicationContext["type of set"] {
+            switch typeOfSet as! String {
+            case "advantage":
+                self.typeOfSet = .advantage
+            default:
+                self.typeOfSet = .tiebreak
+            }
+            self.updateLabelForTypeOfSet()
+            self.startButton.setHidden(false)
         }
     }
 }

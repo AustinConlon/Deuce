@@ -54,25 +54,28 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var columnFiveYourSetScoreLabel: WKInterfaceLabel!
     @IBOutlet var columnFiveOpponentSetScoreLabel: WKInterfaceLabel!
     
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-        let context = context as? MatchManager
-        scoreManager = ScoreManager(context!)
-        updateLabelsFromModel()
-
+    override init() {
+        super.init()
         if (WCSession.isSupported()) {
             session = WCSession.default()
             session.delegate = self
             session.activate()
         }
-        
         WKExtension.shared().isFrontmostTimeoutExtended = true
+    }
+    
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+        let context = context as? MatchManager
+        scoreManager = ScoreManager(context!)
+        updateLabelsFromModel()
     }
     
     override func willDisappear() {
         session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
             print(Error)
         })
+        WKExtension.shared().isFrontmostTimeoutExtended = false
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
@@ -313,9 +316,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         DispatchQueue.main.async {
-            if let scorePoint = message["score point"] {
+            if let scorePoint = applicationContext["score point"] {
                 switch scorePoint as! String {
                 case "player one":
                     self.currentMatch.scorePointForPlayerOneInCurrentGame()
@@ -326,7 +329,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
                 }
                 self.playHaptic()
                 self.updateLabelsFromModel()
-            } else if message["end match"] != nil {
+            } else if applicationContext["end match"] != nil {
                 self.pop()
             }
         }

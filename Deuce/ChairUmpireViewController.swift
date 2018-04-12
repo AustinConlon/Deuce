@@ -119,23 +119,29 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         default:
             maximumNumberOfSetsInMatch = 1
         }
-        session.sendMessage(["match length" : maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
-            print(Error)
-        })
+        do {
+            try session.updateApplicationContext(["match length" : maximumNumberOfSetsInMatch])
+        } catch {
+            print(error)
+        }
     }
     
     @IBAction func changeTypeOfSet(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             typeOfSet = .tiebreak
-            session.sendMessage(["type of set" : "tiebreak"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
+            do {
+                try session.updateApplicationContext(["type of set" : "tiebreak"])
+            } catch {
+                print(error)
+            }
         case 1:
             typeOfSet = .advantage
-            session.sendMessage(["type of set" : "advantage"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
+            do {
+                try session.updateApplicationContext(["type of set" : "advantage"])
+            } catch {
+                print(error)
+            }
         default:
             break
         }
@@ -143,9 +149,11 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     @IBAction func startMatch(_ sender: Any) {
         if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone {
-            session.sendMessage(["start" : "new match"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
+            do {
+                try session.updateApplicationContext(["start" : "new match"])
+            } catch {
+                print(error)
+            }
             if session.isWatchAppInstalled {
                 leftSideGameScoreButton.isHidden = true
                 rightSideGameScoreButton.isHidden = true
@@ -163,9 +171,11 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             let alert = UIAlertController(title: "End Match", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .destructive, handler: { _ in
-                self.session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
-                    print(Error)
-                })
+                do {
+                    try self.session.updateApplicationContext(["end match" : "reset"])
+                } catch {
+                    print(error)
+                }
                 self.updateLabelsForEndOfMatch()
             }))
             self.present(alert, animated: true, completion: nil)
@@ -175,17 +185,21 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        session.sendMessage(["score point" : "player one"], replyHandler: nil, errorHandler: { Error in
-            print(Error)
-        })
+        do {
+            try self.session.updateApplicationContext(["score point" : "player one"])
+        } catch {
+            print(error)
+        }
         currentMatch.scorePointForPlayerOneInCurrentGame()
         updateLabelsFromModel()
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        session.sendMessage(["score point" : "player two"], replyHandler: nil, errorHandler: { Error in
-            print(Error)
-        })
+        do {
+            try self.session.updateApplicationContext(["score point" : "player two"])
+        } catch {
+            print(error)
+        }
         currentMatch.scorePointForPlayerTwoInCurrentGame()
         updateLabelsFromModel()
     }
