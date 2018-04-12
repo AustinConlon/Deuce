@@ -381,6 +381,8 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
                     break
                 }
             } else if message["start"] != nil {
+                self.leftSideGameScoreButton.setTitleColor(UIColor(red: 0.35, green: 0.78, blue: 0.98, alpha: 1.0), for: .normal)
+                self.rightSideGameScoreButton.setTitleColor(UIColor(red: 1.00, green: 0.23, blue: 0.19, alpha: 1.0), for: .normal)
                 self.startScoring()
             } else if let scorePoint = message["score point"] {
                 switch scorePoint as! String {

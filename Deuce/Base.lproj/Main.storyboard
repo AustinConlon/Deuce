@@ -58,7 +58,7 @@
                                 <rect key="frame" x="23" y="240.5" width="106" height="70"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="48"/>
                                 <state key="normal" title="Love">
-                                    <color key="titleColor" red="0.3524015546" green="0.78345412020000005" blue="0.97859376669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.26666666666666666" green="0.78431372549019607" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="scorePointForPlayerOne:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pJs-AB-Vv8"/>
@@ -86,7 +86,7 @@
                                 <rect key="frame" x="246.5" y="240.5" width="106" height="70"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="48"/>
                                 <state key="normal" title="Love">
-                                    <color key="titleColor" red="0.3524015546" green="0.78345412020000005" blue="0.97859376669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.26666666666666666" green="0.78431372549019607" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="scorePointForPlayerTwo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f5u-fO-OLI"/>
