@@ -59,6 +59,81 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     var playerThatWillServeFirst: Player?
     
+    // Properties for displaying the score to be easily read in the navigation bar.
+    var serverScore: String {
+        get {
+            if currentGame.server == Player.one {
+                return playerOneGameScore
+            } else {
+                return playerTwoGameScore
+            }
+        }
+    }
+    
+    var receiverScore: String {
+        get {
+            if currentGame.server == Player.one {
+                return playerTwoGameScore
+            } else {
+                return playerOneGameScore
+            }
+        }
+    }
+    
+    var playerOneGameScore: String {
+        get {
+            switch currentGame.playerOneGameScore {
+            case 0:
+                return "Love"
+            case 15, 30:
+                return String(currentGame.playerOneGameScore)
+            case 40:
+                if currentGame.playerTwoGameScore < 40 {
+                    return String(currentGame.playerOneGameScore)
+                } else if currentGame.playerTwoGameScore == 40 {
+                    return "Deuce"
+                }
+            default: // Alternating advantage and deuce situations.
+                if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
+                    if currentGame.server == .one {
+                        return "Ad in"
+                    } else if currentGame.server == .two {
+                        return "Ad out"
+                    }
+                } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
+                    return "Deuce"
+                }
+            }
+            return ""
+        }
+    }
+    
+    var playerTwoGameScore: String {
+        switch currentGame.playerTwoGameScore {
+        case 0:
+            return "Love"
+        case 15, 30:
+            return String(currentGame.playerTwoGameScore)
+        case 40:
+            if currentGame.playerOneGameScore < 40 {
+                return String(currentGame.playerTwoGameScore)
+            } else if currentGame.playerOneGameScore == 40 {
+                return "Deuce"
+            }
+        default: // Alternating advantage and deuce situations.
+            if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
+                if currentGame.server == .two {
+                    return "Ad in"
+                } else if currentGame.server == .one {
+                    return "Ad out"
+                }
+            } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
+                return "Deuce"
+            }
+        }
+        return ""
+    }
+    
     @IBOutlet weak var startMatchButton: UIBarButtonItem!
     @IBOutlet weak var endMatchButton: UIBarButtonItem!
     @IBOutlet weak var changeMatchLengthSegmentedControl: UISegmentedControl!
@@ -68,13 +143,11 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     @IBOutlet weak var leftSideGameScoreButton: UIButton!
     @IBOutlet weak var leftSideSetScoreLabel: UILabel!
     @IBOutlet weak var leftSideMatchScoreLabel: UILabel!
-    @IBOutlet weak var leftSideStartsWithPairedWatch: UIButton!
     
     @IBOutlet weak var rightSideServingStatusLabel: UILabel!
     @IBOutlet weak var rightSideGameScoreButton: UIButton!
     @IBOutlet weak var rightSideSetScoreLabel: UILabel!
     @IBOutlet weak var rightSideMatchScoreLabel: UILabel!
-    @IBOutlet weak var rightSideStartsWithPairedWatch: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -250,6 +323,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     func updateLabelsFromModel() {
         updateServingLabelsFromModel()
+        updateNavigationBarGameScoreFromModel()
         updateGameScoresFromModel()
         updateSetScoresFromModel()
         updateMatchScoresFromModel()
@@ -283,6 +357,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         rightSideGameScoreButton.isHidden = true
         rightSideSetScoreLabel.isHidden = true
         rightSideMatchScoreLabel.isHidden = true
+        title = "Chair Umpire"
     }
     
     func updateServingLabelsFromModel() {
@@ -294,6 +369,18 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         case .two:
             leftSideServingStatusLabel.isHidden = true
             rightSideServingStatusLabel.isHidden = false
+        }
+    }
+    
+    func updateNavigationBarGameScoreFromModel() {
+        if serverScore == "Deuce" {
+            title = "Deuce"
+        } else if serverScore == "Ad in" || receiverScore == "Ad in" {
+            title = "Advantage in"
+        } else if serverScore == "Ad out" || receiverScore == "Ad out" {
+            title = "Advantage out"
+        } else {
+            title = "\(serverScore)-\(receiverScore)"
         }
     }
     
@@ -309,56 +396,18 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     func updatePlayerOneGameScoreFromModel() {
-        switch currentGame.playerOneGameScore {
-        case 0:
-            leftSideGameScoreButton.setTitle("Love", for: .normal)
-        case 15, 30:
-            leftSideGameScoreButton.setTitle(String(currentGame.playerOneGameScore), for: .normal)
-        case 40:
-            if currentGame.playerTwoGameScore < 40 {
-                leftSideGameScoreButton.setTitle(String(currentGame.playerOneGameScore), for: .normal)
-            } else if currentGame.playerTwoGameScore == 40 {
-                leftSideGameScoreButton.setTitle("Deuce", for: .normal)
-            }
-        default: // Alternating advantage and deuce situations.
-            if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
-                if currentGame.server == .one {
-                    leftSideGameScoreButton.setTitle("Ad in", for: .normal)
-                    rightSideGameScoreButton.setTitle("🎾", for: .normal)
-                } else if currentGame.server == .two {
-                    leftSideGameScoreButton.setTitle("Ad out", for: .normal)
-                    rightSideGameScoreButton.setTitle("🎾", for: .normal)
-                }
-            } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
-                leftSideGameScoreButton.setTitle("Deuce", for: .normal)
-            }
+        if playerTwoGameScore == "Ad in" || playerTwoGameScore == "Ad out" {
+            leftSideGameScoreButton.setTitle("🎾", for: .normal)
+        } else {
+            leftSideGameScoreButton.setTitle(playerOneGameScore, for: .normal)
         }
     }
     
     func updatePlayerTwoGameScoreFromModel() {
-        switch currentGame.playerTwoGameScore {
-        case 0:
-            rightSideGameScoreButton.setTitle("Love", for: .normal)
-        case 15, 30:
-            rightSideGameScoreButton.setTitle(String(currentGame.playerTwoGameScore), for: .normal)
-        case 40:
-            if currentGame.playerOneGameScore < 40 {
-                rightSideGameScoreButton.setTitle(String(currentGame.playerTwoGameScore), for: .normal)
-            } else if currentGame.playerOneGameScore == 40 {
-                rightSideGameScoreButton.setTitle("Deuce", for: .normal)
-            }
-        default: // Alternating advantage and deuce situations.
-            if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
-                if currentGame.server == .two {
-                    leftSideGameScoreButton.setTitle("🎾", for: .normal)
-                    rightSideGameScoreButton.setTitle("Ad in", for: .normal)
-                } else if currentGame.server == .one {
-                    leftSideGameScoreButton.setTitle("🎾", for: .normal)
-                    rightSideGameScoreButton.setTitle("Ad out", for: .normal)
-                }
-            } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
-                rightSideGameScoreButton.setTitle("Deuce", for: .normal)
-            }
+        if playerOneGameScore == "Ad in" || playerOneGameScore == "Ad out" {
+            rightSideGameScoreButton.setTitle("🎾", for: .normal)
+        } else {
+            rightSideGameScoreButton.setTitle(playerTwoGameScore, for: .normal)
         }
     }
     
@@ -411,6 +460,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             } else if message["end match"] != nil {
                 self.updateLabelsForEndOfMatch()
                 self.startMatchButton.isEnabled = false
+                self.title = "Chair Umpire"
             }
         }
     }
