@@ -23,15 +23,7 @@
 	<key>CLKComplicationPrincipalClass</key>
 	<string>ComplicationController</string>
 	<key>CLKComplicationSupportedFamilies</key>
-	<array>
-		<string>CLKComplicationFamilyModularSmall</string>
-		<string>CLKComplicationFamilyModularLarge</string>
-		<string>CLKComplicationFamilyUtilitarianSmall</string>
-		<string>CLKComplicationFamilyUtilitarianLarge</string>
-		<string>CLKComplicationFamilyCircularSmall</string>
-		<string>CLKComplicationFamilyUtilitarianSmallFlat</string>
-		<string>CLKComplicationFamilyExtraLarge</string>
-	</array>
+	<array/>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
