@@ -100,7 +100,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         super.init(coder: aDecoder)!
         if (WCSession.isSupported()) {
             session = WCSession.default()
-            session.delegate = self // Conforms to WCSessionDelegate.
+            session.delegate = self
             session.activate()
         }
     }
@@ -119,17 +119,23 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         default:
             maximumNumberOfSetsInMatch = 1
         }
-        session?.sendMessage(["match length" : maximumNumberOfSetsInMatch], replyHandler: nil)
+        session.sendMessage(["match length" : maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
+            print(Error)
+        })
     }
     
     @IBAction func changeTypeOfSet(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             typeOfSet = .tiebreak
-            session?.sendMessage(["type of set" : "tiebreak"], replyHandler: nil)
+            session.sendMessage(["type of set" : "tiebreak"], replyHandler: nil, errorHandler: { Error in
+                print(Error)
+            })
         case 1:
             typeOfSet = .advantage
-            session?.sendMessage(["type of set" : "advantage"], replyHandler: nil)
+            session.sendMessage(["type of set" : "advantage"], replyHandler: nil, errorHandler: { Error in
+                print(Error)
+            })
         default:
             break
         }
@@ -137,36 +143,54 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     @IBAction func startMatch(_ sender: Any) {
         if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone {
-            session.sendMessage(["start" : "new match"], replyHandler: nil)
+            session.sendMessage(["start" : "new match"], replyHandler: nil, errorHandler: { Error in
+                print(Error)
+            })
             if session.isWatchAppInstalled {
                 leftSideGameScoreButton.isHidden = true
                 rightSideGameScoreButton.isHidden = true
             } else {
-                askToSelectStartingServer()
+                coinToss()
             }
         }
         if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
-            askToSelectStartingServer()
+            coinToss()
         }
     }
     
     @IBAction func stopMatch(_ sender: Any) {
-        updateLabelsForEndOfMatch()
+        if currentMatch.matchEnded == false {
+            let alert = UIAlertController(title: "End Match", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .destructive, handler: { _ in
+                self.session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
+                    print(Error)
+                })
+                self.updateLabelsForEndOfMatch()
+            }))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            updateLabelsForEndOfMatch()
+        }
     }
     
-    @IBAction func scorePointForLeftSide(_ sender: Any) {
+    @IBAction func scorePointForPlayerOne(_ sender: Any) {
+        session.sendMessage(["score point" : "player one"], replyHandler: nil, errorHandler: { Error in
+            print(Error)
+        })
         currentMatch.scorePointForPlayerOneInCurrentGame()
         updateLabelsFromModel()
-        session?.sendMessage(["scored" : "first player"], replyHandler: nil)
     }
     
-    @IBAction func scorePointForRightSide(_ sender: Any) {
+    @IBAction func scorePointForPlayerTwo(_ sender: Any) {
+        session.sendMessage(["score point" : "player two"], replyHandler: nil, errorHandler: { Error in
+            print(Error)
+        })
         currentMatch.scorePointForPlayerTwoInCurrentGame()
         updateLabelsFromModel()
-        session?.sendMessage(["scored" : "second player"], replyHandler: nil)
     }
     
-    func askToSelectStartingServer() {
+    func coinToss() {
         let coinTossResult: String
         if ((arc4random_uniform(2)) == 0) {
             coinTossResult = "The player starting on your left side won the coin toss. Select their choice of who will serve first."
@@ -362,13 +386,12 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
                 switch scorePoint as! String {
                 case "player one":
                     self.currentMatch.scorePointForPlayerOneInCurrentGame()
-                    self.updateLabelsFromModel()
                 case "player two":
                     self.currentMatch.scorePointForPlayerTwoInCurrentGame()
-                    self.updateLabelsFromModel()
                 default:
                     break
                 }
+                self.updateLabelsFromModel()
             } else if message["end match"] != nil {
                 self.updateLabelsForEndOfMatch()
                 self.startMatchButton.isEnabled = false

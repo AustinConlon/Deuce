@@ -111,7 +111,8 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
                 print(Error)
             })
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .two)
-            self.presentController(withName: "scoreboard", context: match)
+//            self.presentController(withName: "scoreboard", context: match)
+            self.pushController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
         let chooseYourselfToServeFirst = WKAlertAction(title: "You", style: .`default`) {
@@ -125,7 +126,8 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
                 print(Error)
             })
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .one)
-            self.presentController(withName: "scoreboard", context: match)
+//            self.presentController(withName: "scoreboard", context: match)
+            self.pushController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
         var coinTossWinner: String

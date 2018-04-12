@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WRN-kh-MtL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14111" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WRN-kh-MtL">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -61,7 +61,7 @@
                                     <color key="titleColor" red="0.3524015546" green="0.78345412020000005" blue="0.97859376669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="scorePointForLeftSide:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pJs-AB-Vv8"/>
+                                    <action selector="scorePointForPlayerOne:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pJs-AB-Vv8"/>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEC-Je-WpY" userLabel="Left Side Set Score">
@@ -89,7 +89,7 @@
                                     <color key="titleColor" red="0.3524015546" green="0.78345412020000005" blue="0.97859376669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="scorePointForRightSide:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f5u-fO-OLI"/>
+                                    <action selector="scorePointForPlayerTwo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f5u-fO-OLI"/>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3l-iA-d3K" userLabel="Right Side Set Score">
@@ -132,13 +132,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Chair Umpire" id="02O-9Q-mqH">
-                        <barButtonItem key="leftBarButtonItem" enabled="NO" systemItem="stop" id="ES2-GC-MbB">
+                        <barButtonItem key="leftBarButtonItem" enabled="NO" systemItem="done" id="ES2-GC-MbB">
                             <color key="tintColor" red="0.2666666667" green="0.7843137255" blue="0.26274509800000001" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="stopMatch:" destination="BYZ-38-t0r" id="Icd-LV-J2s"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Start" id="Vgu-Jl-uZ9">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="Vgu-Jl-uZ9">
                             <color key="tintColor" red="0.2666666667" green="0.7843137255" blue="0.26274509800000001" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="startMatch:" destination="BYZ-38-t0r" id="sFr-2W-JKR"/>

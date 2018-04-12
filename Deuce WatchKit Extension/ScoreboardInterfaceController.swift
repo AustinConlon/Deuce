@@ -76,14 +76,18 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        session.sendMessage(["score point" : "player two"], replyHandler: nil)
+        session.sendMessage(["score point" : "player two"], replyHandler: nil, errorHandler: { Error in
+            print(Error)
+        })
         currentMatch.scorePointForPlayerTwoInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        session.sendMessage(["score point" : "player one"], replyHandler: nil)
+        session.sendMessage(["score point" : "player one"], replyHandler: nil, errorHandler: { Error in
+            print(Error)
+        })
         currentMatch.scorePointForPlayerOneInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
@@ -310,6 +314,21 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        
+        DispatchQueue.main.async {
+            if let scorePoint = message["score point"] {
+                switch scorePoint as! String {
+                case "player one":
+                    self.currentMatch.scorePointForPlayerOneInCurrentGame()
+                case "player two":
+                    self.currentMatch.scorePointForPlayerTwoInCurrentGame()
+                default:
+                    break
+                }
+                self.playHaptic()
+                self.updateLabelsFromModel()
+            } else if message["end match"] != nil {
+                self.pop()
+            }
+        }
     }
 }

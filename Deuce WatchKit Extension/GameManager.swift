@@ -103,7 +103,7 @@ class GameManager {
         }
     }
     
-    func scorePointForYou() {
+    func scorePointForPlayerOne() {
         switch server {
         case .one?:
             switch gameScore {
@@ -132,7 +132,7 @@ class GameManager {
         }
     }
     
-    func scorePointForOpponent() {
+    func scorePointForPlayerTwo() {
         switch server {
         case .two?:
             switch gameScore {

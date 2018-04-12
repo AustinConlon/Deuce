@@ -107,7 +107,7 @@ class MatchManager {
         case true:
             currentGame.scoreTiebreakForYou()
         default:
-            currentGame.scorePointForYou()
+            currentGame.scorePointForPlayerOne()
         }
         checkYouWonGame()
     }
@@ -117,7 +117,7 @@ class MatchManager {
         case true:
             currentGame.scoreTiebreakForOpponent()
         default:
-            currentGame.scorePointForOpponent()
+            currentGame.scorePointForPlayerTwo()
         }
         checkOpponentWonGame()
     }
