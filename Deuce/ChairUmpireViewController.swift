@@ -82,26 +82,31 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     var playerOneGameScore: String {
         get {
-            switch currentGame.playerOneGameScore {
-            case 0:
-                return "Love"
-            case 15, 30:
+            switch currentGame.isTiebreaker {
+            case true:
                 return String(currentGame.playerOneGameScore)
-            case 40:
-                if currentGame.playerTwoGameScore < 40 {
+            default:
+                switch currentGame.playerOneGameScore {
+                case 0:
+                    return "Love"
+                case 15, 30:
                     return String(currentGame.playerOneGameScore)
-                } else if currentGame.playerTwoGameScore == 40 {
-                    return "Deuce"
-                }
-            default: // Alternating advantage and deuce situations.
-                if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
-                    if currentGame.server == .one {
-                        return "Ad in"
-                    } else if currentGame.server == .two {
-                        return "Ad out"
+                case 40:
+                    if currentGame.playerTwoGameScore < 40 {
+                        return String(currentGame.playerOneGameScore)
+                    } else if currentGame.playerTwoGameScore == 40 {
+                        return "Deuce"
                     }
-                } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
-                    return "Deuce"
+                default: // Alternating advantage and deuce situations.
+                    if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
+                        if currentGame.server == .one {
+                            return "Ad in"
+                        } else if currentGame.server == .two {
+                            return "Ad out"
+                        }
+                    } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
+                        return "Deuce"
+                    }
                 }
             }
             return ""
@@ -109,26 +114,31 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     var playerTwoGameScore: String {
-        switch currentGame.playerTwoGameScore {
-        case 0:
-            return "Love"
-        case 15, 30:
+        switch currentGame.isTiebreaker {
+        case true:
             return String(currentGame.playerTwoGameScore)
-        case 40:
-            if currentGame.playerOneGameScore < 40 {
+        default:
+            switch currentGame.playerTwoGameScore {
+            case 0:
+                return "Love"
+            case 15, 30:
                 return String(currentGame.playerTwoGameScore)
-            } else if currentGame.playerOneGameScore == 40 {
-                return "Deuce"
-            }
-        default: // Alternating advantage and deuce situations.
-            if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
-                if currentGame.server == .two {
-                    return "Ad in"
-                } else if currentGame.server == .one {
-                    return "Ad out"
+            case 40:
+                if currentGame.playerOneGameScore < 40 {
+                    return String(currentGame.playerTwoGameScore)
+                } else if currentGame.playerOneGameScore == 40 {
+                    return "Deuce"
                 }
-            } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
-                return "Deuce"
+            default: // Alternating advantage and deuce situations.
+                if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
+                    if currentGame.server == .two {
+                        return "Ad in"
+                    } else if currentGame.server == .one {
+                        return "Ad out"
+                    }
+                } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
+                    return "Deuce"
+                }
             }
         }
         return ""
@@ -139,6 +149,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     @IBOutlet weak var changeMatchLengthSegmentedControl: UISegmentedControl!
     @IBOutlet weak var setTypeSegmentedControl: UISegmentedControl!
     
+    @IBOutlet weak var pairedAppleWatchLabel: UILabel!
     @IBOutlet weak var leftSideServingStatusLabel: UILabel!
     @IBOutlet weak var leftSideGameScoreButton: UIButton!
     @IBOutlet weak var leftSideSetScoreLabel: UILabel!
@@ -151,14 +162,14 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if !session.isPaired {
-            changeMatchLengthSegmentedControl.isHidden = false
-            setTypeSegmentedControl.isHidden = false
-        }
+//        if !session.isPaired {
+//            changeMatchLengthSegmentedControl.isHidden = false
+//            setTypeSegmentedControl.isHidden = false
+//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if session.isPaired {
+        if session.isWatchAppInstalled {
             startMatchButton.isEnabled = false
             let alert = UIAlertController(title: "Start from Apple Watch", message: "To start, open Deuce on Apple Watch and then press the Start button.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
@@ -192,10 +203,16 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         default:
             maximumNumberOfSetsInMatch = 1
         }
-        do {
-            try session.updateApplicationContext(["match length" : maximumNumberOfSetsInMatch])
-        } catch {
-            print(error)
+        if session.isReachable {
+            session.sendMessage(["match length" : maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
+                print(Error)
+            })
+        } else {
+            do {
+                try session.updateApplicationContext(["match length" : maximumNumberOfSetsInMatch])
+            } catch {
+                print(error)
+            }
         }
     }
     
@@ -203,17 +220,29 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         switch sender.selectedSegmentIndex {
         case 0:
             typeOfSet = .tiebreak
-            do {
-                try session.updateApplicationContext(["type of set" : "tiebreak"])
-            } catch {
-                print(error)
+            if session.isReachable {
+                session.sendMessage(["type of set" : "tiebreak"], replyHandler: nil, errorHandler: { Error in
+                    print(Error)
+                })
+            } else {
+                do {
+                    try session.updateApplicationContext(["type of set" : "tiebreak"])
+                } catch {
+                    print(error)
+                }
             }
         case 1:
             typeOfSet = .advantage
-            do {
-                try session.updateApplicationContext(["type of set" : "advantage"])
-            } catch {
-                print(error)
+            if session.isReachable {
+                session.sendMessage(["type of set" : "advantage"], replyHandler: nil, errorHandler: { Error in
+                    print(Error)
+                })
+            } else {
+                do {
+                    try session.updateApplicationContext(["type of set" : "advantage"])
+                } catch {
+                    print(error)
+                }
             }
         default:
             break
@@ -222,10 +251,16 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     @IBAction func startMatch(_ sender: Any) {
         if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone {
-            do {
-                try session.updateApplicationContext(["start" : "new match"])
-            } catch {
-                print(error)
+            if session.isReachable {
+                session.sendMessage(["start" : "new match"], replyHandler: nil, errorHandler: { Error in
+                    print(Error)
+                })
+            } else {
+                do {
+                    try session.updateApplicationContext(["start" : "new match"])
+                } catch {
+                    print(error)
+                }
             }
             if session.isWatchAppInstalled {
                 leftSideGameScoreButton.isHidden = true
@@ -244,10 +279,16 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             let alert = UIAlertController(title: "End Match", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .destructive, handler: { _ in
-                do {
-                    try self.session.updateApplicationContext(["end match" : "reset"])
-                } catch {
-                    print(error)
+                if self.session.isReachable {
+                    self.session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
+                        print(Error)
+                    })
+                } else {
+                    do {
+                        try self.session.updateApplicationContext(["end match" : "reset"])
+                    } catch {
+                        print(error)
+                    }
                 }
                 self.updateLabelsForEndOfMatch()
             }))
@@ -258,20 +299,32 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        do {
-            try self.session.updateApplicationContext(["score point" : "player one"])
-        } catch {
-            print(error)
+        if session.isReachable {
+            session.sendMessage(["score point" : "player one"], replyHandler: nil, errorHandler: { Error in
+                print(Error)
+            })
+        } else {
+            do {
+                try session.updateApplicationContext(["score point" : "player one"])
+            } catch {
+                print(error)
+            }
         }
         currentMatch.scorePointForPlayerOneInCurrentGame()
         updateLabelsFromModel()
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        do {
-            try self.session.updateApplicationContext(["score point" : "player two"])
-        } catch {
-            print(error)
+        if session.isReachable {
+            session.sendMessage(["score point" : "player two"], replyHandler: nil, errorHandler: { Error in
+                print(Error)
+            })
+        } else {
+            do {
+                try session.updateApplicationContext(["score point" : "player two"])
+            } catch {
+                print(error)
+            }
         }
         currentMatch.scorePointForPlayerTwoInCurrentGame()
         updateLabelsFromModel()
@@ -318,6 +371,9 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             leftSideServingStatusLabel.isHidden = false
         case .two:
             rightSideServingStatusLabel.isHidden = false
+        }
+        if session.isWatchAppInstalled {
+            pairedAppleWatchLabel.isHidden = false
         }
     }
     
@@ -380,7 +436,11 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         } else if serverScore == "Ad out" || receiverScore == "Ad out" {
             title = "Advantage out"
         } else {
-            title = "\(serverScore)-\(receiverScore)"
+            if currentMatch.winner == nil {
+                title = "\(serverScore)-\(receiverScore)"
+            } else {
+                title = "Winner"
+            }
         }
     }
     

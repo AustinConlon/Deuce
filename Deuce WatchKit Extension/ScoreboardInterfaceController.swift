@@ -316,6 +316,25 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        DispatchQueue.main.async {
+            if let scorePoint = message["score point"] {
+                switch scorePoint as! String {
+                case "player one":
+                    self.currentMatch.scorePointForPlayerOneInCurrentGame()
+                case "player two":
+                    self.currentMatch.scorePointForPlayerTwoInCurrentGame()
+                default:
+                    break
+                }
+                self.playHaptic()
+                self.updateLabelsFromModel()
+            } else if message["end match"] != nil {
+                self.pop()
+            }
+        }
+    }
+    
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         DispatchQueue.main.async {
             if let scorePoint = applicationContext["score point"] {

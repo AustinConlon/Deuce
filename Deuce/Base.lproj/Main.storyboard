@@ -51,7 +51,7 @@
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Serving" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oed-Yi-2YX" userLabel="Left Side Serving Status">
                                 <rect key="frame" x="45" y="211.5" width="62" height="21"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" red="0.94893461469999996" green="0.95691746470000005" blue="0.99988085029999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.94901960784313721" green="0.95686274509803915" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AWn-rV-Fz1" userLabel="Score Point For Left Side">
@@ -104,11 +104,18 @@
                                 <color key="textColor" red="0.94893461469999996" green="0.95691746470000005" blue="0.99988085029999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Paired Watch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SYS-M8-h9G">
+                                <rect key="frame" x="24.5" y="185" width="104" height="18"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <color key="textColor" red="0.94901960784313721" green="0.95686274509803915" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ykn-Fz-NEg" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="9" id="31t-jN-XSy"/>
+                            <constraint firstItem="oed-Yi-2YX" firstAttribute="top" secondItem="SYS-M8-h9G" secondAttribute="bottom" constant="8.5" id="66A-se-fhB"/>
                             <constraint firstItem="j86-GE-gp9" firstAttribute="top" secondItem="ykn-Fz-NEg" secondAttribute="bottom" constant="9" id="8WB-Qd-Nj3"/>
                             <constraint firstItem="ykn-Fz-NEg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9GK-BM-wEX"/>
                             <constraint firstItem="AWn-rV-Fz1" firstAttribute="centerX" secondItem="KEC-Je-WpY" secondAttribute="centerX" id="Bay-ae-pQ6"/>
@@ -120,6 +127,7 @@
                             <constraint firstItem="0bc-pM-7ue" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="SS4-yd-Gb8"/>
                             <constraint firstItem="3gr-qM-5WP" firstAttribute="centerX" secondItem="DbZ-3Y-R9W" secondAttribute="centerX" id="Yot-0q-PCF"/>
                             <constraint firstItem="oed-Yi-2YX" firstAttribute="baseline" secondItem="DbZ-3Y-R9W" secondAttribute="baseline" id="ZV1-Qh-A7b"/>
+                            <constraint firstItem="SYS-M8-h9G" firstAttribute="centerX" secondItem="oed-Yi-2YX" secondAttribute="centerX" id="fWt-TU-6cE"/>
                             <constraint firstItem="oed-Yi-2YX" firstAttribute="centerX" secondItem="AWn-rV-Fz1" secondAttribute="centerX" id="nku-f1-J1d"/>
                             <constraint firstItem="KEC-Je-WpY" firstAttribute="baseline" secondItem="C3l-iA-d3K" secondAttribute="baseline" id="ovf-1A-l9d"/>
                             <constraint firstItem="AWn-rV-Fz1" firstAttribute="top" secondItem="oed-Yi-2YX" secondAttribute="bottom" constant="8" symbolic="YES" id="ruH-bg-Y77"/>
@@ -152,6 +160,7 @@
                         <outlet property="leftSideMatchScoreLabel" destination="0bc-pM-7ue" id="pPQ-ZV-GCh"/>
                         <outlet property="leftSideServingStatusLabel" destination="oed-Yi-2YX" id="vWa-Ve-w3W"/>
                         <outlet property="leftSideSetScoreLabel" destination="KEC-Je-WpY" id="udd-TU-1Ys"/>
+                        <outlet property="pairedAppleWatchLabel" destination="SYS-M8-h9G" id="Fr3-ox-bbA"/>
                         <outlet property="rightSideGameScoreButton" destination="3gr-qM-5WP" id="Xnj-EY-hJp"/>
                         <outlet property="rightSideMatchScoreLabel" destination="tF3-6E-SFK" id="kIp-yK-BKT"/>
                         <outlet property="rightSideServingStatusLabel" destination="DbZ-3Y-R9W" id="nhs-PP-LFh"/>

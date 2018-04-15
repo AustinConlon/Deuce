@@ -153,6 +153,32 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        if let maximumNumberOfSetsInMatch = message["match length"] {
+            self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch as! Int
+            switch self.maximumNumberOfSetsInMatch {
+            case 3:
+                self.matchLengthSlider(3)
+                self.matchLengthSlider.setValue(3)
+            case 5:
+                self.matchLengthSlider(5)
+                self.matchLengthSlider.setValue(5)
+            default:
+                self.matchLengthSlider(1)
+                self.matchLengthSlider.setValue(1)
+            }
+        } else if let typeOfSet = message["type of set"] {
+            switch typeOfSet as! String {
+            case "advantage":
+                self.typeOfSet = .advantage
+            default:
+                self.typeOfSet = .tiebreak
+            }
+            self.updateLabelForTypeOfSet()
+            self.startButton.setHidden(false)
+        }
+    }
+    
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         if let maximumNumberOfSetsInMatch = applicationContext["match length"] {
             self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch as! Int
