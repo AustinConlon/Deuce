@@ -160,14 +160,6 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     @IBOutlet weak var rightSideSetScoreLabel: UILabel!
     @IBOutlet weak var rightSideMatchScoreLabel: UILabel!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        if !session.isPaired {
-//            changeMatchLengthSegmentedControl.isHidden = false
-//            setTypeSegmentedControl.isHidden = false
-//        }
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         if session.isWatchAppInstalled {
             startMatchButton.isEnabled = false
@@ -413,6 +405,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         rightSideGameScoreButton.isHidden = true
         rightSideSetScoreLabel.isHidden = true
         rightSideMatchScoreLabel.isHidden = true
+        pairedAppleWatchLabel.isHidden = true
         title = "Chair Umpire"
     }
     

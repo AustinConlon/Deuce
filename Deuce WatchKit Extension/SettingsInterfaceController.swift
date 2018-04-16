@@ -23,30 +23,14 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var typeOfSetLabel: WKInterfaceLabel!
     @IBOutlet var startButton: WKInterfaceButton!
     
-    override init() {
-        super.init()
+    override func willActivate() {
+        // This method is called when watch view controller is about to be visible to user
+        super.willActivate()
         if (WCSession.isSupported()) {
             session = WCSession.default()
             session.delegate = self
             session.activate()
         }
-    }
-    
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-    }
-    
-    override func didAppear() {
-//        if (WCSession.isSupported()) {
-//            session = WCSession.default()
-//            session.delegate = self
-//            session.activate()
-//        }
-    }
-
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
     }
 
     override func didDeactivate() {
@@ -120,7 +104,6 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
                 print(Error)
             })
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .two)
-//            self.presentController(withName: "scoreboard", context: match)
             self.pushController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
@@ -135,7 +118,6 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
                 print(Error)
             })
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .one)
-//            self.presentController(withName: "scoreboard", context: match)
             self.pushController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
