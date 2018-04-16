@@ -160,17 +160,6 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     @IBOutlet weak var rightSideSetScoreLabel: UILabel!
     @IBOutlet weak var rightSideMatchScoreLabel: UILabel!
     
-    override func viewDidAppear(_ animated: Bool) {
-        if session.isWatchAppInstalled {
-            startMatchButton.isEnabled = false
-            let alert = UIAlertController(title: "Start from Apple Watch", message: "To start, open Deuce on Apple Watch and then press the Start button.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
-                NSLog("The \"OK\" alert occured.")
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
     required init(coder aDecoder: NSCoder) {
         // Initialize properties here.
         super.init(coder: aDecoder)!
@@ -178,6 +167,14 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             session = WCSession.default()
             session.delegate = self
             session.activate()
+            if session.isWatchAppInstalled {
+                startMatchButton.isEnabled = false
+                let alert = UIAlertController(title: "Start from Apple Watch", message: "To start, open Deuce on Apple Watch and then press the Start button.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                    NSLog("The \"OK\" alert occured.")
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
@@ -195,13 +192,13 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         default:
             maximumNumberOfSetsInMatch = 1
         }
-        if session.isReachable {
+        if session?.isReachable == true {
             session.sendMessage(["match length" : maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
                 print(Error)
             })
         } else {
             do {
-                try session.updateApplicationContext(["match length" : maximumNumberOfSetsInMatch])
+                try session?.updateApplicationContext(["match length" : maximumNumberOfSetsInMatch])
             } catch {
                 print(error)
             }
@@ -212,26 +209,26 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         switch sender.selectedSegmentIndex {
         case 0:
             typeOfSet = .tiebreak
-            if session.isReachable {
+            if session?.isReachable == true {
                 session.sendMessage(["type of set" : "tiebreak"], replyHandler: nil, errorHandler: { Error in
                     print(Error)
                 })
             } else {
                 do {
-                    try session.updateApplicationContext(["type of set" : "tiebreak"])
+                    try session?.updateApplicationContext(["type of set" : "tiebreak"])
                 } catch {
                     print(error)
                 }
             }
         case 1:
             typeOfSet = .advantage
-            if session.isReachable {
+            if session?.isReachable == true {
                 session.sendMessage(["type of set" : "advantage"], replyHandler: nil, errorHandler: { Error in
                     print(Error)
                 })
             } else {
                 do {
-                    try session.updateApplicationContext(["type of set" : "advantage"])
+                    try session?.updateApplicationContext(["type of set" : "advantage"])
                 } catch {
                     print(error)
                 }
@@ -271,13 +268,13 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             let alert = UIAlertController(title: "End Match", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .destructive, handler: { _ in
-                if self.session.isReachable {
+                if self.session?.isReachable == true {
                     self.session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
                         print(Error)
                     })
                 } else {
                     do {
-                        try self.session.updateApplicationContext(["end match" : "reset"])
+                        try self.session?.updateApplicationContext(["end match" : "reset"])
                     } catch {
                         print(error)
                     }
@@ -291,13 +288,13 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        if session.isReachable {
+        if session?.isReachable == true {
             session.sendMessage(["score point" : "player one"], replyHandler: nil, errorHandler: { Error in
                 print(Error)
             })
         } else {
             do {
-                try session.updateApplicationContext(["score point" : "player one"])
+                try session?.updateApplicationContext(["score point" : "player one"])
             } catch {
                 print(error)
             }
@@ -307,13 +304,13 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        if session.isReachable {
+        if session?.isReachable == true {
             session.sendMessage(["score point" : "player two"], replyHandler: nil, errorHandler: { Error in
                 print(Error)
             })
         } else {
             do {
-                try session.updateApplicationContext(["score point" : "player two"])
+                try session?.updateApplicationContext(["score point" : "player two"])
             } catch {
                 print(error)
             }
@@ -364,7 +361,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         case .two:
             rightSideServingStatusLabel.isHidden = false
         }
-        if session.isWatchAppInstalled {
+        if session?.isWatchAppInstalled == true {
             pairedAppleWatchLabel.isHidden = false
         }
     }
