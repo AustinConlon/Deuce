@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14111" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch42" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="watchOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14031"/>
     </dependencies>
@@ -206,22 +202,22 @@
                         </group>
                     </items>
                     <connections>
-                        <outlet property="columnFiveOpponentSetScoreLabel" destination="fjU-KL-zxw" id="Aom-Qy-TRp"/>
-                        <outlet property="columnFiveYourSetScoreLabel" destination="owa-c8-a4x" id="2bZ-4x-yrp"/>
-                        <outlet property="columnFourOpponentSetScoreLabel" destination="nq4-fQ-RIw" id="V6k-jd-d9w"/>
-                        <outlet property="columnFourYourSetScoreLabel" destination="c2b-IA-iZt" id="ylB-FK-8aY"/>
-                        <outlet property="columnOneOpponentSetScoreLabel" destination="dyO-v0-GZE" id="YTD-7T-4kZ"/>
-                        <outlet property="columnOneYourSetScoreLabel" destination="6cz-w8-Mnx" id="83f-MB-bdm"/>
-                        <outlet property="columnThreeOpponentSetScoreLabel" destination="5Kh-OB-6LI" id="Xib-6F-iBa"/>
-                        <outlet property="columnThreeYourSetScoreLabel" destination="2tI-Dc-fVm" id="gGP-qW-Mtp"/>
-                        <outlet property="columnTwoOpponentSetScoreLabel" destination="G0h-vQ-ko5" id="0vw-AJ-Rhr"/>
-                        <outlet property="columnTwoYourSetScoreLabel" destination="p1T-TG-ajC" id="2WY-EK-uFI"/>
-                        <outlet property="opponentGameScoreLabel" destination="9fp-xg-3SA" id="IoQ-Ef-TdY"/>
-                        <outlet property="opponentServingLabel" destination="xxe-gX-FFj" id="qJa-GO-0YB"/>
-                        <outlet property="opponentSideTapGestureRecognizer" destination="2hP-To-KA9" id="Guo-9O-OlP"/>
-                        <outlet property="yourGameScoreLabel" destination="gnp-Ie-dM4" id="jc9-hK-3sY"/>
-                        <outlet property="yourServingLabel" destination="EJr-ah-qJY" id="Nmi-00-CRk"/>
-                        <outlet property="yourSideTapGestureRecognizer" destination="7bl-KV-306" id="hTp-e4-CCT"/>
+                        <outlet property="columnFivePlayerOneSetScoreLabel" destination="owa-c8-a4x" id="2bZ-4x-yrp"/>
+                        <outlet property="columnFivePlayerTwoSetScoreLabel" destination="fjU-KL-zxw" id="Aom-Qy-TRp"/>
+                        <outlet property="columnFourPlayerOneSetScoreLabel" destination="c2b-IA-iZt" id="ylB-FK-8aY"/>
+                        <outlet property="columnFourPlayerTwoSetScoreLabel" destination="nq4-fQ-RIw" id="V6k-jd-d9w"/>
+                        <outlet property="columnOnePlayerOneSetScoreLabel" destination="6cz-w8-Mnx" id="83f-MB-bdm"/>
+                        <outlet property="columnOnePlayerTwoSetScoreLabel" destination="dyO-v0-GZE" id="YTD-7T-4kZ"/>
+                        <outlet property="columnThreePlayerOneSetScoreLabel" destination="2tI-Dc-fVm" id="gGP-qW-Mtp"/>
+                        <outlet property="columnThreePlayerTwoSetScoreLabel" destination="5Kh-OB-6LI" id="Xib-6F-iBa"/>
+                        <outlet property="columnTwoPlayerOneSetScoreLabel" destination="p1T-TG-ajC" id="2WY-EK-uFI"/>
+                        <outlet property="columnTwoPlayerTwoSetScoreLabel" destination="G0h-vQ-ko5" id="0vw-AJ-Rhr"/>
+                        <outlet property="playerOneGameScoreLabel" destination="gnp-Ie-dM4" id="jc9-hK-3sY"/>
+                        <outlet property="playerOneServingLabel" destination="EJr-ah-qJY" id="Nmi-00-CRk"/>
+                        <outlet property="playerOneTapGestureRecognizer" destination="7bl-KV-306" id="hTp-e4-CCT"/>
+                        <outlet property="playerTwoGameScoreLabel" destination="9fp-xg-3SA" id="IoQ-Ef-TdY"/>
+                        <outlet property="playerTwoServingLabel" destination="xxe-gX-FFj" id="qJa-GO-0YB"/>
+                        <outlet property="playerTwoTapGestureRecognizer" destination="2hP-To-KA9" id="Guo-9O-OlP"/>
                     </connections>
                 </controller>
             </objects>

@@ -12,7 +12,7 @@ class GameManager {
     var gameScore: (serverScore: Int, receiverScore: Int) = (0, 0) {
         didSet {
             if gameScore != (0, 0) {
-                if isTiebreaker && (playerOneGameScore + playerTwoGameScore) % 2 == 1 {
+                if isTiebreak && (playerOneGameScore + playerTwoGameScore) % 2 == 1 {
                     changeServer()
                 } else {
                     updateServingSide()
@@ -39,7 +39,7 @@ class GameManager {
             updateScoreOrderBasedOnServer()
         }
     }
-    var isTiebreaker = false
+    var isTiebreak = false
     var gameEnded = false
     
     // Tennis scoring convention is to call out the server gameScore before the receiver gameScore.
@@ -84,7 +84,7 @@ class GameManager {
         switch server { // Other player now serves.
         case .one?:
             server = .two
-            switch isTiebreaker {
+            switch isTiebreak {
             case true:
                 servingSide = .right
             case false:
@@ -92,7 +92,7 @@ class GameManager {
             }
         case .two?:
             server = .one
-            switch isTiebreaker {
+            switch isTiebreak {
             case true:
                 servingSide = .left
             case false:

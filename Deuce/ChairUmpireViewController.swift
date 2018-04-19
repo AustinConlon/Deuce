@@ -82,7 +82,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     var playerOneGameScore: String {
         get {
-            switch currentGame.isTiebreaker {
+            switch currentGame.isTiebreak {
             case true:
                 return String(currentGame.playerOneGameScore)
             default:
@@ -114,7 +114,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     var playerTwoGameScore: String {
-        switch currentGame.isTiebreaker {
+        switch currentGame.isTiebreak {
         case true:
             return String(currentGame.playerTwoGameScore)
         default:
@@ -435,7 +435,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     func updateGameScoresFromModel() {
-        switch currentGame.isTiebreaker {
+        switch currentGame.isTiebreak {
         case true:
             leftSideGameScoreButton.setTitle(String(currentGame.playerOneGameScore), for: .normal)
             rightSideGameScoreButton.setTitle(String(currentGame.playerTwoGameScore), for: .normal)

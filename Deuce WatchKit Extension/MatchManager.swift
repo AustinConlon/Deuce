@@ -103,7 +103,7 @@ class MatchManager {
     }
     
     func scorePointForPlayerOneInCurrentGame() {
-        switch currentGame.isTiebreaker {
+        switch currentGame.isTiebreak {
         case true:
             currentGame.scoreTiebreakForYou()
         default:
@@ -113,7 +113,7 @@ class MatchManager {
     }
     
     func scorePointForPlayerTwoInCurrentGame() {
-        switch currentGame.isTiebreaker {
+        switch currentGame.isTiebreak {
         case true:
             currentGame.scoreTiebreakForOpponent()
         default:

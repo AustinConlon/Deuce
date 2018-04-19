@@ -39,7 +39,7 @@ class SetManager {
     
     var marginToWinSetBy: Int {
         get {
-            if (SetManager.typeOfSet == .tiebreak) && (currentGame.isTiebreaker) {
+            if (SetManager.typeOfSet == .tiebreak) && (currentGame.isTiebreak) {
                 return 1
             } else {
                 return 2
@@ -52,7 +52,7 @@ class SetManager {
     var games = [GameManager]() {
         didSet {
             if SetManager.typeOfSet == .tiebreak && setScore == (6, 6) {
-                currentGame.isTiebreaker = true
+                currentGame.isTiebreak = true
             }
             // Persist state of which player is the server across games.
             games.last?.server = oldValue.last?.server
