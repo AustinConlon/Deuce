@@ -163,24 +163,23 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     required init(coder aDecoder: NSCoder) {
         // Initialize properties here.
         super.init(coder: aDecoder)!
+        
         if (WCSession.isSupported()) {
             session = WCSession.default()
             session.delegate = self
             session.activate()
-            if session.isWatchAppInstalled {
-                startMatchButton.isEnabled = false
-                let alert = UIAlertController(title: "Start from Apple Watch", message: "To start, open Deuce on Apple Watch and then press the Start button.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
-                    NSLog("The \"OK\" alert occured.")
-                }))
-                self.present(alert, animated: true, completion: nil)
-            }
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(_ animated: Bool) {
+        if session?.isPaired == true {
+            startMatchButton.isEnabled = false
+            let alert = UIAlertController(title: "Start from Apple Watch", message: "To start, open Deuce on Apple Watch and then press the Start button.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @IBAction func changeMatchLength(_ sender: UISegmentedControl) {
@@ -391,7 +390,9 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     func updateLabelsForEndOfMatch() {
         endMatchButton.isEnabled = false
-        startMatchButton.isEnabled = true
+        if session?.isPaired == false {
+            startMatchButton.isEnabled = true
+        }
         changeMatchLengthSegmentedControl.isHidden = false
         setTypeSegmentedControl.isHidden = false
         leftSideServingStatusLabel.isHidden = true

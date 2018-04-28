@@ -15,6 +15,9 @@
 		FB162E7F2020AD0500EAABA3 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7E2020AD0400EAABA3 /* GameManager.swift */; };
 		FB28ABBD20043E6100AAEE93 /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB28ABBC20043E6100AAEE93 /* MatchHistoryTableViewController.swift */; };
 		FB28ABBF20043F3000AAEE93 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB28ABBE20043F3000AAEE93 /* MatchHistoryTableViewCell.swift */; };
+		FB3D2F8C2091392C0050CFF2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB3D2F8B2091392C0050CFF2 /* HealthKit.framework */; };
+		FB3D2F8E209139480050CFF2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB3D2F8D209139480050CFF2 /* HealthKit.framework */; };
+		FB4CDF1D209445C2000FC97E /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4CDF1C209445C2000FC97E /* WorkoutManager.swift */; };
 		FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */; };
 		FB51A0101DEAD77C00B2E195 /* ChairUmpireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00F1DEAD77C00B2E195 /* ChairUmpireViewController.swift */; };
 		FB51A0131DEAD77C00B2E195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0111DEAD77C00B2E195 /* Main.storyboard */; };
@@ -128,6 +131,9 @@
 		FB28ABBE20043F3000AAEE93 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		FB3280351EABDA3C00D6B92B /* ScoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreManager.swift; sourceTree = "<group>"; };
 		FB3377421E6E3C89000B9E30 /* Deuce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce.entitlements; sourceTree = "<group>"; };
+		FB3D2F8B2091392C0050CFF2 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		FB3D2F8D209139480050CFF2 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		FB4CDF1C209445C2000FC97E /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
 		FB51A00A1DEAD77C00B2E195 /* Deuce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deuce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB51A00F1DEAD77C00B2E195 /* ChairUmpireViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChairUmpireViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB3D2F8C2091392C0050CFF2 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,12 +187,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB3D2F8E209139480050CFF2 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB3D2F8A2091392C0050CFF2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FB3D2F8D209139480050CFF2 /* HealthKit.framework */,
+				FB3D2F8B2091392C0050CFF2 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FB51A0011DEAD77C00B2E195 = {
 			isa = PBXGroup;
 			children = (
@@ -194,6 +211,7 @@
 				FB51A02B1DEAD77C00B2E195 /* Deuce WatchKit App */,
 				FB51A03A1DEAD77C00B2E195 /* Deuce WatchKit Extension */,
 				FB51A00B1DEAD77C00B2E195 /* Products */,
+				FB3D2F8A2091392C0050CFF2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -255,6 +273,7 @@
 				FB162E7C20202F9B00EAABA3 /* SetManager.swift */,
 				FB162E7820202B3500EAABA3 /* MatchManager.swift */,
 				FB3280351EABDA3C00D6B92B /* ScoreManager.swift */,
+				FB4CDF1C209445C2000FC97E /* WorkoutManager.swift */,
 				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
 				FBF535E31FC1BE01008C6449 /* ScoreboardInterfaceController.swift */,
 				FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */,
@@ -372,7 +391,7 @@
 								enabled = 0;
 							};
 							com.apple.HealthKit = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Siri = {
 								enabled = 0;
@@ -401,6 +420,9 @@
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.HealthKit.watchos = {
+								enabled = 1;
+							};
 							com.apple.Siri = {
 								enabled = 0;
 							};
@@ -504,6 +526,7 @@
 				FBF535E41FC1BE01008C6449 /* ScoreboardInterfaceController.swift in Sources */,
 				FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */,
 				FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */,
+				FB4CDF1D209445C2000FC97E /* WorkoutManager.swift in Sources */,
 				FB162E7B20202BF500EAABA3 /* Player.swift in Sources */,
 				FB162E7920202B3500EAABA3 /* MatchManager.swift in Sources */,
 			);
@@ -674,6 +697,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "Deuce WatchKit Extension/Deuce WatchKit Extension.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = "Deuce WatchKit Extension/Info.plist";
@@ -693,6 +717,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "Deuce WatchKit Extension/Deuce WatchKit Extension.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = "Deuce WatchKit Extension/Info.plist";
@@ -753,6 +778,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
@@ -772,6 +798,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;

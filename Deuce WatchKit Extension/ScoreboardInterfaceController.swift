@@ -9,11 +9,14 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
+import HealthKit
 
 class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     // MARK: Properties
+    
     var session: WCSession!
     var scoreManager: ScoreManager?
+    let workoutManager = WorkoutManager()
     
     var currentGame: GameManager {
         get {
@@ -58,6 +61,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var columnFivePlayerOneSetScoreLabel: WKInterfaceLabel!
     @IBOutlet var columnFivePlayerTwoSetScoreLabel: WKInterfaceLabel!
     
+    // MARK: Initialization
+    
     override init() {
         super.init()
         if (WCSession.isSupported()) {
@@ -65,7 +70,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             session.delegate = self
             session.activate()
         }
-        WKExtension.shared().isFrontmostTimeoutExtended = true
     }
     
     override func awake(withContext context: Any?) {
@@ -75,11 +79,15 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         updateLabelsFromModel()
     }
     
+    override func didAppear() {
+        workoutManager.startWorkout()
+    }
+    
     override func willDisappear() {
         session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
             print(Error)
         })
-        WKExtension.shared().isFrontmostTimeoutExtended = false
+        workoutManager.stopWorkout()
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {

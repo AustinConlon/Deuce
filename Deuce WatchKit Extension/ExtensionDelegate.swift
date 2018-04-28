@@ -13,7 +13,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     var scoreManager: ScoreManager?
     
     func applicationDidFinishLaunching() {
-        // Perform any final initialization of your application.
+        WKExtension.shared().isFrontmostTimeoutExtended = true
     }
 
     func applicationDidBecomeActive() {
