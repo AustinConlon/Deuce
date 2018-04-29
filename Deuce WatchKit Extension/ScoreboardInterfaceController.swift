@@ -97,6 +97,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         currentMatch.scorePointForPlayerTwoInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
+        if currentMatch.winner != nil {
+            workoutManager.stopWorkout()
+        }
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
@@ -106,6 +109,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         currentMatch.scorePointForPlayerOneInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
+        if currentMatch.winner != nil {
+            workoutManager.stopWorkout()
+        }
     }
     
     func updateLabelsFromModel() {
