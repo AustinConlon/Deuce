@@ -36,6 +36,92 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
     }
     
+    // Properties for displaying the score to be easily read in the navigation bar.
+    
+    var serverScore: String {
+        get {
+            if currentGame.server == Player.one {
+                return playerOneGameScore
+            } else {
+                return playerTwoGameScore
+            }
+        }
+    }
+    
+    var receiverScore: String {
+        get {
+            if currentGame.server == Player.one {
+                return playerTwoGameScore
+            } else {
+                return playerOneGameScore
+            }
+        }
+    }
+    
+    var playerOneGameScore: String {
+        get {
+            switch currentGame.isTiebreak {
+            case true:
+                return String(currentGame.playerOneGameScore)
+            default:
+                switch currentGame.playerOneGameScore {
+                case 0:
+                    return "Love"
+                case 15, 30:
+                    return String(currentGame.playerOneGameScore)
+                case 40:
+                    if currentGame.playerTwoGameScore < 40 {
+                        return String(currentGame.playerOneGameScore)
+                    } else if currentGame.playerTwoGameScore == 40 {
+                        return "Deuce"
+                    }
+                default: // Alternating advantage and deuce situations.
+                    if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
+                        if currentGame.server == .one {
+                            return "Ad in"
+                        } else if currentGame.server == .two {
+                            return "Ad out"
+                        }
+                    } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
+                        return "Deuce"
+                    }
+                }
+            }
+            return ""
+        }
+    }
+    
+    var playerTwoGameScore: String {
+        switch currentGame.isTiebreak {
+        case true:
+            return String(currentGame.playerTwoGameScore)
+        default:
+            switch currentGame.playerTwoGameScore {
+            case 0:
+                return "Love"
+            case 15, 30:
+                return String(currentGame.playerTwoGameScore)
+            case 40:
+                if currentGame.playerOneGameScore < 40 {
+                    return String(currentGame.playerTwoGameScore)
+                } else if currentGame.playerOneGameScore == 40 {
+                    return "Deuce"
+                }
+            default: // Alternating advantage and deuce situations.
+                if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
+                    if currentGame.server == .two {
+                        return "Ad in"
+                    } else if currentGame.server == .one {
+                        return "Ad out"
+                    }
+                } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
+                    return "Deuce"
+                }
+            }
+        }
+        return ""
+    }
+    
     @IBOutlet var playerOneServingLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoServingLabel: WKInterfaceLabel!
     
@@ -116,6 +202,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     func updateLabelsFromModel() {
         updateServingLabelsFromModel()
+        updateTitleGameScoreFromModel()
         updateGameScoresFromModel()
         updateSetScoresFromModel()
         if let winner = currentMatch.winner {
@@ -131,7 +218,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             playerTwoServingLabel.setHidden(true)
             playerOneTapGestureRecognizer.isEnabled = false
             playerTwoTapGestureRecognizer.isEnabled = false
-            self.setTitle("Done")
             updateSetLabelsToBeWhite()
         }
     }
@@ -156,6 +242,22 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             playerOneServingLabel.setHidden(true)
         default:
             break
+        }
+    }
+    
+    func updateTitleGameScoreFromModel() {
+        if serverScore == "Deuce" {
+            setTitle("Deuce")
+        } else if serverScore == "Ad in" || receiverScore == "Ad in" {
+            setTitle("Ad in")
+        } else if serverScore == "Ad out" || receiverScore == "Ad out" {
+            setTitle("Ad out")
+        } else {
+            if currentMatch.winner == nil {
+                setTitle("\(serverScore)-\(receiverScore)")
+            } else {
+                setTitle("Winner")
+            }
         }
     }
     
