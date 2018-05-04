@@ -17,13 +17,15 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.62</string>
+	<string>1.70</string>
 	<key>CFBundleVersion</key>
-	<string>1.62</string>
+	<string>1.70</string>
 	<key>CLKComplicationPrincipalClass</key>
 	<string>ComplicationController</string>
 	<key>CLKComplicationSupportedFamilies</key>
-	<array/>
+	<array>
+		<string>CLKComplicationFamilyUtilitarianLarge</string>
+	</array>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>

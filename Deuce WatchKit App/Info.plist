@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.62</string>
+	<string>1.70</string>
 	<key>CFBundleVersion</key>
-	<string>1.62</string>
+	<string>1.70</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -27,10 +27,6 @@
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
 	<string>com.example.Deuce</string>
-	<key>WKBackgroundModes</key>
-	<array>
-		<string>workout-processing</string>
-	</array>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>

@@ -15,9 +15,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.62</string>
+	<string>1.70</string>
 	<key>CFBundleVersion</key>
-	<string>1.62</string>
+	<string>1.70</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSSiriUsageDescription</key>
@@ -41,6 +41,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>This is so that your tennis workout contributes to your Move rings, and gets saved in the Workouts tab of the Activity app.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>This is so that your tennis workout contributes to your Move rings, and gets saved in the Workouts tab of the Activity app.</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
