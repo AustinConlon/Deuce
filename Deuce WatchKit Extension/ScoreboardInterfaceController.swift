@@ -272,6 +272,10 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         }
     }
     
+    @IBAction func endMatch() {
+        popToRootController()
+    }
+    
     func updateLabelsFromModel() {
         updateServingLabelsFromModel()
         updateTitleGameScoreFromModel()

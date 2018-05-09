@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14111" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch38" orientation="portrait">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -205,6 +205,15 @@
                             <variation key="device=watch42mm" height="82"/>
                         </group>
                     </items>
+                    <menu key="menu" id="NSq-M2-ZxI">
+                        <items>
+                            <menuItem title="End Match" icon="decline" id="EoY-IZ-YyL">
+                                <connections>
+                                    <action selector="endMatch" destination="Hlr-PA-eca" id="Hz2-da-UBu"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
                     <connections>
                         <outlet property="columnFivePlayerOneSetScoreLabel" destination="owa-c8-a4x" id="2bZ-4x-yrp"/>
                         <outlet property="columnFivePlayerTwoSetScoreLabel" destination="fjU-KL-zxw" id="Aom-Qy-TRp"/>
