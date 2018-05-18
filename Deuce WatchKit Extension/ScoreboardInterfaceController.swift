@@ -11,12 +11,11 @@ import Foundation
 import WatchConnectivity
 import HealthKit
 
-class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
+class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, HKWorkoutSessionDelegate {
     // MARK: Properties
     
     var session: WCSession!
     var scoreManager: ScoreManager?
-    let workoutManager = WorkoutManager()
     
     var currentGame: GameManager {
         get {
@@ -35,6 +34,109 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             return scoreManager!.currentMatch
         }
     }
+    
+    // Properties for displaying the score to be easily read in the navigation bar.
+    
+    var serverScore: String {
+        get {
+            if currentGame.server == Player.one {
+                return playerOneGameScore
+            } else {
+                return playerTwoGameScore
+            }
+        }
+    }
+    
+    var receiverScore: String {
+        get {
+            if currentGame.server == Player.one {
+                return playerTwoGameScore
+            } else {
+                return playerOneGameScore
+            }
+        }
+    }
+    
+    var playerOneGameScore: String {
+        get {
+            switch currentGame.isTiebreak {
+            case true:
+                return String(currentGame.playerOneGameScore)
+            default:
+                switch currentGame.playerOneGameScore {
+                case 0:
+                    return "Love"
+                case 15, 30:
+                    return String(currentGame.playerOneGameScore)
+                case 40:
+                    if currentGame.playerTwoGameScore < 40 {
+                        return String(currentGame.playerOneGameScore)
+                    } else if currentGame.playerTwoGameScore == 40 {
+                        return "Deuce"
+                    }
+                default: // Alternating advantage and deuce situations.
+                    if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
+                        if currentGame.server == .one {
+                            return "Ad in"
+                        } else if currentGame.server == .two {
+                            return "Ad out"
+                        }
+                    } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
+                        return "Deuce"
+                    }
+                }
+            }
+            return ""
+        }
+    }
+    
+    var playerTwoGameScore: String {
+        switch currentGame.isTiebreak {
+        case true:
+            return String(currentGame.playerTwoGameScore)
+        default:
+            switch currentGame.playerTwoGameScore {
+            case 0:
+                return "Love"
+            case 15, 30:
+                return String(currentGame.playerTwoGameScore)
+            case 40:
+                if currentGame.playerOneGameScore < 40 {
+                    return String(currentGame.playerTwoGameScore)
+                } else if currentGame.playerOneGameScore == 40 {
+                    return "Deuce"
+                }
+            default: // Alternating advantage and deuce situations.
+                if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
+                    if currentGame.server == .two {
+                        return "Ad in"
+                    } else if currentGame.server == .one {
+                        return "Ad out"
+                    }
+                } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
+                    return "Deuce"
+                }
+            }
+        }
+        return ""
+    }
+    
+    let healthStore = HKHealthStore()
+    
+    // Used to track the current `HKWorkoutSession`.
+    var currentWorkoutSession: HKWorkoutSession?
+    
+    var workoutBeginDate: Date?
+    var workoutEndDate: Date?
+    
+    var isWorkoutRunning = false
+    
+    var currentQuery: HKQuery?
+    
+    var activeEnergySamples = [HKQuantitySample]()
+    
+    // Start with a zero quantity.
+    var currentActiveEnergyQuantity = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 0.0)
     
     @IBOutlet var playerOneServingLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoServingLabel: WKInterfaceLabel!
@@ -79,15 +181,65 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         updateLabelsFromModel()
     }
     
+    override func willActivate() {
+        // This method is called when watch view controller is about to be visible to user.
+        super.willActivate()
+        
+        // Only proceed if health data is available.
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        
+        // We need to be able to write workouts, so they display as a standalone workout in the Activity app on iPhone.
+        // We also need to be able to write Active Energy Burned to write samples to HealthKit to later associating with our app.
+        let typesToShare = Set([
+            HKObjectType.workoutType(),
+            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!])
+        
+        let typesToRead = Set([
+            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!])
+        
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { success, error in
+            if let error = error, !success {
+                print("The error was: \(error.localizedDescription).")
+            }
+        }
+    }
+    
     override func didAppear() {
-        workoutManager.startWorkout()
+        // Begin workout.
+        isWorkoutRunning = true
+        
+        // Clear the local Active Energy Burned quantity when beginning a workout session.
+        currentActiveEnergyQuantity = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 0.0)
+        
+        currentQuery = nil
+        activeEnergySamples = []
+        
+        // Configure the workout session.
+        let workoutConfiguration = HKWorkoutConfiguration()
+        workoutConfiguration.activityType = .tennis
+        workoutConfiguration.locationType = .outdoor
+        var workoutSession: HKWorkoutSession
+        
+        do {
+            workoutSession = try HKWorkoutSession(configuration: workoutConfiguration)
+            workoutSession.delegate = self
+        } catch {
+            fatalError("Unable to create the workout session!")
+        }
+        
+        currentWorkoutSession = workoutSession
+        
+        healthStore.start(workoutSession)
     }
     
     override func willDisappear() {
         session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
             print(Error)
         })
-        workoutManager.stopWorkout()
+        guard let workoutSession = currentWorkoutSession else { return }
+        
+        healthStore.end(workoutSession)
+        isWorkoutRunning = false
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
@@ -98,7 +250,10 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         playHaptic()
         updateLabelsFromModel()
         if currentMatch.winner != nil {
-            workoutManager.stopWorkout()
+            guard let workoutSession = currentWorkoutSession else { return }
+            
+            healthStore.end(workoutSession)
+            isWorkoutRunning = false
         }
     }
     
@@ -110,12 +265,20 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         playHaptic()
         updateLabelsFromModel()
         if currentMatch.winner != nil {
-            workoutManager.stopWorkout()
+            guard let workoutSession = currentWorkoutSession else { return }
+            
+            healthStore.end(workoutSession)
+            isWorkoutRunning = false
         }
+    }
+    
+    @IBAction func endMatch() {
+        popToRootController()
     }
     
     func updateLabelsFromModel() {
         updateServingLabelsFromModel()
+        updateTitleGameScoreFromModel()
         updateGameScoresFromModel()
         updateSetScoresFromModel()
         if let winner = currentMatch.winner {
@@ -131,7 +294,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             playerTwoServingLabel.setHidden(true)
             playerOneTapGestureRecognizer.isEnabled = false
             playerTwoTapGestureRecognizer.isEnabled = false
-            self.setTitle("Done")
             updateSetLabelsToBeWhite()
         }
     }
@@ -156,6 +318,22 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
             playerOneServingLabel.setHidden(true)
         default:
             break
+        }
+    }
+    
+    func updateTitleGameScoreFromModel() {
+        if serverScore == "Deuce" {
+            setTitle("Deuce")
+        } else if serverScore == "Ad in" || receiverScore == "Ad in" {
+            setTitle("Ad in")
+        } else if serverScore == "Ad out" || receiverScore == "Ad out" {
+            setTitle("Ad out")
+        } else {
+            if currentMatch.winner == nil {
+                setTitle("\(serverScore)-\(receiverScore)")
+            } else {
+                setTitle("Winner")
+            }
         }
     }
     
@@ -370,5 +548,139 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
                 self.pop()
             }
         }
+    }
+    
+    // MARK: Convenience
+    
+    /*
+     Create and save an HKWorkout with the amount of Active Energy Burned we accumulated during the HKWorkoutSession.
+     
+     Additionally, associate the Active Energy Burned samples to our workout to facilitate showing our app as credited for these samples in the Move graph in the Activity app on iPhone.
+     */
+    func saveWorkout() {
+        // Obtain the `HKObjectType` for active energy burned.
+        guard let activeEnergyType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned) else { return }
+        
+        // Only proceed if both `beginDate` and `endDate` are non-nil.
+        guard let beginDate = workoutBeginDate, let endDate = workoutEndDate else { return }
+        
+        /*
+         NOTE: There is a known bug where activityType property of HKWorkoutSession returns 0, as of iOS 9.1 and watchOS 2.0.1. So, rather than set it using the value from the `HKWorkoutSession`, set it explicitly for the HKWorkout object.
+         */
+        let workout = HKWorkout(activityType: HKWorkoutActivityType.tennis, start: beginDate, end: endDate, duration: endDate.timeIntervalSince(beginDate), totalEnergyBurned: currentActiveEnergyQuantity, totalDistance: HKQuantity(unit: HKUnit.meter(), doubleValue: 0.0), metadata: nil)
+        
+        // Save the array of samples that produces the energy burned total
+        let finalActiveEnergySamples = activeEnergySamples
+        
+        guard healthStore.authorizationStatus(for: activeEnergyType) == .sharingAuthorized && healthStore.authorizationStatus(for: HKObjectType.workoutType()) == .sharingAuthorized else { return }
+        
+        healthStore.save(workout) { success, error in
+            if let error = error, !success {
+                print("An error occurred saving the workout. The error was: \(error.localizedDescription)")
+                return
+            }
+            
+            // Since HealthKit completion blocks may come back on a background queue, please dispatch back to the main queue.
+            if success && finalActiveEnergySamples.count > 0 {
+                // Associate the accumulated samples with the workout.
+                self.healthStore.add(finalActiveEnergySamples, to: workout) { [unowned self] success, error in
+                    if let error = error, !success {
+                        print("An error occurred adding samples to the workout. The error was: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+    }
+    
+    func beginWorkout(on beginDate: Date) {
+        // Obtain the `HKObjectType` for active energy burned and the `HKUnit` for kilocalories.
+        guard let activeEnergyType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned) else { return }
+        let energyUnit = HKUnit.kilocalorie()
+        
+        // Update properties.
+        workoutBeginDate = beginDate
+        
+        // Set up a predicate to obtain only samples from the local device starting from `beginDate`.
+        let datePredicate = HKQuery.predicateForSamples(withStart: beginDate, end: nil, options: HKQueryOptions())
+        let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates:[datePredicate, devicePredicate])
+        
+        /*
+         Create a results handler to recreate the samples generated by a query of active energy samples so that they can be associated with this app in the move graph. It should be noted that if your app has different heuristics for active energy burned you can generate your own quantities rather than rely on those from the watch. The sum of your sample's quantity values should equal the energy burned value provided for the workout.
+         */
+        let sampleHandler = { [unowned self] (samples: [HKQuantitySample]) -> Void in
+            DispatchQueue.main.async { [unowned self] in
+                
+                let initialActiveEnergy = self.currentActiveEnergyQuantity.doubleValue(for: energyUnit)
+                
+                let processedResults: (Double, [HKQuantitySample]) = samples.reduce((initialActiveEnergy, [])) { current, sample in
+                    let accumulatedValue = current.0 + sample.quantity.doubleValue(for: energyUnit)
+                    
+                    let ourSample = HKQuantitySample(type: activeEnergyType, quantity: sample.quantity, start: sample.startDate, end: sample.endDate)
+                    
+                    return (accumulatedValue, current.1 + [ourSample])
+                }
+                
+                // Update the UI.
+                self.currentActiveEnergyQuantity = HKQuantity(unit: energyUnit, doubleValue: processedResults.0)
+                
+                // Update our samples.
+                self.activeEnergySamples += processedResults.1
+            }
+        }
+        
+        // Create a query to report new Active Energy Burned samples to our app.
+        let activeEnergyQuery = HKAnchoredObjectQuery(type: activeEnergyType, predicate: predicate, anchor: nil, limit: Int(HKObjectQueryNoLimit)) { query, samples, deletedObjects, anchor, error in
+            if let error = error {
+                print("An error occurred with the `activeEnergyQuery`. The error was: \(error.localizedDescription)")
+                return
+            }
+            // NOTE: `deletedObjects` are not considered in the handler as there is no way to delete samples from the watch during a workout.
+            guard let activeEnergySamples = samples as? [HKQuantitySample] else { return }
+            sampleHandler(activeEnergySamples)
+        }
+        
+        // Assign the same handler to process future samples generated while the query is still active.
+        activeEnergyQuery.updateHandler = { query, samples, deletedObjects, anchor, error in
+            if let error = error {
+                print("An error occurred with the `activeEnergyQuery`. The error was: \(error.localizedDescription)")
+                return
+            }
+            // NOTE: `deletedObjects` are not considered in the handler as there is no way to delete samples from the watch during a workout.
+            guard let activeEnergySamples = samples as? [HKQuantitySample] else { return }
+            sampleHandler(activeEnergySamples)
+        }
+        
+        currentQuery = activeEnergyQuery
+        healthStore.execute(activeEnergyQuery)
+    }
+    
+    func endWorkout(on endDate: Date) {
+        workoutEndDate = endDate
+        
+        if let query = currentQuery {
+            healthStore.stop(query)
+        }
+        
+        saveWorkout()
+    }
+    
+    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
+        DispatchQueue.main.async { [unowned self] in
+            switch toState {
+            case .running:
+                self.beginWorkout(on: date)
+                
+            case .ended:
+                self.endWorkout(on: date)
+                
+            default:
+                print("Unexpected workout session state: \(toState)")
+            }
+        }
+    }
+    
+    func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
+        print("The workout session failed. The error was: \(error.localizedDescription)")
     }
 }
