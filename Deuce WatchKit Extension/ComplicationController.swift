@@ -32,25 +32,26 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     // MARK: - Timeline Population
     
     func getCurrentTimelineEntry(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimelineEntry?) -> Void) {
-        // Call the handler with the current timeline entry
-        handler(nil)
+        switch complication.family {
+        case .modularSmall:
+            let simpleImage = CLKComplicationTemplateModularSmallSimpleImage()
+            simpleImage.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Complication/Modular"))
+            simpleImage.tintColor = UIColor(red:0.27, green:0.79, blue:0.26, alpha:1.0)
+            let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: simpleImage)
+            handler(entry)
+        case .utilitarianSmall:
+            let square = CLKComplicationTemplateUtilitarianSmallSquare()
+            square.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Complication/Utilitarian"))
+            square.tintColor = UIColor(red:0.27, green:0.79, blue:0.26, alpha:1.0)
+            let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: square)
+            handler(entry)
+        case .utilitarianLarge:
+            let flat = CLKComplicationTemplateUtilitarianLargeFlat()
+            flat.textProvider = CLKSimpleTextProvider(text: "Play Tennis")
+            let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: flat)
+            handler(entry)
+        default:
+            handler(nil)
+        }
     }
-    
-    func getTimelineEntries(for complication: CLKComplication, before date: Date, limit: Int, withHandler handler: @escaping ([CLKComplicationTimelineEntry]?) -> Void) {
-        // Call the handler with the timeline entries prior to the given date
-        handler(nil)
-    }
-    
-    func getTimelineEntries(for complication: CLKComplication, after date: Date, limit: Int, withHandler handler: @escaping ([CLKComplicationTimelineEntry]?) -> Void) {
-        // Call the handler with the timeline entries after to the given date
-        handler(nil)
-    }
-    
-    // MARK: - Placeholder Templates
-    
-    func getLocalizableSampleTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
-        // This method will be called once per supported complication, and the results will be cached
-        handler(nil)
-    }
-    
 }
