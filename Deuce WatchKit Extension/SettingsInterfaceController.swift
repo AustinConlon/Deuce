@@ -133,6 +133,10 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
         presentAlert(withTitle: "\(coinTossWinner) won the coin toss.", message: "Who will serve first?", preferredStyle: .actionSheet, actions: [chooseOpponentToServeFirst, chooseYourselfToServeFirst])
     }
     
+    @IBAction func startPracticeMode() {
+        presentController(withName: "Practice Mode", context: nil)
+    }
+    
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {

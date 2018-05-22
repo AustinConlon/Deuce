@@ -670,10 +670,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             switch toState {
             case .running:
                 self.beginWorkout(on: date)
-                
+//                addMenuItem(with: .pause, title: "Pause Workout", action: healthStore.pause(workoutSession))
             case .ended:
                 self.endWorkout(on: date)
-                
             default:
                 print("Unexpected workout session state: \(toState)")
             }

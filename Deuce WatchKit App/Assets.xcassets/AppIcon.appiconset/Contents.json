@@ -39,6 +39,13 @@
       "subtype" : "38mm"
     },
     {
+      "size" : "44x44",
+      "idiom" : "watch",
+      "scale" : "2x",
+      "role" : "longLook",
+      "subtype" : "42mm"
+    },
+    {
       "size" : "86x86",
       "idiom" : "watch",
       "filename" : "Deuce-5.png",
