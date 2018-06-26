@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14269.14" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14031"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14252.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14224.4"/>
     </dependencies>
     <scenes>
         <!--Settings-->
@@ -63,15 +63,6 @@
                             </connections>
                         </button>
                     </items>
-                    <menu key="menu" id="92R-2E-Cxu">
-                        <items>
-                            <menuItem title="Practice" icon="play" id="Ipp-t5-lOy">
-                                <connections>
-                                    <action selector="startPracticeMode" destination="AgC-eL-Hgc" id="DkS-6j-w5A"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                     <connections>
                         <outlet property="matchLengthLabel" destination="6nH-Bn-VTw" id="ApB-uN-XgR"/>
                         <outlet property="matchLengthSlider" destination="H3i-Wl-J5d" id="Xoh-Ss-feP"/>
@@ -257,7 +248,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="467" y="345"/>
+            <point key="canvasLocation" x="466.41025641025647" y="344.79487179487182"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
