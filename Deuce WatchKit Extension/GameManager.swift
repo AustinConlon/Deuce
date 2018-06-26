@@ -32,13 +32,17 @@ class GameManager {
     var playerOneGameScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
+            oldPlayerOneGameScore = oldValue
         }
     }
     var playerTwoGameScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
+            oldPlayerTwoGameScore = oldValue
         }
     }
+    var oldPlayerOneGameScore = 0
+    var oldPlayerTwoGameScore = 0
     var isTiebreak = false
     var gameEnded = false
     
@@ -103,7 +107,7 @@ class GameManager {
         }
     }
     
-    func scorePointForPlayerOne() {
+    func increasePointForPlayerOne() {
         switch server {
         case .one?:
             switch gameScore {
@@ -132,7 +136,7 @@ class GameManager {
         }
     }
     
-    func scorePointForPlayerTwo() {
+    func increasePointForPlayerTwo() {
         switch server {
         case .two?:
             switch gameScore {
@@ -161,14 +165,14 @@ class GameManager {
         }
     }
     
-    func scoreTiebreakForYou() {
+    func increaseTiebreakPointForPlayerOne() {
         playerOneGameScore += 1
         if (playerOneGameScore >= 7) && (playerOneGameScore >= playerTwoGameScore + 2) {
             winGame()
         }
     }
     
-    func scoreTiebreakForOpponent() {
+    func increaseTiebreakForPlayerTwo() {
         playerTwoGameScore += 1
         if (playerTwoGameScore >= 7) && (playerTwoGameScore >= playerOneGameScore + 2) {
             winGame()

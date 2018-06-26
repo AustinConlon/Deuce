@@ -16,6 +16,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     
     var session: WCSession!
     var scoreManager: ScoreManager?
+    var undoManager = UndoManager()
     
     var currentGame: GameManager {
         get {
@@ -184,7 +185,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user.
         super.willActivate()
-        
+    }
+    
+    override func didAppear() {
         // Only proceed if health data is available.
         guard HKHealthStore.isHealthDataAvailable() else { return }
         
@@ -202,9 +205,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
                 print("The error was: \(error.localizedDescription).")
             }
         }
-    }
-    
-    override func didAppear() {
+        
         // Begin workout.
         isWorkoutRunning = true
         
@@ -246,9 +247,10 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         session.sendMessage(["score point" : "player two"], replyHandler: nil, errorHandler: { Error in
             print(Error)
         })
-        currentMatch.scorePointForPlayerTwoInCurrentGame()
+        currentMatch.increasePointForPlayerTwoInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
+        undoManager.registerUndo(withTarget: currentMatch) { $0.increasePointForPlayerOneInCurrentGame() }
         if currentMatch.winner != nil {
             guard let workoutSession = currentWorkoutSession else { return }
             
@@ -261,15 +263,20 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         session.sendMessage(["score point" : "player one"], replyHandler: nil, errorHandler: { Error in
             print(Error)
         })
-        currentMatch.scorePointForPlayerOneInCurrentGame()
+        currentMatch.increasePointForPlayerOneInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
+        undoManager.registerUndo(withTarget: currentMatch) { $0.increasePointForPlayerOneInCurrentGame() }
         if currentMatch.winner != nil {
             guard let workoutSession = currentWorkoutSession else { return }
-            
+        
             healthStore.end(workoutSession)
             isWorkoutRunning = false
         }
+    }
+    
+    @IBAction func undo() {
+        
     }
     
     @IBAction func endMatch() {
@@ -517,9 +524,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             if let scorePoint = message["score point"] {
                 switch scorePoint as! String {
                 case "player one":
-                    self.currentMatch.scorePointForPlayerOneInCurrentGame()
+                    self.currentMatch.increasePointForPlayerOneInCurrentGame()
                 case "player two":
-                    self.currentMatch.scorePointForPlayerTwoInCurrentGame()
+                    self.currentMatch.increasePointForPlayerTwoInCurrentGame()
                 default:
                     break
                 }
@@ -536,9 +543,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             if let scorePoint = applicationContext["score point"] {
                 switch scorePoint as! String {
                 case "player one":
-                    self.currentMatch.scorePointForPlayerOneInCurrentGame()
+                    self.currentMatch.increasePointForPlayerOneInCurrentGame()
                 case "player two":
-                    self.currentMatch.scorePointForPlayerTwoInCurrentGame()
+                    self.currentMatch.increasePointForPlayerTwoInCurrentGame()
                 default:
                     break
                 }
@@ -567,7 +574,10 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         /*
          NOTE: There is a known bug where activityType property of HKWorkoutSession returns 0, as of iOS 9.1 and watchOS 2.0.1. So, rather than set it using the value from the `HKWorkoutSession`, set it explicitly for the HKWorkout object.
          */
-        let workout = HKWorkout(activityType: HKWorkoutActivityType.tennis, start: beginDate, end: endDate, duration: endDate.timeIntervalSince(beginDate), totalEnergyBurned: currentActiveEnergyQuantity, totalDistance: HKQuantity(unit: HKUnit.meter(), doubleValue: 0.0), metadata: nil)
+        
+        let metadata = [HKMetadataKeyWeatherCondition : true, HKMetadataKeyWeatherTemperature : true, HKMetadataKeyWeatherHumidity : true]
+        
+        let workout = HKWorkout(activityType: HKWorkoutActivityType.tennis, start: beginDate, end: endDate, duration: endDate.timeIntervalSince(beginDate), totalEnergyBurned: currentActiveEnergyQuantity, totalDistance: HKQuantity(unit: HKUnit.meter(), doubleValue: 0.0), metadata: metadata)
         
         // Save the array of samples that produces the energy burned total
         let finalActiveEnergySamples = activeEnergySamples
