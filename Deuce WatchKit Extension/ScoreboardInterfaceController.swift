@@ -575,9 +575,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
          NOTE: There is a known bug where activityType property of HKWorkoutSession returns 0, as of iOS 9.1 and watchOS 2.0.1. So, rather than set it using the value from the `HKWorkoutSession`, set it explicitly for the HKWorkout object.
          */
         
-        let metadata = [HKMetadataKeyWeatherCondition : true, HKMetadataKeyWeatherTemperature : true, HKMetadataKeyWeatherHumidity : true]
-        
-        let workout = HKWorkout(activityType: HKWorkoutActivityType.tennis, start: beginDate, end: endDate, duration: endDate.timeIntervalSince(beginDate), totalEnergyBurned: currentActiveEnergyQuantity, totalDistance: HKQuantity(unit: HKUnit.meter(), doubleValue: 0.0), metadata: metadata)
+        let workout = HKWorkout(activityType: HKWorkoutActivityType.tennis, start: beginDate, end: endDate, duration: endDate.timeIntervalSince(beginDate), totalEnergyBurned: currentActiveEnergyQuantity, totalDistance: HKQuantity(unit: HKUnit.meter(), doubleValue: 0.0), metadata: nil)
         
         // Save the array of samples that produces the energy burned total
         let finalActiveEnergySamples = activeEnergySamples
