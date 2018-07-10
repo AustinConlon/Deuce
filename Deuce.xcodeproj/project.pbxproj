@@ -7,15 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		702F58FA2011AFB00064DB54 /* MatchScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702F58F92011AFB00064DB54 /* MatchScores.swift */; };
-		702F58FC2011C7920064DB54 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702F58FB2011C7920064DB54 /* Match.swift */; };
-		FB0E2CAB209A68F00089B0E7 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB0E2CAA209A68F00089B0E7 /* HealthKit.framework */; };
 		FB162E7920202B3500EAABA3 /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7820202B3500EAABA3 /* MatchManager.swift */; };
 		FB162E7B20202BF500EAABA3 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7A20202BF500EAABA3 /* Player.swift */; };
 		FB162E7D20202F9C00EAABA3 /* SetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7C20202F9B00EAABA3 /* SetManager.swift */; };
 		FB162E7F2020AD0500EAABA3 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7E2020AD0400EAABA3 /* GameManager.swift */; };
-		FB28ABBD20043E6100AAEE93 /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB28ABBC20043E6100AAEE93 /* MatchHistoryTableViewController.swift */; };
-		FB28ABBF20043F3000AAEE93 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB28ABBE20043F3000AAEE93 /* MatchHistoryTableViewCell.swift */; };
+		FB2F4E5E20EB77AE00528C05 /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */; };
+		FB2F4E6020EB79FA00528C05 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */; };
 		FB49BA0220986DC100C8491F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49BA0120986DC100C8491F /* ComplicationController.swift */; };
 		FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */; };
 		FB51A0101DEAD77C00B2E195 /* ChairUmpireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00F1DEAD77C00B2E195 /* ChairUmpireViewController.swift */; };
@@ -30,6 +27,7 @@
 		FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */; };
 		FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A0411DEAD77C00B2E195 /* NotificationController.swift */; };
 		FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0431DEAD77C00B2E195 /* Assets.xcassets */; };
+		FB6D281E20EC988A00C7FE9D /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D281D20EC988A00C7FE9D /* Match.swift */; };
 		FB712C162096EFA7005AA807 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB712C152096EFA7005AA807 /* HealthKit.framework */; };
 		FBB50EB02071932300ADCCB0 /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7820202B3500EAABA3 /* MatchManager.swift */; };
 		FBB50EB12071932600ADCCB0 /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* ScoreManager.swift */; };
@@ -122,15 +120,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		702F58F92011AFB00064DB54 /* MatchScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchScores.swift; sourceTree = "<group>"; };
-		702F58FB2011C7920064DB54 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
-		FB0E2CAA209A68F00089B0E7 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		FB162E7820202B3500EAABA3 /* MatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
 		FB162E7A20202BF500EAABA3 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FB162E7C20202F9B00EAABA3 /* SetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetManager.swift; sourceTree = "<group>"; };
 		FB162E7E2020AD0400EAABA3 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
-		FB28ABBC20043E6100AAEE93 /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
-		FB28ABBE20043F3000AAEE93 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
+		FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		FB3280351EABDA3C00D6B92B /* ScoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreManager.swift; sourceTree = "<group>"; };
 		FB3377421E6E3C89000B9E30 /* Deuce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce.entitlements; sourceTree = "<group>"; };
 		FB49BA0120986DC100C8491F /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
@@ -154,8 +149,8 @@
 		FB51A0411DEAD77C00B2E195 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		FB51A0431DEAD77C00B2E195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB51A0451DEAD77C00B2E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB6D281D20EC988A00C7FE9D /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
-		FB8341A01E8780130003244C /* OldScoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldScoreManager.swift; sourceTree = "<group>"; };
 		FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deuce WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		FBBF16EB20AE9504006B373F /* PracticeModeInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeModeInterfaceController.swift; sourceTree = "<group>"; };
 		FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "\U0010SettingsInterfaceController.swift"; sourceTree = "<group>"; };
@@ -174,7 +169,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB0E2CAB209A68F00089B0E7 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,15 +219,13 @@
 				FB3377421E6E3C89000B9E30 /* Deuce.entitlements */,
 				FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */,
 				FB51A00F1DEAD77C00B2E195 /* ChairUmpireViewController.swift */,
-				FB28ABBC20043E6100AAEE93 /* MatchHistoryTableViewController.swift */,
-				FB28ABBE20043F3000AAEE93 /* MatchHistoryTableViewCell.swift */,
-				FB8341A01E8780130003244C /* OldScoreManager.swift */,
+				FB6D281D20EC988A00C7FE9D /* Match.swift */,
+				FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */,
+				FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */,
 				FB51A0111DEAD77C00B2E195 /* Main.storyboard */,
 				FB51A0141DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0161DEAD77C00B2E195 /* LaunchScreen.storyboard */,
 				FB51A0191DEAD77C00B2E195 /* Info.plist */,
-				702F58F92011AFB00064DB54 /* MatchScores.swift */,
-				702F58FB2011C7920064DB54 /* Match.swift */,
 			);
 			path = Deuce;
 			sourceTree = "<group>";
@@ -290,7 +282,6 @@
 		FB712C142096EFA7005AA807 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FB0E2CAA209A68F00089B0E7 /* HealthKit.framework */,
 				FB712C152096EFA7005AA807 /* HealthKit.framework */,
 			);
 			name = Frameworks;
@@ -394,7 +385,7 @@
 								enabled = 0;
 							};
 							com.apple.HealthKit = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Siri = {
 								enabled = 0;
@@ -496,17 +487,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB28ABBF20043F3000AAEE93 /* MatchHistoryTableViewCell.swift in Sources */,
-				702F58FA2011AFB00064DB54 /* MatchScores.swift in Sources */,
+				FB2F4E6020EB79FA00528C05 /* MatchHistoryTableViewCell.swift in Sources */,
 				FBB50EB32071932D00ADCCB0 /* GameManager.swift in Sources */,
 				FBB50EB42071970A00ADCCB0 /* Player.swift in Sources */,
+				FB6D281E20EC988A00C7FE9D /* Match.swift in Sources */,
 				FBB50EB12071932600ADCCB0 /* ScoreManager.swift in Sources */,
+				FB2F4E5E20EB77AE00528C05 /* MatchHistoryTableViewController.swift in Sources */,
 				FBB50EB22071932A00ADCCB0 /* SetManager.swift in Sources */,
 				FB51A0101DEAD77C00B2E195 /* ChairUmpireViewController.swift in Sources */,
-				FB28ABBD20043E6100AAEE93 /* MatchHistoryTableViewController.swift in Sources */,
 				FBB50EB02071932300ADCCB0 /* MatchManager.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
-				702F58FC2011C7920064DB54 /* Match.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -782,7 +772,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
@@ -802,7 +791,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
