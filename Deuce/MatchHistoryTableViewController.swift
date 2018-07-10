@@ -80,6 +80,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             cell.columnThreePlayerOneSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnFourPlayerOneSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnFivePlayerOneSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+            cell.matchStateLabel.text = "Final"
         case .two?:
             cell.playerTwoNameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnOnePlayerTwoSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -87,6 +88,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             cell.columnThreePlayerTwoSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnFourPlayerTwoSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnFivePlayerTwoSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+            cell.matchStateLabel.text = "Final"
         case .none:
             break
         }
