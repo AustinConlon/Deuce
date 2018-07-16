@@ -63,15 +63,6 @@
                             </connections>
                         </button>
                     </items>
-                    <menu key="menu" id="92R-2E-Cxu">
-                        <items>
-                            <menuItem title="Practice" icon="play" id="Ipp-t5-lOy">
-                                <connections>
-                                    <action selector="startPracticeMode" destination="AgC-eL-Hgc" id="DkS-6j-w5A"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                     <connections>
                         <outlet property="matchLengthLabel" destination="6nH-Bn-VTw" id="ApB-uN-XgR"/>
                         <outlet property="matchLengthSlider" destination="H3i-Wl-J5d" id="Xoh-Ss-feP"/>
@@ -257,7 +248,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="467" y="345"/>
+            <point key="canvasLocation" x="466.41025641025647" y="344.79487179487182"/>
         </scene>
     </scenes>
     <color key="tintColor" red="0.42748695611953735" green="0.74683898687362671" blue="0.27070245146751404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

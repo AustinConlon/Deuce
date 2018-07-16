@@ -298,7 +298,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
                 print(error)
             }
         }
-        currentMatch.scorePointForPlayerOneInCurrentGame()
+        currentMatch.increasePointForPlayerOneInCurrentGame()
         updateLabelsFromModel()
     }
     
@@ -314,7 +314,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
                 print(error)
             }
         }
-        currentMatch.scorePointForPlayerTwoInCurrentGame()
+        currentMatch.increasePointForPlayerTwoInCurrentGame()
         updateLabelsFromModel()
     }
     
@@ -501,9 +501,9 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             } else if let scorePoint = message["score point"] {
                 switch scorePoint as! String {
                 case "player one":
-                    self.currentMatch.scorePointForPlayerOneInCurrentGame()
+                    self.currentMatch.increasePointForPlayerOneInCurrentGame()
                 case "player two":
-                    self.currentMatch.scorePointForPlayerTwoInCurrentGame()
+                    self.currentMatch.increasePointForPlayerTwoInCurrentGame()
                 default:
                     break
                 }
