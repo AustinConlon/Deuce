@@ -61,6 +61,13 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            matches.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
     func updateMatchHistoryTableViewCell(for cell: MatchHistoryTableViewCell, with match: Match) {
         switch match.sets.count {
         case 0, 1:
