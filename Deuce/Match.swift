@@ -2,88 +2,68 @@
 //  Match.swift
 //  Deuce
 //
-//  Created by Bijan Massoumi on 1/18/18.
+//  Created by Austin Conlon on 7/3/18.
 //  Copyright © 2018 Austin Conlon. All rights reserved.
 //
 
 import Foundation
+import os.log
 
-class Match {
-    var player: String
-    var opponent: String
-    var maxSets: Int
+class Match: NSObject, NSCoding {
+    // MARK: Properties
+    var sets = [SetScore]()
+    var matchWinner: String?
     
-    var playerScores = [Int]()
-    var opponentScores = [Int]()
+    // MARK: Archiving Paths
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("matches")
     
-    var playerNumGamesWon = 0
-    var opponentNumGamesWon = 0
+    // MARK: Types
     
-    var playerSetsWon = 0
-    var opponentSetsWon = 0
-    
-    var date: String
-    var inDeuce: Bool
-    var isLive: Bool
-    
-    init(player: String, opponent: String, date:String, maxSets: Int, isLive: Bool) {
-        // Initialize stored properties.
-        if player.isEmpty {
-            self.player = "player"
-        } else {
-            self.player = player
-        }
-        
-        if opponent.isEmpty {
-            self.opponent = "opponent"
-        } else {
-            self.opponent = opponent
-        }
-        
-        self.date = date
-        self.isLive = isLive
-        self.inDeuce = false
-        self.maxSets = maxSets
-        self.playerScores.append(0)    //right most element of these two lists
-        self.opponentScores.append(0)  // are the curr game score of a live set.
+    struct PropertyKey {
+        static let sets = "sets"
+        static let matchWinner = "matchWinner"
     }
     
-    func nextGame(winner: String) {
-        if winner == "player" {
-            playerNumGamesWon += 1
-        } else {
-            opponentNumGamesWon += 1
-        }
-        
-        if ( (playerNumGamesWon >= 6 || opponentNumGamesWon >= 6) && abs(playerNumGamesWon - opponentNumGamesWon) >= 2) {
-            if winner == "player" {
-                playerSetsWon += 1
-            } else {
-                opponentSetsWon += 1
-            }
-            nextSet()
-        } else {
-            let last = playerScores.count - 1
-            playerScores[last] = 0
-            opponentScores[last] = 0
-        }
+    // MARK: NSCoding
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(sets, forKey: PropertyKey.sets)
+        aCoder.encode(matchWinner, forKey: PropertyKey.matchWinner)
     }
     
-    func nextSet() {
-        print("next Set")
-        print(String(playerNumGamesWon) + "-" + String(opponentNumGamesWon))
-        let last = playerScores.count - 1
-        playerScores[last] = playerNumGamesWon
-        opponentScores[last] = opponentNumGamesWon
-        
-        let winCond = (maxSets/2) + 1
-        if (playerSetsWon == winCond || opponentSetsWon == winCond)  {
-            self.isLive = false // game over
-        } else {
-            playerNumGamesWon = 0
-            opponentNumGamesWon = 0
-            playerScores.append(0)
-            opponentScores.append(0)
-        }
+    required convenience init?(coder aDecoder: NSCoder) {
+        let sets = aDecoder.decodeObject(forKey: PropertyKey.sets) as! [SetScore]
+        let matchWinner = aDecoder.decodeObject(forKey: PropertyKey.matchWinner) as? String
+        self.init()
+        self.sets = sets
+        self.matchWinner = matchWinner
+    }
+}
+
+class SetScore: NSObject, NSCoding {
+    var playerOneSetScore = 0
+    var playerTwoSetScore = 0
+    
+    // MARK: Types
+    
+    struct PropertyKey {
+        static let playerOneSetScore = "playerOneSetScore"
+        static let playerTwoSetScore = "playerTwoSetScore"
+    }
+    
+    // MARK: NSCoding
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(playerOneSetScore, forKey: PropertyKey.playerOneSetScore)
+        aCoder.encode(playerTwoSetScore, forKey: PropertyKey.playerTwoSetScore)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        let playerOneSetScore = aDecoder.decodeInteger(forKey: PropertyKey.playerOneSetScore)
+        let playerTwoSetScore = aDecoder.decodeInteger(forKey: PropertyKey.playerTwoSetScore)
+        self.init()
+        self.playerOneSetScore = playerOneSetScore
+        self.playerTwoSetScore = playerTwoSetScore
     }
 }

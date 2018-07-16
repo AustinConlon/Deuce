@@ -180,13 +180,13 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         let context = context as? MatchManager
         scoreManager = ScoreManager(context!)
         updateLabelsFromModel()
+        do {
+            try session.updateApplicationContext(["start new match" : ""])
+        } catch {
+            print(error)
+        }
     }
-    
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user.
-        super.willActivate()
-    }
-    
+  
     override func didAppear() {
         // Only proceed if health data is available.
         guard HKHealthStore.isHealthDataAvailable() else { return }
@@ -199,7 +199,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         
         let typesToRead = Set([
             HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!])
-        
+      
         healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { success, error in
             if let error = error, !success {
                 print("The error was: \(error.localizedDescription).")
@@ -257,6 +257,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             healthStore.end(workoutSession)
             isWorkoutRunning = false
         }
+        sendSetScoresToPhone()
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
@@ -273,6 +274,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             healthStore.end(workoutSession)
             isWorkoutRunning = false
         }
+        sendSetScoresToPhone()
     }
     
     @IBAction func undo() {
@@ -285,7 +287,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     
     func updateLabelsFromModel() {
         updateServingLabelsFromModel()
-        updateTitleGameScoreFromModel()
         updateGameScoresFromModel()
         updateSetScoresFromModel()
         if let winner = currentMatch.winner {
@@ -293,9 +294,19 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             case .one:
                 playerOneGameScoreLabel.setText("🏆")
                 playerTwoGameScoreLabel.setHidden(true)
+                do {
+                    try session.updateApplicationContext(["winner" : "player one"])
+                } catch {
+                    print(error)
+                }
             case .two:
                 playerTwoGameScoreLabel.setText("🏆")
                 playerOneGameScoreLabel.setHidden(true)
+                do {
+                    try session.updateApplicationContext(["winner" : "player two"])
+                } catch {
+                    print(error)
+                }
             }
             playerOneServingLabel.setHidden(true)
             playerTwoServingLabel.setHidden(true)
@@ -325,22 +336,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             playerOneServingLabel.setHidden(true)
         default:
             break
-        }
-    }
-    
-    func updateTitleGameScoreFromModel() {
-        if serverScore == "Deuce" {
-            setTitle("Deuce")
-        } else if serverScore == "Ad in" || receiverScore == "Ad in" {
-            setTitle("Ad in")
-        } else if serverScore == "Ad out" || receiverScore == "Ad out" {
-            setTitle("Ad out")
-        } else {
-            if currentMatch.winner == nil {
-                setTitle("\(serverScore)-\(receiverScore)")
-            } else {
-                setTitle("Winner")
-            }
         }
     }
     
@@ -440,6 +435,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoSetScore))
         columnFourPlayerOneSetScoreLabel.setHidden(false)
         columnFourPlayerTwoSetScoreLabel.setHidden(false)
+        
     }
     
     func updateSetScoresForEnteringThirdSet() {
@@ -514,6 +510,20 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
                 // Players switch servers and switch ends of the court.
                 WKInterfaceDevice.current().play(.start)
             }
+        }
+    }
+    
+    func sendSetScoresToPhone() {
+        var setsToBeSentToPhone = [[Int]]()
+        for set in 0..<currentMatch.sets.count {
+            setsToBeSentToPhone.append([0, 0])
+            setsToBeSentToPhone[set][0] = currentMatch.sets[set].playerOneSetScore
+            setsToBeSentToPhone[set][1] = currentMatch.sets[set].playerTwoSetScore
+        }
+        do {
+            try session.updateApplicationContext(["sets" : setsToBeSentToPhone])
+        } catch {
+            print(error)
         }
     }
     
