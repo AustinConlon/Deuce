@@ -8,13 +8,13 @@
 
 import UIKit
 import WatchConnectivity
+import os.log
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
     // MARK: Properties
     var session: WCSession!
     
     var matches = [Match]()
-    var matchWinner: Player?
     
     required init(coder aDecoder: NSCoder) {
         // Initialize properties here.
@@ -33,6 +33,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         // Enable self sizing rows.
         tableView.estimatedRowHeight = 103
         tableView.rowHeight = UITableViewAutomaticDimension
+        
+        if let savedMatches = loadMatches() {
+            matches += savedMatches
+        }
     }
 
     // MARK: - Table view data source
@@ -72,8 +76,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         default:
             break
         }
-        switch matchWinner {
-        case .one?:
+        switch match.matchWinner {
+        case "player one":
             cell.playerOneNameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnOnePlayerOneSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnTwoPlayerOneSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -81,7 +85,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             cell.columnFourPlayerOneSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnFivePlayerOneSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.matchStateLabel.text = "Final"
-        case .two?:
+        case "player two":
             cell.playerTwoNameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnOnePlayerTwoSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnTwoPlayerTwoSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -90,6 +94,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             cell.columnFivePlayerTwoSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.matchStateLabel.text = "Final"
         case .none:
+            break
+        case .some(_):
             break
         }
     }
@@ -232,6 +238,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 self.matches.append(Match())
                 self.matches.last?.sets.append(SetScore())
                 self.tableView.insertRows(at: [newIndexPath], with: .automatic)
+                self.saveMatches()
             } else if let sets = applicationContext["sets"] as? [[Int]] {
                 for set in 0..<sets.count {
                     if sets.count == (self.matches.last?.sets.count)! + 1 { // new set
@@ -241,16 +248,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                     self.matches.last?.sets[set].playerTwoSetScore = sets[set][1]
                 }
                 self.tableView.reloadData()
+                self.saveMatches()
             } else if let winnerOfCurrentMatch = applicationContext["winner"] as? String {
                 switch winnerOfCurrentMatch {
                 case "player two":
-                    self.matchWinner = .two
+                    self.matches.last?.matchWinner = "player two"
                 case "player one":
-                    self.matchWinner = .one
+                    self.matches.last?.matchWinner = "player one"
                 default:
                     break
                 }
                 self.tableView.reloadData()
+                self.saveMatches()
             }
         }
     }
@@ -262,5 +271,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     func sessionDidDeactivate(_ session: WCSession) {
         // Begin the activation process for the new Apple Watch.
         session.activate()
+    }
+    
+    private func saveMatches() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(matches, toFile: Match.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("Matches successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save matches...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    private func loadMatches() -> [Match]?  {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Match.ArchiveURL.path) as? [Match]
     }
 }

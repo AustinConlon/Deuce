@@ -280,7 +280,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     
     func updateLabelsFromModel() {
         updateServingLabelsFromModel()
-        updateTitleGameScoreFromModel()
         updateGameScoresFromModel()
         updateSetScoresFromModel()
         if let winner = currentMatch.winner {
@@ -330,22 +329,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             playerOneServingLabel.setHidden(true)
         default:
             break
-        }
-    }
-    
-    func updateTitleGameScoreFromModel() {
-        if serverScore == "Deuce" {
-            setTitle("Deuce")
-        } else if serverScore == "Ad in" || receiverScore == "Ad in" {
-            setTitle("Ad in")
-        } else if serverScore == "Ad out" || receiverScore == "Ad out" {
-            setTitle("Ad out")
-        } else {
-            if currentMatch.winner == nil {
-                setTitle("\(serverScore)-\(receiverScore)")
-            } else {
-                setTitle("Winner")
-            }
         }
     }
     

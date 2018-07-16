@@ -97,7 +97,6 @@ class MatchHistoryTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        matchStateLabel.isHidden = true
         columnOneSetLabel.isHidden = true
         columnTwoSetLabel.isHidden = true
         columnThreeSetLabel.isHidden = true
