@@ -9,6 +9,7 @@
 import UIKit
 import WatchConnectivity
 import os.log
+import StoreKit
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
     // MARK: Properties
@@ -36,6 +37,12 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         if let savedMatches = loadMatches() {
             matches += savedMatches
+            // If the user has saved matches before, occasionally ask if they'd like to rate the app.
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 
