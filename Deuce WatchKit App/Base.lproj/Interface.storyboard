@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14295.6" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14306.4" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14270.1"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14234.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14278.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14237"/>
     </dependencies>
     <scenes>
         <!--Settings-->
@@ -92,7 +92,7 @@
             <objects>
                 <controller identifier="scoreboard" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreboardInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
-                        <group width="1" height="74" alignment="left" layout="overlap" id="8D4-hX-8s1">
+                        <group width="1" height="74" alignment="left" layout="overlap" id="8D4-hX-8s1" userLabel="Player Two">
                             <items>
                                 <group width="1" alignment="left" id="KkB-ja-aiS">
                                     <items>
@@ -148,9 +148,14 @@
                                 </group>
                             </items>
                             <gestureRecognizers>
-                                <tapGestureRecognizer id="2hP-To-KA9" userLabel="Opponent Side Tap Gesture Recognizer">
+                                <tapGestureRecognizer id="2hP-To-KA9" userLabel="Player Two Tap Gesture Recognizer">
                                     <connections>
                                         <action selector="scorePointForPlayerTwo:" destination="Hlr-PA-eca" id="d0J-Vy-ww0"/>
+                                    </connections>
+                                </tapGestureRecognizer>
+                                <tapGestureRecognizer numberOfTapsRequired="2" id="STP-fs-GvR" userLabel="Player Two Tap Gesture Recognizer">
+                                    <connections>
+                                        <action selector="scoreSetPointForPlayerTwo:" destination="Hlr-PA-eca" id="XV2-h6-dUR"/>
                                     </connections>
                                 </tapGestureRecognizer>
                             </gestureRecognizers>
@@ -160,7 +165,7 @@
                             <variation key="device=watch42mm" height="82"/>
                         </group>
                         <separator alignment="center" id="ga3-rh-Pt9"/>
-                        <group width="1" height="74" alignment="left" layout="overlap" id="RaQ-zM-xjo">
+                        <group width="1" height="74" alignment="left" layout="overlap" id="RaQ-zM-xjo" userLabel="Player One">
                             <items>
                                 <group width="1" alignment="left" verticalAlignment="bottom" id="Dfd-Nm-wxU">
                                     <items>
@@ -207,9 +212,14 @@
                                 </group>
                             </items>
                             <gestureRecognizers>
-                                <tapGestureRecognizer id="7bl-KV-306" userLabel="Your Side Tap Gesture Recognizer">
+                                <tapGestureRecognizer id="7bl-KV-306" userLabel="Player One Tap Gesture Recognizer">
                                     <connections>
                                         <action selector="scorePointForPlayerOne:" destination="Hlr-PA-eca" id="SOJ-zc-5zc"/>
+                                    </connections>
+                                </tapGestureRecognizer>
+                                <tapGestureRecognizer numberOfTapsRequired="2" id="n3J-od-0W3" userLabel="Player One Tap Gesture Recognizer">
+                                    <connections>
+                                        <action selector="scoreSetPointForPlayerOne:" destination="Hlr-PA-eca" id="axR-Qo-a4a"/>
                                     </connections>
                                 </tapGestureRecognizer>
                             </gestureRecognizers>

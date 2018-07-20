@@ -75,10 +75,6 @@ class MatchManager {
         for set in sets {
             totalNumberOfGamesPlayed += set.playerOneSetScore
             totalNumberOfGamesPlayed += set.playerTwoSetScore
-//            for game in set.games {
-//                totalNumberOfPointsPlayed += game.playerOneGameScore
-//                totalNumberOfPointsPlayed += game.playerTwoGameScore
-//            }
         }
         return totalNumberOfGamesPlayed
     }
@@ -120,6 +116,20 @@ class MatchManager {
             currentGame.increasePointForPlayerTwo()
         }
         checkPlayerTwoWonGame()
+    }
+    
+    func increaseSetPointForPlayerOneInCurrentGame() {
+        currentGame.scoreWinner()
+        currentSet.playerOneSetScore += 1
+        currentSet.games.append(GameManager())
+        checkYouWonSet()
+    }
+    
+    func increaseSetPointForPlayerTwoInCurrentGame() {
+        currentGame.scoreWinner()
+        currentSet.playerTwoSetScore += 1
+        currentSet.games.append(GameManager())
+        checkOpponentWonSet()
     }
     
     func checkPlayerOneWonGame() {
