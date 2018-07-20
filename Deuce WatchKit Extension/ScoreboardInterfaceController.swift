@@ -244,9 +244,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        session.sendMessage(["score point" : "player two"], replyHandler: nil, errorHandler: { Error in
-            print(Error)
-        })
         currentMatch.increasePointForPlayerTwoInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
@@ -261,9 +258,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        session.sendMessage(["score point" : "player one"], replyHandler: nil, errorHandler: { Error in
-            print(Error)
-        })
         currentMatch.increasePointForPlayerOneInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
@@ -275,6 +269,18 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             isWorkoutRunning = false
         }
         sendSetScoresToPhone()
+    }
+    
+    @IBAction func scoreSetPointForPlayerTwo(_ sender: Any) {
+        currentMatch.increaseSetPointForPlayerTwoInCurrentGame()
+        playHaptic()
+        updateLabelsFromModel()
+    }
+    
+    @IBAction func scoreSetPointForPlayerOne(_ sender: Any) {
+        currentMatch.increaseSetPointForPlayerOneInCurrentGame()
+        playHaptic()
+        updateLabelsFromModel()
     }
     
     @IBAction func undo() {

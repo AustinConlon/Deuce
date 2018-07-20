@@ -116,7 +116,7 @@ class GameManager {
             case (30, 0...40):
                 playerOneGameScore += 10
             case (40, 0...30):
-                winGame()
+                scoreWinner()
             default:
                 enterDeuceOrAdvantageSituationAfterYouScored()
             }
@@ -127,7 +127,7 @@ class GameManager {
             case (0...40, 30):
                 playerOneGameScore += 10
             case (0...30, 40):
-                winGame()
+                scoreWinner()
             default:
                 enterDeuceOrAdvantageSituationAfterYouScored()
             }
@@ -145,7 +145,7 @@ class GameManager {
             case (30, 0...40):
                 playerTwoGameScore += 10
             case (40, 0...30):
-                winGame()
+                scoreWinner()
             default:
                 enterDeuceOrAdvantageSituationAfterOpponentScored()
             }
@@ -156,7 +156,7 @@ class GameManager {
             case (0...40, 30):
                 playerTwoGameScore += 10
             case (0...30, 40):
-                winGame()
+                scoreWinner()
             default:
                 enterDeuceOrAdvantageSituationAfterOpponentScored()
             }
@@ -168,14 +168,14 @@ class GameManager {
     func increaseTiebreakPointForPlayerOne() {
         playerOneGameScore += 1
         if (playerOneGameScore >= 7) && (playerOneGameScore >= playerTwoGameScore + 2) {
-            winGame()
+            scoreWinner()
         }
     }
     
     func increaseTiebreakForPlayerTwo() {
         playerTwoGameScore += 1
         if (playerTwoGameScore >= 7) && (playerTwoGameScore >= playerOneGameScore + 2) {
-            winGame()
+            scoreWinner()
         }
     }
     
@@ -187,7 +187,7 @@ class GameManager {
         } else if playerOneGameScore == playerTwoGameScore {
             playerOneGameScore += 1
         } else if playerOneGameScore == playerTwoGameScore + 1 {
-            winGame()
+            scoreWinner()
         }
     }
     
@@ -199,11 +199,11 @@ class GameManager {
         } else if playerTwoGameScore == playerOneGameScore {
             playerTwoGameScore += 1
         } else if playerTwoGameScore == playerOneGameScore + 1 {
-            winGame()
+            scoreWinner()
         }
     }
     
-    func winGame() {
+    func scoreWinner() {
         playerOneGameScore = 0
         playerTwoGameScore = 0
         changeServer()
