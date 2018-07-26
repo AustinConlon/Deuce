@@ -92,7 +92,7 @@
             <objects>
                 <controller identifier="scoreboard" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreboardInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
-                        <group width="1" height="74" alignment="left" layout="overlap" id="8D4-hX-8s1" userLabel="Player Two">
+                        <group width="1" height="74" alignment="left" layout="overlap" radius="0.0" id="8D4-hX-8s1" userLabel="Player Two">
                             <items>
                                 <group width="1" alignment="left" id="KkB-ja-aiS">
                                     <items>
@@ -102,15 +102,11 @@
                                         </label>
                                     </items>
                                 </group>
-                                <label height="38" alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Opponent Game Score">
+                                <label height="38" alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Opponent Game Score">
                                     <color key="textColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="font" type="boldSystem" pointSize="34"/>
-                                    <variation key="device=watch38mm" height="29">
-                                        <fontDescription key="font" type="boldSystem" pointSize="39"/>
-                                    </variation>
-                                    <variation key="device=watch42mm" height="38">
-                                        <fontDescription key="font" type="boldSystem" pointSize="48"/>
-                                    </variation>
+                                    <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                                    <variation key="device=watch38mm" height="29"/>
+                                    <variation key="device=watch42mm" height="38"/>
                                 </label>
                                 <group width="1" alignment="left" verticalAlignment="bottom" id="aaL-Es-rY2" userLabel="Opponent Sets">
                                     <items>
@@ -164,8 +160,10 @@
                             <variation key="device=watch38mm" height="70"/>
                             <variation key="device=watch42mm" height="82"/>
                         </group>
-                        <separator alignment="center" id="ga3-rh-Pt9"/>
-                        <group width="1" height="74" alignment="left" layout="overlap" id="RaQ-zM-xjo" userLabel="Player One">
+                        <separator alignment="center" id="ga3-rh-Pt9">
+                            <color key="color" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </separator>
+                        <group width="1" height="74" alignment="left" layout="overlap" radius="0.0" id="RaQ-zM-xjo" userLabel="Player One">
                             <items>
                                 <group width="1" alignment="left" verticalAlignment="bottom" id="Dfd-Nm-wxU">
                                     <items>
@@ -176,15 +174,11 @@
                                     </items>
                                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 </group>
-                                <label height="38" alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Your Game Score">
+                                <label height="38" alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Your Game Score">
                                     <color key="textColor" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="font" type="boldSystem" pointSize="34"/>
-                                    <variation key="device=watch38mm" height="29">
-                                        <fontDescription key="font" type="boldSystem" pointSize="39"/>
-                                    </variation>
-                                    <variation key="device=watch42mm" height="38">
-                                        <fontDescription key="font" type="boldSystem" pointSize="48"/>
-                                    </variation>
+                                    <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                                    <variation key="device=watch38mm" height="29"/>
+                                    <variation key="device=watch42mm" height="38"/>
                                 </label>
                                 <group width="1" alignment="left" id="7fq-fx-g6a" userLabel="Your Sets">
                                     <items>
