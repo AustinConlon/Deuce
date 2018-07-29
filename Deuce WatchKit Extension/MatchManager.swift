@@ -111,7 +111,7 @@ class MatchManager {
     func increasePointForPlayerTwoInCurrentGame() {
         switch currentGame.isTiebreak {
         case true:
-            currentGame.increaseTiebreakForPlayerTwo()
+            currentGame.increaseTiebreakPointForPlayerTwo()
         default:
             currentGame.increasePointForPlayerTwo()
         }
@@ -119,14 +119,14 @@ class MatchManager {
     }
     
     func increaseSetPointForPlayerOneInCurrentGame() {
-        currentGame.scoreWinner()
+        currentGame.scoreWinningPoint()
         currentSet.playerOneSetScore += 1
         currentSet.games.append(GameManager())
         checkYouWonSet()
     }
     
     func increaseSetPointForPlayerTwoInCurrentGame() {
-        currentGame.scoreWinner()
+        currentGame.scoreWinningPoint()
         currentSet.playerTwoSetScore += 1
         currentSet.games.append(GameManager())
         checkOpponentWonSet()
@@ -163,6 +163,15 @@ class MatchManager {
             if matchEnded == false {
                 sets.append(SetManager())
             }
+        }
+    }
+    
+    func undoScores() {
+        currentGame.playerOneGameScore = currentGame.oldPlayerOneGameScore
+        currentGame.playerTwoGameScore = currentGame.oldPlayerTwoGameScore
+        if currentGame.gameScore == (0, 0) {
+            currentSet.playerOneSetScore = currentSet.oldPlayerOneSetScore
+            currentSet.playerTwoSetScore = currentSet.oldPlayerTwoSetScore
         }
     }
 }

@@ -25,6 +25,7 @@ class SetManager {
             if (playerOneSetScore >= 6) && (playerOneSetScore - playerTwoSetScore >= marginToWinSetBy) { // You win the set.
                 setEnded = true
             }
+            oldPlayerOneSetScore = oldValue
         }
     }
     
@@ -34,8 +35,12 @@ class SetManager {
             if (playerTwoSetScore >= 6) && (playerTwoSetScore - playerOneSetScore >= marginToWinSetBy) { // Opponent wins the set.
                 setEnded = true
             }
+            oldPlayerTwoSetScore = oldValue
         }
     }
+    
+    var oldPlayerOneSetScore = 0
+    var oldPlayerTwoSetScore = 0
     
     var marginToWinSetBy: Int {
         get {

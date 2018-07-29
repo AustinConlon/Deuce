@@ -62,7 +62,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     // Properties for displaying the score to be easily read in the navigation bar.
     var serverScore: String {
         get {
-            if currentGame.server == Player.one {
+            if currentGame.server == .one {
                 return playerOneGameScore
             } else {
                 return playerTwoGameScore
@@ -72,7 +72,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     var receiverScore: String {
         get {
-            if currentGame.server == Player.one {
+            if currentGame.server == .one {
                 return playerTwoGameScore
             } else {
                 return playerOneGameScore

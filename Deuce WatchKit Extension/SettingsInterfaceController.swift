@@ -94,29 +94,11 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBAction func start() {
         let chooseOpponentToServeFirst = WKAlertAction(title: "Opponent", style: .`default`) {
-            self.session.sendMessage(["first server": "player two"], replyHandler: nil) { Error in
-                print(Error)
-            }
-            self.session.sendMessage(["start": "new match"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
-            self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .two)
             self.pushController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
         let chooseYourselfToServeFirst = WKAlertAction(title: "You", style: .`default`) {
-            self.session.sendMessage(["first server": "player one"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
-            self.session.sendMessage(["start": "new match"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
-            self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .one)
             self.pushController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)

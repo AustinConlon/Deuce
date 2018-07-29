@@ -40,7 +40,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     
     var serverScore: String {
         get {
-            if currentGame.server == Player.one {
+            if currentGame.server == .one {
                 return playerOneGameScore
             } else {
                 return playerTwoGameScore
@@ -50,7 +50,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     
     var receiverScore: String {
         get {
-            if currentGame.server == Player.one {
+            if currentGame.server == .one {
                 return playerTwoGameScore
             } else {
                 return playerOneGameScore
@@ -92,34 +92,36 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     var playerTwoGameScore: String {
-        switch currentGame.isTiebreak {
-        case true:
-            return String(currentGame.playerTwoGameScore)
-        default:
-            switch currentGame.playerTwoGameScore {
-            case 0:
-                return "Love"
-            case 15, 30:
+        get {
+            switch currentGame.isTiebreak {
+            case true:
                 return String(currentGame.playerTwoGameScore)
-            case 40:
-                if currentGame.playerOneGameScore < 40 {
+            default:
+                switch currentGame.playerTwoGameScore {
+                case 0:
+                    return "Love"
+                case 15, 30:
                     return String(currentGame.playerTwoGameScore)
-                } else if currentGame.playerOneGameScore == 40 {
-                    return "Deuce"
-                }
-            default: // Alternating advantage and deuce situations.
-                if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
-                    if currentGame.server == .two {
-                        return "Ad in"
-                    } else if currentGame.server == .one {
-                        return "Ad out"
+                case 40:
+                    if currentGame.playerOneGameScore < 40 {
+                        return String(currentGame.playerTwoGameScore)
+                    } else if currentGame.playerOneGameScore == 40 {
+                        return "Deuce"
                     }
-                } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
-                    return "Deuce"
+                default: // Alternating advantage and deuce situations.
+                    if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
+                        if currentGame.server == .two {
+                            return "Ad in"
+                        } else if currentGame.server == .one {
+                            return "Ad out"
+                        }
+                    } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
+                        return "Deuce"
+                    }
                 }
             }
+            return ""
         }
-        return ""
     }
     
     let healthStore = HKHealthStore()
@@ -243,28 +245,30 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         isWorkoutRunning = false
     }
     
-    @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        currentMatch.increasePointForPlayerTwoInCurrentGame()
+    // MARK: Actions
+    
+    @IBAction func scorePointForPlayerOne(_ sender: Any) {
+        currentMatch.increasePointForPlayerOneInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
-        undoManager.registerUndo(withTarget: currentMatch) { $0.increasePointForPlayerOneInCurrentGame() }
+        undoManager.registerUndo(withTarget: currentMatch) { $0.undoScores() }
         if currentMatch.winner != nil {
             guard let workoutSession = currentWorkoutSession else { return }
-            
+        
             healthStore.end(workoutSession)
             isWorkoutRunning = false
         }
         sendSetScoresToPhone()
     }
     
-    @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        currentMatch.increasePointForPlayerOneInCurrentGame()
+    @IBAction func scorePointForPlayerTwo(_ sender: Any) {
+        currentMatch.increasePointForPlayerTwoInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
-        undoManager.registerUndo(withTarget: currentMatch) { $0.increasePointForPlayerOneInCurrentGame() }
+        undoManager.registerUndo(withTarget: currentMatch) { $0.undoScores() }
         if currentMatch.winner != nil {
             guard let workoutSession = currentWorkoutSession else { return }
-        
+            
             healthStore.end(workoutSession)
             isWorkoutRunning = false
         }
@@ -284,7 +288,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     @IBAction func undo() {
-        
+        undoManager.undo()
+        updateLabelsFromModel()
     }
     
     @IBAction func endMatch() {
@@ -294,7 +299,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     func updateLabelsFromModel() {
         updateServingLabelsFromModel()
         updateGameScoresFromModel()
-        updateSetScoresFromModel()
+        
         if let winner = currentMatch.winner {
             switch winner {
             case .one:
@@ -323,20 +328,20 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     func updateServingLabelsFromModel() {
-        switch (currentGame.server, currentGame.servingSide) {
-        case (.one?, .right?):
+        switch (currentGame.server, currentGame.serverSide) {
+        case (.one?, .deuceCourt):
             playerOneServingLabel.setHorizontalAlignment(.right)
             playerOneServingLabel.setHidden(false)
             playerTwoServingLabel.setHidden(true)
-        case (.one?, .left?):
+        case (.one?, .adCourt):
             playerOneServingLabel.setHorizontalAlignment(.left)
             playerOneServingLabel.setHidden(false)
             playerTwoServingLabel.setHidden(true)
-        case (.two?, .left?):
+        case (.two?, .deuceCourt):
             playerTwoServingLabel.setHorizontalAlignment(.left)
             playerTwoServingLabel.setHidden(false)
             playerOneServingLabel.setHidden(true)
-        case (.two?, .right?):
+        case (.two?, .adCourt):
             playerTwoServingLabel.setHorizontalAlignment(.right)
             playerTwoServingLabel.setHidden(false)
             playerOneServingLabel.setHidden(true)
@@ -360,6 +365,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         switch currentGame.playerOneGameScore {
         case 0:
             playerOneGameScoreLabel.setText("Love")
+            updateSetScoresFromModel()
         case 15, 30:
             playerOneGameScoreLabel.setText(String(currentGame.playerOneGameScore))
         case 40:
@@ -387,6 +393,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         switch currentGame.playerTwoGameScore {
         case 0:
             playerTwoGameScoreLabel.setText("Love")
+            updateSetScoresFromModel()
         case 15, 30:
             playerTwoGameScoreLabel.setText(String(currentGame.playerTwoGameScore))
         case 40:

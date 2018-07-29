@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14306.4" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14113" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14278.2"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14237"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14033"/>
     </dependencies>
     <scenes>
         <!--Settings-->
@@ -236,7 +236,17 @@
                                     <action selector="endMatch" destination="Hlr-PA-eca" id="Hz2-da-UBu"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Undo" icon="repeat" id="EKg-kU-dAg">
+                                <connections>
+                                    <action selector="undo" destination="Hlr-PA-eca" id="JiE-LL-Z01"/>
+                                </connections>
+                            </menuItem>
                         </items>
+                        <variation key="default">
+                            <mask key="items">
+                                <exclude reference="EoY-IZ-YyL"/>
+                            </mask>
+                        </variation>
                     </menu>
                     <connections>
                         <outlet property="columnFivePlayerOneSetScoreLabel" destination="owa-c8-a4x" id="2bZ-4x-yrp"/>
