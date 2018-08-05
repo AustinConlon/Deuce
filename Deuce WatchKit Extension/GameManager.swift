@@ -9,55 +9,119 @@
 import Foundation
 
 class GameManager {
-    var gameScore: (serverScore: Int, receiverScore: Int) = (0, 0) {
+    var server: Player? {
         didSet {
-            if gameScore != (0, 0) {
-                if isTiebreak && (playerOneGameScore + playerTwoGameScore) % 2 == 1 {
-                    switchServer()
-                } else {
-                    serverSwitchesSides()
-                }
-                gameEnded = false
-            } else if gameScore == (0, 0) {
-                gameEnded = true
-            }
+            oldServer = oldValue
+            serverSide = .deuceCourt
         }
     }
     
-    var server: Player?
-    var serverSide: ServingSide = .deuceCourt
+    var serverSide: ServingSide = .deuceCourt {
+        didSet {
+            oldServerSide = oldValue
+        }
+    }
+    
+    var oldServer: Player?
+    var oldServerSide: ServingSide?
+    
+    var gameScore: (Int, Int) {
+        get {
+           return (serverGameScore, receiverGameScore)
+        }
+    }
+    
+    var oldGameScore: (Int, Int) {
+        get {
+            return (oldServerGameScore, oldReceiverGameScore)
+        }
+    }
     
     var playerOneGameScore = 0 {
         didSet {
-            updateScoreOrderBasedOnServer()
             oldPlayerOneGameScore = oldValue
+            switch isTiebreak {
+            case true:
+                if (playerOneGameScore + playerTwoGameScore) % 2 == 0 {
+                    serverSwitchesSides()
+                } else {
+                    switchServer()
+                }
+            default:
+                if serverGameScore > 0 || receiverGameScore > 0 {
+                    serverSwitchesSides()
+                } else if gameScore == (0, 0) {
+                    serverSide = .deuceCourt
+                }
+            }
         }
     }
     
     var playerTwoGameScore = 0 {
         didSet {
-            updateScoreOrderBasedOnServer()
             oldPlayerTwoGameScore = oldValue
+            switch isTiebreak {
+            case true:
+                if (playerOneGameScore + playerTwoGameScore) % 2 == 0 {
+                    serverSwitchesSides()
+                } else {
+                    switchServer()
+                }
+            default:
+                if serverGameScore > 0 || receiverGameScore > 0 {
+                    serverSwitchesSides()
+                } else if gameScore == (0, 0) {
+                    serverSide = .deuceCourt
+                }
+            }
+        }
+    }
+    
+    var serverGameScore: Int {
+        get {
+            if server == .one {
+                return playerOneGameScore
+            } else {
+                return playerTwoGameScore
+            }
+        }
+    }
+    
+    var receiverGameScore: Int {
+        get {
+            if server == .one {
+                return playerTwoGameScore
+            } else {
+                return playerOneGameScore
+            }
+        }
+    }
+    
+    var oldServerGameScore: Int {
+        get {
+            if server == .one {
+                return oldPlayerOneGameScore!
+            } else {
+                return oldPlayerTwoGameScore!
+            }
+        }
+    }
+    
+    var oldReceiverGameScore: Int {
+        get {
+            if server == .one {
+                return oldPlayerTwoGameScore!
+            } else {
+                return oldPlayerOneGameScore!
+            }
         }
     }
     
     var isTiebreak = false
-    var gameEnded = false
+    var isFinished = false
     
-    var oldPlayerOneGameScore = 0
-    var oldPlayerTwoGameScore = 0
-    
-    // Tennis scoring convention is to call out the server gameScore before the receiver gameScore.
-    func updateScoreOrderBasedOnServer() {
-        switch server {
-        case .one?:
-            gameScore = (playerOneGameScore, playerTwoGameScore)
-        case .two?:
-            gameScore = (playerTwoGameScore, playerOneGameScore)
-        case .none:
-            break
-        }
-    }
+    var oldPlayerOneGameScore: Int?
+    var oldPlayerTwoGameScore: Int?
     
     func switchServer() {
         switch server {
@@ -176,8 +240,11 @@ class GameManager {
     }
     
     func scoreWinningPoint() {
-        playerOneGameScore = 0
-        playerTwoGameScore = 0
+        isFinished = true
         switchServer()
+        
+        if isTiebreak {
+            serverSide = .adCourt
+        }
     }
 }

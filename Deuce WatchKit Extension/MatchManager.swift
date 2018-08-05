@@ -51,13 +51,24 @@ class MatchManager {
             }
         }
     }
+    
+    var gameEnded: Bool {
+        get {
+            if (currentSet.playerOneSetScore == currentSet.oldPlayerOneSetScore) && (currentSet.playerTwoSetScore == currentSet.oldPlayerTwoSetScore) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
     var matchEnded = false
+    
     var winner: Player?
     var sets = [SetManager]() {
         didSet {
             // Persist state of serving player across games.
             sets.last?.currentGame.server = oldValue.last?.currentGame.server
-            currentSet.setEnded = false
+            currentSet.isFinished = false
         }
     }
     var currentSet: SetManager {
@@ -133,15 +144,15 @@ class MatchManager {
     }
     
     func checkPlayerOneWonGame() {
-        if currentGame.gameEnded == true {
+        if currentGame.isFinished == true {
             currentSet.playerOneSetScore += 1
             currentSet.games.append(GameManager())
         }
         checkYouWonSet()
     }
-    
+
     func checkPlayerTwoWonGame() {
-        if currentGame.gameEnded == true {
+        if currentGame.isFinished == true {
             currentSet.playerTwoSetScore += 1
             currentSet.games.append(GameManager())
         }
@@ -149,7 +160,7 @@ class MatchManager {
     }
     
     func checkYouWonSet() {
-        if currentSet.setEnded == true {
+        if currentSet.isFinished == true {
             playerOneMatchScore += 1
             if matchEnded == false {
                 sets.append(SetManager())
@@ -158,7 +169,7 @@ class MatchManager {
     }
     
     func checkOpponentWonSet() {
-        if currentSet.setEnded == true {
+        if currentSet.isFinished == true {
             playerTwoMatchScore += 1
             if matchEnded == false {
                 sets.append(SetManager())
@@ -166,12 +177,37 @@ class MatchManager {
         }
     }
     
-    func undoScores() {
-        currentGame.playerOneGameScore = currentGame.oldPlayerOneGameScore
-        currentGame.playerTwoGameScore = currentGame.oldPlayerTwoGameScore
+    func undoPlayerOneScore() {
         if currentGame.gameScore == (0, 0) {
-            currentSet.playerOneSetScore = currentSet.oldPlayerOneSetScore
-            currentSet.playerTwoSetScore = currentSet.oldPlayerTwoSetScore
+            if currentSet.games.count > 1 {
+                currentSet.games.removeLast()
+                currentSet.playerOneSetScore -= 1
+                currentGame.isFinished = false
+            } else if sets.count > 1 {
+                sets.removeLast()
+                sets.last?.games.removeLast()
+                currentSet.playerOneSetScore -= 1
+                playerOneMatchScore -= 1
+            }
+        } else {
+            currentGame.playerOneGameScore = currentGame.oldPlayerOneGameScore!
+        }
+    }
+    
+    func undoPlayerTwoScore() {
+        if currentGame.gameScore == (0, 0) {
+            if currentSet.games.count > 1 {
+                currentSet.games.removeLast()
+                currentSet.playerTwoSetScore -= 1
+                currentGame.isFinished = false
+            } else if sets.count > 1 {
+                sets.removeLast()
+                sets.last?.games.removeLast()
+                currentSet.playerTwoSetScore -= 1
+                playerTwoMatchScore -= 1
+            }
+        } else {
+            currentGame.playerTwoGameScore = currentGame.oldPlayerTwoGameScore!
         }
     }
 }

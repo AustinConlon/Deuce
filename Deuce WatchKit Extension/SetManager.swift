@@ -16,14 +16,16 @@ class SetManager {
     let minimumNumbersOfGamesToWinSet = 6
     static var typeOfSet: TypeOfSet = .tiebreak
     
-    // Number of games you and your opponent won.
-    var setScore: (serverScore: Int, receiverScore: Int) = (0, 0)
+    var setScore: (Int, Int) {
+        get {
+            return (serverSetScore, receiverSetScore)
+        }
+    }
     
     var playerOneSetScore = 0 {
         didSet {
-            updateScoreOrderBasedOnServer()
             if (playerOneSetScore >= 6) && (playerOneSetScore - playerTwoSetScore >= marginToWinSetBy) { // You win the set.
-                setEnded = true
+                isFinished = true
             }
             oldPlayerOneSetScore = oldValue
         }
@@ -31,16 +33,35 @@ class SetManager {
     
     var playerTwoSetScore = 0 {
         didSet {
-            updateScoreOrderBasedOnServer()
             if (playerTwoSetScore >= 6) && (playerTwoSetScore - playerOneSetScore >= marginToWinSetBy) { // Opponent wins the set.
-                setEnded = true
+                isFinished = true
             }
             oldPlayerTwoSetScore = oldValue
         }
     }
     
-    var oldPlayerOneSetScore = 0
-    var oldPlayerTwoSetScore = 0
+    var serverSetScore: Int {
+        get {
+            if currentGame.server == .one {
+                return playerOneSetScore
+            } else {
+                return playerTwoSetScore
+            }
+        }
+    }
+    
+    var receiverSetScore: Int {
+        get {
+            if currentGame.server == .one {
+                return playerTwoSetScore
+            } else {
+                return playerOneSetScore
+            }
+        }
+    }
+    
+    var oldPlayerOneSetScore: Int?
+    var oldPlayerTwoSetScore: Int?
     
     var marginToWinSetBy: Int {
         get {
@@ -52,15 +73,23 @@ class SetManager {
         }
     }
     
-    var setEnded = false
+    var isFinished = false
     
     var games = [GameManager]() {
         didSet {
             if SetManager.typeOfSet == .tiebreak && setScore == (6, 6) {
                 currentGame.isTiebreak = true
+            } else {
+                currentGame.isTiebreak = false
             }
-            // Persist state of which player is the server across games.
+            
             games.last?.server = oldValue.last?.server
+            currentGame.oldServer = oldValue.last?.oldServer
+            currentGame.oldServerSide = oldValue.last?.oldServerSide
+            if games.count < oldValue.count {
+                currentGame.server = currentGame.oldServer
+                currentGame.serverSide = currentGame.oldServerSide!
+            }
         }
     }
     var currentGame: GameManager {
@@ -71,17 +100,5 @@ class SetManager {
     
     init() {
         games.append(GameManager())
-    }
-    
-    // Tennis scoring convention is to call out the server score before the receiver score.
-    func updateScoreOrderBasedOnServer() {
-        switch currentGame.server {
-        case .one?:
-            setScore = (playerOneSetScore, playerTwoSetScore)
-        case .two?:
-            setScore = (playerTwoSetScore, playerOneSetScore)
-        case .none:
-            break
-        }
     }
 }
