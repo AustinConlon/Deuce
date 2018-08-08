@@ -24,19 +24,17 @@ class SetManager {
     
     var playerOneSetScore = 0 {
         didSet {
-            if (playerOneSetScore >= 6) && (playerOneSetScore - playerTwoSetScore >= marginToWinSetBy) { // You win the set.
+            if (playerOneSetScore >= 6) && (playerOneSetScore - playerTwoSetScore >= marginToWinSetBy) { // Player one wins the set.
                 isFinished = true
             }
-            oldPlayerOneSetScore = oldValue
         }
     }
     
     var playerTwoSetScore = 0 {
         didSet {
-            if (playerTwoSetScore >= 6) && (playerTwoSetScore - playerOneSetScore >= marginToWinSetBy) { // Opponent wins the set.
+            if (playerTwoSetScore >= 6) && (playerTwoSetScore - playerOneSetScore >= marginToWinSetBy) { // Player two wins the set.
                 isFinished = true
             }
-            oldPlayerTwoSetScore = oldValue
         }
     }
     
@@ -60,9 +58,6 @@ class SetManager {
         }
     }
     
-    var oldPlayerOneSetScore: Int?
-    var oldPlayerTwoSetScore: Int?
-    
     var marginToWinSetBy: Int {
         get {
             if (SetManager.typeOfSet == .tiebreak) && (currentGame.isTiebreak) {
@@ -77,18 +72,21 @@ class SetManager {
     
     var games = [GameManager]() {
         didSet {
+            if games.count > oldValue.count || self.isFinished { // Added new game.
+                switch oldValue.last?.server! {
+                case .one?:
+                    games.last?.server = .two
+                case .two?:
+                    games.last?.server = .one
+                default:
+                    break
+                }
+            }
+            
             if SetManager.typeOfSet == .tiebreak && setScore == (6, 6) {
                 currentGame.isTiebreak = true
             } else {
                 currentGame.isTiebreak = false
-            }
-            
-            games.last?.server = oldValue.last?.server
-            currentGame.oldServer = oldValue.last?.oldServer
-            currentGame.oldServerSide = oldValue.last?.oldServerSide
-            if games.count < oldValue.count {
-                currentGame.server = currentGame.oldServer
-                currentGame.serverSide = currentGame.oldServerSide!
             }
         }
     }

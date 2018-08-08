@@ -248,32 +248,38 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     // MARK: Actions
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        currentMatch.increasePointForPlayerOneInCurrentGame()
+        currentMatch.scorePointForPlayerOne()
         playHaptic()
         updateLabelsFromModel()
+        
         undoManager.registerUndo(withTarget: currentMatch) { $0.undoPlayerOneScore() }
+        
         if currentMatch.winner != nil {
             guard let workoutSession = currentWorkoutSession else { return }
         
             healthStore.end(workoutSession)
             isWorkoutRunning = false
         }
+        
         sendSetScoresToPhone()
         clearAllMenuItems()
         addMenuItem(with: .repeat, title: "Undo", action: #selector(undo))
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        currentMatch.increasePointForPlayerTwoInCurrentGame()
+        currentMatch.scorePointForPlayerTwo()
         playHaptic()
         updateLabelsFromModel()
+        
         undoManager.registerUndo(withTarget: currentMatch) { $0.undoPlayerTwoScore() }
+        
         if currentMatch.winner != nil {
             guard let workoutSession = currentWorkoutSession else { return }
             
             healthStore.end(workoutSession)
             isWorkoutRunning = false
         }
+        
         sendSetScoresToPhone()
         clearAllMenuItems()
         addMenuItem(with: .repeat, title: "Undo", action: #selector(undo))
@@ -283,12 +289,14 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         currentMatch.increaseSetPointForPlayerTwoInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
+        sendSetScoresToPhone()
     }
     
     @IBAction func scoreSetPointForPlayerOne(_ sender: Any) {
         currentMatch.increaseSetPointForPlayerOneInCurrentGame()
         playHaptic()
         updateLabelsFromModel()
+        sendSetScoresToPhone()
     }
     
     @objc func undo() {
@@ -362,7 +370,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             setTitle("Tiebreak")
             playerOneGameScoreLabel.setText(String(currentGame.playerOneGameScore))
             playerTwoGameScoreLabel.setText(String(currentGame.playerTwoGameScore))
-        default:
+        case false:
+            setTitle(nil)
             updatePlayerOneGameScoreFromModel()
             updatePlayerTwoGameScoreFromModel()
         }
@@ -517,7 +526,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     func playHaptic() {
-        switch currentMatch.matchEnded {
+        switch currentMatch.isFinished {
         case true:
             if currentMatch.winner == .one {
                 WKInterfaceDevice.current().play(.success)
@@ -568,9 +577,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             if let scorePoint = message["score point"] {
                 switch scorePoint as! String {
                 case "player one":
-                    self.currentMatch.increasePointForPlayerOneInCurrentGame()
+                    self.currentMatch.scorePointForPlayerOne()
                 case "player two":
-                    self.currentMatch.increasePointForPlayerTwoInCurrentGame()
+                    self.currentMatch.scorePointForPlayerTwo()
                 default:
                     break
                 }
@@ -587,9 +596,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             if let scorePoint = applicationContext["score point"] {
                 switch scorePoint as! String {
                 case "player one":
-                    self.currentMatch.increasePointForPlayerOneInCurrentGame()
+                    self.currentMatch.scorePointForPlayerOne()
                 case "player two":
-                    self.currentMatch.increasePointForPlayerTwoInCurrentGame()
+                    self.currentMatch.scorePointForPlayerTwo()
                 default:
                     break
                 }

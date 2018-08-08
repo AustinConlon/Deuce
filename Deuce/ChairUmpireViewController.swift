@@ -263,7 +263,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     @IBAction func stopMatch(_ sender: Any) {
-        if currentMatch.matchEnded == false {
+        if currentMatch.isFinished == false {
             let alert = UIAlertController(title: "End Match", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .destructive, handler: { _ in
@@ -298,7 +298,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
                 print(error)
             }
         }
-        currentMatch.increasePointForPlayerOneInCurrentGame()
+        currentMatch.scorePointForPlayerOne()
         updateLabelsFromModel()
     }
     
@@ -314,7 +314,7 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
                 print(error)
             }
         }
-        currentMatch.increasePointForPlayerTwoInCurrentGame()
+        currentMatch.scorePointForPlayerTwo()
         updateLabelsFromModel()
     }
     
@@ -501,9 +501,9 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
             } else if let scorePoint = message["score point"] {
                 switch scorePoint as! String {
                 case "player one":
-                    self.currentMatch.increasePointForPlayerOneInCurrentGame()
+                    self.currentMatch.scorePointForPlayerOne()
                 case "player two":
-                    self.currentMatch.increasePointForPlayerTwoInCurrentGame()
+                    self.currentMatch.scorePointForPlayerTwo()
                 default:
                     break
                 }

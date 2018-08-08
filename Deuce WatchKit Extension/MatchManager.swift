@@ -37,7 +37,7 @@ class MatchManager {
         didSet {
             updateScoreOrderBasedOnServer()
             if playerOneMatchScore >= minumumNumberOfSetsToWinMatch {
-                matchEnded = true
+                isFinished = true
                 winner = .one
             }
         }
@@ -46,29 +46,27 @@ class MatchManager {
         didSet {
             updateScoreOrderBasedOnServer()
             if playerTwoMatchScore >= minumumNumberOfSetsToWinMatch {
-                matchEnded = true
+                isFinished = true
                 winner = .two
             }
         }
     }
     
-    var gameEnded: Bool {
-        get {
-            if (currentSet.playerOneSetScore == currentSet.oldPlayerOneSetScore) && (currentSet.playerTwoSetScore == currentSet.oldPlayerTwoSetScore) {
-                return true
-            } else {
-                return false
-            }
-        }
-    }
-    var matchEnded = false
+    var isFinished = false
     
     var winner: Player?
     var sets = [SetManager]() {
         didSet {
-            // Persist state of serving player across games.
-            sets.last?.currentGame.server = oldValue.last?.currentGame.server
-            currentSet.isFinished = false
+            if sets.count > oldValue.count {
+                switch oldValue.last?.games.last?.server {
+                case .one?:
+                    sets.last?.games.last?.server = .two
+                case .two?:
+                    sets.last?.games.last?.server = .one
+                default:
+                    break
+                }
+            }
         }
     }
     var currentSet: SetManager {
@@ -109,7 +107,7 @@ class MatchManager {
         }
     }
     
-    func increasePointForPlayerOneInCurrentGame() {
+    func scorePointForPlayerOne() {
         switch currentGame.isTiebreak {
         case true:
             currentGame.increaseTiebreakPointForPlayerOne()
@@ -119,7 +117,7 @@ class MatchManager {
         checkPlayerOneWonGame()
     }
     
-    func increasePointForPlayerTwoInCurrentGame() {
+    func scorePointForPlayerTwo() {
         switch currentGame.isTiebreak {
         case true:
             currentGame.increaseTiebreakPointForPlayerTwo()
@@ -132,48 +130,48 @@ class MatchManager {
     func increaseSetPointForPlayerOneInCurrentGame() {
         currentGame.scoreWinningPoint()
         currentSet.playerOneSetScore += 1
-        currentSet.games.append(GameManager())
-        checkYouWonSet()
+        checkPlayerOneWonSet()
     }
     
     func increaseSetPointForPlayerTwoInCurrentGame() {
         currentGame.scoreWinningPoint()
         currentSet.playerTwoSetScore += 1
-        currentSet.games.append(GameManager())
-        checkOpponentWonSet()
+        checkPlayerTwoWonSet()
     }
     
     func checkPlayerOneWonGame() {
-        if currentGame.isFinished == true {
+        if currentGame.isFinished {
             currentSet.playerOneSetScore += 1
-            currentSet.games.append(GameManager())
+            checkPlayerOneWonSet()
         }
-        checkYouWonSet()
     }
 
     func checkPlayerTwoWonGame() {
-        if currentGame.isFinished == true {
+        if currentGame.isFinished {
             currentSet.playerTwoSetScore += 1
-            currentSet.games.append(GameManager())
+            checkPlayerTwoWonSet()
         }
-        checkOpponentWonSet()
     }
     
-    func checkYouWonSet() {
+    func checkPlayerOneWonSet() {
         if currentSet.isFinished == true {
             playerOneMatchScore += 1
-            if matchEnded == false {
+            if self.isFinished == false {
                 sets.append(SetManager())
             }
+        } else {
+            currentSet.games.append(GameManager())
         }
     }
     
-    func checkOpponentWonSet() {
+    func checkPlayerTwoWonSet() {
         if currentSet.isFinished == true {
             playerTwoMatchScore += 1
-            if matchEnded == false {
+            if self.isFinished == false {
                 sets.append(SetManager())
             }
+        } else {
+            currentSet.games.append(GameManager())
         }
     }
     
@@ -182,13 +180,14 @@ class MatchManager {
             if currentSet.games.count > 1 {
                 currentSet.games.removeLast()
                 currentSet.playerOneSetScore -= 1
-                currentGame.isFinished = false
-            } else if sets.count > 1 {
+            } else if currentSet.games.count == 1 && sets.count > 1 {
                 sets.removeLast()
-                sets.last?.games.removeLast()
                 currentSet.playerOneSetScore -= 1
                 playerOneMatchScore -= 1
             }
+            
+            currentGame.isFinished = false
+            currentSet.isFinished = false
         } else {
             currentGame.playerOneGameScore = currentGame.oldPlayerOneGameScore!
         }
@@ -199,13 +198,14 @@ class MatchManager {
             if currentSet.games.count > 1 {
                 currentSet.games.removeLast()
                 currentSet.playerTwoSetScore -= 1
-                currentGame.isFinished = false
-            } else if sets.count > 1 {
+            } else if currentSet.games.count == 1 && sets.count > 1 {
                 sets.removeLast()
-                sets.last?.games.removeLast()
                 currentSet.playerTwoSetScore -= 1
                 playerTwoMatchScore -= 1
             }
+            
+            currentGame.isFinished = false
+            currentSet.isFinished = false
         } else {
             currentGame.playerTwoGameScore = currentGame.oldPlayerTwoGameScore!
         }
