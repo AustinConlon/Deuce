@@ -9,13 +9,9 @@
 import UIKit
 import WatchConnectivity
 
-class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
-    /** Called when the session has completed activation. If session state is WCSessionActivationStateNotActivated there will be an error with more details. */
-    @available(iOS 9.3, *)
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
+class ChairUmpireViewController: UIViewController  {
     
     // MARK: Properties
-    var session: WCSession!
     var scoreManager: ScoreManager?
     var currentGame: GameManager {
         get {
@@ -160,28 +156,6 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     @IBOutlet weak var rightSideSetScoreLabel: UILabel!
     @IBOutlet weak var rightSideMatchScoreLabel: UILabel!
     
-    required init(coder aDecoder: NSCoder) {
-        // Initialize properties here.
-        super.init(coder: aDecoder)!
-        
-        if (WCSession.isSupported()) {
-            session = WCSession.default()
-            session.delegate = self
-            session.activate()
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        if session?.isPaired == true {
-            startMatchButton.isEnabled = false
-            let alert = UIAlertController(title: "Start from Apple Watch", message: "To start, open Deuce on Apple Watch and then press the Coin Toss button.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
-                NSLog("The \"OK\" alert occured.")
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
     @IBAction func changeMatchLength(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 1:
@@ -191,94 +165,30 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         default:
             maximumNumberOfSetsInMatch = 1
         }
-        if session?.isReachable == true {
-            session.sendMessage(["match length" : maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
-        } else {
-            do {
-                try session?.updateApplicationContext(["match length" : maximumNumberOfSetsInMatch])
-            } catch {
-                print(error)
-            }
-        }
     }
     
     @IBAction func changeTypeOfSet(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             typeOfSet = .tiebreak
-            if session?.isReachable == true {
-                session.sendMessage(["type of set" : "tiebreak"], replyHandler: nil, errorHandler: { Error in
-                    print(Error)
-                })
-            } else {
-                do {
-                    try session?.updateApplicationContext(["type of set" : "tiebreak"])
-                } catch {
-                    print(error)
-                }
-            }
         case 1:
             typeOfSet = .advantage
-            if session?.isReachable == true {
-                session.sendMessage(["type of set" : "advantage"], replyHandler: nil, errorHandler: { Error in
-                    print(Error)
-                })
-            } else {
-                do {
-                    try session?.updateApplicationContext(["type of set" : "advantage"])
-                } catch {
-                    print(error)
-                }
-            }
         default:
             break
         }
     }
     
     @IBAction func startMatch(_ sender: Any) {
-        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone {
-            if session.isReachable {
-                session.sendMessage(["start" : "new match"], replyHandler: nil, errorHandler: { Error in
-                    print(Error)
-                })
-            } else {
-                do {
-                    try session.updateApplicationContext(["start" : "new match"])
-                } catch {
-                    print(error)
-                }
-            }
-            if session.isWatchAppInstalled {
-                leftSideGameScoreButton.isHidden = true
-                rightSideGameScoreButton.isHidden = true
-            } else {
-                coinToss()
-            }
-        }
-        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
-            coinToss()
-        }
+        coinToss()
     }
     
     @IBAction func stopMatch(_ sender: Any) {
         if currentMatch.isFinished == false {
-            let alert = UIAlertController(title: "End Match", message: nil, preferredStyle: .alert)
+            let alert = UIAlertController(title: "End Match?", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .destructive, handler: { _ in
-                if self.session?.isReachable == true {
-                    self.session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
-                        print(Error)
-                    })
-                } else {
-                    do {
-                        try self.session?.updateApplicationContext(["end match" : "reset"])
-                    } catch {
-                        print(error)
-                    }
-                }
                 self.updateLabelsForEndOfMatch()
+                self.navigationController?.popToRootViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
         } else {
@@ -287,33 +197,11 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        if session?.isReachable == true {
-            session.sendMessage(["score point" : "player one"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
-        } else {
-            do {
-                try session?.updateApplicationContext(["score point" : "player one"])
-            } catch {
-                print(error)
-            }
-        }
         currentMatch.scorePointForPlayerOne()
         updateLabelsFromModel()
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        if session?.isReachable == true {
-            session.sendMessage(["score point" : "player two"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
-        } else {
-            do {
-                try session?.updateApplicationContext(["score point" : "player two"])
-            } catch {
-                print(error)
-            }
-        }
         currentMatch.scorePointForPlayerTwo()
         updateLabelsFromModel()
     }
@@ -360,9 +248,6 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         case .two:
             rightSideServingStatusLabel.isHidden = false
         }
-        if session?.isWatchAppInstalled == true {
-            pairedAppleWatchLabel.isHidden = false
-        }
     }
     
     func updateLabelsFromModel() {
@@ -390,9 +275,6 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     
     func updateLabelsForEndOfMatch() {
         endMatchButton.isEnabled = false
-        if session?.isPaired == false {
-            startMatchButton.isEnabled = true
-        }
         changeMatchLengthSegmentedControl.isHidden = false
         setTypeSegmentedControl.isHidden = false
         leftSideServingStatusLabel.isHidden = true
@@ -403,7 +285,6 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
         rightSideGameScoreButton.isHidden = true
         rightSideSetScoreLabel.isHidden = true
         rightSideMatchScoreLabel.isHidden = true
-        pairedAppleWatchLabel.isHidden = true
         title = "Chair Umpire"
     }
     
@@ -470,57 +351,5 @@ class ChairUmpireViewController: UIViewController, WCSessionDelegate  {
     func updateMatchScoresFromModel() {
         leftSideMatchScoreLabel.text = "Match score: \(currentMatch.playerOneMatchScore)"
         rightSideMatchScoreLabel.text = "Match score: \(currentMatch.playerTwoMatchScore)"
-    }
-    
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        DispatchQueue.main.async {
-            if let maximumNumberOfSetsInMatch = message["match length"] {
-                self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch as! Int
-            } else if let typeOfSet = message["type of set"] {
-                switch typeOfSet as! String {
-                case "advantage":
-                    self.typeOfSet = .advantage
-                    self.setTypeSegmentedControl.selectedSegmentIndex = 1
-                default:
-                    self.typeOfSet = .tiebreak
-                    self.setTypeSegmentedControl.selectedSegmentIndex = 0
-                }
-            } else if let firstServer = message["first server"] {
-                switch firstServer as! String {
-                case "player one":
-                    self.playerThatWillServeFirst = .one
-                case "player two":
-                    self.playerThatWillServeFirst = .two
-                default:
-                    break
-                }
-            } else if message["start"] != nil {
-                self.leftSideGameScoreButton.setTitleColor(UIColor(red: 0.35, green: 0.78, blue: 0.98, alpha: 1.0), for: .normal)
-                self.rightSideGameScoreButton.setTitleColor(UIColor(red: 1.00, green: 0.23, blue: 0.19, alpha: 1.0), for: .normal)
-                self.startScoring()
-            } else if let scorePoint = message["score point"] {
-                switch scorePoint as! String {
-                case "player one":
-                    self.currentMatch.scorePointForPlayerOne()
-                case "player two":
-                    self.currentMatch.scorePointForPlayerTwo()
-                default:
-                    break
-                }
-                self.updateLabelsFromModel()
-            } else if message["end match"] != nil {
-                self.updateLabelsForEndOfMatch()
-                self.startMatchButton.isEnabled = false
-                self.title = "Chair Umpire"
-            }
-        }
-    }
-    
-    func sessionDidBecomeInactive(_ session: WCSession) {
-    }
-    
-    func sessionDidDeactivate(_ session: WCSession) {
-        // Begin the activation process for the new Apple Watch.
-        session.activate()
     }
 }

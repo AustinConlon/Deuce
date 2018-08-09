@@ -31,6 +31,14 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone {
+            if !session.isWatchAppInstalled {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Chair Umpire", style: .plain, target: self, action: #selector(presentChairUmpireViewController))
+            }
+        } else if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Chair Umpire", style: .plain, target: self, action: #selector(presentChairUmpireViewController))
+        }
+        
         // Enable self sizing rows.
         tableView.estimatedRowHeight = 103
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -44,6 +52,11 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 // Fallback on earlier versions
             }
         }
+    }
+    
+    @objc func presentChairUmpireViewController() {
+        let chairUmpireViewController = self.storyboard?.instantiateViewController(withIdentifier: "ChairUmpireViewController") as! ChairUmpireViewController
+        self.navigationController?.pushViewController(chairUmpireViewController, animated: true)
     }
 
     // MARK: - Table view data source
