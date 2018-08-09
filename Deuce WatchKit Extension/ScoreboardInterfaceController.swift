@@ -302,6 +302,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     @objc func undo() {
         undoManager.undo()
         updateLabelsFromModel()
+        sendSetScoresToPhone()
         clearAllMenuItems()
     }
     

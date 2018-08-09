@@ -90,6 +90,9 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         default:
             break
         }
+        
+        hideMostRecentColumnAfterUndo(cell, match)
+        
         switch match.matchWinner {
         case "player one":
             cell.playerOneNameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -243,6 +246,25 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         cell.columnFiveSetLabel.isHidden = false
         cell.columnFivePlayerOneSetScoreLabel.isHidden = false
         cell.columnFivePlayerTwoSetScoreLabel.isHidden = false
+    }
+    
+    func hideMostRecentColumnAfterUndo(_ cell: MatchHistoryTableViewCell, _ match: Match) {
+        switch match.sets.count {
+        case 1:
+            cell.columnFourPlayerOneSetScoreLabel.isHidden = true
+            cell.columnFourPlayerTwoSetScoreLabel.isHidden = true
+        case 2:
+            cell.columnThreePlayerOneSetScoreLabel.isHidden = true
+            cell.columnThreePlayerTwoSetScoreLabel.isHidden = true
+        case 3:
+            cell.columnTwoPlayerOneSetScoreLabel.isHidden = true
+            cell.columnTwoPlayerTwoSetScoreLabel.isHidden = true
+        case 4:
+            cell.columnOnePlayerOneSetScoreLabel.isHidden = true
+            cell.columnOnePlayerTwoSetScoreLabel.isHidden = true
+        default:
+            break
+        }
     }
 
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
