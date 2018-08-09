@@ -58,7 +58,7 @@ class ChairUmpireViewController: UIViewController  {
     // Properties for displaying the score to be easily read in the navigation bar.
     var serverScore: String {
         get {
-            if currentGame.server == Player.one {
+            if currentGame.server == .one {
                 return playerOneGameScore
             } else {
                 return playerTwoGameScore
@@ -68,7 +68,7 @@ class ChairUmpireViewController: UIViewController  {
     
     var receiverScore: String {
         get {
-            if currentGame.server == Player.one {
+            if currentGame.server == .one {
                 return playerTwoGameScore
             } else {
                 return playerOneGameScore
@@ -183,7 +183,7 @@ class ChairUmpireViewController: UIViewController  {
     }
     
     @IBAction func stopMatch(_ sender: Any) {
-        if currentMatch.matchEnded == false {
+        if currentMatch.isFinished == false {
             let alert = UIAlertController(title: "End Match?", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .destructive, handler: { _ in
@@ -197,12 +197,12 @@ class ChairUmpireViewController: UIViewController  {
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        currentMatch.increasePointForPlayerOneInCurrentGame()
+        currentMatch.scorePointForPlayerOne()
         updateLabelsFromModel()
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        currentMatch.increasePointForPlayerTwoInCurrentGame()
+        currentMatch.scorePointForPlayerTwo()
         updateLabelsFromModel()
     }
     

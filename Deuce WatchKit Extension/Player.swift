@@ -14,5 +14,5 @@ enum Player {
 
 // Server always starts on the right side, alternates after every point.
 enum ServingSide {
-    case left, right
+    case deuceCourt, adCourt
 }

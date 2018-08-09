@@ -20,41 +20,29 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBOutlet var matchLengthLabel: WKInterfaceLabel!
     @IBOutlet var matchLengthSlider: WKInterfaceSlider!
-    @IBOutlet var typeOfSetLabel: WKInterfaceLabel!
+    @IBOutlet var setTypeLabel: WKInterfaceLabel!
     @IBOutlet var startButton: WKInterfaceButton!
-    
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
+
+    override func didDeactivate() {
+        // This method is called when watch view controller is no longer visible
+        super.didDeactivate()
         if (WCSession.isSupported()) {
             session = WCSession.default()
             session.delegate = self
             session.activate()
         }
     }
-
-    override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
-        super.didDeactivate()
-    }
     
     func updateLabelForTypeOfSet() {
-        switch maximumNumberOfSetsInMatch {
-        case 1:
-            typeOfSetLabel.setText("Type of set")
-        default:
-            typeOfSetLabel.setText("Type of sets")
-        }
-        
         switch (maximumNumberOfSetsInMatch, typeOfSet) {
         case (1, .advantage):
-            typeOfSetLabel.setText("Advantage set")
+            setTypeLabel.setText("Advantage set")
         case (1, .tiebreak):
-            typeOfSetLabel.setText("Tiebreak set")
+            setTypeLabel.setText("Tiebreak set")
         case (_, .advantage):
-            typeOfSetLabel.setText("Advantage sets")
+            setTypeLabel.setText("Advantage sets")
         case (_, .tiebreak):
-            typeOfSetLabel.setText("Tiebreak sets")
+            setTypeLabel.setText("Tiebreak sets")
         }
     }
 
@@ -62,61 +50,32 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
         maximumNumberOfSetsInMatch = Int(value)
         switch value {
         case 3:
-            matchLengthLabel.setText("Best-of three sets")
+            matchLengthLabel.setText("Best-of 3 sets")
         case 5:
-            matchLengthLabel.setText("Best-of five sets")
+            matchLengthLabel.setText("Best-of 5 sets")
         default:
-            matchLengthLabel.setText("One set")
+            matchLengthLabel.setText("1 set")
         }
         updateLabelForTypeOfSet()
-        session.sendMessage(["match length" : maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
-            print(Error)
-        })
     }
     
     @IBAction func chooseTypeOfSetToBeAdvantage() {
         typeOfSet = .advantage
         updateLabelForTypeOfSet()
-        startButton.setHidden(false)
-        session.sendMessage(["type of set" : "advantage"], replyHandler: nil, errorHandler: { Error in
-            print(Error)
-        })
     }
     
     @IBAction func chooseTypeOfSetToBeTiebreak() {
         typeOfSet = .tiebreak
         updateLabelForTypeOfSet()
-        startButton.setHidden(false)
-        session.sendMessage(["type of set" : "tiebreak"], replyHandler: nil, errorHandler: { Error in
-            print(Error)
-        })
     }
     
     @IBAction func start() {
         let chooseOpponentToServeFirst = WKAlertAction(title: "Opponent", style: .`default`) {
-            self.session.sendMessage(["first server": "player two"], replyHandler: nil) { Error in
-                print(Error)
-            }
-            self.session.sendMessage(["start": "new match"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
-            self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .two)
             self.pushController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
         }
         let chooseYourselfToServeFirst = WKAlertAction(title: "You", style: .`default`) {
-            self.session.sendMessage(["first server": "player one"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
-            self.session.sendMessage(["start": "new match"], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
-            self.session.sendMessage(["live": self.maximumNumberOfSetsInMatch], replyHandler: nil, errorHandler: { Error in
-                print(Error)
-            })
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .one)
             self.pushController(withName: "scoreboard", context: match)
             WKInterfaceDevice.current().play(.start)
