@@ -11,7 +11,12 @@ import Foundation
 class GameManager {
     var server: Player? {
         didSet {
-            serverSide = .deuceCourt
+            switch isTiebreak {
+            case true:
+                serverSide = .adCourt
+            case false:
+                serverSide = .deuceCourt
+            }
         }
     }
     
@@ -28,13 +33,14 @@ class GameManager {
             oldPlayerOneGameScore = oldValue
             switch isTiebreak {
             case true:
-                if (playerOneGameScore + playerTwoGameScore) % 2 == 0 {
-                    serverSwitchesSides()
-                } else {
-                    switchServer()
-                    serverSide = .adCourt
+                if playerOneGameScore > oldValue {
+                    if (playerOneGameScore + playerTwoGameScore) % 2 == 0 {
+                        serverSwitchesSides()
+                    } else {
+                        switchServer()
+                    }
                 }
-            default:
+            case false:
                 if serverGameScore > 0 || receiverGameScore > 0 {
                     serverSwitchesSides()
                 } else if gameScore == (0, 0) {
@@ -49,11 +55,12 @@ class GameManager {
             oldPlayerTwoGameScore = oldValue
             switch isTiebreak {
             case true:
-                if (playerOneGameScore + playerTwoGameScore) % 2 == 0 {
-                    serverSwitchesSides()
-                } else {
-                    switchServer()
-                    serverSide = .adCourt
+                if playerTwoGameScore > oldValue {
+                    if (playerOneGameScore + playerTwoGameScore) % 2 == 0 {
+                        serverSwitchesSides()
+                    } else {
+                        switchServer()
+                    }
                 }
             default:
                 if serverGameScore > 0 || receiverGameScore > 0 {
@@ -209,9 +216,5 @@ class GameManager {
     
     func scoreWinningPoint() {
         isFinished = true
-        
-        if isTiebreak {
-            serverSide = .adCourt
-        }
     }
 }

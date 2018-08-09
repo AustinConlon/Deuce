@@ -315,6 +315,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         updateSetScoresFromModel()
         
         if let winner = currentMatch.winner {
+            setTitle("Winner")
             switch winner {
             case .one:
                 playerOneGameScoreLabel.setText("🏆")

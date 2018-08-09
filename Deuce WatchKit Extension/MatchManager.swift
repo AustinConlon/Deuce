@@ -180,6 +180,7 @@ class MatchManager {
             if currentSet.games.count > 1 {
                 currentSet.games.removeLast()
                 currentSet.playerOneSetScore -= 1
+                sets.last?.games.last?.isTiebreak = false
             } else if currentSet.games.count == 1 && sets.count > 1 {
                 sets.removeLast()
                 currentSet.playerOneSetScore -= 1
@@ -190,6 +191,16 @@ class MatchManager {
             currentSet.isFinished = false
         } else {
             currentGame.playerOneGameScore = currentGame.oldPlayerOneGameScore!
+            if currentGame.isTiebreak {
+                if currentGame.gameScore == (0, 0) {
+                    currentGame.switchServer()
+                } else if (currentGame.playerOneGameScore + currentGame.playerTwoGameScore) % 2 == 0 {
+                    currentGame.switchServer()
+                    currentGame.serverSide = .deuceCourt
+                } else {
+                    currentGame.serverSwitchesSides()
+                }
+            }
         }
     }
     
@@ -208,6 +219,16 @@ class MatchManager {
             currentSet.isFinished = false
         } else {
             currentGame.playerTwoGameScore = currentGame.oldPlayerTwoGameScore!
+            if currentGame.isTiebreak {
+                if currentGame.gameScore == (0, 0) {
+                    currentGame.switchServer()
+                } else if (currentGame.playerOneGameScore + currentGame.playerTwoGameScore) % 2 == 0 {
+                    currentGame.switchServer()
+                    currentGame.serverSide = .deuceCourt
+                } else {
+                    currentGame.serverSwitchesSides()
+                }
+            }
         }
     }
 }
