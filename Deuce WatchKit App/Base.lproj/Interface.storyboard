@@ -138,6 +138,9 @@
                                     </connections>
                                 </tapGestureRecognizer>
                                 <tapGestureRecognizer numberOfTapsRequired="2" id="STP-fs-GvR" userLabel="Player Two Tap Gesture Recognizer">
+                                    <precedingGestureRecognizers>
+                                        <tapGestureRecognizer reference="2hP-To-KA9"/>
+                                    </precedingGestureRecognizers>
                                     <connections>
                                         <action selector="scoreSetPointForPlayerTwo:" destination="Hlr-PA-eca" id="XV2-h6-dUR"/>
                                     </connections>
@@ -145,6 +148,11 @@
                             </gestureRecognizers>
                             <color key="backgroundColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                             <edgeInsets key="margins" left="3" right="3" top="1" bottom="0.0"/>
+                            <variation key="default">
+                                <mask key="gestureRecognizers">
+                                    <exclude reference="STP-fs-GvR"/>
+                                </mask>
+                            </variation>
                             <variation key="device=watch38mm" height="70"/>
                             <variation key="device=watch42mm" height="82"/>
                         </group>
@@ -205,6 +213,11 @@
                             </gestureRecognizers>
                             <color key="backgroundColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                             <edgeInsets key="margins" left="3" right="3" top="0.0" bottom="0.0"/>
+                            <variation key="default">
+                                <mask key="gestureRecognizers">
+                                    <exclude reference="n3J-od-0W3"/>
+                                </mask>
+                            </variation>
                             <variation key="device=watch38mm" height="70"/>
                             <variation key="device=watch42mm" height="82"/>
                         </group>
