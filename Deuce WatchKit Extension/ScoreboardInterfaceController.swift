@@ -263,7 +263,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         
         sendSetScoresToPhone()
         clearAllMenuItems()
-        addMenuItem(with: .repeat, title: "Undo", action: #selector(undo))
+        if currentMatch.winner == nil {
+            addMenuItem(with: .repeat, title: "Undo", action: #selector(undo))
+        }
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
@@ -282,7 +284,9 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         
         sendSetScoresToPhone()
         clearAllMenuItems()
-        addMenuItem(with: .repeat, title: "Undo", action: #selector(undo))
+        if currentMatch.winner == nil {
+            addMenuItem(with: .repeat, title: "Undo", action: #selector(undo))
+        }
     }
     
     @IBAction func scoreSetPointForPlayerTwo(_ sender: Any) {
@@ -317,6 +321,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         
         if let winner = currentMatch.winner {
             setTitle("Winner")
+            
             switch winner {
             case .one:
                 playerOneGameScoreLabel.setText("🏆")

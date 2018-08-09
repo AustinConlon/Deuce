@@ -251,15 +251,19 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     func hideMostRecentColumnAfterUndo(_ cell: MatchHistoryTableViewCell, _ match: Match) {
         switch match.sets.count {
         case 1:
+            cell.columnFourSetLabel.isHidden = true
             cell.columnFourPlayerOneSetScoreLabel.isHidden = true
             cell.columnFourPlayerTwoSetScoreLabel.isHidden = true
         case 2:
+            cell.columnThreeSetLabel.isHidden = true
             cell.columnThreePlayerOneSetScoreLabel.isHidden = true
             cell.columnThreePlayerTwoSetScoreLabel.isHidden = true
         case 3:
+            cell.columnTwoSetLabel.isHidden = true
             cell.columnTwoPlayerOneSetScoreLabel.isHidden = true
             cell.columnTwoPlayerTwoSetScoreLabel.isHidden = true
         case 4:
+            cell.columnOneSetLabel.isHidden = true
             cell.columnOnePlayerOneSetScoreLabel.isHidden = true
             cell.columnOnePlayerTwoSetScoreLabel.isHidden = true
         default:
@@ -277,8 +281,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 self.saveMatches()
             } else if let sets = applicationContext["sets"] as? [[Int]] {
                 for set in 0..<sets.count {
-                    if sets.count == (self.matches.last?.sets.count)! + 1 { // new set
+                    if sets.count == (self.matches.last?.sets.count)! + 1 { // Added set.
                         self.matches.last?.sets.append(SetScore())
+                    } else if sets.count == (self.matches.last?.sets.count)! - 1 { // Removed set after undo.
+                        self.matches.last?.sets.removeLast()
                     }
                     self.matches.last?.sets[set].playerOneSetScore = sets[set][0]
                     self.matches.last?.sets[set].playerTwoSetScore = sets[set][1]
