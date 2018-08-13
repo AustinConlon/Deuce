@@ -9,7 +9,7 @@
 import UIKit
 import WatchConnectivity
 
-class ChairUmpireViewController: UIViewController  {
+class ChairUmpireViewController: UIViewController {
     
     // MARK: Properties
     var scoreManager: ScoreManager?
@@ -145,16 +145,15 @@ class ChairUmpireViewController: UIViewController  {
     @IBOutlet weak var changeMatchLengthSegmentedControl: UISegmentedControl!
     @IBOutlet weak var setTypeSegmentedControl: UISegmentedControl!
     
-    @IBOutlet weak var pairedAppleWatchLabel: UILabel!
-    @IBOutlet weak var leftSideServingStatusLabel: UILabel!
-    @IBOutlet weak var leftSideGameScoreButton: UIButton!
-    @IBOutlet weak var leftSideSetScoreLabel: UILabel!
-    @IBOutlet weak var leftSideMatchScoreLabel: UILabel!
+    @IBOutlet weak var playerOneServiceLabel: UILabel!
+    @IBOutlet weak var playerOneGameScoreButton: UIButton!
+    @IBOutlet weak var playerOneSetScoreLabel: UILabel!
+    @IBOutlet weak var playerOneMatchScoreLabel: UILabel!
     
-    @IBOutlet weak var rightSideServingStatusLabel: UILabel!
-    @IBOutlet weak var rightSideGameScoreButton: UIButton!
-    @IBOutlet weak var rightSideSetScoreLabel: UILabel!
-    @IBOutlet weak var rightSideMatchScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoServiceLabel: UILabel!
+    @IBOutlet weak var playerTwoGameScoreButton: UIButton!
+    @IBOutlet weak var playerTwoSetScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoMatchScoreLabel: UILabel!
     
     @IBAction func changeMatchLength(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -233,20 +232,20 @@ class ChairUmpireViewController: UIViewController  {
         setTypeSegmentedControl.isHidden = true
         startMatchButton.isEnabled = false
         endMatchButton.isEnabled = true
-        leftSideGameScoreButton.isEnabled = true
-        leftSideGameScoreButton.isHidden = false
-        leftSideSetScoreLabel.isHidden = false
-        leftSideMatchScoreLabel.isHidden = false
-        rightSideGameScoreButton.isEnabled = true
-        rightSideGameScoreButton.isHidden = false
-        rightSideSetScoreLabel.isHidden = false
-        rightSideMatchScoreLabel.isHidden = false
+        playerOneGameScoreButton.isEnabled = true
+        playerOneGameScoreButton.isHidden = false
+        playerOneSetScoreLabel.isHidden = false
+        playerOneMatchScoreLabel.isHidden = false
+        playerTwoGameScoreButton.isEnabled = true
+        playerTwoGameScoreButton.isHidden = false
+        playerTwoSetScoreLabel.isHidden = false
+        playerTwoMatchScoreLabel.isHidden = false
         let server = (scoreManager?.currentMatch.currentSet.currentGame.server)!
         switch server {
         case .one:
-            leftSideServingStatusLabel.isHidden = false
+            playerOneServiceLabel.isHidden = false
         case .two:
-            rightSideServingStatusLabel.isHidden = false
+            playerTwoServiceLabel.isHidden = false
         }
     }
     
@@ -259,16 +258,16 @@ class ChairUmpireViewController: UIViewController  {
         if let winner = currentMatch.winner {
             switch winner {
             case .one:
-                leftSideGameScoreButton.setTitle("🏆", for: .normal)
-                rightSideGameScoreButton.isHidden = true
+                playerOneGameScoreButton.setTitle("🏆", for: .normal)
+                playerTwoGameScoreButton.isHidden = true
             case .two:
-                leftSideGameScoreButton.isHidden = true
-                rightSideGameScoreButton.setTitle("🏆", for: .normal)
+                playerOneGameScoreButton.isHidden = true
+                playerTwoGameScoreButton.setTitle("🏆", for: .normal)
             }
-            leftSideServingStatusLabel.isHidden = true
-            rightSideServingStatusLabel.isHidden = true
-            leftSideGameScoreButton.isEnabled = false
-            rightSideGameScoreButton.isEnabled = false
+            playerOneServiceLabel.isHidden = true
+            playerTwoServiceLabel.isHidden = true
+            playerOneGameScoreButton.isEnabled = false
+            playerTwoGameScoreButton.isEnabled = false
             endMatchButton.style = .done
         }
     }
@@ -277,14 +276,14 @@ class ChairUmpireViewController: UIViewController  {
         endMatchButton.isEnabled = false
         changeMatchLengthSegmentedControl.isHidden = false
         setTypeSegmentedControl.isHidden = false
-        leftSideServingStatusLabel.isHidden = true
-        leftSideGameScoreButton.isHidden = true
-        leftSideSetScoreLabel.isHidden = true
-        leftSideMatchScoreLabel.isHidden = true
-        rightSideServingStatusLabel.isHidden = true
-        rightSideGameScoreButton.isHidden = true
-        rightSideSetScoreLabel.isHidden = true
-        rightSideMatchScoreLabel.isHidden = true
+        playerOneServiceLabel.isHidden = true
+        playerOneGameScoreButton.isHidden = true
+        playerOneSetScoreLabel.isHidden = true
+        playerOneMatchScoreLabel.isHidden = true
+        playerTwoServiceLabel.isHidden = true
+        playerTwoGameScoreButton.isHidden = true
+        playerTwoSetScoreLabel.isHidden = true
+        playerTwoMatchScoreLabel.isHidden = true
         title = "Chair Umpire"
     }
     
@@ -292,11 +291,11 @@ class ChairUmpireViewController: UIViewController  {
         let newServer = currentGame.server
         switch newServer! {
         case .one:
-            leftSideServingStatusLabel.isHidden = false
-            rightSideServingStatusLabel.isHidden = true
+            playerOneServiceLabel.isHidden = false
+            playerTwoServiceLabel.isHidden = true
         case .two:
-            leftSideServingStatusLabel.isHidden = true
-            rightSideServingStatusLabel.isHidden = false
+            playerOneServiceLabel.isHidden = true
+            playerTwoServiceLabel.isHidden = false
         }
     }
     
@@ -319,8 +318,8 @@ class ChairUmpireViewController: UIViewController  {
     func updateGameScoresFromModel() {
         switch currentGame.isTiebreak {
         case true:
-            leftSideGameScoreButton.setTitle(String(currentGame.playerOneGameScore), for: .normal)
-            rightSideGameScoreButton.setTitle(String(currentGame.playerTwoGameScore), for: .normal)
+            playerOneGameScoreButton.setTitle(String(currentGame.playerOneGameScore), for: .normal)
+            playerTwoGameScoreButton.setTitle(String(currentGame.playerTwoGameScore), for: .normal)
         default:
             updatePlayerOneGameScoreFromModel()
             updatePlayerTwoGameScoreFromModel()
@@ -329,27 +328,27 @@ class ChairUmpireViewController: UIViewController  {
     
     func updatePlayerOneGameScoreFromModel() {
         if playerTwoGameScore == "Ad in" || playerTwoGameScore == "Ad out" {
-            leftSideGameScoreButton.setTitle("🎾", for: .normal)
+            playerOneGameScoreButton.setTitle("🎾", for: .normal)
         } else {
-            leftSideGameScoreButton.setTitle(playerOneGameScore, for: .normal)
+            playerOneGameScoreButton.setTitle(playerOneGameScore, for: .normal)
         }
     }
     
     func updatePlayerTwoGameScoreFromModel() {
         if playerOneGameScore == "Ad in" || playerOneGameScore == "Ad out" {
-            rightSideGameScoreButton.setTitle("🎾", for: .normal)
+            playerTwoGameScoreButton.setTitle("🎾", for: .normal)
         } else {
-            rightSideGameScoreButton.setTitle(playerTwoGameScore, for: .normal)
+            playerTwoGameScoreButton.setTitle(playerTwoGameScore, for: .normal)
         }
     }
     
     func updateSetScoresFromModel() {
-        leftSideSetScoreLabel.text = "Set score: \(currentSet.playerOneSetScore)"
-        rightSideSetScoreLabel.text = "Set score: \(currentSet.playerTwoSetScore)"
+        playerOneSetScoreLabel.text = "Set score: \(currentSet.playerOneSetScore)"
+        playerTwoSetScoreLabel.text = "Set score: \(currentSet.playerTwoSetScore)"
     }
     
     func updateMatchScoresFromModel() {
-        leftSideMatchScoreLabel.text = "Match score: \(currentMatch.playerOneMatchScore)"
-        rightSideMatchScoreLabel.text = "Match score: \(currentMatch.playerTwoMatchScore)"
+        playerOneMatchScoreLabel.text = "Match score: \(currentMatch.playerOneMatchScore)"
+        playerTwoMatchScoreLabel.text = "Match score: \(currentMatch.playerTwoMatchScore)"
     }
 }

@@ -171,7 +171,7 @@
                                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 </group>
                                 <label alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Your Game Score">
-                                    <color key="textColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" red="0.12549019607843137" green="0.87058823529411766" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="font" style="UICTFontTextStyleTitle1"/>
                                 </label>
                                 <group width="1" alignment="left" id="7fq-fx-g6a" userLabel="Your Sets">
