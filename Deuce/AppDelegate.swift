@@ -26,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!])
         
         healthStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
-            if !success {
-                print(error)
+            if let error = error, !success {
+                print(error.localizedDescription)
             }
         }
     }

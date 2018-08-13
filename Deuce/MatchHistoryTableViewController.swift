@@ -43,14 +43,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         tableView.estimatedRowHeight = 103
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        if let savedMatches = loadMatches() {
-            matches += savedMatches
-            // If the user has saved matches before, occasionally ask if they'd like to rate the app.
-            if #available(iOS 10.3, *) {
-                SKStoreReviewController.requestReview()
-            } else {
-                // Fallback on earlier versions
-            }
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+        } else {
+            // Fallback on earlier versions
         }
     }
     
@@ -84,6 +80,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             matches.remove(at: indexPath.row)
+            saveMatches()
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -123,6 +120,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             cell.columnFourPlayerTwoSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.columnFivePlayerTwoSetScoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
             cell.matchStateLabel.text = "Final"
+        case "none":
+            cell.matchStateLabel.isHidden = true
         case .none:
             break
         case .some(_):
@@ -293,23 +292,29 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 self.tableView.insertRows(at: [newIndexPath], with: .automatic)
                 self.saveMatches()
             } else if let sets = applicationContext["sets"] as? [[Int]] {
+                self.matches.last?.sets.removeAll()
+                
                 for set in 0..<sets.count {
-                    if sets.count == (self.matches.last?.sets.count)! + 1 { // Added set.
-                        self.matches.last?.sets.append(SetScore())
-                    } else if sets.count == (self.matches.last?.sets.count)! - 1 { // Removed set after undo.
-                        self.matches.last?.sets.removeLast()
-                    }
+                    self.matches.last?.sets.append(SetScore())
                     self.matches.last?.sets[set].playerOneSetScore = sets[set][0]
                     self.matches.last?.sets[set].playerTwoSetScore = sets[set][1]
                 }
                 self.tableView.reloadData()
                 self.saveMatches()
-            } else if let winnerOfCurrentMatch = applicationContext["winner"] as? String {
+            }
+        }
+    }
+    
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        DispatchQueue.main.async {
+            if let winnerOfCurrentMatch = userInfo["winner"] as? String {
                 switch winnerOfCurrentMatch {
                 case "player two":
                     self.matches.last?.matchWinner = "player two"
                 case "player one":
                     self.matches.last?.matchWinner = "player one"
+                case "none":
+                    self.matches.last?.matchWinner = "none"
                 default:
                     break
                 }
