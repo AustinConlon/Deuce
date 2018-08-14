@@ -2,35 +2,59 @@
 //  DeuceTests.swift
 //  DeuceTests
 //
-//  Created by Austin Conlon on 11/27/16.
-//  Copyright © 2016 Austin Conlon. All rights reserved.
+//  Created by Austin Conlon on 8/13/18.
+//  Copyright © 2018 Austin Conlon. All rights reserved.
 //
 
 import XCTest
 @testable import Deuce
 
 class DeuceTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testPlayerOneWonGame() {
+        let match = MatchManager(1, .tiebreak, .one)
+        match.sets.last?.games.last?.playerOneGameScore = 40
+        match.scorePointForPlayerOne()
+        XCTAssertEqual(match.sets.last!.playerOneSetScore, 1)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testPlayerTwoWonGame() {
+        let match = MatchManager(1, .tiebreak, .one)
+        match.sets.last?.games.last?.playerTwoGameScore = 40
+        match.scorePointForPlayerTwo()
+        XCTAssertEqual(match.sets.last!.playerTwoSetScore, 1)
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testPlayerOneWonSet() {
+        let match = MatchManager(3, .tiebreak, .one)
+        match.sets.last?.playerOneSetScore = 5
+        match.sets.last?.games.last?.playerOneGameScore = 40
+        match.scorePointForPlayerOne()
+        XCTAssertEqual(match.sets.last?.playerOneSetScore, match.sets.last?.playerTwoSetScore)
+        XCTAssertEqual(match.playerOneMatchScore, 1)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testPlayerTwoWonSet() {
+        let match = MatchManager(3, .tiebreak, .one)
+        match.sets.last?.playerTwoSetScore = 5
+        match.sets.last?.games.last?.playerTwoGameScore = 40
+        match.scorePointForPlayerTwo()
+        XCTAssertEqual(match.sets.last?.playerOneSetScore, match.sets.last?.playerTwoSetScore)
+        XCTAssertEqual(match.playerTwoMatchScore, 1)
     }
     
+    func testPlayerOneWonMatch() {
+        let match = MatchManager(1, .tiebreak, .one)
+        match.sets.last?.playerOneSetScore = 5
+        match.sets.last?.games.last?.playerOneGameScore = 40
+        match.scorePointForPlayerOne()
+        XCTAssertEqual(match.winner, Player.one)
+    }
+    
+    func testPlayerTwoWonMatch() {
+        let match = MatchManager(1, .tiebreak, .one)
+        match.sets.last?.playerTwoSetScore = 5
+        match.sets.last?.games.last?.playerTwoGameScore = 40
+        match.scorePointForPlayerTwo()
+        XCTAssertEqual(match.winner, Player.two)
+    }
 }
