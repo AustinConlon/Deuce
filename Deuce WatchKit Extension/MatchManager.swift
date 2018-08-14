@@ -88,6 +88,8 @@ class MatchManager {
         return totalNumberOfGamesPlayed
     }
     
+    // MARK: Initialization
+    
     init(_ maximumNumberOfSetsInMatch: Int, _ typeOfSet: TypeOfSet, _ playerThatWillServeFirst: Player) {
         self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch
         sets.append(SetManager())
