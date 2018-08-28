@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func requestAccessToHealthKit() {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        
         let healthStore = HKHealthStore()
         
         let allTypes = Set([HKObjectType.workoutType(),

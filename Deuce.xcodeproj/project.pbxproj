@@ -266,7 +266,6 @@
 				FB51A0411DEAD77C00B2E195 /* NotificationController.swift */,
 				FB51A0431DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0451DEAD77C00B2E195 /* Info.plist */,
-				FB51A03B1DEAD77C00B2E195 /* Supporting Files */,
 			);
 			path = "Deuce WatchKit Extension";
 			sourceTree = "<group>";
@@ -277,11 +276,13 @@
 				FB51A03C1DEAD77C00B2E195 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
+			path = "Deuce WatchKit Extension";
 			sourceTree = "<group>";
 		};
 		FB712C142096EFA7005AA807 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FB51A03B1DEAD77C00B2E195 /* Supporting Files */,
 				FB507FC120FB40E9004FBB76 /* HealthKit.framework */,
 				FB712C152096EFA7005AA807 /* HealthKit.framework */,
 			);

@@ -6,17 +6,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Deuce WatchKit Extension/ScoreboardInterfaceController.swift"
-            timestampString = "554219161.166448"
+            timestampString = "557115573.301795"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
-            landmarkName = "awake(withContext:)"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "init()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Deuce_WatchKit_Extension.ScoreboardInterfaceController.__allocating_init() -&gt; Deuce_WatchKit_Extension.ScoreboardInterfaceController"
+                  moduleName = "Deuce WatchKit Extension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/austinconlon/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/Deuce/Deuce%20WatchKit%20Extension/ScoreboardInterfaceController.swift"
+                  timestampString = "557115575.244953"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "6">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Deuce_WatchKit_Extension.ScoreboardInterfaceController.init() -&gt; Deuce_WatchKit_Extension.ScoreboardInterfaceController"
+                  moduleName = "Deuce WatchKit Extension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/austinconlon/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/Deuce/Deuce%20WatchKit%20Extension/ScoreboardInterfaceController.swift"
+                  timestampString = "557115575.2518229"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

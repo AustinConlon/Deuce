@@ -36,8 +36,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         }
     }
     
-    // Properties for displaying the score to be easily read in the navigation bar.
-    
     var serverScore: String {
         get {
             if currentGame.server == .one {
@@ -141,8 +139,11 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     // Start with a zero quantity.
     var currentActiveEnergyQuantity = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 0.0)
     
-    @IBOutlet var playerOneServingLabel: WKInterfaceLabel!
-    @IBOutlet var playerTwoServingLabel: WKInterfaceLabel!
+    @IBOutlet var playerOneServiceLabel: WKInterfaceLabel!
+    @IBOutlet var playerTwoServiceLabel: WKInterfaceLabel!
+    
+    @IBOutlet var playerOneGroup: WKInterfaceGroup!
+    @IBOutlet var playerTwoGroup: WKInterfaceGroup!
     
     @IBOutlet var playerOneTapGestureRecognizer: WKTapGestureRecognizer!
     @IBOutlet var playerTwoTapGestureRecognizer: WKTapGestureRecognizer!
@@ -319,6 +320,10 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         updateGameScoresFromModel()
         updateSetScoresFromModel()
         
+        if (currentMatch.totalNumberOfGamesPlayed % 2 == 1 && currentGame.gameScore == (0, 0)) {
+            setTitle("Switch Ends")
+        }
+        
         if let winner = currentMatch.winner {
             setTitle("Winner")
             
@@ -331,8 +336,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
                 playerOneGameScoreLabel.setHidden(true)
             }
             
-            playerOneServingLabel.setHidden(true)
-            playerTwoServingLabel.setHidden(true)
+            playerOneServiceLabel.setHidden(true)
+            playerTwoServiceLabel.setHidden(true)
             playerOneTapGestureRecognizer.isEnabled = false
             playerTwoTapGestureRecognizer.isEnabled = false
             updateSetLabelsToBeWhite()
@@ -342,21 +347,21 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     func updateServingLabelsFromModel() {
         switch (currentGame.server, currentGame.serverSide) {
         case (.one?, .deuceCourt):
-            playerOneServingLabel.setHorizontalAlignment(.right)
-            playerOneServingLabel.setHidden(false)
-            playerTwoServingLabel.setHidden(true)
+            playerOneServiceLabel.setHorizontalAlignment(.right)
+            playerOneServiceLabel.setHidden(false)
+            playerTwoServiceLabel.setHidden(true)
         case (.one?, .adCourt):
-            playerOneServingLabel.setHorizontalAlignment(.left)
-            playerOneServingLabel.setHidden(false)
-            playerTwoServingLabel.setHidden(true)
+            playerOneServiceLabel.setHorizontalAlignment(.left)
+            playerOneServiceLabel.setHidden(false)
+            playerTwoServiceLabel.setHidden(true)
         case (.two?, .deuceCourt):
-            playerTwoServingLabel.setHorizontalAlignment(.left)
-            playerTwoServingLabel.setHidden(false)
-            playerOneServingLabel.setHidden(true)
+            playerTwoServiceLabel.setHorizontalAlignment(.left)
+            playerTwoServiceLabel.setHidden(false)
+            playerOneServiceLabel.setHidden(true)
         case (.two?, .adCourt):
-            playerTwoServingLabel.setHorizontalAlignment(.right)
-            playerTwoServingLabel.setHidden(false)
-            playerOneServingLabel.setHidden(true)
+            playerTwoServiceLabel.setHorizontalAlignment(.right)
+            playerTwoServiceLabel.setHidden(false)
+            playerOneServiceLabel.setHidden(true)
         default:
             break
         }
@@ -385,19 +390,20 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             if currentGame.playerTwoGameScore < 40 {
                 playerOneGameScoreLabel.setText(String(currentGame.playerOneGameScore))
             } else if currentGame.playerTwoGameScore == 40 {
-                playerOneGameScoreLabel.setText("DEUCE")
+                playerOneGameScoreLabel.setText("40")
+                setTitle("Deuce")
             }
         default: // Alternating advantage and deuce situations.
             if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
                 if currentGame.server == .one {
                     playerOneGameScoreLabel.setText("AD IN")
-                    playerTwoGameScoreLabel.setText("")
                 } else if currentGame.server == .two {
                     playerOneGameScoreLabel.setText("AD OUT")
-                    playerTwoGameScoreLabel.setText("")
                 }
+                playerTwoGameScoreLabel.setText("")
             } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
-                playerOneGameScoreLabel.setText("DEUCE")
+                playerOneGameScoreLabel.setText("40")
+                setTitle("Deuce")
             }
         }
     }
@@ -412,19 +418,20 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             if currentGame.playerOneGameScore < 40 {
                 playerTwoGameScoreLabel.setText(String(currentGame.playerTwoGameScore))
             } else if currentGame.playerOneGameScore == 40 {
-                playerTwoGameScoreLabel.setText("DEUCE")
+                playerTwoGameScoreLabel.setText("40")
+                setTitle("Deuce")
             }
         default: // Alternating advantage and deuce situations.
             if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
                 if currentGame.server == .two {
                     playerTwoGameScoreLabel.setText("AD IN")
-                    playerOneGameScoreLabel.setText("")
                 } else if currentGame.server == .one {
                     playerTwoGameScoreLabel.setText("AD OUT")
-                    playerOneGameScoreLabel.setText("")
                 }
+                playerOneGameScoreLabel.setText("")
             } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
-                playerTwoGameScoreLabel.setText("DEUCE")
+                playerTwoGameScoreLabel.setText("40")
+                setTitle("Deuce")
             }
         }
     }
