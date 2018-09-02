@@ -80,27 +80,27 @@ class ChairUmpireViewController: UIViewController {
         get {
             switch currentGame.isTiebreak {
             case true:
-                return String(currentGame.playerOneGameScore)
+                return String(currentGame.playerOneScore)
             default:
-                switch currentGame.playerOneGameScore {
+                switch currentGame.playerOneScore {
                 case 0:
                     return "Love"
                 case 15, 30:
-                    return String(currentGame.playerOneGameScore)
+                    return String(currentGame.playerOneScore)
                 case 40:
-                    if currentGame.playerTwoGameScore < 40 {
-                        return String(currentGame.playerOneGameScore)
-                    } else if currentGame.playerTwoGameScore == 40 {
+                    if currentGame.playerTwoScore < 40 {
+                        return String(currentGame.playerOneScore)
+                    } else if currentGame.playerTwoScore == 40 {
                         return "Deuce"
                     }
                 default: // Alternating advantage and deuce situations.
-                    if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
+                    if currentGame.playerOneScore == currentGame.playerTwoScore + 1 {
                         if currentGame.server == .one {
                             return "Ad in"
                         } else if currentGame.server == .two {
                             return "Ad out"
                         }
-                    } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
+                    } else if currentGame.playerOneScore == currentGame.playerTwoScore {
                         return "Deuce"
                     }
                 }
@@ -112,27 +112,27 @@ class ChairUmpireViewController: UIViewController {
     var playerTwoGameScore: String {
         switch currentGame.isTiebreak {
         case true:
-            return String(currentGame.playerTwoGameScore)
+            return String(currentGame.playerTwoScore)
         default:
-            switch currentGame.playerTwoGameScore {
+            switch currentGame.playerTwoScore {
             case 0:
                 return "Love"
             case 15, 30:
-                return String(currentGame.playerTwoGameScore)
+                return String(currentGame.playerTwoScore)
             case 40:
-                if currentGame.playerOneGameScore < 40 {
-                    return String(currentGame.playerTwoGameScore)
-                } else if currentGame.playerOneGameScore == 40 {
+                if currentGame.playerOneScore < 40 {
+                    return String(currentGame.playerTwoScore)
+                } else if currentGame.playerOneScore == 40 {
                     return "Deuce"
                 }
             default: // Alternating advantage and deuce situations.
-                if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
+                if currentGame.playerTwoScore == currentGame.playerOneScore + 1 {
                     if currentGame.server == .two {
                         return "Ad in"
                     } else if currentGame.server == .one {
                         return "Ad out"
                     }
-                } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
+                } else if currentGame.playerTwoScore == currentGame.playerOneScore {
                     return "Deuce"
                 }
             }
@@ -318,8 +318,8 @@ class ChairUmpireViewController: UIViewController {
     func updateGameScoresFromModel() {
         switch currentGame.isTiebreak {
         case true:
-            playerOneGameScoreButton.setTitle(String(currentGame.playerOneGameScore), for: .normal)
-            playerTwoGameScoreButton.setTitle(String(currentGame.playerTwoGameScore), for: .normal)
+            playerOneGameScoreButton.setTitle(String(currentGame.playerOneScore), for: .normal)
+            playerTwoGameScoreButton.setTitle(String(currentGame.playerTwoScore), for: .normal)
         default:
             updatePlayerOneGameScoreFromModel()
             updatePlayerTwoGameScoreFromModel()

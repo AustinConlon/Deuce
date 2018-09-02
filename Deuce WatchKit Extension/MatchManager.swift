@@ -178,7 +178,7 @@ class MatchManager {
     }
     
     func undoPlayerOneScore() {
-        if currentGame.gameScore == (0, 0) {
+        if currentGame.score == (0, 0) {
             if currentSet.games.count > 1 {
                 currentSet.games.removeLast()
                 currentSet.playerOneSetScore -= 1
@@ -192,11 +192,11 @@ class MatchManager {
             currentGame.isFinished = false
             currentSet.isFinished = false
         } else {
-            currentGame.playerOneGameScore = currentGame.oldPlayerOneGameScore!
+            currentGame.playerOneScore = currentGame.oldPlayerOneScore!
             if currentGame.isTiebreak {
-                if currentGame.gameScore == (0, 0) {
+                if currentGame.score == (0, 0) {
                     currentGame.switchServer()
-                } else if (currentGame.playerOneGameScore + currentGame.playerTwoGameScore) % 2 == 0 {
+                } else if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 0 {
                     currentGame.switchServer()
                     currentGame.serverSide = .deuceCourt
                 } else {
@@ -207,7 +207,7 @@ class MatchManager {
     }
     
     func undoPlayerTwoScore() {
-        if currentGame.gameScore == (0, 0) {
+        if currentGame.score == (0, 0) {
             if currentSet.games.count > 1 {
                 currentSet.games.removeLast()
                 currentSet.playerTwoSetScore -= 1
@@ -220,11 +220,11 @@ class MatchManager {
             currentGame.isFinished = false
             currentSet.isFinished = false
         } else {
-            currentGame.playerTwoGameScore = currentGame.oldPlayerTwoGameScore!
+            currentGame.playerTwoScore = currentGame.oldPlayerTwoScore!
             if currentGame.isTiebreak {
-                if currentGame.gameScore == (0, 0) {
+                if currentGame.score == (0, 0) {
                     currentGame.switchServer()
-                } else if (currentGame.playerOneGameScore + currentGame.playerTwoGameScore) % 2 == 0 {
+                } else if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 0 {
                     currentGame.switchServer()
                     currentGame.serverSide = .deuceCourt
                 } else {

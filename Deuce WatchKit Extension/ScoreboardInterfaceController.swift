@@ -41,7 +41,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             if currentGame.server == .one {
                 return playerOneGameScore
             } else {
-                return playerTwoGameScore
+                return playerTwoScore
             }
         }
     }
@@ -49,7 +49,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     var receiverScore: String {
         get {
             if currentGame.server == .one {
-                return playerTwoGameScore
+                return playerTwoScore
             } else {
                 return playerOneGameScore
             }
@@ -60,27 +60,27 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         get {
             switch currentGame.isTiebreak {
             case true:
-                return String(currentGame.playerOneGameScore)
+                return String(currentGame.playerOneScore)
             default:
-                switch currentGame.playerOneGameScore {
+                switch currentGame.playerOneScore {
                 case 0:
                     return "LOVE"
                 case 15, 30:
-                    return String(currentGame.playerOneGameScore)
+                    return String(currentGame.playerOneScore)
                 case 40:
-                    if currentGame.playerTwoGameScore < 40 {
-                        return String(currentGame.playerOneGameScore)
-                    } else if currentGame.playerTwoGameScore == 40 {
+                    if currentGame.playerTwoScore < 40 {
+                        return String(currentGame.playerOneScore)
+                    } else if currentGame.playerTwoScore == 40 {
                         return "DEUCE"
                     }
                 default: // Alternating advantage and deuce situations.
-                    if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
+                    if currentGame.playerOneScore == currentGame.playerTwoScore + 1 {
                         if currentGame.server == .one {
                             return "AD IN"
                         } else if currentGame.server == .two {
                             return "AD OUT"
                         }
-                    } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
+                    } else if currentGame.playerOneScore == currentGame.playerTwoScore {
                         return "DEUCE"
                     }
                 }
@@ -89,31 +89,31 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         }
     }
     
-    var playerTwoGameScore: String {
+    var playerTwoScore: String {
         get {
             switch currentGame.isTiebreak {
             case true:
-                return String(currentGame.playerTwoGameScore)
+                return String(currentGame.playerTwoScore)
             default:
-                switch currentGame.playerTwoGameScore {
+                switch currentGame.playerTwoScore {
                 case 0:
                     return "LOVE"
                 case 15, 30:
-                    return String(currentGame.playerTwoGameScore)
+                    return String(currentGame.playerTwoScore)
                 case 40:
-                    if currentGame.playerOneGameScore < 40 {
-                        return String(currentGame.playerTwoGameScore)
-                    } else if currentGame.playerOneGameScore == 40 {
+                    if currentGame.playerOneScore < 40 {
+                        return String(currentGame.playerTwoScore)
+                    } else if currentGame.playerOneScore == 40 {
                         return "DEUCE"
                     }
                 default: // Alternating advantage and deuce situations.
-                    if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
+                    if currentGame.playerTwoScore == currentGame.playerOneScore + 1 {
                         if currentGame.server == .two {
                             return "AD IN"
                         } else if currentGame.server == .one {
                             return "AD OUT"
                         }
-                    } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
+                    } else if currentGame.playerTwoScore == currentGame.playerOneScore {
                         return "DEUCE"
                     }
                 }
@@ -320,7 +320,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         updateGameScoresFromModel()
         updateSetScoresFromModel()
         
-        if (currentMatch.totalNumberOfGamesPlayed % 2 == 1 && currentGame.gameScore == (0, 0)) {
+        if (currentMatch.totalNumberOfGamesPlayed % 2 == 1 && currentGame.score == (0, 0)) {
             setTitle("Switch Ends")
         }
         
@@ -371,8 +371,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         switch currentGame.isTiebreak {
         case true:
             setTitle("Tiebreak")
-            playerOneGameScoreLabel.setText(String(currentGame.playerOneGameScore))
-            playerTwoGameScoreLabel.setText(String(currentGame.playerTwoGameScore))
+            playerOneGameScoreLabel.setText(String(currentGame.playerOneScore))
+            playerTwoGameScoreLabel.setText(String(currentGame.playerTwoScore))
         case false:
             setTitle(nil)
             updatePlayerOneGameScoreFromModel()
@@ -381,27 +381,27 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     func updatePlayerOneGameScoreFromModel() {
-        switch currentGame.playerOneGameScore {
+        switch currentGame.playerOneScore {
         case 0:
             playerOneGameScoreLabel.setText("LOVE")
         case 15, 30:
-            playerOneGameScoreLabel.setText(String(currentGame.playerOneGameScore))
+            playerOneGameScoreLabel.setText(String(currentGame.playerOneScore))
         case 40:
-            if currentGame.playerTwoGameScore < 40 {
-                playerOneGameScoreLabel.setText(String(currentGame.playerOneGameScore))
-            } else if currentGame.playerTwoGameScore == 40 {
+            if currentGame.playerTwoScore < 40 {
+                playerOneGameScoreLabel.setText(String(currentGame.playerOneScore))
+            } else if currentGame.playerTwoScore == 40 {
                 playerOneGameScoreLabel.setText("40")
                 setTitle("Deuce")
             }
         default: // Alternating advantage and deuce situations.
-            if currentGame.playerOneGameScore == currentGame.playerTwoGameScore + 1 {
+            if currentGame.playerOneScore == currentGame.playerTwoScore + 1 {
                 if currentGame.server == .one {
                     playerOneGameScoreLabel.setText("AD IN")
                 } else if currentGame.server == .two {
                     playerOneGameScoreLabel.setText("AD OUT")
                 }
                 playerTwoGameScoreLabel.setText("")
-            } else if currentGame.playerOneGameScore == currentGame.playerTwoGameScore {
+            } else if currentGame.playerOneScore == currentGame.playerTwoScore {
                 playerOneGameScoreLabel.setText("40")
                 setTitle("Deuce")
             }
@@ -409,27 +409,27 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     func updatePlayerTwoGameScoreFromModel() {
-        switch currentGame.playerTwoGameScore {
+        switch currentGame.playerTwoScore {
         case 0:
             playerTwoGameScoreLabel.setText("LOVE")
         case 15, 30:
-            playerTwoGameScoreLabel.setText(String(currentGame.playerTwoGameScore))
+            playerTwoGameScoreLabel.setText(String(currentGame.playerTwoScore))
         case 40:
-            if currentGame.playerOneGameScore < 40 {
-                playerTwoGameScoreLabel.setText(String(currentGame.playerTwoGameScore))
-            } else if currentGame.playerOneGameScore == 40 {
+            if currentGame.playerOneScore < 40 {
+                playerTwoGameScoreLabel.setText(String(currentGame.playerTwoScore))
+            } else if currentGame.playerOneScore == 40 {
                 playerTwoGameScoreLabel.setText("40")
                 setTitle("Deuce")
             }
         default: // Alternating advantage and deuce situations.
-            if currentGame.playerTwoGameScore == currentGame.playerOneGameScore + 1 {
+            if currentGame.playerTwoScore == currentGame.playerOneScore + 1 {
                 if currentGame.server == .two {
                     playerTwoGameScoreLabel.setText("AD IN")
                 } else if currentGame.server == .one {
                     playerTwoGameScoreLabel.setText("AD OUT")
                 }
                 playerOneGameScoreLabel.setText("")
-            } else if currentGame.playerTwoGameScore == currentGame.playerOneGameScore {
+            } else if currentGame.playerTwoScore == currentGame.playerOneScore {
                 playerTwoGameScoreLabel.setText("40")
                 setTitle("Deuce")
             }
@@ -539,11 +539,11 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
                 WKInterfaceDevice.current().play(.failure)
             }
         case false:
-            if currentGame.gameScore != (0, 0) {
+            if currentGame.score != (0, 0) {
                 // The point has concluded but not a game.
                 switch currentGame.isTiebreak {
                 case true:
-                    if (currentGame.playerOneGameScore + currentGame.playerTwoGameScore) % 2 == 1 {
+                    if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 1 {
                         WKInterfaceDevice.current().play(.start)
                     } else {
                         WKInterfaceDevice.current().play(.click)

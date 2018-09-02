@@ -12,7 +12,9 @@ enum Player {
     case one, two
 }
 
-// Server always starts on the right side, alternates after every point.
 enum ServingSide {
-    case deuceCourt, adCourt
+    // Right side of the hash mark from the serving player's perspective.
+    case deuceCourt
+    // Left side of the hash mark from the serving player's perspective.
+    case adCourt
 }
