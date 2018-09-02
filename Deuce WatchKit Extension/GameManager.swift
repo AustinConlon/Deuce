@@ -9,6 +9,8 @@
 import Foundation
 
 class GameManager {
+    var serverSide: ServingSide = .deuceCourt
+    
     var server: Player? {
         didSet {
             switch isTiebreak {
@@ -20,21 +22,40 @@ class GameManager {
         }
     }
     
-    var serverSide: ServingSide = .deuceCourt
-    
-    var gameScore: (Int, Int) {
+    // For convienence in switching on the game score.
+    var score: (Int, Int) {
         get {
            return (serverGameScore, receiverGameScore)
         }
     }
     
-    var playerOneGameScore = 0 {
+    var playerOneScore = 0 {
         didSet {
-            oldPlayerOneGameScore = oldValue
+            oldPlayerOneScore = oldValue
             switch isTiebreak {
             case true:
-                if playerOneGameScore > oldValue {
-                    if (playerOneGameScore + playerTwoGameScore) % 2 == 0 {
+                if playerOneScore > oldValue {
+                    if (playerOneScore + playerTwoScore) % 2 == 0 {
+                        serverSwitchesSides()
+                    } else { // Undo.
+                        switchServer()
+                    }
+                }
+            case false:
+                if serverGameScore > 0 || receiverGameScore > 0 {
+                    serverSwitchesSides()
+                }
+            }
+        }
+    }
+    
+    var playerTwoScore = 0 {
+        didSet {
+            oldPlayerTwoScore = oldValue
+            switch isTiebreak {
+            case true:
+                if playerTwoScore > oldValue {
+                    if (playerOneScore + playerTwoScore) % 2 == 0 {
                         serverSwitchesSides()
                     } else {
                         switchServer()
@@ -43,30 +64,6 @@ class GameManager {
             case false:
                 if serverGameScore > 0 || receiverGameScore > 0 {
                     serverSwitchesSides()
-                } else if gameScore == (0, 0) {
-                    serverSide = .deuceCourt
-                }
-            }
-        }
-    }
-    
-    var playerTwoGameScore = 0 {
-        didSet {
-            oldPlayerTwoGameScore = oldValue
-            switch isTiebreak {
-            case true:
-                if playerTwoGameScore > oldValue {
-                    if (playerOneGameScore + playerTwoGameScore) % 2 == 0 {
-                        serverSwitchesSides()
-                    } else {
-                        switchServer()
-                    }
-                }
-            default:
-                if serverGameScore > 0 || receiverGameScore > 0 {
-                    serverSwitchesSides()
-                } else if gameScore == (0, 0) {
-                    serverSide = .deuceCourt
                 }
             }
         }
@@ -75,9 +72,9 @@ class GameManager {
     var serverGameScore: Int {
         get {
             if server == .one {
-                return playerOneGameScore
+                return playerOneScore
             } else {
-                return playerTwoGameScore
+                return playerTwoScore
             }
         }
     }
@@ -85,9 +82,9 @@ class GameManager {
     var receiverGameScore: Int {
         get {
             if server == .one {
-                return playerTwoGameScore
+                return playerTwoScore
             } else {
-                return playerOneGameScore
+                return playerOneScore
             }
         }
     }
@@ -95,8 +92,8 @@ class GameManager {
     var isTiebreak = false
     var isFinished = false
     
-    var oldPlayerOneGameScore: Int?
-    var oldPlayerTwoGameScore: Int?
+    var oldPlayerOneScore: Int?
+    var oldPlayerTwoScore: Int?
     
     func switchServer() {
         switch server {
@@ -121,26 +118,26 @@ class GameManager {
     func increasePointForPlayerOne() {
         switch server {
         case .one?:
-            switch gameScore {
+            switch score {
             case (0...15, 0...40):
-                playerOneGameScore += 15
+                playerOneScore += 15
             case (30, 0...40):
-                playerOneGameScore += 10
+                playerOneScore += 10
             case (40, 0...30):
                 scoreWinningPoint()
             default:
-                enterDeuceOrAdvantageSituationAfterYouScored()
+                enterDeuceOrAdvantageSituationForPlayerOne()
             }
         case .two?:
-            switch gameScore {
+            switch score {
             case (0...40, 0...15):
-                playerOneGameScore += 15
+                playerOneScore += 15
             case (0...40, 30):
-                playerOneGameScore += 10
+                playerOneScore += 10
             case (0...30, 40):
                 scoreWinningPoint()
             default:
-                enterDeuceOrAdvantageSituationAfterYouScored()
+                enterDeuceOrAdvantageSituationForPlayerOne()
             }
         case .none:
             break
@@ -150,26 +147,26 @@ class GameManager {
     func increasePointForPlayerTwo() {
         switch server {
         case .one?:
-            switch gameScore {
+            switch score {
             case (0...40, 0...15):
-                playerTwoGameScore += 15
+                playerTwoScore += 15
             case (0...40, 30):
-                playerTwoGameScore += 10
+                playerTwoScore += 10
             case (0...30, 40):
                 scoreWinningPoint()
             default:
-                enterDeuceOrAdvantageSituationAfterOpponentScored()
+                enterDeuceOrAdvantageSituationForPlayerTwo()
             }
         case .two?:
-            switch gameScore {
+            switch score {
             case (0...15, 0...40):
-                playerTwoGameScore += 15
+                playerTwoScore += 15
             case (30, 0...40):
-                playerTwoGameScore += 10
+                playerTwoScore += 10
             case (40, 0...30):
                 scoreWinningPoint()
             default:
-                enterDeuceOrAdvantageSituationAfterOpponentScored()
+                enterDeuceOrAdvantageSituationForPlayerTwo()
             }
         case .none:
             break
@@ -177,39 +174,39 @@ class GameManager {
     }
     
     func increaseTiebreakPointForPlayerOne() {
-        playerOneGameScore += 1
-        if (playerOneGameScore >= 7) && (playerOneGameScore >= playerTwoGameScore + 2) {
+        playerOneScore += 1
+        if (playerOneScore >= 7) && (playerOneScore >= playerTwoScore + 2) {
             scoreWinningPoint()
         }
     }
     
     func increaseTiebreakPointForPlayerTwo() {
-        playerTwoGameScore += 1
-        if (playerTwoGameScore >= 7) && (playerTwoGameScore >= playerOneGameScore + 2) {
+        playerTwoScore += 1
+        if (playerTwoScore >= 7) && (playerTwoScore >= playerOneScore + 2) {
             scoreWinningPoint()
         }
     }
     
-    func enterDeuceOrAdvantageSituationAfterYouScored() {
-        if playerOneGameScore == playerTwoGameScore + 10 {
-            playerOneGameScore += 10
-        } else if playerOneGameScore == playerTwoGameScore - 1 {
-            playerOneGameScore += 1
-        } else if playerOneGameScore == playerTwoGameScore {
-            playerOneGameScore += 1
-        } else if playerOneGameScore == playerTwoGameScore + 1 {
+    func enterDeuceOrAdvantageSituationForPlayerOne() {
+        if playerOneScore == playerTwoScore + 10 {
+            playerOneScore += 10
+        } else if playerOneScore == playerTwoScore - 1 {
+            playerOneScore += 1
+        } else if playerOneScore == playerTwoScore {
+            playerOneScore += 1
+        } else if playerOneScore == playerTwoScore + 1 {
             scoreWinningPoint()
         }
     }
     
-    func enterDeuceOrAdvantageSituationAfterOpponentScored() {
-        if playerTwoGameScore == playerOneGameScore + 10 {
-            playerTwoGameScore += 10
-        } else if playerTwoGameScore == playerOneGameScore - 1 {
-            playerTwoGameScore += 1
-        } else if playerTwoGameScore == playerOneGameScore {
-            playerTwoGameScore += 1
-        } else if playerTwoGameScore == playerOneGameScore + 1 {
+    func enterDeuceOrAdvantageSituationForPlayerTwo() {
+        if playerTwoScore == playerOneScore + 10 {
+            playerTwoScore += 10
+        } else if playerTwoScore == playerOneScore - 1 {
+            playerTwoScore += 1
+        } else if playerTwoScore == playerOneScore {
+            playerTwoScore += 1
+        } else if playerTwoScore == playerOneScore + 1 {
             scoreWinningPoint()
         }
     }

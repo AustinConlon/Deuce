@@ -12,14 +12,14 @@ import XCTest
 class DeuceTests: XCTestCase {
     func testPlayerOneWonGame() {
         let match = MatchManager(1, .tiebreak, .one)
-        match.sets.last?.games.last?.playerOneGameScore = 40
+        match.sets.last?.games.last?.playerOneScore = 40
         match.scorePointForPlayerOne()
         XCTAssertEqual(match.sets.last!.playerOneSetScore, 1)
     }
     
     func testPlayerTwoWonGame() {
         let match = MatchManager(1, .tiebreak, .one)
-        match.sets.last?.games.last?.playerTwoGameScore = 40
+        match.sets.last?.games.last?.playerTwoScore = 40
         match.scorePointForPlayerTwo()
         XCTAssertEqual(match.sets.last!.playerTwoSetScore, 1)
     }
@@ -27,7 +27,7 @@ class DeuceTests: XCTestCase {
     func testPlayerOneWonSet() {
         let match = MatchManager(3, .tiebreak, .one)
         match.sets.last?.playerOneSetScore = 5
-        match.sets.last?.games.last?.playerOneGameScore = 40
+        match.sets.last?.games.last?.playerOneScore = 40
         match.scorePointForPlayerOne()
         XCTAssertEqual(match.sets.last?.playerOneSetScore, match.sets.last?.playerTwoSetScore)
         XCTAssertEqual(match.playerOneMatchScore, 1)
@@ -36,7 +36,7 @@ class DeuceTests: XCTestCase {
     func testPlayerTwoWonSet() {
         let match = MatchManager(3, .tiebreak, .one)
         match.sets.last?.playerTwoSetScore = 5
-        match.sets.last?.games.last?.playerTwoGameScore = 40
+        match.sets.last?.games.last?.playerTwoScore = 40
         match.scorePointForPlayerTwo()
         XCTAssertEqual(match.sets.last?.playerOneSetScore, match.sets.last?.playerTwoSetScore)
         XCTAssertEqual(match.playerTwoMatchScore, 1)
@@ -45,7 +45,7 @@ class DeuceTests: XCTestCase {
     func testPlayerOneWonMatch() {
         let match = MatchManager(1, .tiebreak, .one)
         match.sets.last?.playerOneSetScore = 5
-        match.sets.last?.games.last?.playerOneGameScore = 40
+        match.sets.last?.games.last?.playerOneScore = 40
         match.scorePointForPlayerOne()
         XCTAssertEqual(match.winner, Player.one)
     }
@@ -53,7 +53,7 @@ class DeuceTests: XCTestCase {
     func testPlayerTwoWonMatch() {
         let match = MatchManager(1, .tiebreak, .one)
         match.sets.last?.playerTwoSetScore = 5
-        match.sets.last?.games.last?.playerTwoGameScore = 40
+        match.sets.last?.games.last?.playerTwoScore = 40
         match.scorePointForPlayerTwo()
         XCTAssertEqual(match.winner, Player.two)
     }
