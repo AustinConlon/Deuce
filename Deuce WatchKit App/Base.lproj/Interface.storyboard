@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14313.13.2" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14313.18" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.9"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14238.4.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14238.10"/>
     </dependencies>
     <scenes>
         <!--Settings-->
@@ -17,10 +16,8 @@
                         <label alignment="center" text="One set" numberOfLines="0" id="6nH-Bn-VTw">
                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                         </label>
-                        <slider width="1" height="23" alignment="left" continuous="YES" value="1" minimum="1" maximum="5" steps="2" id="H3i-Wl-J5d">
+                        <slider width="1" height="0.186" alignment="left" continuous="YES" value="1" minimum="1" maximum="5" steps="2" id="H3i-Wl-J5d">
                             <color key="color" red="0.41960784313725491" green="0.8784313725490196" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <variation key="device=watch38mm" height="23"/>
-                            <variation key="device=watch42mm" height="29"/>
                             <connections>
                                 <action selector="matchLengthSlider:" destination="AgC-eL-Hgc" id="afN-r0-XtM"/>
                             </connections>
@@ -32,32 +29,26 @@
                                 </label>
                             </items>
                         </group>
-                        <button width="1" height="23" alignment="left" title="Tiebreak" id="3DW-gV-pSx">
+                        <button width="1" height="0.186" alignment="left" title="Tiebreak" id="3DW-gV-pSx">
                             <color key="titleColor" red="0.015686274510000001" green="0.87058823529999996" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="backgroundColor" red="0.015686274510000001" green="0.87058823529999996" blue="0.4431372549" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="font" style="UICTFontTextStyleBody"/>
-                            <variation key="device=watch38mm" height="23"/>
-                            <variation key="device=watch42mm" height="29"/>
                             <connections>
                                 <action selector="chooseTypeOfSetToBeTiebreak" destination="AgC-eL-Hgc" id="2tz-d8-BXd"/>
                             </connections>
                         </button>
-                        <button width="1" height="23" alignment="center" title="Advantage" id="HO4-aS-sOc">
+                        <button width="1" height="0.186" alignment="center" title="Advantage" id="HO4-aS-sOc">
                             <color key="titleColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="backgroundColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="font" style="UICTFontTextStyleBody"/>
-                            <variation key="device=watch38mm" height="23"/>
-                            <variation key="device=watch42mm" height="29"/>
                             <connections>
                                 <action selector="chooseTypeOfSetToBeAdvantage" destination="AgC-eL-Hgc" id="h34-Ew-nEY"/>
                             </connections>
                         </button>
-                        <button width="1" height="23" alignment="left" verticalAlignment="bottom" title="Coin Toss" id="Rvm-Qn-Mwd">
+                        <button width="1" height="0.186" alignment="left" title="Coin Toss" id="Rvm-Qn-Mwd">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="backgroundColor" red="0.41960784313725491" green="0.8784313725490196" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
-                            <variation key="device=watch38mm" height="23"/>
-                            <variation key="device=watch42mm" height="29"/>
                             <connections>
                                 <action selector="start" destination="AgC-eL-Hgc" id="bu2-8w-Xby"/>
                             </connections>
@@ -92,7 +83,7 @@
             <objects>
                 <controller identifier="scoreboard" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreboardInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
-                        <group width="1" height="74" alignment="center" layout="overlap" id="8D4-hX-8s1" userLabel="Player Two">
+                        <group width="1" height="0.5" alignment="center" layout="overlap" id="8D4-hX-8s1" userLabel="Player Two">
                             <items>
                                 <group width="1" alignment="left" id="KkB-ja-aiS">
                                     <items>
@@ -104,7 +95,7 @@
                                 </group>
                                 <label alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player Two Game Score">
                                     <color key="textColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="font" type="system" weight="semibold" pointSize="37"/>
+                                    <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
                                 </label>
                                 <group alignment="center" verticalAlignment="bottom" id="aaL-Es-rY2" userLabel="Sets">
                                     <items>
@@ -152,13 +143,8 @@
                                     <exclude reference="STP-fs-GvR"/>
                                 </mask>
                             </variation>
-                            <variation key="device=watch38mm" height="70"/>
-                            <variation key="device=watch42mm" height="82"/>
                         </group>
-                        <separator width="1" alignment="center" id="ga3-rh-Pt9">
-                            <color key="color" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </separator>
-                        <group width="1" height="74" alignment="center" layout="overlap" id="RaQ-zM-xjo" userLabel="Player One">
+                        <group width="1" height="0.5" alignment="center" layout="overlap" id="RaQ-zM-xjo" userLabel="Player One">
                             <items>
                                 <group width="1" alignment="left" verticalAlignment="bottom" id="Dfd-Nm-wxU">
                                     <items>
@@ -171,7 +157,7 @@
                                 </group>
                                 <label alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player One Game Score">
                                     <color key="textColor" red="0.12549019607843137" green="0.87058823529411766" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="font" type="system" weight="semibold" pointSize="37"/>
+                                    <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
                                 </label>
                                 <group alignment="center" id="7fq-fx-g6a" userLabel="Sets">
                                     <items>
@@ -216,8 +202,6 @@
                                     <exclude reference="n3J-od-0W3"/>
                                 </mask>
                             </variation>
-                            <variation key="device=watch38mm" height="70"/>
-                            <variation key="device=watch42mm" height="82"/>
                         </group>
                     </items>
                     <menu key="menu" id="NSq-M2-ZxI">

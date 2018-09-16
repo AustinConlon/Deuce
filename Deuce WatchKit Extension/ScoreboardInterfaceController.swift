@@ -61,7 +61,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             switch currentGame.isTiebreak {
             case true:
                 return String(currentGame.playerOneScore)
-            default:
+            case false:
                 switch currentGame.playerOneScore {
                 case 0:
                     return "LOVE"
@@ -94,7 +94,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             switch currentGame.isTiebreak {
             case true:
                 return String(currentGame.playerTwoScore)
-            default:
+            case false:
                 switch currentGame.playerTwoScore {
                 case 0:
                     return "LOVE"
@@ -225,7 +225,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         var workoutSession: HKWorkoutSession
         
         do {
-            workoutSession = try HKWorkoutSession(configuration: workoutConfiguration)
+            workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
             workoutSession.delegate = self
         } catch {
             fatalError("Unable to create the workout session!")
@@ -242,7 +242,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         })
         guard let workoutSession = currentWorkoutSession else { return }
         
-        healthStore.end(workoutSession)
+        workoutSession.end()
         isWorkoutRunning = false
     }
     
@@ -258,7 +258,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         if currentMatch.winner != nil {
             guard let workoutSession = currentWorkoutSession else { return }
         
-            healthStore.end(workoutSession)
+            workoutSession.end()
             isWorkoutRunning = false
         }
         
@@ -279,7 +279,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         if currentMatch.winner != nil {
             guard let workoutSession = currentWorkoutSession else { return }
             
-            healthStore.end(workoutSession)
+            workoutSession.end()
             isWorkoutRunning = false
         }
         
