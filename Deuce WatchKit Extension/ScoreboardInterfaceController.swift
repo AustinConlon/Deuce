@@ -233,7 +233,16 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         
         currentWorkoutSession = workoutSession
         
-        healthStore.start(workoutSession)
+        let builder = workoutSession.associatedWorkoutBuilder()
+        
+        workoutSession.startActivity(with: Date())
+        
+        builder.beginCollection(withStart: Date()) { success, error in
+            if let error = error, !success {
+                print("The error was: \(error.localizedDescription).")
+            }
+        }
+        
     }
     
     override func willDisappear() {

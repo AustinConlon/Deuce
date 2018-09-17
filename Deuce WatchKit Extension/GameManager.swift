@@ -22,10 +22,10 @@ class GameManager {
         }
     }
     
-    // For convienence in switching on the game score.
+    // For conveniently switching on the game score.
     var score: (Int, Int) {
         get {
-           return (serverGameScore, receiverGameScore)
+           return (serverScore, receiverScore)
         }
     }
     
@@ -42,7 +42,7 @@ class GameManager {
                     }
                 }
             case false:
-                if serverGameScore > 0 || receiverGameScore > 0 {
+                if serverScore > 0 || receiverScore > 0 {
                     changeServerSide()
                 }
             }
@@ -62,14 +62,14 @@ class GameManager {
                     }
                 }
             case false:
-                if serverGameScore > 0 || receiverGameScore > 0 {
+                if serverScore > 0 || receiverScore > 0 {
                     changeServerSide()
                 }
             }
         }
     }
     
-    var serverGameScore: Int {
+    var serverScore: Int {
         get {
             if server == .one {
                 return playerOneScore
@@ -79,7 +79,7 @@ class GameManager {
         }
     }
     
-    var receiverGameScore: Int {
+    var receiverScore: Int {
         get {
             if server == .one {
                 return playerTwoScore
