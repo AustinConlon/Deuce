@@ -22,10 +22,10 @@ class GameManager {
         }
     }
     
-    // For convienence in switching on the game score.
+    // For conveniently switching on the game score.
     var score: (Int, Int) {
         get {
-           return (serverGameScore, receiverGameScore)
+           return (serverScore, receiverScore)
         }
     }
     
@@ -36,14 +36,14 @@ class GameManager {
             case true:
                 if playerOneScore > oldValue {
                     if (playerOneScore + playerTwoScore) % 2 == 0 {
-                        serverSwitchesSides()
+                        changeServerSide()
                     } else { // Undo.
-                        switchServer()
+                        changeServer()
                     }
                 }
             case false:
-                if serverGameScore > 0 || receiverGameScore > 0 {
-                    serverSwitchesSides()
+                if serverScore > 0 || receiverScore > 0 {
+                    changeServerSide()
                 }
             }
         }
@@ -56,20 +56,20 @@ class GameManager {
             case true:
                 if playerTwoScore > oldValue {
                     if (playerOneScore + playerTwoScore) % 2 == 0 {
-                        serverSwitchesSides()
+                        changeServerSide()
                     } else {
-                        switchServer()
+                        changeServer()
                     }
                 }
             case false:
-                if serverGameScore > 0 || receiverGameScore > 0 {
-                    serverSwitchesSides()
+                if serverScore > 0 || receiverScore > 0 {
+                    changeServerSide()
                 }
             }
         }
     }
     
-    var serverGameScore: Int {
+    var serverScore: Int {
         get {
             if server == .one {
                 return playerOneScore
@@ -79,7 +79,7 @@ class GameManager {
         }
     }
     
-    var receiverGameScore: Int {
+    var receiverScore: Int {
         get {
             if server == .one {
                 return playerTwoScore
@@ -95,7 +95,7 @@ class GameManager {
     var oldPlayerOneScore: Int?
     var oldPlayerTwoScore: Int?
     
-    func switchServer() {
+    func changeServer() {
         switch server {
         case .one?:
             server = .two
@@ -106,7 +106,7 @@ class GameManager {
         }
     }
     
-    func serverSwitchesSides() {
+    func changeServerSide() {
         switch serverSide {
         case .deuceCourt:
             serverSide = .adCourt

@@ -22,7 +22,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         super.init(coder: aDecoder)!
         
         if (WCSession.isSupported()) {
-            session = WCSession.default()
+            session = WCSession.default
             session.delegate = self
             session.activate()
         }
@@ -41,7 +41,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         // Enable self sizing rows.
         tableView.estimatedRowHeight = 103
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         
         if #available(iOS 10.3, *) {
             SKStoreReviewController.requestReview()
@@ -77,7 +77,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             matches.remove(at: indexPath.row)
             saveMatches()

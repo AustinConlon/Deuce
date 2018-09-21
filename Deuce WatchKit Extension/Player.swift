@@ -13,8 +13,8 @@ enum Player {
 }
 
 enum ServingSide {
-    // Right side of the hash mark from the serving player's perspective.
+    // Right side of the court's hash mark from the serving player's perspective.
     case deuceCourt
-    // Left side of the hash mark from the serving player's perspective.
+    // Left side of the court's hash mark from the serving player's perspective.
     case adCourt
 }

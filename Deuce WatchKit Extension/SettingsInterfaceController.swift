@@ -27,7 +27,7 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
         if (WCSession.isSupported()) {
-            session = WCSession.default()
+            session = WCSession.default
             session.delegate = self
             session.activate()
         }
@@ -73,21 +73,17 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
         let chooseOpponentToServeFirst = WKAlertAction(title: "Opponent", style: .`default`) {
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .two)
             self.pushController(withName: "scoreboard", context: match)
-            WKInterfaceDevice.current().play(.start)
         }
         let chooseYourselfToServeFirst = WKAlertAction(title: "You", style: .`default`) {
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .one)
             self.pushController(withName: "scoreboard", context: match)
-            WKInterfaceDevice.current().play(.start)
         }
         var coinTossWinner: String
         switch MatchManager.coinTossWinner {
         case .one:
             coinTossWinner = "You"
-            WKInterfaceDevice.current().play(.success)
         case .two:
             coinTossWinner = "Your opponent"
-            WKInterfaceDevice.current().play(.failure)
         }
         presentAlert(withTitle: "\(coinTossWinner) won the coin toss.", message: "Who will serve first?", preferredStyle: .actionSheet, actions: [chooseOpponentToServeFirst, chooseYourselfToServeFirst])
     }

@@ -207,7 +207,8 @@ class ChairUmpireViewController: UIViewController {
     
     func coinToss() {
         let coinTossResult: String
-        if ((arc4random_uniform(2)) == 0) {
+        let flippedHeads = Bool.random()
+        if flippedHeads {
             coinTossResult = "The player starting on your left side won the coin toss. Select their choice of who will serve first."
         } else {
             coinTossResult = "The player starting on your right side won the coin toss. Select their choice of who will serve first."

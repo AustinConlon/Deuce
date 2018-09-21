@@ -21,16 +21,20 @@ class MatchManager {
             }
         }
     }
+    
     var maximumNumberOfSetsInMatch: Int  // Default match length is 1 set.
+    
     static var coinTossWinner: Player {  // Winner of the coin toss decides whether to serve or receive first.
         get {
-            if ((arc4random_uniform(2)) == 0) {
+            let flippedHeads = Bool.random()
+            if flippedHeads {
                 return .one
             } else {
                 return .two
             }
         }
     }
+    
     // Number of sets you and your opponent won.
     var matchScore: (serverScore: Int, receiverScore: Int) = (0, 0)
     var playerOneMatchScore = 0 {
@@ -195,12 +199,12 @@ class MatchManager {
             currentGame.playerOneScore = currentGame.oldPlayerOneScore!
             if currentGame.isTiebreak {
                 if currentGame.score == (0, 0) {
-                    currentGame.switchServer()
+                    currentGame.changeServer()
                 } else if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 0 {
-                    currentGame.switchServer()
+                    currentGame.changeServer()
                     currentGame.serverSide = .deuceCourt
                 } else {
-                    currentGame.serverSwitchesSides()
+                    currentGame.changeServerSide()
                 }
             }
         }
@@ -223,12 +227,12 @@ class MatchManager {
             currentGame.playerTwoScore = currentGame.oldPlayerTwoScore!
             if currentGame.isTiebreak {
                 if currentGame.score == (0, 0) {
-                    currentGame.switchServer()
+                    currentGame.changeServer()
                 } else if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 0 {
-                    currentGame.switchServer()
+                    currentGame.changeServer()
                     currentGame.serverSide = .deuceCourt
                 } else {
-                    currentGame.serverSwitchesSides()
+                    currentGame.changeServerSide()
                 }
             }
         }
