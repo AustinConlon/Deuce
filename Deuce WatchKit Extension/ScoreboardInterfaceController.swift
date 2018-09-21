@@ -172,7 +172,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     override init() {
         super.init()
         if (WCSession.isSupported()) {
-            session = WCSession.default()
+            session = WCSession.default
             session.delegate = self
             session.activate()
         }
