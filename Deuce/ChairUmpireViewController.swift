@@ -344,12 +344,12 @@ class ChairUmpireViewController: UIViewController {
     }
     
     func updateSetScoresFromModel() {
-        playerOneSetScoreLabel.text = "Set score: \(currentSet.playerOneSetScore)"
-        playerTwoSetScoreLabel.text = "Set score: \(currentSet.playerTwoSetScore)"
+        playerOneSetScoreLabel.text = "Set score: \(currentSet.playerOneScore)"
+        playerTwoSetScoreLabel.text = "Set score: \(currentSet.playerTwoScore)"
     }
     
     func updateMatchScoresFromModel() {
-        playerOneMatchScoreLabel.text = "Match score: \(currentMatch.playerOneMatchScore)"
-        playerTwoMatchScoreLabel.text = "Match score: \(currentMatch.playerTwoMatchScore)"
+        playerOneMatchScoreLabel.text = "Match score: \(currentMatch.playerOneScore)"
+        playerTwoMatchScoreLabel.text = "Match score: \(currentMatch.playerTwoScore)"
     }
 }

@@ -176,33 +176,20 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             session.delegate = self
             session.activate()
         }
-    }
-    
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-        let context = context as? MatchManager
-        scoreManager = ScoreManager(context!)
-        updateLabelsFromModel()
-        do {
-            try session.updateApplicationContext(["start new match" : ""])
-        } catch {
-            print(error)
-        }
-    }
-  
-    override func didAppear() {
+        
         // Only proceed if health data is available.
         guard HKHealthStore.isHealthDataAvailable() else { return }
         
         // We need to be able to write workouts, so they display as a standalone workout in the Activity app on iPhone.
         // We also need to be able to write Active Energy Burned to write samples to HealthKit to later associating with our app.
-        let typesToShare = Set([
-            HKObjectType.workoutType(),
-            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!])
+        let typesToShare: Set = [
+            HKSampleType.workoutType()
+        ]
         
-        let typesToRead = Set([
-            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!])
-      
+        let typesToRead: Set = [
+            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+        ]
+        
         healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { success, error in
             if let error = error, !success {
                 print("The error was: \(error.localizedDescription).")
@@ -221,7 +208,6 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         // Configure the workout session.
         let workoutConfiguration = HKWorkoutConfiguration()
         workoutConfiguration.activityType = .tennis
-        workoutConfiguration.locationType = .outdoor
         var workoutSession: HKWorkoutSession
         
         do {
@@ -242,7 +228,18 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
                 print("The error was: \(error.localizedDescription).")
             }
         }
-        
+    }
+    
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+        let context = context as? MatchManager
+        scoreManager = ScoreManager(context!)
+        updateLabelsFromModel()
+        do {
+            try session.updateApplicationContext(["start new match" : ""])
+        } catch {
+            print(error)
+        }
     }
     
     override func willDisappear() {
@@ -465,46 +462,46 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     func updateColumnsForOneSet() {
-        columnFivePlayerOneSetScoreLabel.setText(String(currentSet.playerOneSetScore))
-        columnFivePlayerTwoSetScoreLabel.setText(String(currentSet.playerTwoSetScore))
+        columnFivePlayerOneSetScoreLabel.setText(String(currentSet.playerOneScore))
+        columnFivePlayerTwoSetScoreLabel.setText(String(currentSet.playerTwoScore))
     }
     
     func updateColumnsForTwoSets() {
-        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneSetScore))
-        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoSetScore))
+        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneScore))
+        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoScore))
         columnFourPlayerOneSetScoreLabel.setHidden(false)
         columnFourPlayerTwoSetScoreLabel.setHidden(false)
     }
     
     func updateColumnsForThreeSets() {
-        columnThreePlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneSetScore))
-        columnThreePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoSetScore))
-        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[1].playerOneSetScore))
-        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoSetScore))
+        columnThreePlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneScore))
+        columnThreePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoScore))
+        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[1].playerOneScore))
+        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoScore))
         columnThreePlayerOneSetScoreLabel.setHidden(false)
         columnThreePlayerTwoSetScoreLabel.setHidden(false)
     }
     
     func updateColumnsForFourSets() {
-        columnTwoPlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneSetScore))
-        columnTwoPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoSetScore))
-        columnThreePlayerOneSetScoreLabel.setText(String(currentMatch.sets[1].playerOneSetScore))
-        columnThreePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoSetScore))
-        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[2].playerOneSetScore))
-        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[2].playerTwoSetScore))
+        columnTwoPlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneScore))
+        columnTwoPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoScore))
+        columnThreePlayerOneSetScoreLabel.setText(String(currentMatch.sets[1].playerOneScore))
+        columnThreePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoScore))
+        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[2].playerOneScore))
+        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[2].playerTwoScore))
         columnTwoPlayerOneSetScoreLabel.setHidden(false)
         columnTwoPlayerTwoSetScoreLabel.setHidden(false)
     }
     
     func updateColumnsForFiveSets() {
-        columnOnePlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneSetScore))
-        columnOnePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoSetScore))
-        columnTwoPlayerOneSetScoreLabel.setText(String(currentMatch.sets[1].playerOneSetScore))
-        columnTwoPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoSetScore))
-        columnThreePlayerOneSetScoreLabel.setText(String(currentMatch.sets[2].playerOneSetScore))
-        columnThreePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[2].playerTwoSetScore))
-        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[3].playerOneSetScore))
-        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[3].playerTwoSetScore))
+        columnOnePlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneScore))
+        columnOnePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoScore))
+        columnTwoPlayerOneSetScoreLabel.setText(String(currentMatch.sets[1].playerOneScore))
+        columnTwoPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoScore))
+        columnThreePlayerOneSetScoreLabel.setText(String(currentMatch.sets[2].playerOneScore))
+        columnThreePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[2].playerTwoScore))
+        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[3].playerOneScore))
+        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[3].playerTwoScore))
         columnOnePlayerOneSetScoreLabel.setHidden(false)
         columnOnePlayerTwoSetScoreLabel.setHidden(false)
     }
@@ -563,7 +560,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
             } else if (currentMatch.totalNumberOfGamesPlayed % 2 == 1) {
                 // Players switch servers but not ends of the court.
                 WKInterfaceDevice.current().play(.stop)
-            } else if (currentMatch.totalNumberOfGamesPlayed % 2 == 0) {
+            } else if (currentMatch.totalNumberOfGamesPlayed % 2 == 0) || currentSet.score == (0, 0) {
                 // Players switch servers and switch ends of the court.
                 WKInterfaceDevice.current().play(.start)
             }
@@ -574,8 +571,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
         var setsToBeSentToPhone = [[Int]]()
         for set in 0..<currentMatch.sets.count {
             setsToBeSentToPhone.append([0, 0])
-            setsToBeSentToPhone[set][0] = currentMatch.sets[set].playerOneSetScore
-            setsToBeSentToPhone[set][1] = currentMatch.sets[set].playerTwoSetScore
+            setsToBeSentToPhone[set][0] = currentMatch.sets[set].playerOneScore
+            setsToBeSentToPhone[set][1] = currentMatch.sets[set].playerTwoScore
         }
         
         do {
@@ -713,16 +710,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate, H
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
-        DispatchQueue.main.async { [unowned self] in
-            switch toState {
-            case .running:
-                self.beginWorkout(on: date)
-            case .ended:
-                self.endWorkout(on: date)
-            default:
-                print("Unexpected workout session state: \(toState)")
-            }
-        }
+        print(toState)
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {

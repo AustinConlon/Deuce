@@ -36,20 +36,20 @@ class MatchManager {
     }
     
     // Number of sets you and your opponent won.
-    var matchScore: (serverScore: Int, receiverScore: Int) = (0, 0)
-    var playerOneMatchScore = 0 {
+    var score: (serverScore: Int, receiverScore: Int) = (0, 0)
+    var playerOneScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
-            if playerOneMatchScore >= minumumNumberOfSetsToWinMatch {
+            if playerOneScore >= minumumNumberOfSetsToWinMatch {
                 isFinished = true
                 winner = .one
             }
         }
     }
-    var playerTwoMatchScore = 0 {
+    var playerTwoScore = 0 {
         didSet {
             updateScoreOrderBasedOnServer()
-            if playerTwoMatchScore >= minumumNumberOfSetsToWinMatch {
+            if playerTwoScore >= minumumNumberOfSetsToWinMatch {
                 isFinished = true
                 winner = .two
             }
@@ -86,8 +86,8 @@ class MatchManager {
     var totalNumberOfGamesPlayed: Int {
         var totalNumberOfGamesPlayed = 0
         for set in sets {
-            totalNumberOfGamesPlayed += set.playerOneSetScore
-            totalNumberOfGamesPlayed += set.playerTwoSetScore
+            totalNumberOfGamesPlayed += set.playerOneScore
+            totalNumberOfGamesPlayed += set.playerTwoScore
         }
         return totalNumberOfGamesPlayed
     }
@@ -105,9 +105,9 @@ class MatchManager {
     func updateScoreOrderBasedOnServer() {
         switch currentGame.server {
         case .one?:
-            matchScore = (playerOneMatchScore, playerTwoMatchScore)
+            score = (playerOneScore, playerTwoScore)
         case .two?:
-            matchScore = (playerTwoMatchScore, playerOneMatchScore)
+            score = (playerTwoScore, playerOneScore)
         case .none:
             break
         }
@@ -135,33 +135,33 @@ class MatchManager {
     
     func increaseSetPointForPlayerOneInCurrentGame() {
         currentGame.scoreWinningPoint()
-        currentSet.playerOneSetScore += 1
+        currentSet.playerOneScore += 1
         checkPlayerOneWonSet()
     }
     
     func increaseSetPointForPlayerTwoInCurrentGame() {
         currentGame.scoreWinningPoint()
-        currentSet.playerTwoSetScore += 1
+        currentSet.playerTwoScore += 1
         checkPlayerTwoWonSet()
     }
     
     func checkPlayerOneWonGame() {
         if currentGame.isFinished {
-            currentSet.playerOneSetScore += 1
+            currentSet.playerOneScore += 1
             checkPlayerOneWonSet()
         }
     }
 
     func checkPlayerTwoWonGame() {
         if currentGame.isFinished {
-            currentSet.playerTwoSetScore += 1
+            currentSet.playerTwoScore += 1
             checkPlayerTwoWonSet()
         }
     }
     
     func checkPlayerOneWonSet() {
         if currentSet.isFinished == true {
-            playerOneMatchScore += 1
+            playerOneScore += 1
             if self.isFinished == false {
                 sets.append(SetManager())
             }
@@ -172,7 +172,7 @@ class MatchManager {
     
     func checkPlayerTwoWonSet() {
         if currentSet.isFinished == true {
-            playerTwoMatchScore += 1
+            playerTwoScore += 1
             if self.isFinished == false {
                 sets.append(SetManager())
             }
@@ -185,12 +185,12 @@ class MatchManager {
         if currentGame.score == (0, 0) {
             if currentSet.games.count > 1 {
                 currentSet.games.removeLast()
-                currentSet.playerOneSetScore -= 1
+                currentSet.playerOneScore -= 1
                 sets.last?.games.last?.isTiebreak = false
             } else if currentSet.games.count == 1 && sets.count > 1 {
                 sets.removeLast()
-                currentSet.playerOneSetScore -= 1
-                playerOneMatchScore -= 1
+                currentSet.playerOneScore -= 1
+                playerOneScore -= 1
             }
             
             currentGame.isFinished = false
@@ -214,11 +214,11 @@ class MatchManager {
         if currentGame.score == (0, 0) {
             if currentSet.games.count > 1 {
                 currentSet.games.removeLast()
-                currentSet.playerTwoSetScore -= 1
+                currentSet.playerTwoScore -= 1
             } else if currentSet.games.count == 1 && sets.count > 1 {
                 sets.removeLast()
-                currentSet.playerTwoSetScore -= 1
-                playerTwoMatchScore -= 1
+                currentSet.playerTwoScore -= 1
+                playerTwoScore -= 1
             }
             
             currentGame.isFinished = false

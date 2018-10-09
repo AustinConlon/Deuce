@@ -57,7 +57,7 @@ class GameManager {
                 if playerTwoScore > oldValue {
                     if (playerOneScore + playerTwoScore) % 2 == 0 {
                         changeServerSide()
-                    } else {
+                    } else { // Undo.
                         changeServer()
                     }
                 }

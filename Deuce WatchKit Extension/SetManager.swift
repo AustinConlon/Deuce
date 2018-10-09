@@ -16,44 +16,44 @@ class SetManager {
     let minimumNumbersOfGamesToWinSet = 6
     static var typeOfSet: TypeOfSet = .tiebreak
     
-    var setScore: (Int, Int) {
+    var score: (Int, Int) {
         get {
-            return (serverSetScore, receiverSetScore)
+            return (serverScore, receiverScore)
         }
     }
     
-    var playerOneSetScore = 0 {
+    var playerOneScore = 0 {
         didSet {
-            if (playerOneSetScore >= 6) && (playerOneSetScore - playerTwoSetScore >= marginToWinSetBy) { // Player one wins the set.
+            if (playerOneScore >= 6) && (playerOneScore - playerTwoScore >= marginToWinSetBy) { // Player one wins the set.
                 isFinished = true
             }
         }
     }
     
-    var playerTwoSetScore = 0 {
+    var playerTwoScore = 0 {
         didSet {
-            if (playerTwoSetScore >= 6) && (playerTwoSetScore - playerOneSetScore >= marginToWinSetBy) { // Player two wins the set.
+            if (playerTwoScore >= 6) && (playerTwoScore - playerOneScore >= marginToWinSetBy) { // Player two wins the set.
                 isFinished = true
             }
         }
     }
     
-    var serverSetScore: Int {
+    var serverScore: Int {
         get {
             if currentGame.server == .one {
-                return playerOneSetScore
+                return playerOneScore
             } else {
-                return playerTwoSetScore
+                return playerTwoScore
             }
         }
     }
     
-    var receiverSetScore: Int {
+    var receiverScore: Int {
         get {
             if currentGame.server == .one {
-                return playerTwoSetScore
+                return playerTwoScore
             } else {
-                return playerOneSetScore
+                return playerOneScore
             }
         }
     }
@@ -83,7 +83,7 @@ class SetManager {
                 }
             }
             
-            if SetManager.typeOfSet == .tiebreak && setScore == (6, 6) {
+            if SetManager.typeOfSet == .tiebreak && score == (6, 6) {
                 currentGame.isTiebreak = true
             } else {
                 currentGame.isTiebreak = false
