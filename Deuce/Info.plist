@@ -21,11 +21,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSHealthShareUsageDescription</key>
-	<string>This is so that your tennis workout contributes to your Move rings, and gets saved in the Workouts tab of the Activity app.</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>This is so that your tennis workout contributes to your Move rings, and gets saved in the Workouts tab of the Activity app.</string>
-	<key>NSSiriUsageDescription</key>
-	<string>Deuce information will be sent to Siri.</string>
+	<string>This is for saving your tennis workouts to the Activity app.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

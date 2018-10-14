@@ -43,10 +43,13 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         tableView.estimatedRowHeight = 103
         tableView.rowHeight = UITableView.automaticDimension
         
-        if #available(iOS 10.3, *) {
-            SKStoreReviewController.requestReview()
-        } else {
-            // Fallback on earlier versions
+        if let savedMatches = loadMatches() {
+            matches += savedMatches
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
     

@@ -24,10 +24,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let healthStore = HKHealthStore()
         
-        let allTypes = Set([HKObjectType.workoutType(),
-                            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!])
+        let typesToShare: Set = [
+            HKQuantityType.workoutType(),
+            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+        ]
         
-        healthStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
+        healthStore.requestAuthorization(toShare: typesToShare, read: nil) { (success, error) in
             if let error = error, !success {
                 print(error.localizedDescription)
             }
