@@ -42,9 +42,7 @@ class GameManager {
                     }
                 }
             case false:
-                if serverScore > 0 || receiverScore > 0 {
-                    changeServerSide()
-                }
+                changeServerSide()
             }
         }
     }
@@ -62,9 +60,7 @@ class GameManager {
                     }
                 }
             case false:
-                if serverScore > 0 || receiverScore > 0 {
-                    changeServerSide()
-                }
+                changeServerSide()
             }
         }
     }

@@ -10,12 +10,17 @@ import UIKit
 import WatchConnectivity
 import os.log
 import StoreKit
+import HealthKit
+import WebKit
+import SafariServices
 
-class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
+class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate, WKUIDelegate {
     // MARK: Properties
     var session: WCSession!
     
     var matches = [Match]()
+    
+    var webView: WKWebView!
     
     required init(coder aDecoder: NSCoder) {
         // Initialize properties here.
@@ -31,6 +36,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if session.isWatchAppInstalled {
+            requestAccessToHealthKit()
+        }
+        
         if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone {
             if !session.isWatchAppInstalled {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Chair Umpire", style: .plain, target: self, action: #selector(presentChairUmpireViewController))
@@ -40,8 +49,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }
         
         // Enable self sizing rows.
-        tableView.estimatedRowHeight = 103
-        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.estimatedRowHeight = UITableView.automaticDimension
+//        tableView.rowHeight = UITableView.automaticDimension
         
         if let savedMatches = loadMatches() {
             matches += savedMatches
@@ -347,5 +356,29 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     private func loadMatches() -> [Match]?  {
         return NSKeyedUnarchiver.unarchiveObject(withFile: Match.ArchiveURL.path) as? [Match]
+    }
+    
+    private func requestAccessToHealthKit() {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        
+        let healthStore = HKHealthStore()
+        
+        let typesToShare: Set = [
+            HKQuantityType.workoutType(),
+            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
+        ]
+        
+        healthStore.requestAuthorization(toShare: typesToShare, read: nil) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    @IBAction func showScoringRules(_ sender: Any) {
+        let myURL = URL(string:"https://en.wikipedia.org/wiki/Tennis_scoring_system")
+        let viewController = SFSafariViewController(url: myURL!)
+        present(viewController, animated: true, completion: nil)
     }
 }

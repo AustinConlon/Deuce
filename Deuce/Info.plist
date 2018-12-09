@@ -15,13 +15,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.20</string>
+	<string>2.21</string>
 	<key>CFBundleVersion</key>
 	<string>4</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>This is to save your tennis workout data to the Activity app and Health app.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>This is for saving your tennis workouts to the Activity app.</string>
+	<string>This is to save your tennis workout data to the Activity app and Health app.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

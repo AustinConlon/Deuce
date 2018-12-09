@@ -196,7 +196,6 @@ class MatchManager {
             currentGame.isFinished = false
             currentSet.isFinished = false
         } else {
-            currentGame.playerOneScore = currentGame.oldPlayerOneScore!
             if currentGame.isTiebreak {
                 if currentGame.score == (0, 0) {
                     currentGame.changeServer()
@@ -206,6 +205,8 @@ class MatchManager {
                 } else {
                     currentGame.changeServerSide()
                 }
+            } else {
+                currentGame.playerOneScore = currentGame.oldPlayerOneScore!
             }
         }
     }
@@ -224,7 +225,6 @@ class MatchManager {
             currentGame.isFinished = false
             currentSet.isFinished = false
         } else {
-            currentGame.playerTwoScore = currentGame.oldPlayerTwoScore!
             if currentGame.isTiebreak {
                 if currentGame.score == (0, 0) {
                     currentGame.changeServer()
@@ -234,6 +234,8 @@ class MatchManager {
                 } else {
                     currentGame.changeServerSide()
                 }
+            } else {
+                currentGame.playerTwoScore = currentGame.oldPlayerTwoScore!
             }
         }
     }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.3.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8bG-JW-CSv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.30.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8bG-JW-CSv">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.19.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -331,7 +331,13 @@
                             <outlet property="delegate" destination="IK4-br-vsG" id="5me-pI-NUP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Match History" id="7Ow-nq-jA7"/>
+                    <navigationItem key="navigationItem" title="Match History" id="7Ow-nq-jA7">
+                        <barButtonItem key="leftBarButtonItem" title="Scoring Rules" id="4Qp-AJ-aJY">
+                            <connections>
+                                <action selector="showScoringRules:" destination="IK4-br-vsG" id="Bao-Lg-FIj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMG-fo-ezj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -366,7 +372,7 @@
         <!--Navigation Controller-->
         <scene sceneID="fZa-3V-Te2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WRN-kh-MtL" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ChairUmpireNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="WRN-kh-MtL" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="0fV-yW-Le7">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>

@@ -11,7 +11,7 @@ import Foundation
 import WatchConnectivity
 import HealthKit
 
-class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
+class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
     // MARK: Properties
     
     var session: WCSession!
@@ -21,6 +21,11 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     var undoManager = UndoManager()
     
     let healthStore = HKHealthStore()
+    var activeDataQueries = [HKQuery]()
+    var workoutStartDate: Date?
+    var totalEnergyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 0)
+    var workoutEndDate: Date?
+    var isPaused = false
     
     var currentGame: GameManager {
         get {
@@ -126,6 +131,11 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
     }
     
+    var workoutConfiguration: HKWorkoutConfiguration!
+    
+    var workoutSession: HKWorkoutSession!
+    var liveWorkoutBuilder: HKLiveWorkoutBuilder!
+    
     @IBOutlet var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoServiceLabel: WKInterfaceLabel!
     
@@ -170,24 +180,34 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         let context = context as? MatchManager
         scoreManager = ScoreManager(context!)
         updateLabelsFromModel()
+        
         do {
             try session.updateApplicationContext(["start new match" : ""])
         } catch {
             print(error)
         }
-    }
-    
-    override func didAppear() {
-        let typesToShare: Set = [
-            HKQuantityType.workoutType(),
-            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
-            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
-        ]
         
-        healthStore.requestAuthorization(toShare: typesToShare, read: nil) { (success, error) in
-            if let error = error, !success {
-                print("The error was: \(error.localizedDescription).")
-            }
+        workoutConfiguration = HKWorkoutConfiguration()
+        workoutConfiguration.activityType = .tennis
+        workoutConfiguration.locationType = .outdoor
+        
+        do {
+            workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
+            liveWorkoutBuilder = workoutSession.associatedWorkoutBuilder()
+            workoutStartDate = Date()
+        } catch {
+            dismiss()
+            return
+        }
+        
+        workoutSession.delegate = self
+        liveWorkoutBuilder.delegate = self
+        liveWorkoutBuilder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: workoutConfiguration)
+        
+        workoutSession.startActivity(with: Date())
+        liveWorkoutBuilder.beginCollection(withStart: Date()) { (success, error) in
+            self.liveWorkoutBuilder.dataSource = HKLiveWorkoutDataSource(healthStore: self.healthStore, workoutConfiguration: self.workoutConfiguration)
+            self.liveWorkoutBuilder.dataSource?.enableCollection(for: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!, predicate: nil)
         }
     }
     
@@ -195,6 +215,7 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
             print(Error)
         })
+        workoutSession.end()
     }
     
     // MARK: Actions
@@ -307,7 +328,11 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
     func updateGameScoresFromModel() {
         switch currentGame.isTiebreak {
         case true:
-            setTitle("Tiebreak")
+            if (currentGame.playerOneScore + currentGame.playerTwoScore) % 6 == 0 {
+                setTitle("Switch Ends")
+            } else {
+                setTitle("Tiebreak")
+            }
             playerOneGameScoreLabel.setText(String(currentGame.playerOneScore))
             playerTwoGameScoreLabel.setText(String(currentGame.playerTwoScore))
         case false:
@@ -482,6 +507,8 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
                 case true:
                     if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 1 {
                         WKInterfaceDevice.current().play(.start)
+                    } else if (currentGame.playerOneScore + currentGame.playerTwoScore) % 6 == 0 {
+                        WKInterfaceDevice.current().play(.stop)
                     } else {
                         WKInterfaceDevice.current().play(.click)
                     }
@@ -522,4 +549,122 @@ class ScoreboardInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
     }
     
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }}
+    // MARK: Totals
+    
+    private func totalCalories() -> Double {
+        return totalEnergyBurned.doubleValue(for: HKUnit.kilocalorie())
+    }
+    
+    private func setTotalCalories(calories: Double) {
+        totalEnergyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: calories)
+    }
+    
+    // MARK: Data Queries
+    
+    func startAccumulatingData(startDate: Date) {
+        startQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)
+        startQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)
+    }
+    
+    func startQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
+        let datePredicate = HKQuery.predicateForSamples(withStart: workoutStartDate, end: nil, options: .strictStartDate)
+        let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
+        let queryPredicate = NSCompoundPredicate(andPredicateWithSubpredicates:[datePredicate, devicePredicate])
+        
+        let updateHandler: ((HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void) = { query, samples, deletedObjects, queryAnchor, error in
+            self.process(samples: samples, quantityTypeIdentifier: quantityTypeIdentifier)
+        }
+        
+        let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!,
+                                          predicate: queryPredicate,
+                                          anchor: nil,
+                                          limit: HKObjectQueryNoLimit,
+                                          resultsHandler: updateHandler)
+        query.updateHandler = updateHandler
+        healthStore.execute(query)
+        
+        activeDataQueries.append(query)
+    }
+    
+    func process(samples: [HKSample]?, quantityTypeIdentifier: HKQuantityTypeIdentifier) {
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self, !strongSelf.isPaused else { return }
+            
+            if let quantitySamples = samples as? [HKQuantitySample] {
+                for sample in quantitySamples {
+                    if quantityTypeIdentifier == HKQuantityTypeIdentifier.activeEnergyBurned {
+                        let newKCal = sample.quantity.doubleValue(for: HKUnit.kilocalorie())
+                        strongSelf.setTotalCalories(calories: strongSelf.totalCalories() + newKCal)
+                    }
+                }
+            }
+        }
+    }
+    
+    func stopAccumulatingData() {
+        for query in activeDataQueries {
+            healthStore.stop(query)
+        }
+        
+        activeDataQueries.removeAll()
+    }
+    
+    func pauseAccumulatingData() {
+        DispatchQueue.main.sync {
+            isPaused = true
+        }
+    }
+    
+    func resumeAccumulatingData() {
+        DispatchQueue.main.sync {
+            isPaused = false
+        }
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
+    
+    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
+        switch toState {
+        case .running:
+            if fromState == .notStarted {
+                startAccumulatingData(startDate: workoutStartDate!)
+            } else {
+                resumeAccumulatingData()
+            }
+        case .paused:
+            pauseAccumulatingData()
+            
+        case .ended:
+            stopAccumulatingData()
+            saveWorkout()
+        default:
+            break
+        }
+    }
+    
+    private func saveWorkout() {
+        liveWorkoutBuilder.endCollection(withEnd: Date()) { (success, error) in
+            self.liveWorkoutBuilder.finishWorkout { (workout, error) in
+                let totalEnergyBurnedSample = HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
+                                                               quantity: self.totalEnergyBurned,
+                                                               start: self.workoutStartDate!,
+                                                               end: Date())
+                self.liveWorkoutBuilder.add([totalEnergyBurnedSample]) { (success, error) in
+                    
+                }
+            }
+        }
+    }
+    
+    func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
+        
+    }
+    
+    func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
+        
+    }
+    
+    func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
+        
+    }
+}

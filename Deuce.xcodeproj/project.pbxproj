@@ -37,7 +37,7 @@
 		FBB50EB42071970A00ADCCB0 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7A20202BF500EAABA3 /* Player.swift */; };
 		FBDF8324202317AD00891889 /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* ScoreManager.swift */; };
 		FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */; };
-		FBF535E41FC1BE01008C6449 /* ScoreboardInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E31FC1BE01008C6449 /* ScoreboardInterfaceController.swift */; };
+		FBF535E41FC1BE01008C6449 /* ScoreInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,7 +154,7 @@
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deuce WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "\U0010SettingsInterfaceController.swift"; sourceTree = "<group>"; };
-		FBF535E31FC1BE01008C6449 /* ScoreboardInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardInterfaceController.swift; sourceTree = "<group>"; };
+		FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInterfaceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +191,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB2A0968218C7A3800ECA2B7 /* Scoring */ = {
+			isa = PBXGroup;
+			children = (
+				FB162E7A20202BF500EAABA3 /* Player.swift */,
+				FB162E7E2020AD0400EAABA3 /* GameManager.swift */,
+				FB162E7C20202F9B00EAABA3 /* SetManager.swift */,
+				FB162E7820202B3500EAABA3 /* MatchManager.swift */,
+				FB3280351EABDA3C00D6B92B /* ScoreManager.swift */,
+			);
+			path = Scoring;
+			sourceTree = "<group>";
+		};
 		FB51A0011DEAD77C00B2E195 = {
 			isa = PBXGroup;
 			children = (
@@ -254,13 +266,9 @@
 			isa = PBXGroup;
 			children = (
 				FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */,
-				FB162E7A20202BF500EAABA3 /* Player.swift */,
-				FB162E7E2020AD0400EAABA3 /* GameManager.swift */,
-				FB162E7C20202F9B00EAABA3 /* SetManager.swift */,
-				FB162E7820202B3500EAABA3 /* MatchManager.swift */,
-				FB3280351EABDA3C00D6B92B /* ScoreManager.swift */,
+				FB2A0968218C7A3800ECA2B7 /* Scoring */,
 				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
-				FBF535E31FC1BE01008C6449 /* ScoreboardInterfaceController.swift */,
+				FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */,
 				FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */,
 				FB49BA0120986DC100C8491F /* ComplicationController.swift */,
 				FB51A0411DEAD77C00B2E195 /* NotificationController.swift */,
@@ -518,7 +526,7 @@
 				FB162E7F2020AD0500EAABA3 /* GameManager.swift in Sources */,
 				FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */,
 				FBDF8324202317AD00891889 /* ScoreManager.swift in Sources */,
-				FBF535E41FC1BE01008C6449 /* ScoreboardInterfaceController.swift in Sources */,
+				FBF535E41FC1BE01008C6449 /* ScoreInterfaceController.swift in Sources */,
 				FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */,
 				FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */,
 				FB49BA0220986DC100C8491F /* ComplicationController.swift in Sources */,
