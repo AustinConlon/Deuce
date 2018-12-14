@@ -15,17 +15,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.20</string>
+	<string>2.23</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>6</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSHealthShareUsageDescription</key>
-	<string>This is so that your tennis workout contributes to your Move rings, and gets saved in the Workouts tab of the Activity app.</string>
+	<string>This is to save your tennis workout data to the Activity app and Health app.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>This is so that your tennis workout contributes to your Move rings, and gets saved in the Workouts tab of the Activity app.</string>
-	<key>NSSiriUsageDescription</key>
-	<string>Deuce information will be sent to Siri.</string>
+	<string>This is to save your tennis workout data to the Activity app and Health app.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

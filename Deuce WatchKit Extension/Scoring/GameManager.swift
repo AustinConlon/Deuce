@@ -42,9 +42,7 @@ class GameManager {
                     }
                 }
             case false:
-                if serverScore > 0 || receiverScore > 0 {
-                    changeServerSide()
-                }
+                changeServerSide()
             }
         }
     }
@@ -57,14 +55,12 @@ class GameManager {
                 if playerTwoScore > oldValue {
                     if (playerOneScore + playerTwoScore) % 2 == 0 {
                         changeServerSide()
-                    } else {
+                    } else { // Undo.
                         changeServer()
                     }
                 }
             case false:
-                if serverScore > 0 || receiverScore > 0 {
-                    changeServerSide()
-                }
+                changeServerSide()
             }
         }
     }
