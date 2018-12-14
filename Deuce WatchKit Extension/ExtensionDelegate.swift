@@ -20,12 +20,15 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         let healthStore = HKHealthStore()
         
         let typesToShare: Set = [
-            HKQuantityType.workoutType(),
-            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
-            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
+            HKQuantityType.workoutType()
         ]
         
-        healthStore.requestAuthorization(toShare: typesToShare, read: nil) { (success, error) in
+        let typesToRead: Set = [
+            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+        ]
+        
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
             if let error = error, !success {
                 print(error.localizedDescription)
             }

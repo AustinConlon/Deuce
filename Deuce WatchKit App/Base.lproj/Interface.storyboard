@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14460.30.1" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch44" orientation="portrait">
+    <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -11,7 +11,7 @@
         <!--Settings-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="Settings" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
+                <controller identifier="Settings" fullBounds="YES" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
                         <label alignment="center" text="One set" numberOfLines="0" id="6nH-Bn-VTw">
                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
@@ -81,7 +81,7 @@
         <!--Scoreboard-->
         <scene sceneID="Xzb-fA-FdN">
             <objects>
-                <controller identifier="scoreboard" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreInterfaceController" customModule="Deuce_WatchKit_Extension">
+                <controller identifier="scoreboard" fullBounds="YES" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
                         <group width="1" height="0.5" alignment="center" layout="overlap" id="8D4-hX-8s1" userLabel="Player Two">
                             <items>

@@ -377,7 +377,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
     }
     
     @IBAction func showScoringRules(_ sender: Any) {
-        let myURL = URL(string:"https://en.wikipedia.org/wiki/Tennis_scoring_system")
+        let myURL = URL(string:"https://wikipedia.org/wiki/Tennis_scoring_system")
         let viewController = SFSafariViewController(url: myURL!)
         present(viewController, animated: true, completion: nil)
     }

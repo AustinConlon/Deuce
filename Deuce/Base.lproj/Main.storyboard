@@ -332,7 +332,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Match History" id="7Ow-nq-jA7">
-                        <barButtonItem key="leftBarButtonItem" title="Scoring Rules" id="4Qp-AJ-aJY">
+                        <barButtonItem key="leftBarButtonItem" title="Rules" id="4Qp-AJ-aJY">
                             <connections>
                                 <action selector="showScoringRules:" destination="IK4-br-vsG" id="Bao-Lg-FIj"/>
                             </connections>
