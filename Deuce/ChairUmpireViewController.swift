@@ -84,7 +84,7 @@ class ChairUmpireViewController: UIViewController {
             default:
                 switch currentGame.playerOneScore {
                 case 0:
-                    return "Love"
+                    return NSLocalizedString("Love", tableName: "Main", comment: "Game score of 0")
                 case 15, 30:
                     return String(currentGame.playerOneScore)
                 case 40:
@@ -116,7 +116,7 @@ class ChairUmpireViewController: UIViewController {
         default:
             switch currentGame.playerTwoScore {
             case 0:
-                return "Love"
+                return NSLocalizedString("Love", tableName: "Main", comment: "Game score of 0")
             case 15, 30:
                 return String(currentGame.playerTwoScore)
             case 40:

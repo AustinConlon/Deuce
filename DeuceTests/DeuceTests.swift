@@ -29,7 +29,7 @@ class DeuceTests: XCTestCase {
         match.sets.last?.playerOneScore = 5
         match.sets.last?.games.last?.playerOneScore = 40
         match.scorePointForPlayerOne()
-        XCTAssertEqual(match.sets.last?.playerOneScore, match.sets.last?.playerTwoSetScore)
+        XCTAssertEqual(match.sets.last?.playerOneScore, match.sets.last?.playerTwoScore)
         XCTAssertEqual(match.playerOneScore, 1)
     }
     
@@ -38,7 +38,7 @@ class DeuceTests: XCTestCase {
         match.sets.last?.playerTwoScore = 5
         match.sets.last?.games.last?.playerTwoScore = 40
         match.scorePointForPlayerTwo()
-        XCTAssertEqual(match.sets.last?.playerOneScore, match.sets.last?.playerTwoSetScore)
+        XCTAssertEqual(match.sets.last?.playerOneScore, match.sets.last?.playerTwoScore)
         XCTAssertEqual(match.playerTwoScore, 1)
     }
     
