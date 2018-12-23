@@ -36,6 +36,7 @@
 		FBB50EB32071932D00ADCCB0 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7E2020AD0400EAABA3 /* GameManager.swift */; };
 		FBB50EB42071970A00ADCCB0 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7A20202BF500EAABA3 /* Player.swift */; };
 		FBDF8324202317AD00891889 /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* ScoreManager.swift */; };
+		FBE321CD21CC7EE8005D22FB /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02C1DEAD77C00B2E195 /* Interface.storyboard */; };
 		FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */; };
 		FBF535E41FC1BE01008C6449 /* ScoreInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */; };
 /* End PBXBuildFile section */
@@ -153,6 +154,9 @@
 		FB6D281D20EC988A00C7FE9D /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deuce WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		FBA7C26D21CA73B40071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		FBA7C26E21CA73BA0071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		FBA7C26F21CA73BC0071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Interface.strings; sourceTree = "<group>"; };
 		FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "\U0010SettingsInterfaceController.swift"; sourceTree = "<group>"; };
 		FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInterfaceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -191,7 +195,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FB2A0968218C7A3800ECA2B7 /* Scoring */ = {
+		FB2A0968218C7A3800ECA2B7 /* Score */ = {
 			isa = PBXGroup;
 			children = (
 				FB162E7A20202BF500EAABA3 /* Player.swift */,
@@ -200,7 +204,7 @@
 				FB162E7820202B3500EAABA3 /* MatchManager.swift */,
 				FB3280351EABDA3C00D6B92B /* ScoreManager.swift */,
 			);
-			path = Scoring;
+			path = Score;
 			sourceTree = "<group>";
 		};
 		FB51A0011DEAD77C00B2E195 = {
@@ -266,7 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */,
-				FB2A0968218C7A3800ECA2B7 /* Scoring */,
+				FB2A0968218C7A3800ECA2B7 /* Score */,
 				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
 				FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */,
 				FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */,
@@ -486,6 +490,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBE321CD21CC7EE8005D22FB /* Interface.storyboard in Resources */,
 				FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -560,6 +565,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FB51A0121DEAD77C00B2E195 /* Base */,
+				FBA7C26D21CA73B40071A137 /* fr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -568,6 +574,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FB51A0171DEAD77C00B2E195 /* Base */,
+				FBA7C26E21CA73BA0071A137 /* fr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -576,6 +583,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FB51A02D1DEAD77C00B2E195 /* Base */,
+				FBA7C26F21CA73BC0071A137 /* fr */,
 			);
 			name = Interface.storyboard;
 			sourceTree = "<group>";

@@ -13,19 +13,18 @@ import HealthKit
 
 class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
     // MARK: Properties
-    
     var session: WCSession!
     
     var scoreManager: ScoreManager?
     
     var undoManager = UndoManager()
     
-    let healthStore = HKHealthStore()
-    var activeDataQueries = [HKQuery]()
+    // HKWorkoutSession Properties
+    var workoutSession: HKWorkoutSession?
+    var healthStore = HKHealthStore()
+    var liveWorkoutBuilder: HKLiveWorkoutBuilder?
     var workoutStartDate: Date?
     var totalEnergyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 0)
-    var workoutEndDate: Date?
-    var isPaused = false
     
     var currentGame: GameManager {
         get {
@@ -73,24 +72,24 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             case false:
                 switch currentGame.playerOneScore {
                 case 0:
-                    return "LOVE"
+                    return NSLocalizedString("LOVE", tableName: "Interface", comment: "Game score of 0")
                 case 15, 30:
                     return String(currentGame.playerOneScore)
                 case 40:
                     if currentGame.playerTwoScore < 40 {
                         return String(currentGame.playerOneScore)
                     } else if currentGame.playerTwoScore == 40 {
-                        return "DEUCE"
+                        return NSLocalizedString("Deuce", tableName: "Interface", comment: "Game score is 40-40")
                     }
                 default: // Alternating advantage and deuce situations.
                     if currentGame.playerOneScore == currentGame.playerTwoScore + 1 {
                         if currentGame.server == .one {
-                            return "AD IN"
+                            return NSLocalizedString("AD IN", tableName: "Interface", comment: "After a deuce situation, the service player is now winning by one point")
                         } else if currentGame.server == .two {
-                            return "AD OUT"
+                            return NSLocalizedString("AD OUT", tableName: "Interface", comment: "After a deuce situation, the receiving player is now winning by one point")
                         }
                     } else if currentGame.playerOneScore == currentGame.playerTwoScore {
-                        return "DEUCE"
+                        return NSLocalizedString("Deuce", tableName: "Interface", comment: "Game score is 40-40")
                     }
                 }
             }
@@ -106,35 +105,30 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             case false:
                 switch currentGame.playerTwoScore {
                 case 0:
-                    return "LOVE"
+                    return NSLocalizedString("LOVE", tableName: "Interface", comment: "Game score of 0")
                 case 15, 30:
                     return String(currentGame.playerTwoScore)
                 case 40:
                     if currentGame.playerOneScore < 40 {
                         return String(currentGame.playerTwoScore)
                     } else if currentGame.playerOneScore == 40 {
-                        return "DEUCE"
+                        return NSLocalizedString("Deuce", tableName: "Interface", comment: "Game score is 40-40")
                     }
                 default: // Alternating advantage and deuce situations.
                     if currentGame.playerTwoScore == currentGame.playerOneScore + 1 {
                         if currentGame.server == .two {
-                            return "AD IN"
+                            return NSLocalizedString("AD IN", tableName: "Interface", comment: "After a deuce situation, the service player is now winning by one point")
                         } else if currentGame.server == .one {
-                            return "AD OUT"
+                            return NSLocalizedString("AD OUT", tableName: "Interface", comment: "After a deuce situation, the receiving player is now winning by one point")
                         }
                     } else if currentGame.playerTwoScore == currentGame.playerOneScore {
-                        return "DEUCE"
+                        return NSLocalizedString("Deuce", tableName: "Interface", comment: "Game score is 40-40")
                     }
                 }
             }
             return ""
         }
     }
-    
-    var workoutConfiguration: HKWorkoutConfiguration!
-    
-    var workoutSession: HKWorkoutSession!
-    var liveWorkoutBuilder: HKLiveWorkoutBuilder!
     
     @IBOutlet var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoServiceLabel: WKInterfaceLabel!
@@ -187,28 +181,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             print(error)
         }
         
-        workoutConfiguration = HKWorkoutConfiguration()
-        workoutConfiguration.activityType = .tennis
-        workoutConfiguration.locationType = .outdoor
-        
-        do {
-            workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
-            liveWorkoutBuilder = workoutSession.associatedWorkoutBuilder()
-            workoutStartDate = Date()
-        } catch {
-            dismiss()
-            return
-        }
-        
-        workoutSession.delegate = self
-        liveWorkoutBuilder.delegate = self
-        liveWorkoutBuilder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: workoutConfiguration)
-        
-        workoutSession.startActivity(with: Date())
-        liveWorkoutBuilder.beginCollection(withStart: Date()) { (success, error) in
-            self.liveWorkoutBuilder.dataSource = HKLiveWorkoutDataSource(healthStore: self.healthStore, workoutConfiguration: self.workoutConfiguration)
-            self.liveWorkoutBuilder.dataSource?.enableCollection(for: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!, predicate: nil)
-        }
+        startWorkout()
     }
     
     override func willDisappear() {
@@ -279,7 +252,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         updateSetScoresFromModel()
         
         if let winner = currentMatch.winner {
-            setTitle("Winner")
+            setTitle(NSLocalizedString("Winner", tableName: "Interface", comment: "Match is finished"))
             
             switch winner {
             case .one:
@@ -326,15 +299,15 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         switch currentGame.isTiebreak {
         case true:
             if ((currentGame.playerOneScore + currentGame.playerTwoScore) % 6 == 0) && currentGame.isTiebreak == false {
-                setTitle("Switch Ends")
+                setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players change sides of the court"))
             } else {
-                setTitle("Tiebreak")
+                setTitle(NSLocalizedString("Tiebreak", tableName: "Interface", comment: "The tiebreak begins"))
             }
             playerOneGameScoreLabel.setText(String(currentGame.playerOneScore))
             playerTwoGameScoreLabel.setText(String(currentGame.playerTwoScore))
         case false:
             if currentMatch.totalNumberOfGamesPlayed % 2 == 1 && currentGame.score == (0, 0) {
-                setTitle("Switch Ends")
+                setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players change sides of the court"))
             }
             updatePlayerOneGameScoreFromModel()
             updatePlayerTwoGameScoreFromModel()
@@ -344,7 +317,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     func updatePlayerOneGameScoreFromModel() {
         switch currentGame.playerOneScore {
         case 0:
-            playerOneGameScoreLabel.setText("LOVE")
+            playerOneGameScoreLabel.setText(NSLocalizedString("LOVE", tableName: "Interface", comment: "Game score of 0"))
         case 15, 30:
             playerOneGameScoreLabel.setText(String(currentGame.playerOneScore))
         case 40:
@@ -352,19 +325,19 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
                 playerOneGameScoreLabel.setText(String(currentGame.playerOneScore))
             } else if currentGame.playerTwoScore == 40 {
                 playerOneGameScoreLabel.setText("40")
-                setTitle("Deuce")
+                setTitle(NSLocalizedString("Deuce", tableName: "Interface", comment: "Game score is 40-40"))
             }
         default: // Alternating advantage and deuce situations.
             if currentGame.playerOneScore == currentGame.playerTwoScore + 1 {
                 if currentGame.server == .one {
-                    playerOneGameScoreLabel.setText("AD IN")
+                    playerOneGameScoreLabel.setText(NSLocalizedString("AD IN", tableName: "Interface", comment: "After a deuce situation, the service player is now winning by one point"))
                 } else if currentGame.server == .two {
-                    playerOneGameScoreLabel.setText("AD OUT")
+                    playerOneGameScoreLabel.setText(NSLocalizedString("AD OUT", tableName: "Interface", comment: "After a deuce situation, the receiving player is now winning by one point"))
                 }
                 playerTwoGameScoreLabel.setText("")
             } else if currentGame.playerOneScore == currentGame.playerTwoScore {
                 playerOneGameScoreLabel.setText("40")
-                setTitle("Deuce")
+                setTitle(NSLocalizedString("Deuce", tableName: "Interface", comment: "Game score is 40-40"))
             }
         }
     }
@@ -372,7 +345,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     func updatePlayerTwoGameScoreFromModel() {
         switch currentGame.playerTwoScore {
         case 0:
-            playerTwoGameScoreLabel.setText("LOVE")
+            playerTwoGameScoreLabel.setText(NSLocalizedString("LOVE", tableName: "Interface", comment: "Game score of 0"))
         case 15, 30:
             playerTwoGameScoreLabel.setText(String(currentGame.playerTwoScore))
         case 40:
@@ -380,19 +353,19 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
                 playerTwoGameScoreLabel.setText(String(currentGame.playerTwoScore))
             } else if currentGame.playerOneScore == 40 {
                 playerTwoGameScoreLabel.setText("40")
-                setTitle("Deuce")
+                setTitle(NSLocalizedString("Deuce", tableName: "Interface", comment: "Game score is 40-40"))
             }
         default: // Alternating advantage and deuce situations.
             if currentGame.playerTwoScore == currentGame.playerOneScore + 1 {
                 if currentGame.server == .two {
-                    playerTwoGameScoreLabel.setText("AD IN")
+                    playerTwoGameScoreLabel.setText(NSLocalizedString("AD IN", tableName: "Interface", comment: "After a deuce situation, the service player is now winning by one point"))
                 } else if currentGame.server == .one {
-                    playerTwoGameScoreLabel.setText("AD OUT")
+                    playerTwoGameScoreLabel.setText(NSLocalizedString("AD OUT", tableName: "Interface", comment: "After a deuce situation, the receiving player is now winning by one point"))
                 }
                 playerOneGameScoreLabel.setText("")
             } else if currentGame.playerTwoScore == currentGame.playerOneScore {
                 playerTwoGameScoreLabel.setText("40")
-                setTitle("Deuce")
+                setTitle(NSLocalizedString("Deuce", tableName: "Interface", comment: "Game score is 40-40"))
             }
         }
     }
@@ -552,31 +525,64 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         
     }
     
-    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
+    // MARK: Workout
+    private func startWorkout() {
+        let workoutConfiguration = HKWorkoutConfiguration()
+        workoutConfiguration.activityType = .tennis
         
+        do {
+            workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
+            liveWorkoutBuilder = workoutSession!.associatedWorkoutBuilder()
+            workoutStartDate = Date()
+        } catch {
+            return
+        }
+        
+        workoutSession?.delegate = self
+        liveWorkoutBuilder?.delegate = self
+        liveWorkoutBuilder?.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: workoutConfiguration)
+        
+        workoutSession?.startActivity(with: workoutStartDate)
+        
+        liveWorkoutBuilder!.beginCollection(withStart: workoutStartDate!) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     private func stopWorkout() {
+        // Create energy samples
         let totalEnergyBurnedSample = HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
                                                        quantity: self.totalEnergyBurned,
                                                        start: self.workoutStartDate!,
                                                        end: Date())
-        liveWorkoutBuilder.add([totalEnergyBurnedSample]) { (success, error) in
-            
+        liveWorkoutBuilder?.add([totalEnergyBurnedSample]) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
         }
         
-        workoutSession.end()
+        workoutSession?.end()
         
-        liveWorkoutBuilder.endCollection(withEnd: Date()) { (success, error) in
-            
+        liveWorkoutBuilder?.endCollection(withEnd: Date()) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
         }
         
-        liveWorkoutBuilder.finishWorkout { (workout, error) in
-            
+        liveWorkoutBuilder?.finishWorkout { (workout, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
         }
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
+        
+    }
+    
+    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
         
     }
     

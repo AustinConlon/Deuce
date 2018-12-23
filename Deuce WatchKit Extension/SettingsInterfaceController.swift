@@ -9,6 +9,7 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
+import HealthKit
 
 class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     // MARK: Properties
@@ -23,6 +24,10 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var setTypeLabel: WKInterfaceLabel!
     @IBOutlet var startButton: WKInterfaceButton!
 
+    override func awake(withContext context: Any?) {
+        requestAccessToHealthKit()
+    }
+    
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
@@ -33,16 +38,37 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
     }
     
+    private func requestAccessToHealthKit() {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        
+        let healthStore = HKHealthStore()
+        
+        let typesToShare: Set = [
+            HKQuantityType.workoutType()
+        ]
+        
+        let typesToRead: Set = [
+            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+        ]
+        
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func updateLabelForTypeOfSet() {
         switch (maximumNumberOfSetsInMatch, typeOfSet) {
         case (1, .advantage):
-            setTypeLabel.setText("Advantage set")
+            setTypeLabel.setText(NSLocalizedString("Advantage set", tableName: "Interface", comment: "Must win by a margin of 2 sets"))
         case (1, .tiebreak):
-            setTypeLabel.setText("Tiebreak set")
+            setTypeLabel.setText(NSLocalizedString("Tiebreak set", tableName: "Interface", comment: "When the set 6-6, it is then to be determined by a tiebreak game"))
         case (_, .advantage):
-            setTypeLabel.setText("Advantage sets")
+            setTypeLabel.setText(NSLocalizedString("Advantage sets", tableName: "Interface", comment: "Must win by a margin of 2 sets"))
         case (_, .tiebreak):
-            setTypeLabel.setText("Tiebreak sets")
+            setTypeLabel.setText(NSLocalizedString("Tiebreak sets", tableName: "Interface", comment: "When the set 6-6, it is then to be determined by a tiebreak game"))
         }
     }
 
@@ -50,9 +76,9 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
         maximumNumberOfSetsInMatch = Int(value)
         switch value {
         case 3:
-            matchLengthLabel.setText("Best-of 3 sets")
+            matchLengthLabel.setText(NSLocalizedString("Best-of 3 sets", tableName: "Interface", comment: "First to win 2 sets wins the series"))
         case 5:
-            matchLengthLabel.setText("Best-of 5 sets")
+            matchLengthLabel.setText(NSLocalizedString("Best-of 5 sets", tableName: "Interface", comment: "First to win 3 sets wins the series"))
         default:
             matchLengthLabel.setText("1 set")
         }
@@ -70,22 +96,30 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @IBAction func start() {
-        let chooseOpponentToServeFirst = WKAlertAction(title: "Opponent", style: .`default`) {
+        let chooseOpponentToServeFirst = WKAlertAction(title: NSLocalizedString("Opponent", tableName: "Interface", comment: "Player the watch wearer is playing against"), style: .`default`) {
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .two)
             self.pushController(withName: "scoreboard", context: match)
         }
-        let chooseYourselfToServeFirst = WKAlertAction(title: "You", style: .`default`) {
+        
+        let chooseYourselfToServeFirst = WKAlertAction(title: NSLocalizedString("You", tableName: "Interface", comment: "Player wearing the watch"), style: .`default`) {
             let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, .one)
             self.pushController(withName: "scoreboard", context: match)
         }
-        var coinTossWinner: String
+        
+        var coinTossWinnerMessage: String
+        
         switch MatchManager.coinTossWinner {
         case .one:
-            coinTossWinner = "You"
+            coinTossWinnerMessage = "You won the coin toss."
         case .two:
-            coinTossWinner = "Your opponent"
+            coinTossWinnerMessage = "Your opponent won the coin toss."
         }
-        presentAlert(withTitle: "\(coinTossWinner) won the coin toss.", message: "Who will serve first?", preferredStyle: .actionSheet, actions: [chooseOpponentToServeFirst, chooseYourselfToServeFirst])
+        
+        let localizedCoinTossWinnerMessage = NSLocalizedString(coinTossWinnerMessage, tableName: "Interface", comment: "Announcement of which player won the coin toss")
+        
+        let localizedCoinTossQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
+        
+        presentAlert(withTitle: localizedCoinTossWinnerMessage, message: localizedCoinTossQuestion, preferredStyle: .actionSheet, actions: [chooseOpponentToServeFirst, chooseYourselfToServeFirst])
     }
     
     @IBAction func startPracticeMode() {
