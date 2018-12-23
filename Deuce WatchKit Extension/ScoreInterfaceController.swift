@@ -13,19 +13,18 @@ import HealthKit
 
 class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
     // MARK: Properties
-    
     var session: WCSession!
     
     var scoreManager: ScoreManager?
     
     var undoManager = UndoManager()
     
-    let healthStore = HKHealthStore()
-    var activeDataQueries = [HKQuery]()
+    // HKWorkoutSession Properties
+    var workoutSession: HKWorkoutSession?
+    var healthStore = HKHealthStore()
+    var liveWorkoutBuilder: HKLiveWorkoutBuilder?
     var workoutStartDate: Date?
     var totalEnergyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 0)
-    var workoutEndDate: Date?
-    var isPaused = false
     
     var currentGame: GameManager {
         get {
@@ -131,11 +130,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         }
     }
     
-    var workoutConfiguration: HKWorkoutConfiguration!
-    
-    var workoutSession: HKWorkoutSession!
-    var liveWorkoutBuilder: HKLiveWorkoutBuilder!
-    
     @IBOutlet var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet var playerTwoServiceLabel: WKInterfaceLabel!
     
@@ -187,28 +181,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             print(error)
         }
         
-        workoutConfiguration = HKWorkoutConfiguration()
-        workoutConfiguration.activityType = .tennis
-        workoutConfiguration.locationType = .outdoor
-        
-        do {
-            workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
-            liveWorkoutBuilder = workoutSession.associatedWorkoutBuilder()
-            workoutStartDate = Date()
-        } catch {
-            dismiss()
-            return
-        }
-        
-        workoutSession.delegate = self
-        liveWorkoutBuilder.delegate = self
-        liveWorkoutBuilder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: workoutConfiguration)
-        
-        workoutSession.startActivity(with: Date())
-        liveWorkoutBuilder.beginCollection(withStart: Date()) { (success, error) in
-            self.liveWorkoutBuilder.dataSource = HKLiveWorkoutDataSource(healthStore: self.healthStore, workoutConfiguration: self.workoutConfiguration)
-            self.liveWorkoutBuilder.dataSource?.enableCollection(for: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!, predicate: nil)
-        }
+        startWorkout()
     }
     
     override func willDisappear() {
@@ -552,31 +525,64 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         
     }
     
-    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
+    // MARK: Workout
+    private func startWorkout() {
+        let workoutConfiguration = HKWorkoutConfiguration()
+        workoutConfiguration.activityType = .tennis
         
+        do {
+            workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
+            liveWorkoutBuilder = workoutSession!.associatedWorkoutBuilder()
+            workoutStartDate = Date()
+        } catch {
+            return
+        }
+        
+        workoutSession?.delegate = self
+        liveWorkoutBuilder?.delegate = self
+        liveWorkoutBuilder?.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: workoutConfiguration)
+        
+        workoutSession?.startActivity(with: workoutStartDate)
+        
+        liveWorkoutBuilder!.beginCollection(withStart: workoutStartDate!) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     private func stopWorkout() {
+        // Create energy samples
         let totalEnergyBurnedSample = HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
                                                        quantity: self.totalEnergyBurned,
                                                        start: self.workoutStartDate!,
                                                        end: Date())
-        liveWorkoutBuilder.add([totalEnergyBurnedSample]) { (success, error) in
-            
+        liveWorkoutBuilder?.add([totalEnergyBurnedSample]) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
         }
         
-        workoutSession.end()
+        workoutSession?.end()
         
-        liveWorkoutBuilder.endCollection(withEnd: Date()) { (success, error) in
-            
+        liveWorkoutBuilder?.endCollection(withEnd: Date()) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
         }
         
-        liveWorkoutBuilder.finishWorkout { (workout, error) in
-            
+        liveWorkoutBuilder?.finishWorkout { (workout, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
         }
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
+        
+    }
+    
+    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
         
     }
     

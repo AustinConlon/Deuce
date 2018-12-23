@@ -9,6 +9,7 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
+import HealthKit
 
 class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     // MARK: Properties
@@ -23,6 +24,10 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBOutlet var setTypeLabel: WKInterfaceLabel!
     @IBOutlet var startButton: WKInterfaceButton!
 
+    override func awake(withContext context: Any?) {
+        requestAccessToHealthKit()
+    }
+    
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
@@ -30,6 +35,27 @@ class SettingsInterfaceController: WKInterfaceController, WCSessionDelegate {
             session = WCSession.default
             session.delegate = self
             session.activate()
+        }
+    }
+    
+    private func requestAccessToHealthKit() {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        
+        let healthStore = HKHealthStore()
+        
+        let typesToShare: Set = [
+            HKQuantityType.workoutType()
+        ]
+        
+        let typesToRead: Set = [
+            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+        ]
+        
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
         }
     }
     
