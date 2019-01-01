@@ -1,6 +1,7 @@
 
 /* Class = "UINavigationItem"; title = "Chair Umpire"; ObjectID = "02O-9Q-mqH"; */
-"02O-9Q-mqH.title" = "Chair Umpire";
+"02O-9Q-mqH.title" = "Arbitre de chaise";
+"Chair Umpire" = "Arbitre de chaise";
 
 /* Class = "UILabel"; text = "Match score: 0"; ObjectID = "0bc-pM-7ue"; */
 "0bc-pM-7ue.text" = "Match score: 0";
@@ -30,10 +31,10 @@
 "C3l-iA-d3K.text" = "Set score: 0";
 
 /* Class = "UILabel"; text = "Serving"; ObjectID = "DbZ-3Y-R9W"; */
-"DbZ-3Y-R9W.text" = "Serving";
+"DbZ-3Y-R9W.text" = "Au service";
 
 /* Class = "UIBarButtonItem"; title = "End Match"; ObjectID = "ES2-GC-MbB"; */
-"ES2-GC-MbB.title" = "End Match";
+"ES2-GC-MbB.title" = "Terminer le match";
 
 /* Class = "UILabel"; text = "5"; ObjectID = "Ecd-LF-b58"; */
 "Ecd-LF-b58.text" = "5";
@@ -54,7 +55,7 @@
 "Qxc-iE-oQ5.text" = "You";
 
 /* Class = "UIBarButtonItem"; title = "Start Match"; ObjectID = "Vgu-Jl-uZ9"; */
-"Vgu-Jl-uZ9.title" = "Start Match";
+"Vgu-Jl-uZ9.title" = "Commencer le match";
 
 /* Class = "UILabel"; text = "6"; ObjectID = "aDR-cM-OIE"; */
 "aDR-cM-OIE.text" = "6";
@@ -72,10 +73,10 @@
 "hDy-40-Hlc.text" = "Opponent";
 
 /* Class = "UISegmentedControl"; j86-GE-gp9.segmentTitles[0] = "Tiebreaker set"; ObjectID = "j86-GE-gp9"; */
-"j86-GE-gp9.segmentTitles[0]" = "Tiebreaker set";
+"j86-GE-gp9.segmentTitles[0]" = "Set à jeu décisif";
 
 /* Class = "UISegmentedControl"; j86-GE-gp9.segmentTitles[1] = "Advantage set"; ObjectID = "j86-GE-gp9"; */
-"j86-GE-gp9.segmentTitles[1]" = "Advantage set";
+"j86-GE-gp9.segmentTitles[1]" = "Set à l’avantage";
 
 /* Class = "UILabel"; text = "1"; ObjectID = "kIa-uz-d7U"; */
 "kIa-uz-d7U.text" = "1";
@@ -84,7 +85,7 @@
 "nYP-nH-FYR.text" = "3";
 
 /* Class = "UILabel"; text = "Serving"; ObjectID = "oed-Yi-2YX"; */
-"oed-Yi-2YX.text" = "Serving";
+"oed-Yi-2YX.text" = "Au service";
 
 /* Class = "UILabel"; text = "5"; ObjectID = "qho-TN-N9l"; */
 "qho-TN-N9l.text" = "5";
@@ -96,15 +97,33 @@
 "uOB-Ch-iff.text" = "4";
 
 /* Class = "UISegmentedControl"; ykn-Fz-NEg.segmentTitles[0] = "One set"; ObjectID = "ykn-Fz-NEg"; */
-"ykn-Fz-NEg.segmentTitles[0]" = "One set";
+"ykn-Fz-NEg.segmentTitles[0]" = "Un set";
 
 /* Class = "UISegmentedControl"; ykn-Fz-NEg.segmentTitles[1] = "Best-of 3"; ObjectID = "ykn-Fz-NEg"; */
-"ykn-Fz-NEg.segmentTitles[1]" = "Best-of 3";
+"ykn-Fz-NEg.segmentTitles[1]" = "En 2 sets gagnants";
 
 /* Class = "UISegmentedControl"; ykn-Fz-NEg.segmentTitles[2] = "Best-of 5"; ObjectID = "ykn-Fz-NEg"; */
-"ykn-Fz-NEg.segmentTitles[2]" = "Best-of 5";
+"ykn-Fz-NEg.segmentTitles[2]" = "En 3 sets gagnants";
 
 /* Class = "UILabel"; text = "2"; ObjectID = "zOn-Ox-c6P"; */
 "zOn-Ox-c6P.text" = "2";
 
 "Love" = "Zéro";
+
+"Coin Toss" = "Tirage au sort";
+
+"The player starting on your left side won the coin toss. Select their choice of who will serve first." = "Le joueur commençant à votre gauche a gagné le tirage au sort. Sélectionnez son choix du premier joueur à servir.";
+
+"The player starting on your right side won the coin toss. Select their choice of who will serve first." = "Le joueur commençant à votre droite a gagné le tirage au sort. Sélectionnez son choix du premier joueur à servir.";
+
+"Left Player" = "Joueur de gauche";
+
+"Right Player" = "Joueur de droite";
+
+"Deuce" = "Egalité";
+
+"Ad in" = "Av serv";
+"Ad out" = "Av ret";
+
+"Advantage in" = "Av serv";
+"Advantage out" = "Av ret";

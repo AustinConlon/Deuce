@@ -91,17 +91,17 @@ class ChairUmpireViewController: UIViewController {
                     if currentGame.playerTwoScore < 40 {
                         return String(currentGame.playerOneScore)
                     } else if currentGame.playerTwoScore == 40 {
-                        return "Deuce"
+                        return NSLocalizedString("Deuce", tableName: "Main", comment: "Game score is 40-40")
                     }
                 default: // Alternating advantage and deuce situations.
                     if currentGame.playerOneScore == currentGame.playerTwoScore + 1 {
                         if currentGame.server == .one {
-                            return "Ad in"
+                            return NSLocalizedString("Ad in", tableName: "Main", comment: "After a deuce situation, the service player is now winning by one point")
                         } else if currentGame.server == .two {
-                            return "Ad out"
+                            return NSLocalizedString("Ad out", tableName: "Main", comment: "After a deuce situation, the receiving player is now winning by one point")
                         }
                     } else if currentGame.playerOneScore == currentGame.playerTwoScore {
-                        return "Deuce"
+                        return NSLocalizedString("Deuce", tableName: "Main", comment: "Game score is 40-40")
                     }
                 }
             }
@@ -123,17 +123,17 @@ class ChairUmpireViewController: UIViewController {
                 if currentGame.playerOneScore < 40 {
                     return String(currentGame.playerTwoScore)
                 } else if currentGame.playerOneScore == 40 {
-                    return "Deuce"
+                    return NSLocalizedString("Deuce", tableName: "Main", comment: "Game score is 40-40")
                 }
             default: // Alternating advantage and deuce situations.
                 if currentGame.playerTwoScore == currentGame.playerOneScore + 1 {
                     if currentGame.server == .two {
-                        return "Ad in"
+                        return NSLocalizedString("Ad in", tableName: "Main", comment: "After a deuce situation, the service player is now winning by one point")
                     } else if currentGame.server == .one {
-                        return "Ad out"
+                        return NSLocalizedString("Ad out", tableName: "Main", comment: "After a deuce situation, the receiving player is now winning by one point")
                     }
                 } else if currentGame.playerTwoScore == currentGame.playerOneScore {
-                    return "Deuce"
+                    return NSLocalizedString("Deuce", tableName: "Main", comment: "Game score is 40-40")
                 }
             }
         }
@@ -192,6 +192,7 @@ class ChairUmpireViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         } else {
             updateLabelsForEndOfMatch()
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
     
@@ -208,20 +209,27 @@ class ChairUmpireViewController: UIViewController {
     func coinToss() {
         let coinTossResult: String
         let flippedHeads = Bool.random()
+        
         if flippedHeads {
-            coinTossResult = "The player starting on your left side won the coin toss. Select their choice of who will serve first."
+            coinTossResult = NSLocalizedString("The player starting on your left side won the coin toss. Select their choice of who will serve first.", tableName: "Main", comment: "Player to the left of the chair umpire won the coin toss.")
         } else {
-            coinTossResult = "The player starting on your right side won the coin toss. Select their choice of who will serve first."
+            coinTossResult = NSLocalizedString("The player starting on your right side won the coin toss. Select their choice of who will serve first.", tableName: "Main", comment: "Player to the right of the chair umpire won the coin toss.")
         }
-        let alert = UIAlertController(title: "Coin Toss", message: coinTossResult, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Left Player", style: .default, handler: { _ in
+        
+        let alert = UIAlertController(title: NSLocalizedString("Coin Toss", tableName: "Main", comment: "Coin is flipped to determine which player chooses who begins service."), message: coinTossResult, preferredStyle: .alert)
+        
+        let localizedLeftPlayerTitle = NSLocalizedString("Left Player", tableName: "Main", comment: "Player to the left of the chair umpire begins service.")
+        alert.addAction(UIAlertAction(title: localizedLeftPlayerTitle, style: .default, handler: { _ in
             self.playerThatWillServeFirst = .one
             self.startScoring()
         }))
-        alert.addAction(UIAlertAction(title: "Right Player", style: .default, handler: { _ in
+        
+        let localizedRightPlayerTitle = NSLocalizedString("Right Player", tableName: "Main", comment: "Player to the right of the chair umpire begins service.")
+        alert.addAction(UIAlertAction(title: localizedRightPlayerTitle, style: .default, handler: { _ in
             self.playerThatWillServeFirst = .two
             self.startScoring()
         }))
+        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -252,7 +260,6 @@ class ChairUmpireViewController: UIViewController {
     
     func updateLabelsFromModel() {
         updateServingLabelsFromModel()
-        updateNavigationBarGameScoreFromModel()
         updateGameScoresFromModel()
         updateSetScoresFromModel()
         updateMatchScoresFromModel()
@@ -297,22 +304,6 @@ class ChairUmpireViewController: UIViewController {
         case .two:
             playerOneServiceLabel.isHidden = true
             playerTwoServiceLabel.isHidden = false
-        }
-    }
-    
-    func updateNavigationBarGameScoreFromModel() {
-        if serverScore == "Deuce" {
-            title = "Deuce"
-        } else if serverScore == "Ad in" || receiverScore == "Ad in" {
-            title = "Advantage in"
-        } else if serverScore == "Ad out" || receiverScore == "Ad out" {
-            title = "Advantage out"
-        } else {
-            if currentMatch.winner == nil {
-                title = "\(serverScore)-\(receiverScore)"
-            } else {
-                title = "Winner"
-            }
         }
     }
     

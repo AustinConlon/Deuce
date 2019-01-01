@@ -195,16 +195,18 @@ class MatchManager {
             
             currentGame.isFinished = false
             currentSet.isFinished = false
+            currentGame.isTiebreak = false
         } else {
             if currentGame.isTiebreak {
                 if currentGame.score == (0, 0) {
                     currentGame.changeServer()
-                } else if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 0 {
+                } else if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 1 {
                     currentGame.changeServer()
                     currentGame.serverSide = .deuceCourt
                 } else {
                     currentGame.changeServerSide()
                 }
+                currentGame.playerOneScore = currentGame.oldPlayerOneScore!
             } else {
                 currentGame.playerOneScore = currentGame.oldPlayerOneScore!
             }
@@ -224,16 +226,18 @@ class MatchManager {
             
             currentGame.isFinished = false
             currentSet.isFinished = false
+            currentGame.isTiebreak = false
         } else {
             if currentGame.isTiebreak {
                 if currentGame.score == (0, 0) {
                     currentGame.changeServer()
-                } else if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 0 {
+                } else if (currentGame.playerOneScore + currentGame.playerTwoScore) % 2 == 1 {
                     currentGame.changeServer()
                     currentGame.serverSide = .deuceCourt
                 } else {
                     currentGame.changeServerSide()
                 }
+                currentGame.playerTwoScore = currentGame.oldPlayerTwoScore!
             } else {
                 currentGame.playerTwoScore = currentGame.oldPlayerTwoScore!
             }

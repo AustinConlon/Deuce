@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14460.30.1" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14460.30.1" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca">
     <device id="watch44" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -101,23 +101,23 @@
                                     <items>
                                         <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="dyO-v0-GZE" userLabel="1st Column">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                         <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="G0h-vQ-ko5" userLabel="2nd Column">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                         <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="5Kh-OB-6LI" userLabel="3rd Column">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                         <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="nq4-fQ-RIw" userLabel="4th Column">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                         <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="fjU-KL-zxw" userLabel="5th Column">
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                     </items>
                                 </group>
@@ -128,27 +128,14 @@
                                         <action selector="scorePointForPlayerTwo:" destination="Hlr-PA-eca" id="d0J-Vy-ww0"/>
                                     </connections>
                                 </tapGestureRecognizer>
-                                <tapGestureRecognizer numberOfTapsRequired="2" id="STP-fs-GvR" userLabel="Player Two Tap Gesture Recognizer">
-                                    <precedingGestureRecognizers>
-                                        <tapGestureRecognizer reference="2hP-To-KA9"/>
-                                    </precedingGestureRecognizers>
-                                    <connections>
-                                        <action selector="scoreSetPointForPlayerTwo:" destination="Hlr-PA-eca" id="XV2-h6-dUR"/>
-                                    </connections>
-                                </tapGestureRecognizer>
                             </gestureRecognizers>
                             <color key="backgroundColor" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="0.15273544520547946" colorSpace="custom" customColorSpace="sRGB"/>
-                            <variation key="default">
-                                <mask key="gestureRecognizers">
-                                    <exclude reference="STP-fs-GvR"/>
-                                </mask>
-                            </variation>
                         </group>
                         <group width="1" height="0.5" alignment="center" layout="overlap" id="RaQ-zM-xjo" userLabel="Player One">
                             <items>
                                 <group width="1" alignment="left" verticalAlignment="bottom" id="Dfd-Nm-wxU">
                                     <items>
-                                        <label width="0.5" alignment="right" text="🎾" textAlignment="center" id="EJr-ah-qJY" userLabel="Player One Serving Label">
+                                        <label width="0.5" alignment="right" hidden="YES" text="🎾" textAlignment="center" id="EJr-ah-qJY" userLabel="Player One Serving Label">
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                         </label>
@@ -163,23 +150,23 @@
                                     <items>
                                         <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="6cz-w8-Mnx" userLabel="1st Column">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                         <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="p1T-TG-ajC" userLabel="2nd Column">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                         <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="2tI-Dc-fVm" userLabel="3rd Column">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                         <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="c2b-IA-iZt" userLabel="4th Column">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                         <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="owa-c8-a4x" userLabel="5th Column">
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
                                         </label>
                                     </items>
                                 </group>
@@ -190,34 +177,10 @@
                                         <action selector="scorePointForPlayerOne:" destination="Hlr-PA-eca" id="SOJ-zc-5zc"/>
                                     </connections>
                                 </tapGestureRecognizer>
-                                <tapGestureRecognizer numberOfTapsRequired="2" id="n3J-od-0W3" userLabel="Player One Tap Gesture Recognizer">
-                                    <connections>
-                                        <action selector="scoreSetPointForPlayerOne:" destination="Hlr-PA-eca" id="axR-Qo-a4a"/>
-                                    </connections>
-                                </tapGestureRecognizer>
                             </gestureRecognizers>
                             <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="0.15273544519999999" colorSpace="custom" customColorSpace="sRGB"/>
-                            <variation key="default">
-                                <mask key="gestureRecognizers">
-                                    <exclude reference="n3J-od-0W3"/>
-                                </mask>
-                            </variation>
                         </group>
                     </items>
-                    <menu key="menu" id="NSq-M2-ZxI">
-                        <items>
-                            <menuItem title="End Match" icon="decline" id="EoY-IZ-YyL">
-                                <connections>
-                                    <action selector="endMatch" destination="Hlr-PA-eca" id="Hz2-da-UBu"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                        <variation key="default">
-                            <mask key="items">
-                                <exclude reference="EoY-IZ-YyL"/>
-                            </mask>
-                        </variation>
-                    </menu>
                     <connections>
                         <outlet property="columnFivePlayerOneSetScoreLabel" destination="owa-c8-a4x" id="2bZ-4x-yrp"/>
                         <outlet property="columnFivePlayerTwoSetScoreLabel" destination="fjU-KL-zxw" id="Aom-Qy-TRp"/>
