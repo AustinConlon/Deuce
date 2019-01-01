@@ -36,22 +36,25 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let localizedChairUmpireTitle = NSLocalizedString("Chair Umpire", tableName: "Main", comment: "Bar button for presenting the chair umpire view.")
+        
         if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone {
-            if !session.isPaired {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Chair Umpire", style: .plain, target: self, action: #selector(presentChairUmpireViewController))
+            if session.isPaired == false && session.isWatchAppInstalled == false {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(title: localizedChairUmpireTitle, style: .plain, target: self, action: #selector(presentChairUmpireViewController))
             }
         } else if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Chair Umpire", style: .plain, target: self, action: #selector(presentChairUmpireViewController))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: localizedChairUmpireTitle, style: .plain, target: self, action: #selector(presentChairUmpireViewController))
         }
         
         // Enable self sizing rows.
-//        tableView.estimatedRowHeight = UITableView.automaticDimension
-//        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         
         if let savedMatches = loadMatches() {
             matches += savedMatches
             if #available(iOS 10.3, *) {
-                SKStoreReviewController.requestReview()
+                // TODO: Bring this back in public releases.
+//                SKStoreReviewController.requestReview()
             } else {
                 // Fallback on earlier versions
             }
@@ -355,8 +358,13 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
     }
     
     @IBAction func showScoringRules(_ sender: Any) {
-        let myURL = URL(string:"https://wikipedia.org/wiki/Tennis_scoring_system")
-        let viewController = SFSafariViewController(url: myURL!)
+        var myURL: URL
+        if Locale.current.languageCode == "fr" {
+            myURL = URL(string:"http://mobile.fft.fr/sites/default/files/pdf/regles_du_jeu_2018.pdf")!
+        } else {
+            myURL = URL(string:"https://wikipedia.org/wiki/Tennis_scoring_system")!
+        }
+        let viewController = SFSafariViewController(url: myURL)
         present(viewController, animated: true, completion: nil)
     }
 }

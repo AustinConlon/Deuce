@@ -15,7 +15,24 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     // MARK: Properties
     var session: WCSession!
     
-    var scoreManager: ScoreManager?
+    var scoreManager: ScoreManager? {
+        didSet {
+            if scoreManager != nil {
+                isPlaying = true
+            } else if scoreManager == nil {
+                isPlaying = false
+            }
+        }
+    }
+    
+    var isPlaying = false {
+        didSet {
+            if isPlaying == true {
+                clearAllMenuItems()
+                addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
+            }
+        }
+    }
     
     var undoManager = UndoManager()
     
@@ -49,7 +66,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             if currentGame.server == .one {
                 return playerOneGameScore
             } else {
-                return playerTwoScore
+                return playerTwoGameScore
             }
         }
     }
@@ -57,7 +74,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     var receiverScore: String {
         get {
             if currentGame.server == .one {
-                return playerTwoScore
+                return playerTwoGameScore
             } else {
                 return playerOneGameScore
             }
@@ -97,7 +114,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         }
     }
     
-    var playerTwoScore: String {
+    var playerTwoGameScore: String {
         get {
             switch currentGame.isTiebreak {
             case true:
@@ -167,72 +184,59 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             session.delegate = self
             session.activate()
         }
+        addMenuItem(with: .play, title: "Play", action: #selector(presentCoinToss))
     }
     
     override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-        let context = context as? MatchManager
-        scoreManager = ScoreManager(context!)
-        updateLabelsFromModel()
-        
-        do {
-            try session.updateApplicationContext(["start new match" : ""])
-        } catch {
-            print(error)
-        }
-        
-        startWorkout()
+        requestAccessToHealthKit()
     }
     
     override func willDisappear() {
         session.sendMessage(["end match" : "reset"], replyHandler: nil, errorHandler: { Error in
             print(Error)
         })
-        stopWorkout()
     }
     
     // MARK: Actions
-    
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        currentMatch.scorePointForPlayerOne()
-        playHaptic()
-        updateLabelsFromModel()
-        
-        undoManager.registerUndo(withTarget: currentMatch) { $0.undoPlayerOneScore() }
-        
-        sendSetScoresToPhone()
-        clearAllMenuItems()
-        if currentMatch.winner == nil {
-            addMenuItem(with: .repeat, title: "Undo", action: #selector(undo))
+        switch isPlaying {
+        case false:
+            presentCoinToss()
+        case true:
+            currentMatch.scorePointForPlayerOne()
+            playHaptic()
+            updateLabelsFromModel()
+            
+            undoManager.registerUndo(withTarget: currentMatch) { $0.undoPlayerOneScore() }
+            
+            sendSetScoresToPhone()
+            clearAllMenuItems()
+            if currentMatch.winner == nil {
+                addMenuItem(with: .repeat, title: NSLocalizedString("Undo", tableName: "Interface", comment: "Reverts the score to the previous state"), action: #selector(undo))
+            }
+            addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
         }
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        currentMatch.scorePointForPlayerTwo()
-        playHaptic()
-        updateLabelsFromModel()
-        
-        undoManager.registerUndo(withTarget: currentMatch) { $0.undoPlayerTwoScore() }
-        
-        sendSetScoresToPhone()
-        clearAllMenuItems()
-        if currentMatch.winner == nil {
-            addMenuItem(with: .repeat, title: "Undo", action: #selector(undo))
+        switch isPlaying {
+        case false:
+            presentCoinToss()
+        case true:
+            currentMatch.scorePointForPlayerTwo()
+            playHaptic()
+            updateLabelsFromModel()
+            
+            
+            undoManager.registerUndo(withTarget: currentMatch) { $0.undoPlayerTwoScore() }
+            
+            sendSetScoresToPhone()
+            clearAllMenuItems()
+            if currentMatch.winner == nil {
+                addMenuItem(with: .repeat, title: NSLocalizedString("Undo", tableName: "Interface", comment: "Reverts the score to the previous state"), action: #selector(undo))
+            }
+            addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
         }
-    }
-    
-    @IBAction func scoreSetPointForPlayerTwo(_ sender: Any) {
-        currentMatch.increaseSetPointForPlayerTwoInCurrentGame()
-        playHaptic()
-        updateLabelsFromModel()
-        sendSetScoresToPhone()
-    }
-    
-    @IBAction func scoreSetPointForPlayerOne(_ sender: Any) {
-        currentMatch.increaseSetPointForPlayerOneInCurrentGame()
-        playHaptic()
-        updateLabelsFromModel()
-        sendSetScoresToPhone()
     }
     
     @objc func undo() {
@@ -240,10 +244,89 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         updateLabelsFromModel()
         sendSetScoresToPhone()
         clearAllMenuItems()
+        addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
+    }
+    
+    @IBAction func startMatch() {
+        presentCoinToss()
     }
     
     @IBAction func endMatch() {
-        popToRootController()
+        self.scoreManager = ScoreManager(MatchManager(5, .tiebreak, Player.two))
+        updateLabelsFromModel()
+        playerOneServiceLabel.setHidden(true)
+        playerTwoServiceLabel.setHidden(true)
+        scoreManager = nil
+        stopWorkout()
+        // TODO: Clean this up.
+        columnOnePlayerOneSetScoreLabel.setText(String(0))
+        columnOnePlayerTwoSetScoreLabel.setText(String(0))
+        columnTwoPlayerOneSetScoreLabel.setText(String(0))
+        columnTwoPlayerTwoSetScoreLabel.setText(String(0))
+        columnThreePlayerOneSetScoreLabel.setText(String(0))
+        columnThreePlayerTwoSetScoreLabel.setText(String(0))
+        columnFourPlayerOneSetScoreLabel.setText(String(0))
+        columnFourPlayerTwoSetScoreLabel.setText(String(0))
+        
+        columnOnePlayerOneSetScoreLabel.setHidden(true)
+        columnOnePlayerTwoSetScoreLabel.setHidden(true)
+        columnTwoPlayerOneSetScoreLabel.setHidden(true)
+        columnTwoPlayerTwoSetScoreLabel.setHidden(true)
+        columnThreePlayerOneSetScoreLabel.setHidden(true)
+        columnThreePlayerTwoSetScoreLabel.setHidden(true)
+        columnFourPlayerOneSetScoreLabel.setHidden(true)
+        columnFourPlayerTwoSetScoreLabel.setHidden(true)
+        
+        playerOneTapGestureRecognizer.isEnabled = true
+        playerTwoTapGestureRecognizer.isEnabled = true
+        
+        playerOneGameScoreLabel.setHidden(false)
+        playerTwoGameScoreLabel.setHidden(false)
+    }
+    
+    @objc func presentCoinToss() {
+        let playerTwoBeginService = WKAlertAction(title: NSLocalizedString("Opponent", tableName: "Interface", comment: "Player the watch wearer is playing against"), style: .`default`) {
+            self.scoreManager = ScoreManager(MatchManager(5, .tiebreak, Player.two))
+            self.updateLabelsFromModel()
+            
+            do {
+                try self.session.updateApplicationContext(["start new match" : ""])
+            } catch {
+                print(error)
+            }
+            
+            self.startWorkout()
+            self.isPlaying = true
+        }
+        
+        let playerOneBeginService = WKAlertAction(title: NSLocalizedString("You", tableName: "Interface", comment: "Player wearing the watch"), style: .`default`) {
+            self.scoreManager = ScoreManager(MatchManager(5, .tiebreak, Player.one))
+            self.updateLabelsFromModel()
+            
+            do {
+                try self.session.updateApplicationContext(["start new match" : ""])
+            } catch {
+                print(error)
+            }
+            
+            self.startWorkout()
+            self.isPlaying = true
+        }
+        
+        var coinTossWinnerMessage: String
+        
+        switch MatchManager.coinTossWinner {
+        case .one:
+            coinTossWinnerMessage = "You won the coin toss."
+        case .two:
+            coinTossWinnerMessage = "Your opponent won the coin toss."
+        }
+        
+        let localizedCoinTossWinnerMessage = NSLocalizedString(coinTossWinnerMessage, tableName: "Interface", comment: "Announcement of which player won the coin toss")
+        
+        let localizedCoinTossQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
+        
+        presentAlert(withTitle: localizedCoinTossWinnerMessage, message: localizedCoinTossQuestion, preferredStyle: .actionSheet, actions: [playerTwoBeginService, playerOneBeginService])
     }
     
     func updateLabelsFromModel() {
@@ -268,6 +351,9 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             playerOneTapGestureRecognizer.isEnabled = false
             playerTwoTapGestureRecognizer.isEnabled = false
             updateSetLabelsToBeWhite()
+            stopWorkout()
+            clearAllMenuItems()
+            addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
         }
     }
     
@@ -300,9 +386,8 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         case true:
             if ((currentGame.playerOneScore + currentGame.playerTwoScore) % 6 == 0) && currentGame.isTiebreak == false {
                 setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players change sides of the court"))
-            } else {
-                setTitle(NSLocalizedString("Tiebreak", tableName: "Interface", comment: "The tiebreak begins"))
             }
+            
             playerOneGameScoreLabel.setText(String(currentGame.playerOneScore))
             playerTwoGameScoreLabel.setText(String(currentGame.playerTwoScore))
         case false:
@@ -526,6 +611,27 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     }
     
     // MARK: Workout
+    private func requestAccessToHealthKit() {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        
+        let healthStore = HKHealthStore()
+        
+        let typesToShare: Set = [
+            HKQuantityType.workoutType()
+        ]
+        
+        let typesToRead: Set = [
+            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+        ]
+        
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
+            if let error = error, !success {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     private func startWorkout() {
         let workoutConfiguration = HKWorkoutConfiguration()
         workoutConfiguration.activityType = .tennis

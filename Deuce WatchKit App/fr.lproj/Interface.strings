@@ -84,6 +84,9 @@
 "Break point" = "Balle break";
 "Set point" = "Balle set";
 "Match point" = "Balle match";
-"Switch Ends" = "Changer côté";
+//"Switch Ends" = "Changer côté";
+"Switch Ends" = "Tourner";
 
 "Winner" = "Vainqueur";
+
+"Undo" = "Corriger";
