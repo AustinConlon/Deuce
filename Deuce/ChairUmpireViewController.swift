@@ -12,7 +12,7 @@ import WatchConnectivity
 class ChairUmpireViewController: UIViewController {
     
     // MARK: Properties
-    var scoreManager: ScoreManager?
+    var score: Score?
     var currentGame: GameManager {
         get {
             return currentSet.currentGame
@@ -20,12 +20,12 @@ class ChairUmpireViewController: UIViewController {
     }
     var currentSet: SetManager {
         get {
-            return scoreManager!.currentMatch.currentSet
+            return score!.currentMatch.currentSet
         }
     }
     var currentMatch: MatchManager {
         get {
-            return scoreManager!.currentMatch
+            return score!.currentMatch
         }
     }
     
@@ -80,27 +80,27 @@ class ChairUmpireViewController: UIViewController {
         get {
             switch currentGame.isTiebreak {
             case true:
-                return String(currentGame.playerOneScore)
+                return String(currentGame.player1Score)
             default:
-                switch currentGame.playerOneScore {
+                switch currentGame.player1Score {
                 case 0:
                     return NSLocalizedString("Love", tableName: "Main", comment: "Game score of 0")
                 case 15, 30:
-                    return String(currentGame.playerOneScore)
+                    return String(currentGame.player1Score)
                 case 40:
-                    if currentGame.playerTwoScore < 40 {
-                        return String(currentGame.playerOneScore)
-                    } else if currentGame.playerTwoScore == 40 {
+                    if currentGame.player2Score < 40 {
+                        return String(currentGame.player1Score)
+                    } else if currentGame.player2Score == 40 {
                         return NSLocalizedString("Deuce", tableName: "Main", comment: "Game score is 40-40")
                     }
                 default: // Alternating advantage and deuce situations.
-                    if currentGame.playerOneScore == currentGame.playerTwoScore + 1 {
+                    if currentGame.player1Score == currentGame.player2Score + 1 {
                         if currentGame.server == .one {
                             return NSLocalizedString("Ad in", tableName: "Main", comment: "After a deuce situation, the service player is now winning by one point")
                         } else if currentGame.server == .two {
                             return NSLocalizedString("Ad out", tableName: "Main", comment: "After a deuce situation, the receiving player is now winning by one point")
                         }
-                    } else if currentGame.playerOneScore == currentGame.playerTwoScore {
+                    } else if currentGame.player1Score == currentGame.player2Score {
                         return NSLocalizedString("Deuce", tableName: "Main", comment: "Game score is 40-40")
                     }
                 }
@@ -112,27 +112,27 @@ class ChairUmpireViewController: UIViewController {
     var playerTwoGameScore: String {
         switch currentGame.isTiebreak {
         case true:
-            return String(currentGame.playerTwoScore)
+            return String(currentGame.player2Score)
         default:
-            switch currentGame.playerTwoScore {
+            switch currentGame.player2Score {
             case 0:
                 return NSLocalizedString("Love", tableName: "Main", comment: "Game score of 0")
             case 15, 30:
-                return String(currentGame.playerTwoScore)
+                return String(currentGame.player2Score)
             case 40:
-                if currentGame.playerOneScore < 40 {
-                    return String(currentGame.playerTwoScore)
-                } else if currentGame.playerOneScore == 40 {
+                if currentGame.player1Score < 40 {
+                    return String(currentGame.player2Score)
+                } else if currentGame.player1Score == 40 {
                     return NSLocalizedString("Deuce", tableName: "Main", comment: "Game score is 40-40")
                 }
             default: // Alternating advantage and deuce situations.
-                if currentGame.playerTwoScore == currentGame.playerOneScore + 1 {
+                if currentGame.player2Score == currentGame.player1Score + 1 {
                     if currentGame.server == .two {
                         return NSLocalizedString("Ad in", tableName: "Main", comment: "After a deuce situation, the service player is now winning by one point")
                     } else if currentGame.server == .one {
                         return NSLocalizedString("Ad out", tableName: "Main", comment: "After a deuce situation, the receiving player is now winning by one point")
                     }
-                } else if currentGame.playerTwoScore == currentGame.playerOneScore {
+                } else if currentGame.player2Score == currentGame.player1Score {
                     return NSLocalizedString("Deuce", tableName: "Main", comment: "Game score is 40-40")
                 }
             }
@@ -146,12 +146,12 @@ class ChairUmpireViewController: UIViewController {
     @IBOutlet weak var setTypeSegmentedControl: UISegmentedControl!
     
     @IBOutlet weak var playerOneServiceLabel: UILabel!
-    @IBOutlet weak var playerOneGameScoreButton: UIButton!
+    @IBOutlet weak var player1GameScoreButton: UIButton!
     @IBOutlet weak var playerOneSetScoreLabel: UILabel!
     @IBOutlet weak var playerOneMatchScoreLabel: UILabel!
     
     @IBOutlet weak var playerTwoServiceLabel: UILabel!
-    @IBOutlet weak var playerTwoGameScoreButton: UIButton!
+    @IBOutlet weak var player2GameScoreButton: UIButton!
     @IBOutlet weak var playerTwoSetScoreLabel: UILabel!
     @IBOutlet weak var playerTwoMatchScoreLabel: UILabel!
     
@@ -182,7 +182,11 @@ class ChairUmpireViewController: UIViewController {
     }
     
     @IBAction func stopMatch(_ sender: Any) {
-        if currentMatch.isFinished == false {
+        switch currentMatch.matchState {
+        case .finished:
+            updateLabelsForEndOfMatch()
+            self.navigationController?.popToRootViewController(animated: true)
+        default:
             let alert = UIAlertController(title: "End Match?", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel action"), style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .destructive, handler: { _ in
@@ -190,19 +194,16 @@ class ChairUmpireViewController: UIViewController {
                 self.navigationController?.popToRootViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
-        } else {
-            updateLabelsForEndOfMatch()
-            self.navigationController?.popToRootViewController(animated: true)
         }
     }
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        currentMatch.scorePointForPlayerOne()
+        currentMatch.scorePoint(for: Player.one)
         updateLabelsFromModel()
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        currentMatch.scorePointForPlayerTwo()
+        currentMatch.scorePoint(for: Player.two)
         updateLabelsFromModel()
     }
     
@@ -235,21 +236,21 @@ class ChairUmpireViewController: UIViewController {
     
     func startScoring() {
         let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, self.playerThatWillServeFirst!)
-        self.scoreManager = ScoreManager(match)
+        self.score = Score(match)
         updateLabelsFromModel()
         changeMatchLengthSegmentedControl.isHidden = true
         setTypeSegmentedControl.isHidden = true
         startMatchButton.isEnabled = false
         endMatchButton.isEnabled = true
-        playerOneGameScoreButton.isEnabled = true
-        playerOneGameScoreButton.isHidden = false
+        player1GameScoreButton.isEnabled = true
+        player1GameScoreButton.isHidden = false
         playerOneSetScoreLabel.isHidden = false
         playerOneMatchScoreLabel.isHidden = false
-        playerTwoGameScoreButton.isEnabled = true
-        playerTwoGameScoreButton.isHidden = false
+        player2GameScoreButton.isEnabled = true
+        player2GameScoreButton.isHidden = false
         playerTwoSetScoreLabel.isHidden = false
         playerTwoMatchScoreLabel.isHidden = false
-        let server = (scoreManager?.currentMatch.currentSet.currentGame.server)!
+        let server = (score?.currentMatch.currentSet.currentGame.server)!
         switch server {
         case .one:
             playerOneServiceLabel.isHidden = false
@@ -266,16 +267,16 @@ class ChairUmpireViewController: UIViewController {
         if let winner = currentMatch.winner {
             switch winner {
             case .one:
-                playerOneGameScoreButton.setTitle("🏆", for: .normal)
-                playerTwoGameScoreButton.isHidden = true
+                player1GameScoreButton.setTitle("🏆", for: .normal)
+                player2GameScoreButton.isHidden = true
             case .two:
-                playerOneGameScoreButton.isHidden = true
-                playerTwoGameScoreButton.setTitle("🏆", for: .normal)
+                player1GameScoreButton.isHidden = true
+                player2GameScoreButton.setTitle("🏆", for: .normal)
             }
             playerOneServiceLabel.isHidden = true
             playerTwoServiceLabel.isHidden = true
-            playerOneGameScoreButton.isEnabled = false
-            playerTwoGameScoreButton.isEnabled = false
+            player1GameScoreButton.isEnabled = false
+            player2GameScoreButton.isEnabled = false
             endMatchButton.style = .done
         }
     }
@@ -285,11 +286,11 @@ class ChairUmpireViewController: UIViewController {
         changeMatchLengthSegmentedControl.isHidden = false
         setTypeSegmentedControl.isHidden = false
         playerOneServiceLabel.isHidden = true
-        playerOneGameScoreButton.isHidden = true
+        player1GameScoreButton.isHidden = true
         playerOneSetScoreLabel.isHidden = true
         playerOneMatchScoreLabel.isHidden = true
         playerTwoServiceLabel.isHidden = true
-        playerTwoGameScoreButton.isHidden = true
+        player2GameScoreButton.isHidden = true
         playerTwoSetScoreLabel.isHidden = true
         playerTwoMatchScoreLabel.isHidden = true
         title = "Chair Umpire"
@@ -310,8 +311,8 @@ class ChairUmpireViewController: UIViewController {
     func updateGameScoresFromModel() {
         switch currentGame.isTiebreak {
         case true:
-            playerOneGameScoreButton.setTitle(String(currentGame.playerOneScore), for: .normal)
-            playerTwoGameScoreButton.setTitle(String(currentGame.playerTwoScore), for: .normal)
+            player1GameScoreButton.setTitle(String(currentGame.player1Score), for: .normal)
+            player2GameScoreButton.setTitle(String(currentGame.player2Score), for: .normal)
         default:
             updatePlayerOneGameScoreFromModel()
             updatePlayerTwoGameScoreFromModel()
@@ -320,17 +321,17 @@ class ChairUmpireViewController: UIViewController {
     
     func updatePlayerOneGameScoreFromModel() {
         if playerTwoGameScore == "Ad in" || playerTwoGameScore == "Ad out" {
-            playerOneGameScoreButton.setTitle("🎾", for: .normal)
+            player1GameScoreButton.setTitle("🎾", for: .normal)
         } else {
-            playerOneGameScoreButton.setTitle(playerOneGameScore, for: .normal)
+            player1GameScoreButton.setTitle(playerOneGameScore, for: .normal)
         }
     }
     
     func updatePlayerTwoGameScoreFromModel() {
         if playerOneGameScore == "Ad in" || playerOneGameScore == "Ad out" {
-            playerTwoGameScoreButton.setTitle("🎾", for: .normal)
+            player2GameScoreButton.setTitle("🎾", for: .normal)
         } else {
-            playerTwoGameScoreButton.setTitle(playerTwoGameScore, for: .normal)
+            player2GameScoreButton.setTitle(playerTwoGameScore, for: .normal)
         }
     }
     

@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB162E7920202B3500EAABA3 /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7820202B3500EAABA3 /* MatchManager.swift */; };
-		FB162E7B20202BF500EAABA3 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7A20202BF500EAABA3 /* Player.swift */; };
-		FB162E7D20202F9C00EAABA3 /* SetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7C20202F9B00EAABA3 /* SetManager.swift */; };
-		FB162E7F2020AD0500EAABA3 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7E2020AD0400EAABA3 /* GameManager.swift */; };
 		FB2F4E5E20EB77AE00528C05 /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */; };
 		FB2F4E6020EB79FA00528C05 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */; };
 		FB49BA0220986DC100C8491F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49BA0120986DC100C8491F /* ComplicationController.swift */; };
@@ -30,13 +26,9 @@
 		FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0431DEAD77C00B2E195 /* Assets.xcassets */; };
 		FB6D281E20EC988A00C7FE9D /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D281D20EC988A00C7FE9D /* Match.swift */; };
 		FB712C162096EFA7005AA807 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB712C152096EFA7005AA807 /* HealthKit.framework */; };
-		FBB50EB02071932300ADCCB0 /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7820202B3500EAABA3 /* MatchManager.swift */; };
-		FBB50EB12071932600ADCCB0 /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* ScoreManager.swift */; };
-		FBB50EB22071932A00ADCCB0 /* SetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7C20202F9B00EAABA3 /* SetManager.swift */; };
-		FBB50EB32071932D00ADCCB0 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7E2020AD0400EAABA3 /* GameManager.swift */; };
-		FBB50EB42071970A00ADCCB0 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB162E7A20202BF500EAABA3 /* Player.swift */; };
-		FBDF8324202317AD00891889 /* ScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* ScoreManager.swift */; };
+		FBDF8324202317AD00891889 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* Score.swift */; };
 		FBE321CD21CC7EE8005D22FB /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02C1DEAD77C00B2E195 /* Interface.storyboard */; };
+		FBE48D9B21E75B130043AEFE /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* Score.swift */; };
 		FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */; };
 		FBF535E41FC1BE01008C6449 /* ScoreInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */; };
 /* End PBXBuildFile section */
@@ -121,13 +113,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FB162E7820202B3500EAABA3 /* MatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
-		FB162E7A20202BF500EAABA3 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		FB162E7C20202F9B00EAABA3 /* SetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetManager.swift; sourceTree = "<group>"; };
-		FB162E7E2020AD0400EAABA3 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
 		FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
-		FB3280351EABDA3C00D6B92B /* ScoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreManager.swift; sourceTree = "<group>"; };
+		FB3280351EABDA3C00D6B92B /* Score.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		FB3377421E6E3C89000B9E30 /* Deuce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce.entitlements; sourceTree = "<group>"; };
 		FB49BA0120986DC100C8491F /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		FB507FC120FB40E9004FBB76 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -195,18 +183,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FB2A0968218C7A3800ECA2B7 /* Score */ = {
-			isa = PBXGroup;
-			children = (
-				FB162E7A20202BF500EAABA3 /* Player.swift */,
-				FB162E7E2020AD0400EAABA3 /* GameManager.swift */,
-				FB162E7C20202F9B00EAABA3 /* SetManager.swift */,
-				FB162E7820202B3500EAABA3 /* MatchManager.swift */,
-				FB3280351EABDA3C00D6B92B /* ScoreManager.swift */,
-			);
-			path = Score;
-			sourceTree = "<group>";
-		};
 		FB51A0011DEAD77C00B2E195 = {
 			isa = PBXGroup;
 			children = (
@@ -270,12 +246,12 @@
 			isa = PBXGroup;
 			children = (
 				FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */,
-				FB2A0968218C7A3800ECA2B7 /* Score */,
-				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
+				FB3280351EABDA3C00D6B92B /* Score.swift */,
 				FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */,
 				FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */,
 				FB49BA0120986DC100C8491F /* ComplicationController.swift */,
 				FB51A0411DEAD77C00B2E195 /* NotificationController.swift */,
+				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
 				FB51A0431DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0451DEAD77C00B2E195 /* Info.plist */,
 			);
@@ -503,14 +479,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB2F4E6020EB79FA00528C05 /* MatchHistoryTableViewCell.swift in Sources */,
-				FBB50EB32071932D00ADCCB0 /* GameManager.swift in Sources */,
-				FBB50EB42071970A00ADCCB0 /* Player.swift in Sources */,
 				FB6D281E20EC988A00C7FE9D /* Match.swift in Sources */,
-				FBB50EB12071932600ADCCB0 /* ScoreManager.swift in Sources */,
 				FB2F4E5E20EB77AE00528C05 /* MatchHistoryTableViewController.swift in Sources */,
-				FBB50EB22071932A00ADCCB0 /* SetManager.swift in Sources */,
 				FB51A0101DEAD77C00B2E195 /* ChairUmpireViewController.swift in Sources */,
-				FBB50EB02071932300ADCCB0 /* MatchManager.swift in Sources */,
+				FBE48D9B21E75B130043AEFE /* Score.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -527,16 +499,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB162E7D20202F9C00EAABA3 /* SetManager.swift in Sources */,
-				FB162E7F2020AD0500EAABA3 /* GameManager.swift in Sources */,
 				FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */,
-				FBDF8324202317AD00891889 /* ScoreManager.swift in Sources */,
+				FBDF8324202317AD00891889 /* Score.swift in Sources */,
 				FBF535E41FC1BE01008C6449 /* ScoreInterfaceController.swift in Sources */,
 				FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */,
 				FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */,
 				FB49BA0220986DC100C8491F /* ComplicationController.swift in Sources */,
-				FB162E7B20202BF500EAABA3 /* Player.swift in Sources */,
-				FB162E7920202B3500EAABA3 /* MatchManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
