@@ -3,7 +3,7 @@
 //  Test WatchKit Extension
 //
 //  Created by Austin Conlon on 5/1/18.
-//  Copyright © 2018 Austin Conlon. All rights reserved.
+//  Copyright © 2019 Austin Conlon. All rights reserved.
 //
 
 import ClockKit

@@ -3,7 +3,7 @@
 //  Deuce WatchKit Extension
 //
 //  Created by Austin Conlon on 2/18/18.
-//  Copyright © 2018 Austin Conlon. All rights reserved.
+//  Copyright © 2019 Austin Conlon. All rights reserved.
 //
 
 import WatchKit
@@ -16,7 +16,8 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     var session: WCSession!
     
     var maximumNumberOfSetsInMatch = 1
-    var typeOfSet: TypeOfSet = .tiebreak
+    var setType: SetType = .tiebreak
+    var gameType: GameType = .standard
     
     var score: Score? {
         didSet {
@@ -62,7 +63,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         }
     }
     
-    var currentMatch: MatchManager {
+    var match: MatchManager {
         get {
             return score!.currentMatch
         }
@@ -183,7 +184,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     @IBOutlet var columnFivePlayerTwoSetScoreLabel: WKInterfaceLabel!
     
     // MARK: Initialization
-    
     override init() {
         super.init()
         if (WCSession.isSupported()) {
@@ -191,13 +191,13 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             session.delegate = self
             session.activate()
         }
-        addMenuItem(with: .accept, title: "Play", action: #selector(presentCoinToss))
         addMenuItem(with: .more, title: NSLocalizedString("Number of Sets", tableName: "Interface", comment: "Length of the match, which is a series of sets."), action: #selector(presentNumberOfSetsAlertAction))
         addMenuItem(with: .more, title: NSLocalizedString("Set Type", tableName: "Interface", comment: "When the set score is 6 games to 6, should a tiebreak game be played or should you continue until someone wins by a margin of 2 games (advantage)"), action: #selector(presentSetTypeAlertAction))
+        addMenuItem(with: .more, title: NSLocalizedString("Game Type", tableName: "Interface", comment: "When the game score is Deuce, players might continue to advantage (standard) or instead win"), action: #selector(presentGameTypeAlertAction))
     }
     
     override func awake(withContext context: Any?) {
-//        requestAccessToHealthKit()
+        requestAccessToHealthKit()
     }
     
     override func willDisappear() {
@@ -212,15 +212,15 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         case false:
             presentCoinToss()
         case true:
-            currentMatch.scorePoint(for: Player.one)
+            match.scorePoint(for: Player.one)
             playHaptic()
             updateLabelsFromModel()
             
-            undoManager.registerUndo(withTarget: currentMatch) { $0.undoPlayerOneScore() }
+            undoManager.registerUndo(withTarget: match) { $0.undoPlayer1Score() }
             
             sendSetScoresToPhone()
             clearAllMenuItems()
-            if currentMatch.winner == nil {
+            if match.winner == nil {
                 addMenuItem(with: .repeat, title: NSLocalizedString("Undo", tableName: "Interface", comment: "Reverts the score to the previous state"), action: #selector(undo))
             }
             addMenuItem(with: .decline, title: NSLocalizedString("End", tableName: "Interface", comment: "Finishes the match"), action: #selector(stopMatch))
@@ -232,15 +232,15 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         case false:
             presentCoinToss()
         case true:
-            currentMatch.scorePoint(for: Player.two)
+            match.scorePoint(for: Player.two)
             playHaptic()
             updateLabelsFromModel()
             
-            undoManager.registerUndo(withTarget: currentMatch) { $0.undoPlayerTwoScore() }
+            undoManager.registerUndo(withTarget: match) { $0.undoPlayer2Score() }
             
             sendSetScoresToPhone()
             clearAllMenuItems()
-            if currentMatch.winner == nil {
+            if match.winner == nil {
                 addMenuItem(with: .repeat, title: NSLocalizedString("Undo", tableName: "Interface", comment: "Reverts the score to the previous state"), action: #selector(undo))
             }
             addMenuItem(with: .decline, title: NSLocalizedString("End", tableName: "Interface", comment: "Finishes the match"), action: #selector(stopMatch))
@@ -252,6 +252,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         updateLabelsFromModel()
         sendSetScoresToPhone()
         clearAllMenuItems()
+        setTitle(nil)
         addMenuItem(with: .decline, title: NSLocalizedString("End", tableName: "Interface", comment: "Finishes the match"), action: #selector(stopMatch))
     }
     
@@ -260,13 +261,13 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     }
     
     @IBAction func stopMatch() {
-        self.score = Score(MatchManager(maximumNumberOfSetsInMatch, typeOfSet, Player.two))
+        self.score = Score(MatchManager(maximumNumberOfSetsInMatch, setType: setType, gameType: gameType, Player.two))
         updateLabelsFromModel()
         playerOneServiceLabel.setHidden(true)
         playerTwoServiceLabel.setHidden(true)
         score = nil
         stopWorkout()
-        // TODO: Clean this up.
+        
         columnOnePlayerOneSetScoreLabel.setText(String(0))
         columnOnePlayerTwoSetScoreLabel.setText(String(0))
         columnTwoPlayerOneSetScoreLabel.setText(String(0))
@@ -292,9 +293,9 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         playerTwoGameScoreLabel.setHidden(false)
         
         clearAllMenuItems()
-        addMenuItem(with: .accept, title: "Play", action: #selector(presentCoinToss))
         addMenuItem(with: .more, title: NSLocalizedString("Number of Sets", tableName: "Interface", comment: "Length of the match, which is a series of sets."), action: #selector(presentNumberOfSetsAlertAction))
         addMenuItem(with: .more, title: NSLocalizedString("Set Type", tableName: "Interface", comment: "When the set score is 6 games to 6, should a tiebreak game be played or should you continue until someone wins by a margin of 2 games (advantage)"), action: #selector(presentSetTypeAlertAction))
+        addMenuItem(with: .more, title: NSLocalizedString("Game Type", tableName: "Interface", comment: "When the game score is Deuce, players might continue to advantage (standard) or instead win"), action: #selector(presentGameTypeAlertAction))
     }
     
     @objc func presentNumberOfSetsAlertAction() {
@@ -310,24 +311,43 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             self.maximumNumberOfSetsInMatch = 5
         }
         
-        presentAlert(withTitle: "Match Length", message: nil, preferredStyle: .actionSheet, actions: [oneSet, bestOfThreeSets, bestOfFiveSets])
+        let localizedMatchLengthTitle = NSLocalizedString("Match Length", tableName: "Interface", comment: "Length of the best-of series of sets")
+        
+        presentAlert(withTitle: localizedMatchLengthTitle, message: nil, preferredStyle: .actionSheet, actions: [oneSet, bestOfThreeSets, bestOfFiveSets])
     }
     
     @objc func presentSetTypeAlertAction() {
         let tiebreak = WKAlertAction(title: NSLocalizedString("Tiebreak", tableName: "Interface", comment: "When the set score is 6 games to 6, a tiebreak game will be played"), style: .default) {
-            self.typeOfSet = .tiebreak
+            self.setType = .tiebreak
+        }
+        
+        let superTiebreak = WKAlertAction(title: NSLocalizedString("Super Tiebreak in 3rd Set", tableName: "Interface", comment: "The 3rd set tiebreak would require a minimum of 10 points"), style: .default) {
+            self.setType = .superTiebreak
+            self.maximumNumberOfSetsInMatch = 3
         }
         
         let advantage = WKAlertAction(title: NSLocalizedString("Advantage", tableName: "Interface", comment: "When the set score is 6 games to 6, the set will continue being played until someone wins by a margin of 2 games"), style: .default) {
-            self.typeOfSet = .advantage
+            self.setType = .advantage
         }
         
-        presentAlert(withTitle: "Type of Set", message: nil, preferredStyle: .actionSheet, actions: [tiebreak, advantage])
+        presentAlert(withTitle: "Type of Set", message: nil, preferredStyle: .actionSheet, actions: [tiebreak, superTiebreak, advantage])
+    }
+    
+    @objc func presentGameTypeAlertAction() {
+        let standard = WKAlertAction(title: NSLocalizedString("Standard", tableName: "Interface", comment: "When the game score is deuce, continue as normal with advantage in and advantage out"), style: .default) {
+            self.gameType = .standard
+        }
+        
+        let noAd = WKAlertAction(title: NSLocalizedString("No-ad", tableName: "Interface", comment: "When the game score is deuce, the winner of the next point wins the game"), style: .default) {
+            self.gameType = .noAd
+        }
+        
+        presentAlert(withTitle: "Game Type", message: nil, preferredStyle: .actionSheet, actions: [standard, noAd])
     }
     
     @objc func presentCoinToss() {
         let playerTwoBeginService = WKAlertAction(title: NSLocalizedString("Opponent", tableName: "Interface", comment: "Player the watch wearer is playing against"), style: .`default`) {
-            self.score = Score(MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, Player.two))
+            self.score = Score(MatchManager(self.maximumNumberOfSetsInMatch, setType: self.setType, gameType: self.gameType, Player.two))
             self.updateLabelsFromModel()
             
             do {
@@ -341,7 +361,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         }
         
         let playerOneBeginService = WKAlertAction(title: NSLocalizedString("You", tableName: "Interface", comment: "Player wearing the watch"), style: .`default`) {
-            self.score = Score(MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, Player.one))
+            self.score = Score(MatchManager(self.maximumNumberOfSetsInMatch, setType: self.setType, gameType: self.gameType, Player.one))
             self.updateLabelsFromModel()
             
             do {
@@ -375,7 +395,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
         updateGameScoresFromModel()
         updateSetScoresFromModel()
         
-        if let winner = currentMatch.winner {
+        if let winner = match.winner {
             setTitle(NSLocalizedString("Winner", tableName: "Interface", comment: "Match is finished"))
             
             switch winner {
@@ -436,7 +456,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             playerOneGameScoreLabel.setText(String(currentGame.player1Score))
             playerTwoGameScoreLabel.setText(String(currentGame.player2Score))
         case false:
-            if currentSet.isOddGameFinished || (currentSet.score == (0, 0) && currentMatch.score > (0, 0)) {
+            if (currentSet.isOddGameFinished && currentGame.score == (0, 0)) || (currentSet.score == (0, 0) && match.score > (0, 0)) {
                 setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players change sides of the court"))
             }
             updatePlayer1GameScore()
@@ -520,46 +540,46 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     }
     
     func updateColumnsForOneSet() {
-        columnFivePlayerOneSetScoreLabel.setText(String(currentSet.playerOneScore))
-        columnFivePlayerTwoSetScoreLabel.setText(String(currentSet.playerTwoScore))
+        columnFivePlayerOneSetScoreLabel.setText(String(currentSet.player1Score))
+        columnFivePlayerTwoSetScoreLabel.setText(String(currentSet.player2Score))
     }
     
     func updateColumnsForTwoSets() {
-        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneScore))
-        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoScore))
+        columnFourPlayerOneSetScoreLabel.setText(String(match.sets[0].player1Score))
+        columnFourPlayerTwoSetScoreLabel.setText(String(match.sets[0].player2Score))
         columnFourPlayerOneSetScoreLabel.setHidden(false)
         columnFourPlayerTwoSetScoreLabel.setHidden(false)
     }
     
     func updateColumnsForThreeSets() {
-        columnThreePlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneScore))
-        columnThreePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoScore))
-        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[1].playerOneScore))
-        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoScore))
+        columnThreePlayerOneSetScoreLabel.setText(String(match.sets[0].player1Score))
+        columnThreePlayerTwoSetScoreLabel.setText(String(match.sets[0].player2Score))
+        columnFourPlayerOneSetScoreLabel.setText(String(match.sets[1].player1Score))
+        columnFourPlayerTwoSetScoreLabel.setText(String(match.sets[1].player2Score))
         columnThreePlayerOneSetScoreLabel.setHidden(false)
         columnThreePlayerTwoSetScoreLabel.setHidden(false)
     }
     
     func updateColumnsForFourSets() {
-        columnTwoPlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneScore))
-        columnTwoPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoScore))
-        columnThreePlayerOneSetScoreLabel.setText(String(currentMatch.sets[1].playerOneScore))
-        columnThreePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoScore))
-        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[2].playerOneScore))
-        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[2].playerTwoScore))
+        columnTwoPlayerOneSetScoreLabel.setText(String(match.sets[0].player1Score))
+        columnTwoPlayerTwoSetScoreLabel.setText(String(match.sets[0].player2Score))
+        columnThreePlayerOneSetScoreLabel.setText(String(match.sets[1].player1Score))
+        columnThreePlayerTwoSetScoreLabel.setText(String(match.sets[1].player2Score))
+        columnFourPlayerOneSetScoreLabel.setText(String(match.sets[2].player1Score))
+        columnFourPlayerTwoSetScoreLabel.setText(String(match.sets[2].player2Score))
         columnTwoPlayerOneSetScoreLabel.setHidden(false)
         columnTwoPlayerTwoSetScoreLabel.setHidden(false)
     }
     
     func updateColumnsForFiveSets() {
-        columnOnePlayerOneSetScoreLabel.setText(String(currentMatch.sets[0].playerOneScore))
-        columnOnePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[0].playerTwoScore))
-        columnTwoPlayerOneSetScoreLabel.setText(String(currentMatch.sets[1].playerOneScore))
-        columnTwoPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[1].playerTwoScore))
-        columnThreePlayerOneSetScoreLabel.setText(String(currentMatch.sets[2].playerOneScore))
-        columnThreePlayerTwoSetScoreLabel.setText(String(currentMatch.sets[2].playerTwoScore))
-        columnFourPlayerOneSetScoreLabel.setText(String(currentMatch.sets[3].playerOneScore))
-        columnFourPlayerTwoSetScoreLabel.setText(String(currentMatch.sets[3].playerTwoScore))
+        columnOnePlayerOneSetScoreLabel.setText(String(match.sets[0].player1Score))
+        columnOnePlayerTwoSetScoreLabel.setText(String(match.sets[0].player2Score))
+        columnTwoPlayerOneSetScoreLabel.setText(String(match.sets[1].player1Score))
+        columnTwoPlayerTwoSetScoreLabel.setText(String(match.sets[1].player2Score))
+        columnThreePlayerOneSetScoreLabel.setText(String(match.sets[2].player1Score))
+        columnThreePlayerTwoSetScoreLabel.setText(String(match.sets[2].player2Score))
+        columnFourPlayerOneSetScoreLabel.setText(String(match.sets[3].player1Score))
+        columnFourPlayerTwoSetScoreLabel.setText(String(match.sets[3].player2Score))
         columnOnePlayerOneSetScoreLabel.setHidden(false)
         columnOnePlayerTwoSetScoreLabel.setHidden(false)
     }
@@ -576,7 +596,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     }
     
     func hideMostRecentColumnAfterUndo() {
-        switch currentMatch.sets.count {
+        switch match.sets.count {
         case 1:
             columnFourPlayerOneSetScoreLabel.setHidden(true)
             columnFourPlayerTwoSetScoreLabel.setHidden(true)
@@ -595,11 +615,11 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     }
     
     func playHaptic() {
-        switch currentMatch.matchState {
+        switch match.matchState {
         case .finished:
-            if currentMatch.winner == .one {
+            if match.winner == .one {
                 WKInterfaceDevice.current().play(.success)
-            } else if currentMatch.winner == .two {
+            } else if match.winner == .two {
                 WKInterfaceDevice.current().play(.failure)
             }
         default:
@@ -617,7 +637,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
                 case false:
                     WKInterfaceDevice.current().play(.click)
                 }
-            } else if currentSet.isOddGameFinished || (currentSet.score == (0, 0) && currentMatch.score > (0, 0)) {
+            } else if currentSet.isOddGameFinished || (currentSet.score == (0, 0) && match.score > (0, 0)) {
                 // Change both service and ends of the court.
                 WKInterfaceDevice.current().play(.stop)
             } else {
@@ -629,10 +649,10 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
     
     func sendSetScoresToPhone() {
         var setsToBeSentToPhone = [[Int]]()
-        for set in 0..<currentMatch.sets.count {
+        for set in 0..<match.sets.count {
             setsToBeSentToPhone.append([0, 0])
-            setsToBeSentToPhone[set][0] = currentMatch.sets[set].playerOneScore
-            setsToBeSentToPhone[set][1] = currentMatch.sets[set].playerTwoScore
+            setsToBeSentToPhone[set][0] = match.sets[set].player1Score
+            setsToBeSentToPhone[set][1] = match.sets[set].player2Score
         }
         
         do {
@@ -641,7 +661,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate, HKWork
             print(error)
         }
         
-        switch currentMatch.winner {
+        switch match.winner {
         case .one?:
             session.transferUserInfo(["winner" : "player one"])
         case .two?:

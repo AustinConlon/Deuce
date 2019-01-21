@@ -211,8 +211,8 @@
 			children = (
 				FB3377421E6E3C89000B9E30 /* Deuce.entitlements */,
 				FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */,
-				FB51A00F1DEAD77C00B2E195 /* ChairUmpireViewController.swift */,
 				FB6D281D20EC988A00C7FE9D /* Match.swift */,
+				FB51A00F1DEAD77C00B2E195 /* ChairUmpireViewController.swift */,
 				FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */,
 				FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */,
 				FB51A0111DEAD77C00B2E195 /* Main.storyboard */,
@@ -248,10 +248,10 @@
 				FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */,
 				FB3280351EABDA3C00D6B92B /* Score.swift */,
 				FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */,
+				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
 				FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */,
 				FB49BA0120986DC100C8491F /* ComplicationController.swift */,
 				FB51A0411DEAD77C00B2E195 /* NotificationController.swift */,
-				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
 				FB51A0431DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0451DEAD77C00B2E195 /* Info.plist */,
 			);

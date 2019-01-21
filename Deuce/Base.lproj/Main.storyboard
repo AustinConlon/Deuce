@@ -121,7 +121,7 @@
                         <viewLayoutGuide key="safeArea" id="DDM-7k-Twl"/>
                     </view>
                     <navigationItem key="navigationItem" title="Chair Umpire" id="02O-9Q-mqH">
-                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="End Match" id="ES2-GC-MbB">
+                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="Stop Match" id="ES2-GC-MbB">
                             <connections>
                                 <action selector="stopMatch:" destination="BYZ-38-t0r" id="Icd-LV-J2s"/>
                             </connections>

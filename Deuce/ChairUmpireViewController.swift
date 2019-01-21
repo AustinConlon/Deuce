@@ -29,9 +29,9 @@ class ChairUmpireViewController: UIViewController {
         }
     }
     
-    var maximumNumberOfSetsInMatch = 1 { // Matches are 1 set, best-of 3 sets, or best-of 5 sets.
+    var maximumSetCount = 3 { // Matches are 1 set, best-of 3 sets, or best-of 5 sets.
         didSet {
-            switch maximumNumberOfSetsInMatch {
+            switch maximumSetCount {
             case 3:
                 changeMatchLengthSegmentedControl.selectedSegmentIndex = 1
             case 5:
@@ -42,7 +42,7 @@ class ChairUmpireViewController: UIViewController {
         }
     }
     
-    var typeOfSet: TypeOfSet = .tiebreak { // Tiebreak sets are more commonly played.
+    var typeOfSet: SetType = .tiebreak { // Tiebreak sets are more commonly played.
         didSet {
             switch typeOfSet {
             case .advantage:
@@ -52,6 +52,8 @@ class ChairUmpireViewController: UIViewController {
             }
         }
     }
+    
+    var gameType: GameType = .standard
     
     var playerThatWillServeFirst: Player?
     
@@ -141,7 +143,8 @@ class ChairUmpireViewController: UIViewController {
     }
     
     @IBOutlet weak var startMatchButton: UIBarButtonItem!
-    @IBOutlet weak var endMatchButton: UIBarButtonItem!
+    @IBOutlet weak var stopMatchButton: UIBarButtonItem!
+    
     @IBOutlet weak var changeMatchLengthSegmentedControl: UISegmentedControl!
     @IBOutlet weak var setTypeSegmentedControl: UISegmentedControl!
     
@@ -158,11 +161,11 @@ class ChairUmpireViewController: UIViewController {
     @IBAction func changeMatchLength(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 1:
-            maximumNumberOfSetsInMatch = 3
+            maximumSetCount = 3
         case 2:
-            maximumNumberOfSetsInMatch = 5
+            maximumSetCount = 5
         default:
-            maximumNumberOfSetsInMatch = 1
+            maximumSetCount = 1
         }
     }
     
@@ -235,13 +238,13 @@ class ChairUmpireViewController: UIViewController {
     }
     
     func startScoring() {
-        let match = MatchManager(self.maximumNumberOfSetsInMatch, self.typeOfSet, self.playerThatWillServeFirst!)
+        let match = MatchManager(self.maximumSetCount, setType: self.typeOfSet, gameType: self.gameType, self.playerThatWillServeFirst!)
         self.score = Score(match)
         updateLabelsFromModel()
         changeMatchLengthSegmentedControl.isHidden = true
         setTypeSegmentedControl.isHidden = true
         startMatchButton.isEnabled = false
-        endMatchButton.isEnabled = true
+        stopMatchButton.isEnabled = true
         player1GameScoreButton.isEnabled = true
         player1GameScoreButton.isHidden = false
         playerOneSetScoreLabel.isHidden = false
@@ -277,12 +280,12 @@ class ChairUmpireViewController: UIViewController {
             playerTwoServiceLabel.isHidden = true
             player1GameScoreButton.isEnabled = false
             player2GameScoreButton.isEnabled = false
-            endMatchButton.style = .done
+            stopMatchButton.style = .done
         }
     }
     
     func updateLabelsForEndOfMatch() {
-        endMatchButton.isEnabled = false
+        stopMatchButton.isEnabled = false
         changeMatchLengthSegmentedControl.isHidden = false
         setTypeSegmentedControl.isHidden = false
         playerOneServiceLabel.isHidden = true
@@ -336,8 +339,8 @@ class ChairUmpireViewController: UIViewController {
     }
     
     func updateSetScoresFromModel() {
-        playerOneSetScoreLabel.text = "Set score: \(currentSet.playerOneScore)"
-        playerTwoSetScoreLabel.text = "Set score: \(currentSet.playerTwoScore)"
+        playerOneSetScoreLabel.text = "Set score: \(currentSet.player1Score)"
+        playerTwoSetScoreLabel.text = "Set score: \(currentSet.player2Score)"
     }
     
     func updateMatchScoresFromModel() {

@@ -19,9 +19,15 @@ enum ServingSide {
     case adCourt
 }
 
-enum TypeOfSet {
-    case advantage
+enum SetType {
     case tiebreak
+    case superTiebreak
+    case advantage
+}
+
+enum GameType {
+    case standard
+    case noAd
 }
 
 enum State {
@@ -40,7 +46,7 @@ class Score {
 class MatchManager {
     var minumumNumberOfSetsToWinMatch: Int { // Best-of series, e.g. a best-of 5 match ends with the first to win 3 sets
         get {
-            switch maximumNumberOfSetsInMatch {
+            switch maximumSetCount {
             case 3:
                 return 2
             case 5:
@@ -51,7 +57,7 @@ class MatchManager {
         }
     }
     
-    var maximumNumberOfSetsInMatch: Int  // Default match length is 1 set.
+    var maximumSetCount: Int  // Default match length is 1 set.
     
     static var coinTossWinner: Player {  // Winner of the coin toss decides whether to serve or receive first.
         get {
@@ -89,45 +95,70 @@ class MatchManager {
     var matchState: State = .notStarted
     
     var winner: Player?
+    
     var sets = [SetManager]() {
         didSet {
             if sets.count > oldValue.count {
-                switch oldValue.last?.games.last?.server {
-                case .one?:
-                    sets.last?.games.last?.server = .two
-                case .two?:
-                    sets.last?.games.last?.server = .one
+                let oldGame = oldValue.last?.games.last
+                
+                switch oldGame?.isTiebreak {
+                case false:
+                    switch oldGame?.server {
+                    case .one?:
+                        sets.last?.games.last?.server = .two
+                    case .two?:
+                        sets.last?.games.last?.server = .one
+                    default:
+                        break
+                    }
+                case true:
+                    switch oldGame?.serviceAtStartOfTiebreak {
+                    case .one?:
+                        sets.last?.games.last?.server = .two
+                    case .two?:
+                        sets.last?.games.last?.server = .one
+                    default:
+                        break
+                    }
                 default:
                     break
                 }
             }
+            
+            if sets.count == 3 && SetManager.setType == .superTiebreak {
+                GameManager.minimumPointsToWinTiebreak = 10
+            }
         }
     }
+    
     var currentSet: SetManager {
         get {
             return sets.last!
         }
     }
+    
     var currentGame: GameManager {
         get {
             return currentSet.currentGame
         }
     }
+    
     var totalNumberOfGamesPlayed: Int {
         var totalNumberOfGamesPlayed = 0
         for set in sets {
-            totalNumberOfGamesPlayed += set.playerOneScore
-            totalNumberOfGamesPlayed += set.playerTwoScore
+            totalNumberOfGamesPlayed += set.player1Score
+            totalNumberOfGamesPlayed += set.player2Score
         }
         return totalNumberOfGamesPlayed
     }
     
     // MARK: Initialization
-    init(_ maximumNumberOfSetsInMatch: Int, _ typeOfSet: TypeOfSet, _ playerThatWillServeFirst: Player) {
-        self.maximumNumberOfSetsInMatch = maximumNumberOfSetsInMatch
+    init(_ maximumNumberOfSetsInMatch: Int, setType: SetType, gameType: GameType, _ playerThatWillServeFirst: Player) {
+        self.maximumSetCount = maximumNumberOfSetsInMatch
         sets.append(SetManager())
         sets[0].games[0].server = playerThatWillServeFirst
-        SetManager.typeOfSet = typeOfSet
+        SetManager.setType = setType
+        GameManager.gameType = gameType
         matchState = .playing
     }
     
@@ -146,9 +177,9 @@ class MatchManager {
     func scorePoint(for player: Player) {
         switch currentGame.isTiebreak {
         case true:
-            currentGame.scorePointInTiebreak(for: player)
+            currentGame.scoreTiebreakPoint(for: player)
         default:
-            currentGame.increasePoint(for: player)
+            currentGame.scorePoint(for: player)
         }
         checkGameWon(for: player)
     }
@@ -157,9 +188,9 @@ class MatchManager {
         if currentGame.gameState == .finished {
             switch player {
             case .one:
-                currentSet.playerOneScore += 1
+                currentSet.player1Score += 1
             case .two:
-                currentSet.playerTwoScore += 1
+                currentSet.player2Score += 1
             }
             checkSetWon(for: player)
         }
@@ -185,21 +216,21 @@ class MatchManager {
         }
     }
     
-    func undoPlayerOneScore() {
+    func undoPlayer1Score() {
         if currentGame.score == (0, 0) {
             if currentSet.games.count > 1 {
                 currentSet.games.removeLast()
-                currentSet.playerOneScore -= 1
+                currentSet.player1Score -= 1
                 sets.last?.games.last?.isTiebreak = false
             } else if currentSet.games.count == 1 && sets.count > 1 {
                 sets.removeLast()
-                currentSet.playerOneScore -= 1
-                playerOneScore -= 1
+                currentSet.player1Score -= 1
+                self.playerOneScore -= 1
             }
             
             currentGame.gameState = .playing
             currentSet.setState = .playing
-            currentGame.isTiebreak = false
+//            currentGame.isTiebreak = false
         } else {
             if currentGame.isTiebreak {
                 if currentGame.score == (0, 0) {
@@ -210,27 +241,27 @@ class MatchManager {
                 } else {
                     currentGame.changeServerSide()
                 }
-                currentGame.player1Score = currentGame.oldPlayerOneScore!
+                currentGame.player1Score = currentGame.oldPlayer1Score!
             } else {
-                currentGame.player1Score = currentGame.oldPlayerOneScore!
+                currentGame.player1Score = currentGame.oldPlayer1Score!
             }
         }
     }
     
-    func undoPlayerTwoScore() {
+    func undoPlayer2Score() {
         if currentGame.score == (0, 0) {
             if currentSet.games.count > 1 {
                 currentSet.games.removeLast()
-                currentSet.playerTwoScore -= 1
+                currentSet.player2Score -= 1
             } else if currentSet.games.count == 1 && sets.count > 1 {
                 sets.removeLast()
-                currentSet.playerTwoScore -= 1
-                playerTwoScore -= 1
+                currentSet.player2Score -= 1
+                self.playerTwoScore -= 1
             }
             
             currentGame.gameState = .playing
             currentSet.setState = .playing
-            currentGame.isTiebreak = false
+//            currentGame.isTiebreak = false
         } else {
             if currentGame.isTiebreak {
                 if currentGame.score == (0, 0) {
@@ -241,9 +272,9 @@ class MatchManager {
                 } else {
                     currentGame.changeServerSide()
                 }
-                currentGame.player2Score = currentGame.oldPlayerTwoScore!
+                currentGame.player2Score = currentGame.oldPlayer2Score!
             } else {
-                currentGame.player2Score = currentGame.oldPlayerTwoScore!
+                currentGame.player2Score = currentGame.oldPlayer2Score!
             }
         }
     }
@@ -252,7 +283,8 @@ class MatchManager {
 
 class SetManager {
     let minimumNumbersOfGamesToWinSet = 6
-    static var typeOfSet: TypeOfSet = .tiebreak
+    
+    static var setType: SetType = .tiebreak
     
     var score: (Int, Int) {
         get {
@@ -260,17 +292,17 @@ class SetManager {
         }
     }
     
-    var playerOneScore = 0 {
+    var player1Score = 0 {
         didSet {
-            if (playerOneScore >= 6) && (playerOneScore - playerTwoScore >= marginToWinSetBy) { // Player one wins the set.
+            if (player1Score >= 6) && (player1Score - player2Score >= minimumMarginToWin) { // Player one wins the set.
                 setState = .finished
             }
         }
     }
     
-    var playerTwoScore = 0 {
+    var player2Score = 0 {
         didSet {
-            if (playerTwoScore >= 6) && (playerTwoScore - playerOneScore >= marginToWinSetBy) { // Player two wins the set.
+            if (player2Score >= 6) && (player2Score - player1Score >= minimumMarginToWin) { // Player two wins the set.
                 setState = .finished
             }
         }
@@ -279,9 +311,9 @@ class SetManager {
     var serverScore: Int {
         get {
             if currentGame.server == .one {
-                return playerOneScore
+                return player1Score
             } else {
-                return playerTwoScore
+                return player2Score
             }
         }
     }
@@ -289,16 +321,16 @@ class SetManager {
     var receiverScore: Int {
         get {
             if currentGame.server == .one {
-                return playerTwoScore
+                return player2Score
             } else {
-                return playerOneScore
+                return player1Score
             }
         }
     }
     
-    var marginToWinSetBy: Int {
+    var minimumMarginToWin: Int {
         get {
-            if (SetManager.typeOfSet == .tiebreak) && (currentGame.isTiebreak) {
+            if (SetManager.setType == .tiebreak || SetManager.setType == .superTiebreak) && (currentGame.isTiebreak) {
                 return 1
             } else {
                 return 2
@@ -321,7 +353,7 @@ class SetManager {
                 }
             }
             
-            if SetManager.typeOfSet == .tiebreak && score == (6, 6) {
+            if (SetManager.setType == .tiebreak || SetManager.setType == .superTiebreak) && score == (6, 6) {
                 currentGame.isTiebreak = true
             } else {
                 currentGame.isTiebreak = false
@@ -337,7 +369,6 @@ class SetManager {
     
     var isOddGameFinished: Bool {
         get {
-            print(games.count)
             if (games.count - 1) % 2 == 1 {
                 return true
             } else {
@@ -365,6 +396,8 @@ class GameManager {
         }
     }
     
+    var serviceAtStartOfTiebreak: Player?
+    
     // For conveniently switching on the game score.
     var score: (Int, Int) {
         get {
@@ -374,7 +407,12 @@ class GameManager {
     
     var player1Score = 0 {
         didSet {
-            oldPlayerOneScore = oldValue
+            oldPlayer1Score = oldValue
+            
+            if GameManager.gameType == .noAd && player1Score == 41 {
+                gameState = .finished
+            }
+            
             switch isTiebreak {
             case true:
                 if player1Score > oldValue {
@@ -392,7 +430,12 @@ class GameManager {
     
     var player2Score = 0 {
         didSet {
-            oldPlayerTwoScore = oldValue
+            oldPlayer2Score = oldValue
+            
+            if GameManager.gameType == .noAd && player2Score == 41 {
+                gameState = .finished
+            }
+            
             switch isTiebreak {
             case true:
                 if player2Score > oldValue {
@@ -428,12 +471,32 @@ class GameManager {
         }
     }
     
-    var isTiebreak = false
+    var isTiebreak = false {
+        didSet {
+            if isTiebreak {
+                serviceAtStartOfTiebreak = server
+            }
+        }
+    }
+    
+    static var minimumPointsToWin = 4
+    static var minimumPointsToWinTiebreak = 7
+    
+    static var gameType: GameType = .standard {
+        didSet {
+            switch gameType {
+            case .standard:
+                minimumPointsToWin = 4
+            case .noAd:
+                minimumPointsToWin = 3
+            }
+        }
+    }
     
     var gameState: State = .notStarted
     
-    var oldPlayerOneScore: Int?
-    var oldPlayerTwoScore: Int?
+    var oldPlayer1Score: Int?
+    var oldPlayer2Score: Int?
     
     func changeServer() {
         switch server {
@@ -455,7 +518,7 @@ class GameManager {
         }
     }
     
-    func increasePoint(for player: Player) {
+    func scorePoint(for player: Player) {
         switch player {
         case .one:
             switch server {
@@ -466,7 +529,7 @@ class GameManager {
                 case (30, 0...40):
                     player1Score += 10
                 case (40, 0...30):
-                    scoreWinningPoint()
+                    gameState = .finished
                 default:
                     enterDeuceOrAdvantageSituationForPlayerOne()
                 }
@@ -477,7 +540,7 @@ class GameManager {
                 case (0...40, 30):
                     player1Score += 10
                 case (0...30, 40):
-                    scoreWinningPoint()
+                    gameState = .finished
                 default:
                     enterDeuceOrAdvantageSituationForPlayerOne()
                 }
@@ -493,7 +556,7 @@ class GameManager {
                 case (0...40, 30):
                     player2Score += 10
                 case (0...30, 40):
-                    scoreWinningPoint()
+                    gameState = .finished
                 default:
                     enterDeuceOrAdvantageSituationForPlayerTwo()
                 }
@@ -504,7 +567,7 @@ class GameManager {
                 case (30, 0...40):
                     player2Score += 10
                 case (40, 0...30):
-                    scoreWinningPoint()
+                    gameState = .finished
                 default:
                     enterDeuceOrAdvantageSituationForPlayerTwo()
                 }
@@ -515,17 +578,19 @@ class GameManager {
         
     }
     
-    func scorePointInTiebreak(for player: Player) {
+    func scoreTiebreakPoint(for player: Player) {
         switch player {
         case .one:
-            player1Score += 1
-            if (player1Score >= 7) && (player1Score >= player2Score + 2) {
-                scoreWinningPoint()
+            if (player1Score >= GameManager.minimumPointsToWinTiebreak - 1) && (player1Score >= player2Score + 1) {
+                gameState = .finished
+            } else {
+                player1Score += 1
             }
         case .two:
-            player2Score += 1
-            if (player2Score >= 7) && (player2Score >= player1Score + 2) {
-                scoreWinningPoint()
+            if (player2Score >= GameManager.minimumPointsToWinTiebreak - 1) && (player2Score >= player1Score + 1) {
+                gameState = .finished
+            } else {
+                player2Score += 1
             }
         }
     }
@@ -538,7 +603,7 @@ class GameManager {
         } else if player1Score == player2Score {
             player1Score += 1
         } else if player1Score == player2Score + 1 {
-            scoreWinningPoint()
+            gameState = .finished
         }
     }
     
@@ -550,11 +615,7 @@ class GameManager {
         } else if player2Score == player1Score {
             player2Score += 1
         } else if player2Score == player1Score + 1 {
-            scoreWinningPoint()
+            gameState = .finished
         }
-    }
-    
-    func scoreWinningPoint() {
-        gameState = .finished
     }
 }

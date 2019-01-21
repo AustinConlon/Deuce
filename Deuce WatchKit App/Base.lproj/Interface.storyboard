@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14460.31" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14460.30.1" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca">
     <device id="watch44" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14460.16"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.19.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14460.16.1"/>
     </dependencies>
     <scenes>
-        <!--Settings-->
+        <!--Done-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="Settings" fullBounds="YES" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
+                <controller identifier="Settings" title="Done" fullBounds="YES" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
                         <label alignment="center" text="One set" numberOfLines="0" id="6nH-Bn-VTw">
                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
@@ -19,50 +19,32 @@
                         <slider width="1" height="0.186" alignment="left" continuous="YES" value="1" minimum="1" maximum="5" steps="2" id="H3i-Wl-J5d">
                             <color key="color" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="matchLengthSlider:" destination="AgC-eL-Hgc" id="afN-r0-XtM"/>
+                                <action selector="changeMatchLength:" destination="AgC-eL-Hgc" id="afN-r0-XtM"/>
                             </connections>
                         </slider>
-                        <group width="1" alignment="left" id="ehL-Zu-UgN">
-                            <items>
-                                <label alignment="center" text="Set Type" id="Vgk-k4-v6p">
-                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
-                                </label>
-                            </items>
-                        </group>
-                        <button width="1" height="0.186" alignment="left" title="Tiebreak" id="3DW-gV-pSx">
-                            <color key="titleColor" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <color key="backgroundColor" red="0.015686274510000001" green="0.87058823529999996" blue="0.4431372549" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                        <switch width="1" alignment="left" value="YES" title="Tiebreak" id="NN1-x6-Fn5">
                             <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                            <color key="tintColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="chooseTypeOfSetToBeTiebreak" destination="AgC-eL-Hgc" id="2tz-d8-BXd"/>
+                                <action selector="toggleTiebreak:" destination="AgC-eL-Hgc" id="1N1-Ia-Pg5"/>
                             </connections>
-                        </button>
-                        <button width="1" height="0.186" alignment="center" title="Advantage" id="HO4-aS-sOc">
-                            <color key="titleColor" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <color key="backgroundColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="0.14000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                        </switch>
+                        <switch width="1" alignment="left" title="Advantage" id="Kcb-Gw-tz1">
+                            <color key="tintColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="chooseTypeOfSetToBeAdvantage" destination="AgC-eL-Hgc" id="h34-Ew-nEY"/>
+                                <action selector="toggleAdvantage:" destination="AgC-eL-Hgc" id="XZm-l9-C3T"/>
                             </connections>
-                        </button>
-                        <button width="1" height="0.186" alignment="left" title="Coin Toss" id="Rvm-Qn-Mwd">
-                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <color key="backgroundColor" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
-                            <connections>
-                                <action selector="start" destination="AgC-eL-Hgc" id="bu2-8w-Xby"/>
-                            </connections>
-                        </button>
+                        </switch>
                     </items>
                     <connections>
+                        <outlet property="advantageSwitch" destination="Kcb-Gw-tz1" id="1M5-rf-hKq"/>
                         <outlet property="matchLengthLabel" destination="6nH-Bn-VTw" id="ApB-uN-XgR"/>
                         <outlet property="matchLengthSlider" destination="H3i-Wl-J5d" id="Xoh-Ss-feP"/>
-                        <outlet property="setTypeLabel" destination="Vgk-k4-v6p" id="w1l-iZ-k9J"/>
-                        <outlet property="startButton" destination="Rvm-Qn-Mwd" id="aII-9n-dYV"/>
+                        <outlet property="tiebreakSwitch" destination="NN1-x6-Fn5" id="JSq-xO-Srv"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="219.69230769230771" y="344.79487179487182"/>
+            <point key="canvasLocation" x="684" y="345"/>
         </scene>
         <!--Practice Mode-->
         <scene sceneID="cI2-PL-qws">
