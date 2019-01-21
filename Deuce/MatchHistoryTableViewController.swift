@@ -3,7 +3,7 @@
 //  Deuce
 //
 //  Created by Austin Conlon on 7/3/18.
-//  Copyright © 2018 Austin Conlon. All rights reserved.
+//  Copyright © 2019 Austin Conlon. All rights reserved.
 //
 
 import UIKit
@@ -52,12 +52,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         
         if let savedMatches = loadMatches() {
             matches += savedMatches
-            if #available(iOS 10.3, *) {
-                // TODO: Bring this back in public releases.
-//                SKStoreReviewController.requestReview()
-            } else {
-                // Fallback on earlier versions
-            }
+//            if #available(iOS 10.3, *) { SKStoreReviewController.requestReview() }
         }
     }
     
