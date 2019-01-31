@@ -13,12 +13,13 @@ import StoreKit
 import HealthKit
 import WebKit
 import SafariServices
+import MessageUI
 
-class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate, WKUIDelegate {
+class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate, WKUIDelegate, MFMailComposeViewControllerDelegate {
     // MARK: Properties
     var session: WCSession!
     
-    var matches = [Match]()
+    var matches = [MatchHistory]()
     
     var webView: WKWebView!
     
@@ -91,7 +92,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         }
     }
     
-    func updateMatchHistoryTableViewCell(for cell: MatchHistoryTableViewCell, with match: Match) {
+    func updateMatchHistoryTableViewCell(for cell: MatchHistoryTableViewCell, with match: MatchHistory) {
         switch match.sets.count {
         case 0, 1:
             updateLabelsForSetOne(cell, match)
@@ -135,7 +136,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         }
     }
     
-    func updateLabelsForSetOne(_ cell: MatchHistoryTableViewCell, _ match: Match) {
+    func updateLabelsForSetOne(_ cell: MatchHistoryTableViewCell, _ match: MatchHistory) {
         cell.columnFiveSetLabel.text = "1"
         cell.columnFivePlayerOneSetScoreLabel.text = String(match.sets[0].playerOneSetScore)
         cell.columnFivePlayerTwoSetScoreLabel.text = String(match.sets[0].playerTwoSetScore)
@@ -146,7 +147,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         cell.columnFivePlayerTwoSetScoreLabel.isHidden = false
     }
     
-    func updateLabelsForSetTwo(_ cell: MatchHistoryTableViewCell, _ match: Match) {
+    func updateLabelsForSetTwo(_ cell: MatchHistoryTableViewCell, _ match: MatchHistory) {
         cell.columnFourSetLabel.text = "1"
         cell.columnFourPlayerOneSetScoreLabel.text = String(match.sets[0].playerOneSetScore)
         cell.columnFourPlayerTwoSetScoreLabel.text = String(match.sets[0].playerTwoSetScore)
@@ -164,7 +165,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         cell.columnFivePlayerTwoSetScoreLabel.isHidden = false
     }
     
-    func updateLabelsForSetThree(_ cell: MatchHistoryTableViewCell, _ match: Match) {
+    func updateLabelsForSetThree(_ cell: MatchHistoryTableViewCell, _ match: MatchHistory) {
         cell.columnThreeSetLabel.text = "1"
         cell.columnThreePlayerOneSetScoreLabel.text = String(match.sets[0].playerOneSetScore)
         cell.columnThreePlayerTwoSetScoreLabel.text = String(match.sets[0].playerTwoSetScore)
@@ -190,7 +191,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         cell.columnFivePlayerTwoSetScoreLabel.isHidden = false
     }
     
-    func updateLabelsForSetFour(_ cell: MatchHistoryTableViewCell, _ match: Match) {
+    func updateLabelsForSetFour(_ cell: MatchHistoryTableViewCell, _ match: MatchHistory) {
         cell.columnTwoSetLabel.text = "1"
         cell.columnTwoPlayerOneSetScoreLabel.text = String(match.sets[0].playerOneSetScore)
         cell.columnTwoPlayerTwoSetScoreLabel.text = String(match.sets[0].playerTwoSetScore)
@@ -224,7 +225,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         cell.columnFivePlayerTwoSetScoreLabel.isHidden = false
     }
     
-    func updateLabelsForSetFive(_ cell: MatchHistoryTableViewCell, _ match: Match) {
+    func updateLabelsForSetFive(_ cell: MatchHistoryTableViewCell, _ match: MatchHistory) {
         cell.columnOneSetLabel.text = "1"
         cell.columnOnePlayerOneSetScoreLabel.text = String(match.sets[0].playerOneSetScore)
         cell.columnOnePlayerTwoSetScoreLabel.text = String(match.sets[0].playerTwoSetScore)
@@ -266,7 +267,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         cell.columnFivePlayerTwoSetScoreLabel.isHidden = false
     }
     
-    func hideMostRecentColumnAfterUndo(_ cell: MatchHistoryTableViewCell, _ match: Match) {
+    func hideMostRecentColumnAfterUndo(_ cell: MatchHistoryTableViewCell, _ match: MatchHistory) {
         switch match.sets.count {
         case 1:
             cell.columnFourSetLabel.isHidden = true
@@ -293,7 +294,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         DispatchQueue.main.async {
             if applicationContext["start new match"] != nil {
                 let newIndexPath = IndexPath(row: self.matches.count, section: 0)
-                self.matches.append(Match())
+                self.matches.append(MatchHistory())
                 self.matches.last?.sets.append(SetScore())
                 self.tableView.insertRows(at: [newIndexPath], with: .automatic)
                 self.saveMatches()
@@ -340,7 +341,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
     }
     
     private func saveMatches() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(matches, toFile: Match.ArchiveURL.path)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(matches, toFile: MatchHistory.ArchiveURL.path)
         if isSuccessfulSave {
             os_log("Matches successfully saved.", log: OSLog.default, type: .debug)
         } else {
@@ -348,8 +349,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         }
     }
     
-    private func loadMatches() -> [Match]?  {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Match.ArchiveURL.path) as? [Match]
+    private func loadMatches() -> [MatchHistory]?  {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: MatchHistory.ArchiveURL.path) as? [MatchHistory]
     }
     
     @IBAction func showScoringRules(_ sender: Any) {
@@ -361,5 +362,19 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate,
         }
         let viewController = SFSafariViewController(url: myURL)
         present(viewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func contact(_ sender: Any) {
+        if !MFMailComposeViewController.canSendMail() {
+            return
+        }
+        
+        let composeVC = MFMailComposeViewController()
+        composeVC.mailComposeDelegate = self
+        
+        composeVC.setToRecipients(["austinconlon@icloud.com"])
+        composeVC.setSubject("Feedback for Deuce")
+        
+        self.present(composeVC, animated: true, completion: nil)
     }
 }

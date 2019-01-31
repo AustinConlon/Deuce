@@ -9,7 +9,7 @@
 import Foundation
 import os.log
 
-class Match: NSObject, NSCoding {
+class MatchHistory: NSObject, NSCoding {
     // MARK: Properties
     var sets = [SetScore]()
     var matchWinner: String?
@@ -46,14 +46,12 @@ class SetScore: NSObject, NSCoding {
     var playerTwoSetScore = 0
     
     // MARK: Types
-    
     struct PropertyKey {
         static let playerOneSetScore = "playerOneSetScore"
         static let playerTwoSetScore = "playerTwoSetScore"
     }
     
     // MARK: NSCoding
-    
     func encode(with aCoder: NSCoder) {
         aCoder.encode(playerOneSetScore, forKey: PropertyKey.playerOneSetScore)
         aCoder.encode(playerTwoSetScore, forKey: PropertyKey.playerTwoSetScore)
