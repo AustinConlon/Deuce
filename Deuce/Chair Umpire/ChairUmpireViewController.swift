@@ -12,9 +12,7 @@ class ChairUmpireViewController: UIViewController, MatchDelegate {
     // Properties
     var match: Match!
     
-    var pointNames = [
-        0: "0", 1: "15", 2: "30", 3: "40", 4: "AD"
-    ]
+    
     
     @IBOutlet weak var player1GameScoreLabel: UILabel!
     @IBOutlet weak var player2GameScoreLabel: UILabel!
@@ -37,8 +35,8 @@ class ChairUmpireViewController: UIViewController, MatchDelegate {
     }
     
     func matchDidUpdate(_ match: Match) {
-        player1GameScoreLabel.text = pointNames[match.set.game.score[0]]
-        player2GameScoreLabel.text = pointNames[match.set.game.score[1]]
+        player1GameScoreLabel.text = Game.pointNames[match.set.game.score[0]]
+        player2GameScoreLabel.text = Game.pointNames[match.set.game.score[1]]
         
         player1SetScoreLabel.text = String(match.set.score[0])
         player2SetScoreLabel.text = String(match.set.score[1])
