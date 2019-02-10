@@ -7,30 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB1DF1152203B1A70069071A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02F1DEAD77C00B2E195 /* Assets.xcassets */; };
 		FB2F4E5E20EB77AE00528C05 /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */; };
 		FB2F4E6020EB79FA00528C05 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */; };
 		FB49BA0220986DC100C8491F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49BA0120986DC100C8491F /* ComplicationController.swift */; };
-		FB507FC220FB40E9004FBB76 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB507FC120FB40E9004FBB76 /* HealthKit.framework */; };
 		FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */; };
-		FB51A0101DEAD77C00B2E195 /* ChairUmpireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00F1DEAD77C00B2E195 /* ChairUmpireViewController.swift */; };
 		FB51A0131DEAD77C00B2E195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0111DEAD77C00B2E195 /* Main.storyboard */; };
 		FB51A0151DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0141DEAD77C00B2E195 /* Assets.xcassets */; };
 		FB51A0181DEAD77C00B2E195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0161DEAD77C00B2E195 /* LaunchScreen.storyboard */; };
 		FB51A0231DEAD77C00B2E195 /* DeuceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A0221DEAD77C00B2E195 /* DeuceTests.swift */; };
 		FB51A0281DEAD77C00B2E195 /* Deuce WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FB51A0271DEAD77C00B2E195 /* Deuce WatchKit App.app */; };
 		FB51A02E1DEAD77C00B2E195 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02C1DEAD77C00B2E195 /* Interface.storyboard */; };
-		FB51A0301DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02F1DEAD77C00B2E195 /* Assets.xcassets */; };
 		FB51A0371DEAD77C00B2E195 /* Deuce WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FB51A0361DEAD77C00B2E195 /* Deuce WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */; };
 		FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A0411DEAD77C00B2E195 /* NotificationController.swift */; };
 		FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0431DEAD77C00B2E195 /* Assets.xcassets */; };
-		FB6D281E20EC988A00C7FE9D /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D281D20EC988A00C7FE9D /* Match.swift */; };
+		FB6D281E20EC988A00C7FE9D /* MatchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D281D20EC988A00C7FE9D /* MatchHistory.swift */; };
+		FB6DAA0A2210284400949669 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DAA092210284400949669 /* Workout.swift */; };
 		FB712C162096EFA7005AA807 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB712C152096EFA7005AA807 /* HealthKit.framework */; };
-		FBDF8324202317AD00891889 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* Score.swift */; };
+		FB77B3FD2202FB1A00D42963 /* ScoreInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77B3FC2202FB1A00D42963 /* ScoreInterfaceController.swift */; };
+		FB77B3FE2202FB7D00D42963 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8CD9D621F5E3AD00C122CF /* Score.swift */; };
+		FB8CD9D721F5E3AD00C122CF /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8CD9D621F5E3AD00C122CF /* Score.swift */; };
+		FB8CD9D921F5E50A00C122CF /* ChairUmpireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8CD9D821F5E50A00C122CF /* ChairUmpireViewController.swift */; };
+		FBB8960D21F784DE00C07971 /* ChairUmpire.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBB8960B21F784DE00C07971 /* ChairUmpire.storyboard */; };
 		FBE321CD21CC7EE8005D22FB /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02C1DEAD77C00B2E195 /* Interface.storyboard */; };
-		FBE48D9B21E75B130043AEFE /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3280351EABDA3C00D6B92B /* Score.swift */; };
-		FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */; };
-		FBF535E41FC1BE01008C6449 /* ScoreInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */; };
+		FBE56FFB2208571A00042188 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBE56FFA2208571A00042188 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,15 +114,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
-		FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
-		FB3280351EABDA3C00D6B92B /* Score.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
+		FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MatchHistoryTableViewController.swift; path = ../MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
+		FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MatchHistoryTableViewCell.swift; path = ../MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		FB3377421E6E3C89000B9E30 /* Deuce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce.entitlements; sourceTree = "<group>"; };
 		FB49BA0120986DC100C8491F /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
-		FB507FC120FB40E9004FBB76 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		FB51A00A1DEAD77C00B2E195 /* Deuce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deuce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FB51A00F1DEAD77C00B2E195 /* ChairUmpireViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChairUmpireViewController.swift; sourceTree = "<group>"; };
 		FB51A0121DEAD77C00B2E195 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FB51A0141DEAD77C00B2E195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB51A0171DEAD77C00B2E195 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -139,14 +137,18 @@
 		FB51A0411DEAD77C00B2E195 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		FB51A0431DEAD77C00B2E195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB51A0451DEAD77C00B2E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FB6D281D20EC988A00C7FE9D /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		FB6D281D20EC988A00C7FE9D /* MatchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MatchHistory.swift; path = ../MatchHistory.swift; sourceTree = "<group>"; };
+		FB6DAA092210284400949669 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		FB77B3FC2202FB1A00D42963 /* ScoreInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInterfaceController.swift; sourceTree = "<group>"; };
+		FB8CD9D621F5E3AD00C122CF /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Score.swift; path = "Chair Umpire/Score.swift"; sourceTree = "<group>"; };
+		FB8CD9D821F5E50A00C122CF /* ChairUmpireViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChairUmpireViewController.swift; sourceTree = "<group>"; };
 		FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deuce WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		FBA7C26D21CA73B40071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		FBA7C26E21CA73BA0071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		FBA7C26F21CA73BC0071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Interface.strings; sourceTree = "<group>"; };
-		FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "\U0010SettingsInterfaceController.swift"; sourceTree = "<group>"; };
-		FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInterfaceController.swift; sourceTree = "<group>"; };
+		FBB8960C21F784DE00C07971 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Deuce/Base.lproj/ChairUmpire.storyboard; sourceTree = "<group>"; };
+		FBE56FFA2208571A00042188 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB507FC220FB40E9004FBB76 /* HealthKit.framework in Frameworks */,
+				FBE56FFB2208571A00042188 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,11 +212,10 @@
 			isa = PBXGroup;
 			children = (
 				FB3377421E6E3C89000B9E30 /* Deuce.entitlements */,
+				FB8CD9D621F5E3AD00C122CF /* Score.swift */,
+				FB8CD9D521F5E38500C122CF /* Chair Umpire */,
+				FBA37C4A2202E094002CEE36 /* Match History */,
 				FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */,
-				FB6D281D20EC988A00C7FE9D /* Match.swift */,
-				FB51A00F1DEAD77C00B2E195 /* ChairUmpireViewController.swift */,
-				FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */,
-				FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */,
 				FB51A0111DEAD77C00B2E195 /* Main.storyboard */,
 				FB51A0141DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0161DEAD77C00B2E195 /* LaunchScreen.storyboard */,
@@ -246,10 +247,9 @@
 			isa = PBXGroup;
 			children = (
 				FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */,
-				FB3280351EABDA3C00D6B92B /* Score.swift */,
-				FBF535E31FC1BE01008C6449 /* ScoreInterfaceController.swift */,
-				FBF535E11FC1BDD8008C6449 /* SettingsInterfaceController.swift */,
 				FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */,
+				FB6DAA092210284400949669 /* Workout.swift */,
+				FB77B3FC2202FB1A00D42963 /* ScoreInterfaceController.swift */,
 				FB49BA0120986DC100C8491F /* ComplicationController.swift */,
 				FB51A0411DEAD77C00B2E195 /* NotificationController.swift */,
 				FB51A0431DEAD77C00B2E195 /* Assets.xcassets */,
@@ -270,11 +270,31 @@
 		FB712C142096EFA7005AA807 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FBE56FFA2208571A00042188 /* HealthKit.framework */,
 				FB51A03B1DEAD77C00B2E195 /* Supporting Files */,
-				FB507FC120FB40E9004FBB76 /* HealthKit.framework */,
 				FB712C152096EFA7005AA807 /* HealthKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FB8CD9D521F5E38500C122CF /* Chair Umpire */ = {
+			isa = PBXGroup;
+			children = (
+				FB8CD9D821F5E50A00C122CF /* ChairUmpireViewController.swift */,
+				FBB8960B21F784DE00C07971 /* ChairUmpire.storyboard */,
+			);
+			path = "Chair Umpire";
+			sourceTree = "<group>";
+		};
+		FBA37C4A2202E094002CEE36 /* Match History */ = {
+			isa = PBXGroup;
+			children = (
+				FB6D281D20EC988A00C7FE9D /* MatchHistory.swift */,
+				FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */,
+				FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */,
+			);
+			name = "Match History";
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -421,6 +441,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = FB51A0011DEAD77C00B2E195;
 			productRefGroup = FB51A00B1DEAD77C00B2E195 /* Products */;
@@ -442,6 +463,7 @@
 			files = (
 				FB51A0181DEAD77C00B2E195 /* LaunchScreen.storyboard in Resources */,
 				FB51A0151DEAD77C00B2E195 /* Assets.xcassets in Resources */,
+				FBB8960D21F784DE00C07971 /* ChairUmpire.storyboard in Resources */,
 				FB51A0131DEAD77C00B2E195 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,7 +479,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB51A0301DEAD77C00B2E195 /* Assets.xcassets in Resources */,
+				FB1DF1152203B1A70069071A /* Assets.xcassets in Resources */,
 				FB51A02E1DEAD77C00B2E195 /* Interface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,11 +500,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB8CD9D721F5E3AD00C122CF /* Score.swift in Sources */,
 				FB2F4E6020EB79FA00528C05 /* MatchHistoryTableViewCell.swift in Sources */,
-				FB6D281E20EC988A00C7FE9D /* Match.swift in Sources */,
+				FB6D281E20EC988A00C7FE9D /* MatchHistory.swift in Sources */,
 				FB2F4E5E20EB77AE00528C05 /* MatchHistoryTableViewController.swift in Sources */,
-				FB51A0101DEAD77C00B2E195 /* ChairUmpireViewController.swift in Sources */,
-				FBE48D9B21E75B130043AEFE /* Score.swift in Sources */,
+				FB8CD9D921F5E50A00C122CF /* ChairUmpireViewController.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -500,11 +522,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */,
-				FBDF8324202317AD00891889 /* Score.swift in Sources */,
-				FBF535E41FC1BE01008C6449 /* ScoreInterfaceController.swift in Sources */,
-				FBF535E21FC1BDD8008C6449 /* SettingsInterfaceController.swift in Sources */,
 				FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */,
+				FB77B3FD2202FB1A00D42963 /* ScoreInterfaceController.swift in Sources */,
 				FB49BA0220986DC100C8491F /* ComplicationController.swift in Sources */,
+				FB77B3FE2202FB7D00D42963 /* Score.swift in Sources */,
+				FB6DAA0A2210284400949669 /* Workout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +576,14 @@
 				FBA7C26F21CA73BC0071A137 /* fr */,
 			);
 			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+		FBB8960B21F784DE00C07971 /* ChairUmpire.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FBB8960C21F784DE00C07971 /* Base */,
+			);
+			name = ChairUmpire.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -614,7 +644,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -666,7 +696,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -762,7 +792,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -782,7 +812,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
