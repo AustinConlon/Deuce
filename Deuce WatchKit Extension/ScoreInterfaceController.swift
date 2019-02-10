@@ -46,7 +46,7 @@ class ScoreInterfaceController: WKInterfaceController, MatchDelegate {
         super.awake(withContext: context)
         
         updateServicePlayer(for: match.set.game)
-//        workout.start()
+        workout.start()
     }
     
     @IBAction func scorePointForPlayer1(_ sender: Any) {
