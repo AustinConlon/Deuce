@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FB1DF1152203B1A70069071A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02F1DEAD77C00B2E195 /* Assets.xcassets */; };
-		FB2F4E5E20EB77AE00528C05 /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */; };
-		FB2F4E6020EB79FA00528C05 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */; };
 		FB49BA0220986DC100C8491F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49BA0120986DC100C8491F /* ComplicationController.swift */; };
 		FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */; };
 		FB51A0131DEAD77C00B2E195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0111DEAD77C00B2E195 /* Main.storyboard */; };
@@ -22,7 +20,6 @@
 		FB51A0401DEAD77C00B2E195 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */; };
 		FB51A0421DEAD77C00B2E195 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A0411DEAD77C00B2E195 /* NotificationController.swift */; };
 		FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0431DEAD77C00B2E195 /* Assets.xcassets */; };
-		FB6D281E20EC988A00C7FE9D /* MatchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6D281D20EC988A00C7FE9D /* MatchHistory.swift */; };
 		FB6DAA0A2210284400949669 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DAA092210284400949669 /* Workout.swift */; };
 		FB712C162096EFA7005AA807 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB712C152096EFA7005AA807 /* HealthKit.framework */; };
 		FB77B3FD2202FB1A00D42963 /* ScoreInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77B3FC2202FB1A00D42963 /* ScoreInterfaceController.swift */; };
@@ -114,8 +111,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MatchHistoryTableViewController.swift; path = ../MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
-		FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MatchHistoryTableViewCell.swift; path = ../MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		FB3377421E6E3C89000B9E30 /* Deuce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce.entitlements; sourceTree = "<group>"; };
 		FB49BA0120986DC100C8491F /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		FB51A00A1DEAD77C00B2E195 /* Deuce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deuce.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,7 +132,6 @@
 		FB51A0411DEAD77C00B2E195 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		FB51A0431DEAD77C00B2E195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB51A0451DEAD77C00B2E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FB6D281D20EC988A00C7FE9D /* MatchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MatchHistory.swift; path = ../MatchHistory.swift; sourceTree = "<group>"; };
 		FB6DAA092210284400949669 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FB77B3FC2202FB1A00D42963 /* ScoreInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInterfaceController.swift; sourceTree = "<group>"; };
@@ -214,7 +208,6 @@
 				FB3377421E6E3C89000B9E30 /* Deuce.entitlements */,
 				FB8CD9D621F5E3AD00C122CF /* Score.swift */,
 				FB8CD9D521F5E38500C122CF /* Chair Umpire */,
-				FBA37C4A2202E094002CEE36 /* Match History */,
 				FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */,
 				FB51A0111DEAD77C00B2E195 /* Main.storyboard */,
 				FB51A0141DEAD77C00B2E195 /* Assets.xcassets */,
@@ -284,17 +277,6 @@
 				FBB8960B21F784DE00C07971 /* ChairUmpire.storyboard */,
 			);
 			path = "Chair Umpire";
-			sourceTree = "<group>";
-		};
-		FBA37C4A2202E094002CEE36 /* Match History */ = {
-			isa = PBXGroup;
-			children = (
-				FB6D281D20EC988A00C7FE9D /* MatchHistory.swift */,
-				FB2F4E5D20EB77AE00528C05 /* MatchHistoryTableViewController.swift */,
-				FB2F4E5F20EB79FA00528C05 /* MatchHistoryTableViewCell.swift */,
-			);
-			name = "Match History";
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -501,9 +483,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB8CD9D721F5E3AD00C122CF /* Score.swift in Sources */,
-				FB2F4E6020EB79FA00528C05 /* MatchHistoryTableViewCell.swift in Sources */,
-				FB6D281E20EC988A00C7FE9D /* MatchHistory.swift in Sources */,
-				FB2F4E5E20EB77AE00528C05 /* MatchHistoryTableViewController.swift in Sources */,
 				FB8CD9D921F5E50A00C122CF /* ChairUmpireViewController.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 			);
