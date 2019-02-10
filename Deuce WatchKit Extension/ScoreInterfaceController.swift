@@ -9,8 +9,11 @@
 import WatchKit
 import Foundation
 
-class ScoreInterfaceController: WKInterfaceController, MatchDelegate {
+class ScoreInterfaceController: WKInterfaceController {
+    // MARK: Properties
     var match = Match()
+    var undoManager = UndoManager()
+    
     var workout = Workout()
     
     @IBOutlet weak var player1TapGestureRecognizer: WKTapGestureRecognizer!
@@ -39,7 +42,6 @@ class ScoreInterfaceController: WKInterfaceController, MatchDelegate {
     
     override init() {
         super.init()
-        match.delegate = self
     }
     
     override func awake(withContext context: Any?) {
@@ -50,11 +52,17 @@ class ScoreInterfaceController: WKInterfaceController, MatchDelegate {
     }
     
     @IBAction func scorePointForPlayer1(_ sender: Any) {
+        undoManager.registerUndo(withTarget: self, selector: #selector(undoMatchState), object: nil)
         match.set.game.scorePoint(for: .player1)
     }
     
     @IBAction func scorePointForPlayer2(_ sender: Any) {
-         match.set.game.scorePoint(for: .player2)
+        undoManager.registerUndo(withTarget: self, selector: #selector(undoMatchState), object: nil)
+        match.set.game.scorePoint(for: .player2)
+    }
+    
+    @IBAction func undoPoint() {
+        undoManager.undo()
     }
     
     @IBAction func endMatch() {
@@ -193,13 +201,7 @@ class ScoreInterfaceController: WKInterfaceController, MatchDelegate {
         
     }
     
-    // MARK: MatchDelegate
-    func matchDidUpdate(_ match: Match) {
-        playHaptic(for: match)
-        updateTitle(for: match)
-        updateScores(for: match.set.game)
-        updateScores(for: match.sets)
-        updateServiceSide(for: match.set.game)
-        updateServicePlayer(for: match.set.game)
+    @objc func undoMatchState() {
+        match = match.oldMatch!
     }
 }

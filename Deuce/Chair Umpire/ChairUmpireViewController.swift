@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChairUmpireViewController: UIViewController, MatchDelegate {
+class ChairUmpireViewController: UIViewController {
     // Properties
     var match: Match!
     
@@ -23,7 +23,6 @@ class ChairUmpireViewController: UIViewController, MatchDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         match = Match()
-        match.delegate = self
     }
     
     @IBAction func scorePointForPlayer1(_ sender: Any) {

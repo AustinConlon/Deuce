@@ -154,8 +154,6 @@ class Game {
         }
     }
     
-    var delegate: GameDelegate?
-    
     // Methods
     func scorePoint(for player: Player) {
         switch player {
@@ -174,8 +172,6 @@ class Game {
             winner = player
             state = .finished
         }
-        
-        delegate?.gameDidUpdate(self)
     }
     
     func getScore(for player: Player) -> String {
@@ -192,19 +188,14 @@ class Game {
     }
 }
 
-protocol GameDelegate {
-    mutating func gameDidUpdate(_ game: Game)
-}
-
 // MARK: Set
-class Set: GameDelegate {
+class Set {
     var score = [0, 0]
     
     var game = Game()
     var games = [Game]() {
         didSet {
             game = games.last!
-            game.delegate = self
             
             switch oldValue.last?.servicePlayer {
             case .player1?:
@@ -247,8 +238,6 @@ class Set: GameDelegate {
     var winner: Player?
     var state: State = .playing
     
-    var delegate: SetDelegate?
-    
     var isOddGameConcluded: Bool {
         get {
             if games.count % 2 == 0 {
@@ -273,7 +262,6 @@ class Set: GameDelegate {
     
     init() {
         games.append(game)
-        game.delegate = self
     }
     
     // Methods
@@ -299,31 +287,10 @@ class Set: GameDelegate {
             return String(self.score[1])
         }
     }
-    
-    func gameDidUpdate(_ game: Game) {
-        if let winner = game.winner {
-            switch winner {
-            case .player1:
-                scorePoint(for: .player1)
-            case .player2:
-                scorePoint(for: .player2)
-            }
-            
-            if self.winner == nil {
-                games.append(Game())
-            }
-        }
-        
-        delegate?.setDidUpdate(self)
-    }
-}
-
-protocol SetDelegate {
-    mutating func setDidUpdate(_ set: Set)
 }
 
 // MARK: Match
-class Match: SetDelegate {
+class Match {
     // Properties
     var score = [0, 0]
     
@@ -331,7 +298,6 @@ class Match: SetDelegate {
     var sets = [Set]() {
         didSet {
             set = sets.last!
-            set.delegate = self
             
             switch oldValue.last?.games.last?.servicePlayer {
             case .player1?:
@@ -355,7 +321,7 @@ class Match: SetDelegate {
     var winner: Player?
     var state: State = .playing
     
-    var delegate: MatchDelegate?
+    var oldMatch: Match?
     
     // Methods
     func scorePoint(for player: Player) {
@@ -374,7 +340,6 @@ class Match: SetDelegate {
     
     init() {
         sets.append(set)
-        set.delegate = self
         
         switch Bool.random() {
         case true:
@@ -383,23 +348,4 @@ class Match: SetDelegate {
             set.game.servicePlayer = .player2
         }
     }
-    
-    func setDidUpdate(_ set: Set) {
-        if let winner = set.winner {
-            switch winner {
-            case .player1:
-                scorePoint(for: .player1)
-            case .player2:
-                scorePoint(for: .player2)
-            }
-            
-            sets.append(Set())
-        }
-        
-        delegate?.matchDidUpdate(self)
-    }
-}
-
-protocol MatchDelegate {
-    func matchDidUpdate(_ match: Match)
 }
