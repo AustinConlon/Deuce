@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14490.55" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14490.64" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca">
     <device id="watch44" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.43"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.47"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14490.20"/>
     </dependencies>
     <scenes>
@@ -46,153 +46,145 @@
             </objects>
             <point key="canvasLocation" x="684" y="345"/>
         </scene>
-        <!--Practice Mode-->
-        <scene sceneID="cI2-PL-qws">
-            <objects>
-                <controller identifier="Practice Mode" id="L9K-RM-jor" customClass="PracticeModeInterfaceController" customModule="Deuce_WatchKit_Extension">
-                    <items>
-                        <activity alignment="left" id="zYc-Mt-daO"/>
-                    </items>
-                    <connections>
-                        <outlet property="activityRing" destination="zYc-Mt-daO" id="hUa-Ee-p8h"/>
-                    </connections>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="466" y="624"/>
-        </scene>
         <!--Scoreboard-->
         <scene sceneID="Xzb-fA-FdN">
             <objects>
                 <controller identifier="scoreboard" fullBounds="YES" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
-                        <group width="1" height="0.5" alignment="center" layout="overlap" id="8D4-hX-8s1" userLabel="Player 2 Court Side Group">
+                        <group width="1" height="1" alignment="left" layout="vertical" id="uoz-QG-hL7">
                             <items>
-                                <group width="1" alignment="left" id="KkB-ja-aiS" userLabel="Service Group">
-                                    <items>
-                                        <label width="0.5" alignment="left" text="🎾" textAlignment="center" id="xxe-gX-FFj" userLabel="Player 2 Service Label">
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
-                                        </label>
-                                    </items>
-                                </group>
-                                <label alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player Two Game Score">
-                                    <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
-                                </label>
-                                <group alignment="center" verticalAlignment="bottom" id="aaL-Es-rY2" userLabel="Sets Group">
-                                    <items>
-                                        <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="dyO-v0-GZE" userLabel="Player 2 Column 1 Set Score Label">
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                        <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="G0h-vQ-ko5" userLabel="Player 2 Column 2 Set Score Label">
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                        <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="5Kh-OB-6LI" userLabel="Player 2 Column 3 Set Score Label">
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                        <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="nq4-fQ-RIw" userLabel="Player 2 Column 4 Set Score Label">
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                        <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="fjU-KL-zxw" userLabel="Player 2 Current Set Score Label">
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                    </items>
-                                </group>
-                            </items>
-                            <gestureRecognizers>
-                                <tapGestureRecognizer id="2hP-To-KA9" userLabel="Player Two Tap Gesture Recognizer">
+                                <button alignment="left" id="li4-o0-wa3" userLabel="Player Two Button">
+                                    <group key="contentGroup" width="1" height="0.5" alignment="left" layout="overlap" id="7Cg-3e-wa4">
+                                        <items>
+                                            <group width="1" alignment="left" id="KkB-ja-aiS" userLabel="Service Group">
+                                                <items>
+                                                    <label width="0.5" alignment="left" text="🎾" textAlignment="center" id="xxe-gX-FFj" userLabel="Player 2 Service Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                            <label alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player Two Game Score">
+                                                <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                                            </label>
+                                            <group alignment="center" verticalAlignment="bottom" id="aaL-Es-rY2" userLabel="Sets Group">
+                                                <items>
+                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="dyO-v0-GZE" userLabel="Player 2 Column 1 Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="G0h-vQ-ko5" userLabel="Player 2 Column 2 Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="5Kh-OB-6LI" userLabel="Player 2 Column 3 Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="nq4-fQ-RIw" userLabel="Player 2 Column 4 Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                    <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="fjU-KL-zxw" userLabel="Player 2 Current Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                        </items>
+                                        <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </group>
                                     <connections>
-                                        <action selector="scorePointForPlayer2:" destination="Hlr-PA-eca" id="R2N-tJ-8bQ"/>
+                                        <action selector="scorePointForPlayerTwo:" destination="Hlr-PA-eca" id="eCE-UH-n4s"/>
                                     </connections>
-                                </tapGestureRecognizer>
-                            </gestureRecognizers>
-                            <color key="backgroundColor" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="0.15273544520547946" colorSpace="custom" customColorSpace="sRGB"/>
-                        </group>
-                        <group width="1" height="0.5" alignment="center" layout="overlap" id="RaQ-zM-xjo" userLabel="Player 1 Court Side Group">
-                            <items>
-                                <group width="1" alignment="left" verticalAlignment="bottom" id="Dfd-Nm-wxU" userLabel="Service Group">
-                                    <items>
-                                        <label width="0.5" alignment="right" text="🎾" textAlignment="center" id="EJr-ah-qJY" userLabel="Player 1 Service Label">
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
-                                        </label>
-                                    </items>
-                                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                                </group>
-                                <label alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player One Game Score">
-                                    <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
-                                </label>
-                                <group alignment="center" id="7fq-fx-g6a" userLabel="Sets Group">
-                                    <items>
-                                        <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="6cz-w8-Mnx" userLabel="Player 1 Column 1 Set Score Label">
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                        <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="p1T-TG-ajC" userLabel="Player 1 Column 2 Set Score Label">
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                        <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="2tI-Dc-fVm" userLabel="Player 1 Column 3 Set Score Label">
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                        <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="c2b-IA-iZt" userLabel="Player 1 Column 4 Set Score Label">
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                        <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="owa-c8-a4x" userLabel="Player 1 Current Set Score Label">
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                        </label>
-                                    </items>
-                                </group>
-                            </items>
-                            <gestureRecognizers>
-                                <tapGestureRecognizer id="7bl-KV-306" userLabel="Player One Tap Gesture Recognizer">
+                                </button>
+                                <button alignment="left" id="Phm-h1-hDQ" userLabel="Player One Button">
+                                    <group key="contentGroup" width="1" height="0.5" alignment="left" layout="overlap" id="jzK-1L-9W7">
+                                        <items>
+                                            <group width="1" alignment="left" verticalAlignment="bottom" id="Dfd-Nm-wxU" userLabel="Service Group">
+                                                <items>
+                                                    <label width="0.5" alignment="right" text="🎾" textAlignment="center" id="EJr-ah-qJY" userLabel="Player 1 Service Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                    </label>
+                                                </items>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                            </group>
+                                            <label alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player One Game Score">
+                                                <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                                            </label>
+                                            <group alignment="center" id="7fq-fx-g6a" userLabel="Sets Group">
+                                                <items>
+                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="6cz-w8-Mnx" userLabel="Player 1 Column 1 Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="p1T-TG-ajC" userLabel="Player 1 Column 2 Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="2tI-Dc-fVm" userLabel="Player 1 Column 3 Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="c2b-IA-iZt" userLabel="Player 1 Column 4 Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                    <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="owa-c8-a4x" userLabel="Player 1 Current Set Score Label">
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                    </label>
+                                                </items>
+                                            </group>
+                                        </items>
+                                        <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </group>
                                     <connections>
-                                        <action selector="scorePointForPlayer1:" destination="Hlr-PA-eca" id="mBd-Aw-mXE"/>
+                                        <action selector="scorePointForPlayerOne:" destination="Hlr-PA-eca" id="xqf-Uh-mbm"/>
                                     </connections>
-                                </tapGestureRecognizer>
-                            </gestureRecognizers>
-                            <color key="backgroundColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="0.15273544519999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                </button>
+                            </items>
                         </group>
                     </items>
-                    <menu key="menu" id="Na9-Yg-GG4">
-                        <items>
-                            <menuItem title="End" icon="decline" id="Yh2-hU-lRX">
-                                <connections>
-                                    <action selector="endMatch" destination="Hlr-PA-eca" id="OcP-hI-fe6"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                     <connections>
-                        <outlet property="player1Column1SetScoreLabel" destination="6cz-w8-Mnx" id="eke-oJ-N8T"/>
-                        <outlet property="player1Column2SetScoreLabel" destination="p1T-TG-ajC" id="RPM-1Q-29L"/>
-                        <outlet property="player1Column3SetScoreLabel" destination="2tI-Dc-fVm" id="Dp1-eL-pKo"/>
-                        <outlet property="player1Column4SetScoreLabel" destination="c2b-IA-iZt" id="sdM-t1-fzN"/>
-                        <outlet property="player1CurrentSetScoreLabel" destination="owa-c8-a4x" id="V0R-t7-qW7"/>
-                        <outlet property="player1GameScoreLabel" destination="gnp-Ie-dM4" id="nmN-XU-KmO"/>
-                        <outlet property="player1ServiceLabel" destination="EJr-ah-qJY" id="qw4-pF-PtD"/>
-                        <outlet property="player1TapGestureRecognizer" destination="7bl-KV-306" id="QK0-6F-btY"/>
-                        <outlet property="player2Column1SetScoreLabel" destination="dyO-v0-GZE" id="I8y-2B-KXD"/>
-                        <outlet property="player2Column2SetScoreLabel" destination="G0h-vQ-ko5" id="wXJ-Xw-9GZ"/>
-                        <outlet property="player2Column3SetScoreLabel" destination="5Kh-OB-6LI" id="VmN-fr-LyD"/>
-                        <outlet property="player2Column4SetScoreLabel" destination="nq4-fQ-RIw" id="rKp-XN-ZEt"/>
-                        <outlet property="player2CurrentSetScoreLabel" destination="fjU-KL-zxw" id="8t0-I5-uPJ"/>
-                        <outlet property="player2GameScoreLabel" destination="9fp-xg-3SA" id="6nI-bm-swg"/>
-                        <outlet property="player2ServiceLabel" destination="xxe-gX-FFj" id="wCw-Te-N26"/>
-                        <outlet property="player2TapGestureRecognizer" destination="2hP-To-KA9" id="bTd-aX-Mws"/>
+                        <outlet property="playerOneColumn1SetScoreLabel" destination="6cz-w8-Mnx" id="eke-oJ-N8T"/>
+                        <outlet property="playerOneColumn2SetScoreLabel" destination="p1T-TG-ajC" id="RPM-1Q-29L"/>
+                        <outlet property="playerOneColumn3SetScoreLabel" destination="2tI-Dc-fVm" id="Dp1-eL-pKo"/>
+                        <outlet property="playerOneColumn4SetScoreLabel" destination="c2b-IA-iZt" id="sdM-t1-fzN"/>
+                        <outlet property="playerOneCurrentSetScoreLabel" destination="owa-c8-a4x" id="V0R-t7-qW7"/>
+                        <outlet property="playerOneGameScoreLabel" destination="gnp-Ie-dM4" id="H32-pv-2RG"/>
+                        <outlet property="playerOneServiceLabel" destination="EJr-ah-qJY" id="qw4-pF-PtD"/>
+                        <outlet property="playerTwoColumn1SetScoreLabel" destination="dyO-v0-GZE" id="I8y-2B-KXD"/>
+                        <outlet property="playerTwoColumn2SetScoreLabel" destination="G0h-vQ-ko5" id="wXJ-Xw-9GZ"/>
+                        <outlet property="playerTwoColumn3SetScoreLabel" destination="5Kh-OB-6LI" id="VmN-fr-LyD"/>
+                        <outlet property="playerTwoColumn4SetScoreLabel" destination="nq4-fQ-RIw" id="rKp-XN-ZEt"/>
+                        <outlet property="playerTwoCurrentSetScoreLabel" destination="fjU-KL-zxw" id="8t0-I5-uPJ"/>
+                        <outlet property="playerTwoGameScoreLabel" destination="9fp-xg-3SA" id="6nI-bm-swg"/>
+                        <outlet property="playerTwoServiceLabel" destination="xxe-gX-FFj" id="wCw-Te-N26"/>
                     </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="466.41025641025647" y="344.79487179487182"/>
+        </scene>
+        <!--Practice-->
+        <scene sceneID="Uk4-Mi-HzW">
+            <objects>
+                <controller identifier="Practice" title="Practice" id="EyO-Oe-xkP" customClass="PracticeInterfaceController" customModule="Deuce_WatchKit_Extension">
+                    <items>
+                        <timer alignment="center" id="Faf-n2-l7e">
+                            <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                            <calendarUnit key="units" minute="YES" second="YES"/>
+                        </timer>
+                    </items>
+                    <connections>
+                        <outlet property="practiceTimer" destination="Faf-n2-l7e" id="tsQ-5y-yGh"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="466" y="609"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
