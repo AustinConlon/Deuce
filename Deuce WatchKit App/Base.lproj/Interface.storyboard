@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14490.64" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca">
-    <device id="watch44" orientation="portrait">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14490.68" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca" pageOrientation="vertical">
+    <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.47"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14490.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14490.21"/>
     </dependencies>
     <scenes>
         <!--Done-->
@@ -51,45 +51,96 @@
             <objects>
                 <controller identifier="scoreboard" fullBounds="YES" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
-                        <group width="1" height="1" alignment="left" layout="vertical" id="uoz-QG-hL7">
+                        <group width="1" height="1" alignment="center" layout="vertical" spacing="0.0" id="uoz-QG-hL7" userLabel="Court Group">
                             <items>
-                                <button alignment="left" id="li4-o0-wa3" userLabel="Player Two Button">
-                                    <group key="contentGroup" width="1" height="0.5" alignment="left" layout="overlap" id="7Cg-3e-wa4">
+                                <button alignment="center" id="li4-o0-wa3" userLabel="Player Two Button">
+                                    <group key="contentGroup" width="1" height="0.5" alignment="left" layout="overlap" radius="0.0" id="7Cg-3e-wa4" userLabel="Player Two Group">
                                         <items>
                                             <group width="1" alignment="left" id="KkB-ja-aiS" userLabel="Service Group">
                                                 <items>
-                                                    <label width="0.5" alignment="left" text="🎾" textAlignment="center" id="xxe-gX-FFj" userLabel="Player 2 Service Label">
+                                                    <label width="0.5" alignment="left" text="🎾" textAlignment="center" id="xxe-gX-FFj" userLabel="Player Two Service Label">
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                                                        <fontDescription key="font" type="system" pointSize="11"/>
                                                     </label>
                                                 </items>
                                             </group>
-                                            <label alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player Two Game Score">
-                                                <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
-                                            </label>
-                                            <group alignment="center" verticalAlignment="bottom" id="aaL-Es-rY2" userLabel="Sets Group">
+                                            <group width="1" height="1" alignment="left" verticalAlignment="bottom" layout="vertical" spacing="0.0" id="WVb-ui-PA2" userLabel="Player Two Scores Group">
                                                 <items>
-                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="dyO-v0-GZE" userLabel="Player 2 Column 1 Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
-                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="G0h-vQ-ko5" userLabel="Player 2 Column 2 Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
-                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="5Kh-OB-6LI" userLabel="Player 2 Column 3 Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
-                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="nq4-fQ-RIw" userLabel="Player 2 Column 4 Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
-                                                    <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="fjU-KL-zxw" userLabel="Player 2 Current Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
+                                                    <group width="1" alignment="left" verticalAlignment="center" id="dy2-2Q-Lhv" userLabel="Player Two Game Score Group">
+                                                        <items>
+                                                            <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player Two Game Score">
+                                                                <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                </variation>
+                                                            </label>
+                                                        </items>
+                                                    </group>
+                                                    <group alignment="center" verticalAlignment="bottom" id="aaL-Es-rY2" userLabel="Player Two Sets Group">
+                                                        <items>
+                                                            <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="dyO-v0-GZE" userLabel="Player Two Column 1 Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="G0h-vQ-ko5" userLabel="Player Two Column 2 Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="5Kh-OB-6LI" userLabel="Player Two Column 3 Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="nq4-fQ-RIw" userLabel="Player Two Column 4 Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="fjU-KL-zxw" userLabel="Player Two Current Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                        </items>
+                                                    </group>
                                                 </items>
                                             </group>
                                         </items>
@@ -99,44 +150,97 @@
                                         <action selector="scorePointForPlayerTwo:" destination="Hlr-PA-eca" id="eCE-UH-n4s"/>
                                     </connections>
                                 </button>
-                                <button alignment="left" id="Phm-h1-hDQ" userLabel="Player One Button">
-                                    <group key="contentGroup" width="1" height="0.5" alignment="left" layout="overlap" id="jzK-1L-9W7">
+                                <separator alignment="left" id="X0f-hK-Mrd" userLabel="Net Separator">
+                                    <color key="color" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </separator>
+                                <button alignment="center" id="Phm-h1-hDQ" userLabel="Player One Button">
+                                    <group key="contentGroup" width="1" height="0.5" alignment="left" layout="overlap" radius="0.0" id="jzK-1L-9W7" userLabel="Player One Group">
                                         <items>
                                             <group width="1" alignment="left" verticalAlignment="bottom" id="Dfd-Nm-wxU" userLabel="Service Group">
                                                 <items>
-                                                    <label width="0.5" alignment="right" text="🎾" textAlignment="center" id="EJr-ah-qJY" userLabel="Player 1 Service Label">
+                                                    <label width="0.5" alignment="right" verticalAlignment="bottom" text="🎾" textAlignment="center" id="EJr-ah-qJY" userLabel="Player One Service Label">
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                        <fontDescription key="font" type="system" pointSize="11"/>
                                                     </label>
                                                 </items>
-                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                             </group>
-                                            <label alignment="center" verticalAlignment="center" text="LOVE" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player One Game Score">
-                                                <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
-                                            </label>
-                                            <group alignment="center" id="7fq-fx-g6a" userLabel="Sets Group">
+                                            <group width="1" height="1" alignment="left" layout="vertical" spacing="0.0" id="qFD-0u-Lke" userLabel="Player One Scores Group">
                                                 <items>
-                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="6cz-w8-Mnx" userLabel="Player 1 Column 1 Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
-                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="p1T-TG-ajC" userLabel="Player 1 Column 2 Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
-                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="2tI-Dc-fVm" userLabel="Player 1 Column 3 Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
-                                                    <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="c2b-IA-iZt" userLabel="Player 1 Column 4 Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
-                                                    <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="owa-c8-a4x" userLabel="Player 1 Current Set Score Label">
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                    </label>
+                                                    <group width="1" alignment="left" verticalAlignment="center" id="PSr-3c-weK" userLabel="Player One Game Score Group">
+                                                        <items>
+                                                            <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player One Game Score">
+                                                                <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                </variation>
+                                                            </label>
+                                                        </items>
+                                                    </group>
+                                                    <group alignment="center" id="7fq-fx-g6a" userLabel="Player One Sets Group">
+                                                        <items>
+                                                            <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="6cz-w8-Mnx" userLabel="Player One Column 1 Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="p1T-TG-ajC" userLabel="Player One Column 2 Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="2tI-Dc-fVm" userLabel="Player One Column 3 Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="c2b-IA-iZt" userLabel="Player One Column 4 Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                            <label alignment="right" verticalAlignment="bottom" text="0" textAlignment="center" id="owa-c8-a4x" userLabel="Player One Current Set Score Label">
+                                                                <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                                <variation key="device=watch38mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                                </variation>
+                                                                <variation key="device=watch40mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                                <variation key="device=watch42mm">
+                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                                                                </variation>
+                                                            </label>
+                                                        </items>
+                                                    </group>
                                                 </items>
                                             </group>
                                         </items>
@@ -147,8 +251,11 @@
                                     </connections>
                                 </button>
                             </items>
+                            <variation key="device=watch40mm" radius="30"/>
+                            <variation key="device=watch44mm" radius="30"/>
                         </group>
                     </items>
+                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                     <connections>
                         <outlet property="playerOneColumn1SetScoreLabel" destination="6cz-w8-Mnx" id="eke-oJ-N8T"/>
                         <outlet property="playerOneColumn2SetScoreLabel" destination="p1T-TG-ajC" id="RPM-1Q-29L"/>
@@ -167,7 +274,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="466.41025641025647" y="344.79487179487182"/>
+            <point key="canvasLocation" x="466.39130434782606" y="344.55357142857144"/>
         </scene>
         <!--Practice-->
         <scene sceneID="Uk4-Mi-HzW">
@@ -184,7 +291,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="466" y="609"/>
+            <point key="canvasLocation" x="466" y="653"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
