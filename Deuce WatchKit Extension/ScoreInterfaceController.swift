@@ -49,6 +49,8 @@ class ScoreInterfaceController: WKInterfaceController {
         updateMenu()
     }
     
+    // MARK: Actions
+    
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
         match.scorePoint(for: .playerOne)
         undoStack.append(match)
@@ -168,9 +170,9 @@ class ScoreInterfaceController: WKInterfaceController {
             if match.set.game.score[0] == 4 {
                 switch match.set.game.servicePlayer! {
                 case .playerOne:
-                    playerOneGameScoreLabel.setText("AD IN")
+                    playerOneGameScoreLabel.setText("Ad in")
                 case .playerTwo:
-                    playerOneGameScoreLabel.setText("AD OUT")
+                    playerOneGameScoreLabel.setText("Ad out")
                 }
                 
                 playerTwoGameScoreLabel.setText(nil)
@@ -179,9 +181,9 @@ class ScoreInterfaceController: WKInterfaceController {
             if match.set.game.score[1] == 4 {
                 switch match.set.game.servicePlayer! {
                 case .playerOne:
-                    playerTwoGameScoreLabel.setText("AD OUT")
+                    playerTwoGameScoreLabel.setText("Ad out")
                 case .playerTwo:
-                    playerTwoGameScoreLabel.setText("AD IN")
+                    playerTwoGameScoreLabel.setText("Ad in")
                 }
                 
                 playerOneGameScoreLabel.setText(nil)
@@ -353,8 +355,6 @@ class ScoreInterfaceController: WKInterfaceController {
     }
     
     @objc func startMatch() {
-        presentController(withName: "Practice", context: nil)
-        
         workout = Workout()
         workout!.start()
         updateServicePlayer(for: match.set.game)

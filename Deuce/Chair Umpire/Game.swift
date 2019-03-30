@@ -75,7 +75,7 @@ struct Game {
     }
     
     static var pointNames = [
-        0: "LOVE", 1: "15", 2: "30", 3: "40", 4: "AD"
+        0: "Love", 1: "15", 2: "30", 3: "40", 4: "AD"
     ]
     
     var isDeuce: Bool {
