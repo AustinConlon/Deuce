@@ -111,13 +111,4 @@ struct Match {
             sets.append(set)
         }
     }
-    
-    init() {
-        switch Bool.random() {
-        case true:
-            set.game.servicePlayer = .playerOne
-        case false:
-            set.game.servicePlayer = .playerTwo
-        }
-    }
 }

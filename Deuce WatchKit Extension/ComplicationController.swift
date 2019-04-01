@@ -36,13 +36,13 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         case .modularSmall:
             let simpleImage = CLKComplicationTemplateModularSmallSimpleImage()
             simpleImage.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Complication/Modular"))
-            simpleImage.tintColor = UIColor(red:0.27, green:0.79, blue:0.26, alpha:1.0)
+            simpleImage.tintColor = UIColor(red: 0.27, green: 0.79, blue: 0.26, alpha: 1.0)
             let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: simpleImage)
             handler(entry)
         case .utilitarianSmall:
             let square = CLKComplicationTemplateUtilitarianSmallSquare()
             square.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Complication/Utilitarian"))
-            square.tintColor = UIColor(red:0.27, green:0.79, blue:0.26, alpha:1.0)
+            square.tintColor = UIColor(red: 0.27, green: 0.79, blue: 0.26, alpha: 1.0)
             let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: square)
             handler(entry)
         case .utilitarianLarge:
@@ -50,6 +50,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             flat.textProvider = CLKSimpleTextProvider(text: "Play Tennis")
             let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: flat)
             handler(entry)
+//        case .graphicCorner:
+//            let cornerCircularImage = CLKComplicationTemplateGraphicCornerCircularImage()
+//            cornerCircularImage.imageProvider = CLKFullColorImageProvider(fullColorImage: #imageLiteral(resourceName: "Deuce.pdf"))
+//            let entry = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: cornerCircularImage)
+//            handler(entry)
         default:
             handler(nil)
         }

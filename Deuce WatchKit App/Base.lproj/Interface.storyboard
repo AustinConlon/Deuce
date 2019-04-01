@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14490.68" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca" pageOrientation="vertical">
-    <device id="watch38" orientation="portrait">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14490.70" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca" pageOrientation="vertical">
+    <device id="watch44" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -11,36 +11,31 @@
         <!--Done-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="Settings" title="Done" fullBounds="YES" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
+                <controller identifier="Settings" title="Done" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
-                        <label alignment="center" text="One set" numberOfLines="0" id="6nH-Bn-VTw">
-                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
-                        </label>
-                        <slider width="1" height="0.186" alignment="left" continuous="YES" value="1" minimum="1" maximum="5" steps="2" id="H3i-Wl-J5d">
-                            <color key="color" red="0.3529411764705882" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <picker height="0.5" alignment="left" focusStyle="sequence" indicatorMode="shownWhileFocused" id="3YK-5v-rcL">
                             <connections>
-                                <action selector="changeMatchLength:" destination="AgC-eL-Hgc" id="afN-r0-XtM"/>
+                                <action selector="setMatchLength:" destination="AgC-eL-Hgc" id="BC7-Qv-ixj"/>
                             </connections>
-                        </slider>
+                        </picker>
                         <switch width="1" alignment="left" value="YES" title="Tiebreak" id="NN1-x6-Fn5">
                             <fontDescription key="font" style="UICTFontTextStyleBody"/>
                             <color key="tintColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="toggleTiebreak:" destination="AgC-eL-Hgc" id="1N1-Ia-Pg5"/>
+                                <action selector="toggleTiebreak:" destination="AgC-eL-Hgc" id="F2N-o5-Kmb"/>
                             </connections>
                         </switch>
                         <switch width="1" alignment="left" title="Advantage" id="Kcb-Gw-tz1">
                             <color key="tintColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="toggleAdvantage:" destination="AgC-eL-Hgc" id="XZm-l9-C3T"/>
+                                <action selector="toggleAdvantage:" destination="AgC-eL-Hgc" id="JKJ-d9-lu1"/>
                             </connections>
                         </switch>
                     </items>
                     <connections>
-                        <outlet property="advantageSwitch" destination="Kcb-Gw-tz1" id="1M5-rf-hKq"/>
-                        <outlet property="matchLengthLabel" destination="6nH-Bn-VTw" id="ApB-uN-XgR"/>
-                        <outlet property="matchLengthSlider" destination="H3i-Wl-J5d" id="Xoh-Ss-feP"/>
-                        <outlet property="tiebreakSwitch" destination="NN1-x6-Fn5" id="JSq-xO-Srv"/>
+                        <outlet property="advantageSwitch" destination="Kcb-Gw-tz1" id="M1r-BA-fNg"/>
+                        <outlet property="picker" destination="3YK-5v-rcL" id="tL9-Sb-aoi"/>
+                        <outlet property="tiebreakSwitch" destination="NN1-x6-Fn5" id="MHg-mA-Aje"/>
                     </connections>
                 </controller>
             </objects>
@@ -257,17 +252,17 @@
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                     <connections>
-                        <outlet property="playerOneColumn1SetScoreLabel" destination="6cz-w8-Mnx" id="eke-oJ-N8T"/>
-                        <outlet property="playerOneColumn2SetScoreLabel" destination="p1T-TG-ajC" id="RPM-1Q-29L"/>
-                        <outlet property="playerOneColumn3SetScoreLabel" destination="2tI-Dc-fVm" id="Dp1-eL-pKo"/>
-                        <outlet property="playerOneColumn4SetScoreLabel" destination="c2b-IA-iZt" id="sdM-t1-fzN"/>
+                        <outlet property="playerOneColumnFourSetScoreLabel" destination="c2b-IA-iZt" id="sdM-t1-fzN"/>
+                        <outlet property="playerOneColumnOneSetScoreLabel" destination="6cz-w8-Mnx" id="eke-oJ-N8T"/>
+                        <outlet property="playerOneColumnThreeSetScoreLabel" destination="2tI-Dc-fVm" id="Dp1-eL-pKo"/>
+                        <outlet property="playerOneColumnTwoSetScoreLabel" destination="p1T-TG-ajC" id="RPM-1Q-29L"/>
                         <outlet property="playerOneCurrentSetScoreLabel" destination="owa-c8-a4x" id="V0R-t7-qW7"/>
                         <outlet property="playerOneGameScoreLabel" destination="gnp-Ie-dM4" id="H32-pv-2RG"/>
                         <outlet property="playerOneServiceLabel" destination="EJr-ah-qJY" id="qw4-pF-PtD"/>
-                        <outlet property="playerTwoColumn1SetScoreLabel" destination="dyO-v0-GZE" id="I8y-2B-KXD"/>
-                        <outlet property="playerTwoColumn2SetScoreLabel" destination="G0h-vQ-ko5" id="wXJ-Xw-9GZ"/>
-                        <outlet property="playerTwoColumn3SetScoreLabel" destination="5Kh-OB-6LI" id="VmN-fr-LyD"/>
-                        <outlet property="playerTwoColumn4SetScoreLabel" destination="nq4-fQ-RIw" id="rKp-XN-ZEt"/>
+                        <outlet property="playerTwoColumnFourSetScoreLabel" destination="nq4-fQ-RIw" id="rKp-XN-ZEt"/>
+                        <outlet property="playerTwoColumnOneSetScoreLabel" destination="dyO-v0-GZE" id="I8y-2B-KXD"/>
+                        <outlet property="playerTwoColumnThreeSetScoreLabel" destination="5Kh-OB-6LI" id="VmN-fr-LyD"/>
+                        <outlet property="playerTwoColumnTwoSetScoreLabel" destination="G0h-vQ-ko5" id="wXJ-Xw-9GZ"/>
                         <outlet property="playerTwoCurrentSetScoreLabel" destination="fjU-KL-zxw" id="8t0-I5-uPJ"/>
                         <outlet property="playerTwoGameScoreLabel" destination="9fp-xg-3SA" id="6nI-bm-swg"/>
                         <outlet property="playerTwoServiceLabel" destination="xxe-gX-FFj" id="wCw-Te-N26"/>
