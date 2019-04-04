@@ -41,7 +41,6 @@ class ScoreInterfaceController: WKInterfaceController {
     
     override init() {
         super.init()
-        undoStack = [match]
     }
     
     override func awake(withContext context: Any?) {
@@ -125,11 +124,17 @@ class ScoreInterfaceController: WKInterfaceController {
         default:
             break
         }
+        
+        match.state = .playing
     }
     
     @objc func endMatch() {
         workout?.stop()
+        
+        // TODO: Reduce code duplication between reseting the match state and starting a new match.
         match = Match()
+        undoStack = [Match]()
+        
         updateTitle(for: match)
         updateGameScoreLabels(for: match.set.game)
         updateScores(for: match)
@@ -344,7 +349,7 @@ class ScoreInterfaceController: WKInterfaceController {
     func updateMenu() {
         clearAllMenuItems()
         
-        if match.state == .playing {
+        if match.state == .playing && !undoStack.isEmpty {
             addMenuItem(with: .repeat, title: "Undo", action: #selector(undoPoint))
         }
         
@@ -389,6 +394,7 @@ class ScoreInterfaceController: WKInterfaceController {
     }
     
     @objc func startMatch() {
+        undoStack = [match]
         workout = Workout()
         workout!.start()
         updateServicePlayer(for: match.set.game)
