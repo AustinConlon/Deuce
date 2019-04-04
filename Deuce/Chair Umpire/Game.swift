@@ -86,20 +86,6 @@ struct Game {
         }
     }
     
-    var isBreakPoint: Bool {
-        get {
-            if let servicePlayerScore = servicePlayerScore, let receiverPlayerScore = receiverPlayerScore {
-                if (receiverPlayerScore >= minimumToWin - 1) && (receiverPlayerScore >= servicePlayerScore + 1) && !tiebreak {
-                    return true
-                } else {
-                    return false
-                }
-            } else {
-                return false
-            }
-        }
-    }
-    
     var minimumToWin = 4
     var marginToWin = 2
     

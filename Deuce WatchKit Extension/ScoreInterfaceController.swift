@@ -10,7 +10,9 @@ import WatchKit
 import Foundation
 
 class ScoreInterfaceController: WKInterfaceController {
+    
     // MARK: Properties
+    
     lazy var match = Match()
     var undoStack = [Match]()
     
@@ -25,21 +27,20 @@ class ScoreInterfaceController: WKInterfaceController {
     @IBOutlet weak var playerOneCurrentSetScoreLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoCurrentSetScoreLabel: WKInterfaceLabel!
     
-    @IBOutlet weak var playerOneColumn4SetScoreLabel: WKInterfaceLabel!
-    @IBOutlet weak var playerTwoColumn4SetScoreLabel: WKInterfaceLabel!
+    @IBOutlet weak var playerOneColumnFourSetScoreLabel: WKInterfaceLabel!
+    @IBOutlet weak var playerTwoColumnFourSetScoreLabel: WKInterfaceLabel!
     
-    @IBOutlet weak var playerOneColumn3SetScoreLabel: WKInterfaceLabel!
-    @IBOutlet weak var playerTwoColumn3SetScoreLabel: WKInterfaceLabel!
+    @IBOutlet weak var playerOneColumnThreeSetScoreLabel: WKInterfaceLabel!
+    @IBOutlet weak var playerTwoColumnThreeSetScoreLabel: WKInterfaceLabel!
     
-    @IBOutlet weak var playerOneColumn2SetScoreLabel: WKInterfaceLabel!
-    @IBOutlet weak var playerTwoColumn2SetScoreLabel: WKInterfaceLabel!
+    @IBOutlet weak var playerOneColumnTwoSetScoreLabel: WKInterfaceLabel!
+    @IBOutlet weak var playerTwoColumnTwoSetScoreLabel: WKInterfaceLabel!
     
-    @IBOutlet weak var playerOneColumn1SetScoreLabel: WKInterfaceLabel!
-    @IBOutlet weak var playerTwoColumn1SetScoreLabel: WKInterfaceLabel!
+    @IBOutlet weak var playerOneColumnOneSetScoreLabel: WKInterfaceLabel!
+    @IBOutlet weak var playerTwoColumnOneSetScoreLabel: WKInterfaceLabel!
     
     override init() {
         super.init()
-        undoStack = [match]
     }
     
     override func awake(withContext context: Any?) {
@@ -47,32 +48,49 @@ class ScoreInterfaceController: WKInterfaceController {
         playerOneServiceLabel.setHidden(true)
         playerTwoServiceLabel.setHidden(true)
         updateMenu()
+        presentController(withName: "Settings", context: nil)
     }
     
     // MARK: Actions
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
-        match.scorePoint(for: .playerOne)
-        undoStack.append(match)
-        
-        playHaptic(for: match)
-        updateTitle(for: match)
-        updateScores(for: match)
-        updateServiceSide(for: match.set.game)
-        updateServicePlayer(for: match.set.game)
-        updateMenu()
+        switch match.state {
+        case .notStarted:
+            presentCoinToss()
+        case .finished:
+            endMatch()
+        default:
+            match.scorePoint(for: .playerOne)
+            undoStack.append(match)
+            
+            playHaptic(for: match)
+            updateTitle(for: match)
+            updateGameScoreLabels(for: match.set.game)
+            updateScores(for: match)
+            updateServiceSide(for: match.set.game)
+            updateServicePlayer(for: match.set.game)
+            updateMenu()
+        }
     }
     
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
-        match.scorePoint(for: .playerTwo)
-        undoStack.append(match)
-        
-        playHaptic(for: match)
-        updateTitle(for: match)
-        updateScores(for: match)
-        updateServiceSide(for: match.set.game)
-        updateServicePlayer(for: match.set.game)
-        updateMenu()
+        switch match.state {
+        case .notStarted:
+            presentCoinToss()
+        case .finished:
+            endMatch()
+        default:
+            match.scorePoint(for: .playerTwo)
+            undoStack.append(match)
+            
+            playHaptic(for: match)
+            updateTitle(for: match)
+            updateGameScoreLabels(for: match.set.game)
+            updateScores(for: match)
+            updateServiceSide(for: match.set.game)
+            updateServicePlayer(for: match.set.game)
+            updateMenu()
+        }
     }
     
     @objc func undoPoint() {
@@ -80,6 +98,7 @@ class ScoreInterfaceController: WKInterfaceController {
         match = undoStack.last!
         
         updateTitle(for: match)
+        updateGameScoreLabels(for: match.set.game)
         updateScores(for: match)
         updateServiceSide(for: match.set.game)
         updateServicePlayer(for: match.set.game)
@@ -91,30 +110,49 @@ class ScoreInterfaceController: WKInterfaceController {
         let numberOfSetsFinished = match.sets.count
         switch numberOfSetsFinished {
         case 0:
-            playerOneColumn4SetScoreLabel.setHidden(true)
-            playerTwoColumn4SetScoreLabel.setHidden(true)
+            playerOneColumnFourSetScoreLabel.setHidden(true)
+            playerTwoColumnFourSetScoreLabel.setHidden(true)
         case 1:
-            playerOneColumn3SetScoreLabel.setHidden(true)
-            playerTwoColumn3SetScoreLabel.setHidden(true)
+            playerOneColumnThreeSetScoreLabel.setHidden(true)
+            playerTwoColumnThreeSetScoreLabel.setHidden(true)
         case 2:
-            playerOneColumn2SetScoreLabel.setHidden(true)
-            playerTwoColumn2SetScoreLabel.setHidden(true)
+            playerOneColumnTwoSetScoreLabel.setHidden(true)
+            playerTwoColumnTwoSetScoreLabel.setHidden(true)
         case 3:
-            playerOneColumn1SetScoreLabel.setHidden(true)
-            playerTwoColumn1SetScoreLabel.setHidden(true)
+            playerOneColumnOneSetScoreLabel.setHidden(true)
+            playerTwoColumnOneSetScoreLabel.setHidden(true)
         default:
             break
         }
+        
+        match.state = .playing
     }
     
     @objc func endMatch() {
         workout?.stop()
+        
+        // TODO: Reduce code duplication between reseting the match state and starting a new match.
         match = Match()
+        undoStack = [Match]()
+        
         updateTitle(for: match)
+        updateGameScoreLabels(for: match.set.game)
         updateScores(for: match)
         playerOneServiceLabel.setHidden(true)
         playerTwoServiceLabel.setHidden(true)
         updateMenu()
+        
+        playerOneColumnOneSetScoreLabel.setHidden(true)
+        playerTwoColumnOneSetScoreLabel.setHidden(true)
+        
+        playerOneColumnTwoSetScoreLabel.setHidden(true)
+        playerTwoColumnTwoSetScoreLabel.setHidden(true)
+        
+        playerOneColumnThreeSetScoreLabel.setHidden(true)
+        playerTwoColumnThreeSetScoreLabel.setHidden(true)
+        
+        playerOneColumnFourSetScoreLabel.setHidden(true)
+        playerTwoColumnFourSetScoreLabel.setHidden(true)
     }
     
     func updateServiceSide(for game: Game) {
@@ -145,6 +183,10 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         if let matchWinner = match.winner {
+            workout?.stop()
+            
+            match.state = .finished
+            
             playerOneServiceLabel.setHidden(true)
             playerTwoServiceLabel.setHidden(true)
             
@@ -162,17 +204,23 @@ class ScoreInterfaceController: WKInterfaceController {
         }
     }
     
-    func updateScores(for match: Match) {
-        playerOneGameScoreLabel.setText(match.set.game.getScore(for: .playerOne))
-        playerTwoGameScoreLabel.setText(match.set.game.getScore(for: .playerTwo))
+    func updateGameScoreLabels(for game: Game) {
+        let playerOneGameScore = match.set.game.getScore(for: .playerOne)
+        let playerTwoGameScore = match.set.game.getScore(for: .playerTwo)
+        
+        let localizedPlayerOneGameScore = NSLocalizedString(playerOneGameScore, tableName: "Interface", comment: "Player one's score for the current game.")
+        let localizedPlayerTwoGameScore = NSLocalizedString(playerTwoGameScore, tableName: "Interface", comment: "Player two's score for the current game.")
+        
+        playerOneGameScoreLabel.setText(localizedPlayerOneGameScore)
+        playerTwoGameScoreLabel.setText(localizedPlayerTwoGameScore)
         
         if match.set.game.tiebreak == false {
             if match.set.game.score[0] == 4 {
                 switch match.set.game.servicePlayer! {
                 case .playerOne:
-                    playerOneGameScoreLabel.setText("Ad in")
+                    playerOneGameScoreLabel.setText(NSLocalizedString("Ad in", tableName: "Interface", comment: ""))
                 case .playerTwo:
-                    playerOneGameScoreLabel.setText("Ad out")
+                    playerOneGameScoreLabel.setText(NSLocalizedString("Ad out", tableName: "Interface", comment: ""))
                 }
                 
                 playerTwoGameScoreLabel.setText(nil)
@@ -181,15 +229,17 @@ class ScoreInterfaceController: WKInterfaceController {
             if match.set.game.score[1] == 4 {
                 switch match.set.game.servicePlayer! {
                 case .playerOne:
-                    playerTwoGameScoreLabel.setText("Ad out")
+                    playerTwoGameScoreLabel.setText(NSLocalizedString("Ad out", tableName: "Interface", comment: ""))
                 case .playerTwo:
-                    playerTwoGameScoreLabel.setText("Ad in")
+                    playerTwoGameScoreLabel.setText(NSLocalizedString("Ad in", tableName: "Interface", comment: ""))
                 }
                 
                 playerOneGameScoreLabel.setText(nil)
             }
         }
-        
+    }
+    
+    func updateScores(for match: Match) {
         playerOneCurrentSetScoreLabel.setText(match.set.getScore(for: .playerOne))
         playerTwoCurrentSetScoreLabel.setText(match.set.getScore(for: .playerTwo))
         
@@ -197,47 +247,47 @@ class ScoreInterfaceController: WKInterfaceController {
             let numberOfSetsFinished = match.sets.count
             switch numberOfSetsFinished {
             case 1:
-                playerOneColumn4SetScoreLabel.setHidden(false)
-                playerTwoColumn4SetScoreLabel.setHidden(false)
+                playerOneColumnFourSetScoreLabel.setHidden(false)
+                playerTwoColumnFourSetScoreLabel.setHidden(false)
                 
-                playerOneColumn4SetScoreLabel.setText(match.sets[0].getScore(for: .playerOne))
-                playerTwoColumn4SetScoreLabel.setText(match.sets[0].getScore(for: .playerTwo))
+                playerOneColumnFourSetScoreLabel.setText(match.sets[0].getScore(for: .playerOne))
+                playerTwoColumnFourSetScoreLabel.setText(match.sets[0].getScore(for: .playerTwo))
             case 2:
-                playerOneColumn3SetScoreLabel.setHidden(false)
-                playerTwoColumn3SetScoreLabel.setHidden(false)
+                playerOneColumnThreeSetScoreLabel.setHidden(false)
+                playerTwoColumnThreeSetScoreLabel.setHidden(false)
                 
-                playerOneColumn3SetScoreLabel.setText(match.sets[0].getScore(for: .playerOne))
-                playerTwoColumn3SetScoreLabel.setText(match.sets[0].getScore(for: .playerTwo))
+                playerOneColumnThreeSetScoreLabel.setText(match.sets[0].getScore(for: .playerOne))
+                playerTwoColumnThreeSetScoreLabel.setText(match.sets[0].getScore(for: .playerTwo))
                 
-                playerOneColumn4SetScoreLabel.setText(match.sets[1].getScore(for: .playerOne))
-                playerTwoColumn4SetScoreLabel.setText(match.sets[1].getScore(for: .playerTwo))
+                playerOneColumnFourSetScoreLabel.setText(match.sets[1].getScore(for: .playerOne))
+                playerTwoColumnFourSetScoreLabel.setText(match.sets[1].getScore(for: .playerTwo))
             case 3:
-                playerOneColumn2SetScoreLabel.setHidden(false)
-                playerTwoColumn2SetScoreLabel.setHidden(false)
+                playerOneColumnTwoSetScoreLabel.setHidden(false)
+                playerTwoColumnTwoSetScoreLabel.setHidden(false)
                 
-                playerOneColumn2SetScoreLabel.setText(match.sets[0].getScore(for: .playerOne))
-                playerTwoColumn2SetScoreLabel.setText(match.sets[0].getScore(for: .playerTwo))
+                playerOneColumnTwoSetScoreLabel.setText(match.sets[0].getScore(for: .playerOne))
+                playerTwoColumnTwoSetScoreLabel.setText(match.sets[0].getScore(for: .playerTwo))
                 
-                playerOneColumn3SetScoreLabel.setText(match.sets[1].getScore(for: .playerOne))
-                playerTwoColumn3SetScoreLabel.setText(match.sets[1].getScore(for: .playerTwo))
+                playerOneColumnThreeSetScoreLabel.setText(match.sets[1].getScore(for: .playerOne))
+                playerTwoColumnThreeSetScoreLabel.setText(match.sets[1].getScore(for: .playerTwo))
                 
-                playerOneColumn4SetScoreLabel.setText(match.sets[2].getScore(for: .playerOne))
-                playerTwoColumn4SetScoreLabel.setText(match.sets[2].getScore(for: .playerTwo))
+                playerOneColumnFourSetScoreLabel.setText(match.sets[2].getScore(for: .playerOne))
+                playerTwoColumnFourSetScoreLabel.setText(match.sets[2].getScore(for: .playerTwo))
             case 4:
-                playerOneColumn1SetScoreLabel.setHidden(false)
-                playerTwoColumn1SetScoreLabel.setHidden(false)
+                playerOneColumnOneSetScoreLabel.setHidden(false)
+                playerTwoColumnOneSetScoreLabel.setHidden(false)
                 
-                playerOneColumn1SetScoreLabel.setText(match.sets[0].getScore(for: .playerOne))
-                playerTwoColumn1SetScoreLabel.setText(match.sets[0].getScore(for: .playerTwo))
+                playerOneColumnOneSetScoreLabel.setText(match.sets[0].getScore(for: .playerOne))
+                playerTwoColumnOneSetScoreLabel.setText(match.sets[0].getScore(for: .playerTwo))
                 
-                playerOneColumn2SetScoreLabel.setText(match.sets[1].getScore(for: .playerOne))
-                playerTwoColumn2SetScoreLabel.setText(match.sets[1].getScore(for: .playerTwo))
+                playerOneColumnTwoSetScoreLabel.setText(match.sets[1].getScore(for: .playerOne))
+                playerTwoColumnTwoSetScoreLabel.setText(match.sets[1].getScore(for: .playerTwo))
                 
-                playerOneColumn3SetScoreLabel.setText(match.sets[2].getScore(for: .playerOne))
-                playerTwoColumn3SetScoreLabel.setText(match.sets[2].getScore(for: .playerTwo))
+                playerOneColumnThreeSetScoreLabel.setText(match.sets[2].getScore(for: .playerOne))
+                playerTwoColumnThreeSetScoreLabel.setText(match.sets[2].getScore(for: .playerTwo))
                 
-                playerOneColumn4SetScoreLabel.setText(match.sets[3].getScore(for: .playerOne))
-                playerTwoColumn4SetScoreLabel.setText(match.sets[3].getScore(for: .playerTwo))
+                playerOneColumnFourSetScoreLabel.setText(match.sets[3].getScore(for: .playerOne))
+                playerTwoColumnFourSetScoreLabel.setText(match.sets[3].getScore(for: .playerTwo))
             default:
                 break
             }
@@ -253,22 +303,18 @@ class ScoreInterfaceController: WKInterfaceController {
         setTitle(nil)
         
         if match.set.game.isDeuce {
-            setTitle("Deuce")
+            setTitle(NSLocalizedString("Deuce", tableName: "Interface", comment: ""))
         }
         
         if match.set.game.score == [0, 0] {
             if match.set.isOddGameConcluded || (match.set.score == [0, 0] && match.sets.count > 0) {
-                setTitle("Switch Ends")
+                setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: ""))
             } else {
                 setTitle(nil)
             }
         }
         
-        if match.set.game.isBreakPoint {
-            setTitle("Break Point")
-        }
-        
-        if match.set.isSetPoint {
+        if match.set.isSetPoint && !match.isMatchPoint {
             setTitle("Set Point")
         }
         
@@ -303,19 +349,12 @@ class ScoreInterfaceController: WKInterfaceController {
     func updateMenu() {
         clearAllMenuItems()
         
-        if match.state == .playing {
+        if match.state == .playing && !undoStack.isEmpty {
             addMenuItem(with: .repeat, title: "Undo", action: #selector(undoPoint))
         }
         
-        if match.state == .playing && match.winner == nil {
+        if match.state == .playing || match.winner != nil {
             addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
-        }
-        
-        if match.state == .notStarted {
-            addMenuItem(with: .accept, title: "Start", action: #selector(startMatch))
-//            addMenuItem(with: .more, title: NSLocalizedString("Number of Sets", tableName: "Interface", comment: "Length of the match, which is a series of sets."), action: #selector(presentNumberOfSetsAlertAction))
-//            addMenuItem(with: .more, title: NSLocalizedString("Set Type", tableName: "Interface", comment: "When the set score is 6 games to 6, should a tiebreak game be played or should you continue until someone wins by a margin of 2 games (advantage)"), action: #selector(presentSetTypeAlertAction))
-//            addMenuItem(with: .more, title: NSLocalizedString("Game Type", tableName: "Interface", comment: "When the game score is Deuce, players might continue to advantage (standard) or instead win"), action: #selector(presentGameTypeAlertAction))
         }
     }
     
@@ -355,11 +394,44 @@ class ScoreInterfaceController: WKInterfaceController {
     }
     
     @objc func startMatch() {
+        undoStack = [match]
         workout = Workout()
         workout!.start()
         updateServicePlayer(for: match.set.game)
+        match.state = .playing
+        
+        if UserDefaults.standard.integer(forKey: "minimumSetsToWinMatch") != 0 {
+            match.minimumToWin = UserDefaults.standard.integer(forKey: "minimumSetsToWinMatch")
+        }
         
         clearAllMenuItems()
         addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
+    }
+    
+    @objc func presentCoinToss() {
+        let playerTwoBeginService = WKAlertAction(title: NSLocalizedString("Opponent", tableName: "Interface", comment: "Player the watch wearer is playing against"), style: .`default`) {
+            self.match.set.game.servicePlayer = .playerTwo
+            self.startMatch()
+        }
+        
+        let playerOneBeginService = WKAlertAction(title: NSLocalizedString("You", tableName: "Interface", comment: "Player wearing the watch"), style: .`default`) {
+            self.match.set.game.servicePlayer = .playerOne
+            self.startMatch()
+        }
+        
+        var coinTossWinnerMessage: String
+        
+        switch Bool.random() {
+        case true:
+            coinTossWinnerMessage = "You won the coin toss."
+        case false:
+            coinTossWinnerMessage = "Your opponent won the coin toss."
+        }
+        
+        let localizedCoinTossWinnerMessage = NSLocalizedString(coinTossWinnerMessage, tableName: "Interface", comment: "Announcement of which player won the coin toss")
+        
+        let localizedCoinTossQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
+        
+        presentAlert(withTitle: localizedCoinTossWinnerMessage, message: localizedCoinTossQuestion, preferredStyle: .actionSheet, actions: [playerTwoBeginService, playerOneBeginService])
     }
 }
