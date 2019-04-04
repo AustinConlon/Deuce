@@ -20,7 +20,7 @@ class SettingsInterfaceController: WKInterfaceController {
         super.awake(withContext: context)
         
         let oneSetPickerItem = WKPickerItem()
-        oneSetPickerItem.title = "One set"
+        oneSetPickerItem.title = NSLocalizedString("One set", tableName: "Interface", comment: "First to win 1 set wins the match.")
         oneSetPickerItem.caption = NSLocalizedString("Match Length", tableName: "Interface", comment: "Number of sets in the best-of match series.").uppercased()
         
         let bestOfThreeSetsPickerItem = WKPickerItem()
