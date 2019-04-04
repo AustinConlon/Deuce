@@ -309,9 +309,9 @@ class ScoreInterfaceController: WKInterfaceController {
             }
         }
         
-//        if match.set.isSetPoint {
-//            setTitle("Set Point")
-//        }
+        if match.set.isSetPoint && !match.isMatchPoint {
+            setTitle("Set Point")
+        }
         
         if match.winner != nil {
             setTitle(nil)

@@ -73,6 +73,18 @@ struct Match {
     
     var state: MatchState = .notStarted
     
+    var isMatchPoint: Bool {
+        get {
+            if (score[0] >= minimumToWin - 1) && (score[0] >= score[1] + 1) {
+                return true
+            } else if (score[1] >= minimumToWin - 1) && (score[1] >= score[0] + 1) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
     // MARK: Methods
     mutating func scorePoint(for player: Player) {
         state = .playing
