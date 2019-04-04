@@ -353,7 +353,7 @@ class ScoreInterfaceController: WKInterfaceController {
             addMenuItem(with: .repeat, title: "Undo", action: #selector(undoPoint))
         }
         
-        if match.state == .playing && match.winner == nil {
+        if match.state == .playing || match.winner != nil {
             addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
         }
     }
