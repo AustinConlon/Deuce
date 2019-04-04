@@ -213,9 +213,9 @@ class ScoreInterfaceController: WKInterfaceController {
             if match.set.game.score[0] == 4 {
                 switch match.set.game.servicePlayer! {
                 case .playerOne:
-                    playerOneGameScoreLabel.setText("Ad in")
+                    playerOneGameScoreLabel.setText(NSLocalizedString("Ad in", tableName: "Interface", comment: ""))
                 case .playerTwo:
-                    playerOneGameScoreLabel.setText("Ad out")
+                    playerOneGameScoreLabel.setText(NSLocalizedString("Ad out", tableName: "Interface", comment: ""))
                 }
                 
                 playerTwoGameScoreLabel.setText(nil)
@@ -224,9 +224,9 @@ class ScoreInterfaceController: WKInterfaceController {
             if match.set.game.score[1] == 4 {
                 switch match.set.game.servicePlayer! {
                 case .playerOne:
-                    playerTwoGameScoreLabel.setText("Ad out")
+                    playerTwoGameScoreLabel.setText(NSLocalizedString("Ad out", tableName: "Interface", comment: ""))
                 case .playerTwo:
-                    playerTwoGameScoreLabel.setText("Ad in")
+                    playerTwoGameScoreLabel.setText(NSLocalizedString("Ad in", tableName: "Interface", comment: ""))
                 }
                 
                 playerOneGameScoreLabel.setText(nil)
@@ -298,24 +298,20 @@ class ScoreInterfaceController: WKInterfaceController {
         setTitle(nil)
         
         if match.set.game.isDeuce {
-            setTitle("Deuce")
+            setTitle(NSLocalizedString("Deuce", tableName: "Interface", comment: ""))
         }
         
         if match.set.game.score == [0, 0] {
             if match.set.isOddGameConcluded || (match.set.score == [0, 0] && match.sets.count > 0) {
-                setTitle("Switch Ends")
+                setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: ""))
             } else {
                 setTitle(nil)
             }
         }
         
-        if match.set.game.isBreakPoint {
-            setTitle("Break Point")
-        }
-        
-        if match.set.isSetPoint {
-            setTitle("Set Point")
-        }
+//        if match.set.isSetPoint {
+//            setTitle("Set Point")
+//        }
         
         if match.winner != nil {
             setTitle(nil)

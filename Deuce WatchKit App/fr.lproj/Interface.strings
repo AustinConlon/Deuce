@@ -78,10 +78,10 @@
 "Love" = "Zéro";
 
 "Deuce" = "Egalité";
-"AD IN" = "Av serv";
-"AD OUT" = "Av ret";
+"Ad in" = "Av serv";
+"Ad out" = "Av ret";
 
-"Break point" = "Balle break";
+"Break Point" = "Balle break";
 "Set point" = "Balle set";
 "Match point" = "Balle match";
 "Switch Ends" = "Tourner";

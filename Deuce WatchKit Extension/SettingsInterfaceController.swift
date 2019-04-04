@@ -52,8 +52,10 @@ class SettingsInterfaceController: WKInterfaceController {
         switch value {
         case true:
             advantageSwitch.setOn(false)
+            UserDefaults.standard.set(0, forKey: "setType")
         case false:
             advantageSwitch.setOn(true)
+            UserDefaults.standard.set(1, forKey: "setType")
         }
     }
     
@@ -61,8 +63,10 @@ class SettingsInterfaceController: WKInterfaceController {
         switch value {
         case true:
             tiebreakSwitch.setOn(false)
+            UserDefaults.standard.set(1, forKey: "setType")
         case false:
             tiebreakSwitch.setOn(true)
+            UserDefaults.standard.set(0, forKey: "setType")
         }
     }
 }
