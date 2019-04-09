@@ -1,17 +1,16 @@
 //
-//  NotificationController.swift
+//  MultipleTitlesNotificationController.swift
 //  Deuce WatchKit Extension
 //
-//  Created by Austin Conlon on 11/27/16.
-//  Copyright © 2016 Austin Conlon. All rights reserved.
+//  Created by Austin Conlon on 4/9/19.
+//  Copyright © 2019 Austin Conlon. All rights reserved.
 //
 
 import WatchKit
 import Foundation
-import UserNotifications
 
 
-class NotificationController: WKUserNotificationInterfaceController {
+class MultipleTitlesNotificationController: WKUserNotificationInterfaceController {
 
     override init() {
         // Initialize variables here.

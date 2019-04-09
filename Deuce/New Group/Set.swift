@@ -27,7 +27,7 @@ struct Set {
             }
             
             if score == [6, 6] && Set.setType == .tiebreak {
-                game.tiebreak = true
+                game.isTiebreak = true
                 game.tiebreakStartingServicePlayer = game.servicePlayer
             }
         }

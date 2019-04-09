@@ -11,9 +11,9 @@
         <!--Done-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="Settings" title="Done" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
+                <controller identifier="Settings" title="Done" fullBounds="YES" id="AgC-eL-Hgc" customClass="SettingsInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
-                        <picker height="0.5" alignment="left" focusStyle="sequence" indicatorMode="shownWhileFocused" id="3YK-5v-rcL">
+                        <picker height="0.40000000000000002" alignment="left" focusStyle="sequence" indicatorMode="shownWhileFocused" id="3YK-5v-rcL">
                             <connections>
                                 <action selector="setMatchLength:" destination="AgC-eL-Hgc" id="BC7-Qv-ixj"/>
                             </connections>
@@ -246,12 +246,11 @@
                                     </connections>
                                 </button>
                             </items>
-                            <variation key="device=watch40mm" radius="30"/>
-                            <variation key="device=watch44mm" radius="30"/>
                         </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                     <connections>
+                        <outlet property="playerOneButton" destination="Phm-h1-hDQ" id="zEd-zv-ixe"/>
                         <outlet property="playerOneColumnFourSetScoreLabel" destination="c2b-IA-iZt" id="sdM-t1-fzN"/>
                         <outlet property="playerOneColumnOneSetScoreLabel" destination="6cz-w8-Mnx" id="eke-oJ-N8T"/>
                         <outlet property="playerOneColumnThreeSetScoreLabel" destination="2tI-Dc-fVm" id="Dp1-eL-pKo"/>
@@ -259,6 +258,7 @@
                         <outlet property="playerOneCurrentSetScoreLabel" destination="owa-c8-a4x" id="V0R-t7-qW7"/>
                         <outlet property="playerOneGameScoreLabel" destination="gnp-Ie-dM4" id="H32-pv-2RG"/>
                         <outlet property="playerOneServiceLabel" destination="EJr-ah-qJY" id="qw4-pF-PtD"/>
+                        <outlet property="playerTwoButton" destination="li4-o0-wa3" id="8r7-GO-SFf"/>
                         <outlet property="playerTwoColumnFourSetScoreLabel" destination="nq4-fQ-RIw" id="rKp-XN-ZEt"/>
                         <outlet property="playerTwoColumnOneSetScoreLabel" destination="dyO-v0-GZE" id="I8y-2B-KXD"/>
                         <outlet property="playerTwoColumnThreeSetScoreLabel" destination="5Kh-OB-6LI" id="VmN-fr-LyD"/>
@@ -287,6 +287,26 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="466" y="653"/>
+        </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="OpO-Ft-I9e">
+            <objects>
+                <notificationController id="wee-XR-sC8" customClass="MultipleTitlesNotificationController" customModule="Deuce_WatchKit_Extension">
+                    <items>
+                        <label alignment="left" text="Break Point" id="QSp-HC-rcM">
+                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                        </label>
+                        <label alignment="left" text="Set Point" id="5pb-dx-LP2">
+                            <fontDescription key="font" style="UICTFontTextStyleTitle3"/>
+                        </label>
+                    </items>
+                    <notificationCategory key="notificationCategory" id="GTB-NH-KHi"/>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="QSp-HC-rcM" id="UlM-gQ-4Vd"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="684" y="653"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

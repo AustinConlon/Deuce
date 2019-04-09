@@ -49,6 +49,7 @@ class SettingsInterfaceController: WKInterfaceController {
     }
     
     @IBAction func toggleTiebreak(_ value: Bool) {
+        picker.resignFocus()
         switch value {
         case true:
             advantageSwitch.setOn(false)
@@ -60,6 +61,7 @@ class SettingsInterfaceController: WKInterfaceController {
     }
     
     @IBAction func toggleAdvantage(_ value: Bool) {
+        picker.resignFocus()
         switch value {
         case true:
             tiebreakSwitch.setOn(false)
