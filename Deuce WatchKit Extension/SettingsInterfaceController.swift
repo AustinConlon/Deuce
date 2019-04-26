@@ -12,27 +12,37 @@ import Foundation
 
 class SettingsInterfaceController: WKInterfaceController {
 
-    @IBOutlet weak var picker: WKInterfacePicker!
+    @IBOutlet weak var matchLengthPicker: WKInterfacePicker! {
+        didSet {
+            let oneSetPickerItem = WKPickerItem()
+            oneSetPickerItem.title = NSLocalizedString("1", tableName: "Interface", comment: "First to win 1 set wins the match.")
+            oneSetPickerItem.caption = NSLocalizedString("Minimum Sets", tableName: "Interface", comment: "Number of sets in the best-of match series.").uppercased()
+            
+            let bestOfThreeSetsPickerItem = WKPickerItem()
+            bestOfThreeSetsPickerItem.title = NSLocalizedString("2", tableName: "Interface", comment: "First to win 2 sets")
+            bestOfThreeSetsPickerItem.caption = NSLocalizedString("Minimum Sets", tableName: "Interface", comment: "Number of sets in the best-of match series.").uppercased()
+            
+            let bestOfFiveSetsPickerItem = WKPickerItem()
+            bestOfFiveSetsPickerItem.title = NSLocalizedString("3", tableName: "Interface", comment: "First to win 3 sets")
+            bestOfFiveSetsPickerItem.caption = NSLocalizedString("Minimum Sets", tableName: "Interface", comment: "Number of sets in the best-of match series.").uppercased()
+            
+            matchLengthPicker.setItems([oneSetPickerItem, bestOfThreeSetsPickerItem, bestOfFiveSetsPickerItem])
+            matchLengthPicker.setSelectedItemIndex(1)
+        }
+    }
+    
+    @IBOutlet weak var tiebreakLengthPicker: WKInterfacePicker! {
+        didSet {
+        }
+    }
+    
     @IBOutlet weak var tiebreakSwitch: WKInterfaceSwitch!
     @IBOutlet weak var advantageSwitch: WKInterfaceSwitch!
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
-        let oneSetPickerItem = WKPickerItem()
-        oneSetPickerItem.title = NSLocalizedString("One set", tableName: "Interface", comment: "First to win 1 set wins the match.")
-        oneSetPickerItem.caption = NSLocalizedString("Match Length", tableName: "Interface", comment: "Number of sets in the best-of match series.").uppercased()
         
-        let bestOfThreeSetsPickerItem = WKPickerItem()
-        bestOfThreeSetsPickerItem.title = NSLocalizedString("Best-of 3 sets", tableName: "Interface", comment: "First to win 2 sets")
-        bestOfThreeSetsPickerItem.caption = NSLocalizedString("Match Length", tableName: "Interface", comment: "Number of sets in the best-of match series.").uppercased()
-        
-        let bestOfFiveSetsPickerItem = WKPickerItem()
-        bestOfFiveSetsPickerItem.title = NSLocalizedString("Best-of 5 sets", tableName: "Interface", comment: "First to win 3 sets")
-        bestOfFiveSetsPickerItem.caption = NSLocalizedString("Match Length", tableName: "Interface", comment: "Number of sets in the best-of match series.").uppercased()
-        
-        picker.setItems([oneSetPickerItem, bestOfThreeSetsPickerItem, bestOfFiveSetsPickerItem])
-        picker.setSelectedItemIndex(1)
     }
     
     @IBAction func setMatchLength(_ value: Int) {
@@ -49,7 +59,7 @@ class SettingsInterfaceController: WKInterfaceController {
     }
     
     @IBAction func toggleTiebreak(_ value: Bool) {
-        picker.resignFocus()
+        matchLengthPicker.resignFocus()
         switch value {
         case true:
             advantageSwitch.setOn(false)
@@ -61,7 +71,7 @@ class SettingsInterfaceController: WKInterfaceController {
     }
     
     @IBAction func toggleAdvantage(_ value: Bool) {
-        picker.resignFocus()
+        matchLengthPicker.resignFocus()
         switch value {
         case true:
             tiebreakSwitch.setOn(false)

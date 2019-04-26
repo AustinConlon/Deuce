@@ -206,18 +206,11 @@
                                 <action selector="contact:" destination="IK4-br-vsG" id="4eC-eT-3tV"/>
                             </connections>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem enabled="NO" title="Chair Umpire" id="Mx7-ce-cyA">
-                                <connections>
-                                    <segue destination="vFf-HF-pex" kind="show" id="an2-TV-4bO"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem enabled="NO" title="Rules" id="4Qp-AJ-aJY">
-                                <connections>
-                                    <action selector="showScoringRules:" destination="IK4-br-vsG" id="Bao-Lg-FIj"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Rules" id="4Qp-AJ-aJY">
+                            <connections>
+                                <action selector="showScoringRules:" destination="IK4-br-vsG" id="Bao-Lg-FIj"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMG-fo-ezj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -249,34 +242,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rmt-aI-rgt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1989.375" y="120"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="dhF-06-JC7">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vFf-HF-pex" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="rW0-am-h3h">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Jsr-7v-bBZ" kind="relationship" relationship="rootViewController" id="swV-2m-0S2"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2WY-y5-Fpa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3828" y="118.29085457271366"/>
-        </scene>
-        <!--ChairUmpire-->
-        <scene sceneID="piu-dw-JhK">
-            <objects>
-                <viewControllerPlaceholder storyboardName="ChairUmpire" id="Jsr-7v-bBZ" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="d53-zm-yOf"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LvC-U5-6o2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4767.1999999999998" y="118.29085457271366"/>
         </scene>
     </scenes>
 </document>

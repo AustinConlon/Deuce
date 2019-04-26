@@ -75,6 +75,7 @@ class ScoreInterfaceController: WKInterfaceController {
             if match.winner != nil {
                 playerOneButton.setEnabled(false)
                 playerTwoButton.setEnabled(false)
+                presentController(withName: "Match Summary", context: match)
             }
         }
     }
@@ -98,6 +99,7 @@ class ScoreInterfaceController: WKInterfaceController {
             if match.winner != nil {
                 playerOneButton.setEnabled(false)
                 playerTwoButton.setEnabled(false)
+                presentController(withName: "Match Summary", context: match)
             }
         }
     }
