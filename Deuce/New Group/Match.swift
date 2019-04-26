@@ -75,9 +75,9 @@ struct Match {
     
     var isMatchPoint: Bool {
         get {
-            if (score[0] >= minimumToWin - 1) && (score[0] >= score[1] + 1) {
+            if (score[0] >= minimumToWin - 1) {
                 return true
-            } else if (score[1] >= minimumToWin - 1) && (score[1] >= score[0] + 1) {
+            } else if (score[1] >= minimumToWin - 1) {
                 return true
             } else {
                 return false
@@ -121,6 +121,10 @@ struct Match {
             }
             
             sets.append(set)
+        }
+        
+        if winner != nil {
+            state = .finished
         }
     }
 }

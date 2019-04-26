@@ -16,7 +16,7 @@ struct Game {
     
     var score = [0, 0] {
         didSet {
-            switch tiebreak {
+            switch isTiebreak {
             case true:
                 if isOddPointConcluded {
                     serviceSide = .deuceCourt
@@ -79,7 +79,7 @@ struct Game {
     ]
     
     var isDeuce: Bool {
-        if (score[0] >= 3 || score[1] >= 3) && score[0] == score[1] && !tiebreak {
+        if (score[0] >= 3 || score[1] >= 3) && score[0] == score[1] && !isTiebreak {
             return true
         } else {
             return false
@@ -102,9 +102,9 @@ struct Game {
     }
     var state: MatchState = .playing
     
-    var tiebreak = false {
+    var isTiebreak = false {
         didSet {
-            if tiebreak == true {
+            if isTiebreak == true {
                 if Set.setType == .tiebreak {
                     minimumToWin = 7
                 } else if Set.setType == .superTiebreak {
@@ -128,8 +128,52 @@ struct Game {
         }
     }
     
+    var isBreakPoint: Bool {
+        get {
+            if let servicePlayerScore = servicePlayerScore, let receiverPlayerScore = receiverPlayerScore {
+                if (receiverPlayerScore >= minimumToWin - 1) && (receiverPlayerScore >= servicePlayerScore + 1) && !isTiebreak {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+        }
+    }
+    
+    var isPointAfterSwitchingEnds: Bool {
+        get {
+            if isTiebreak && (totalPointsPlayed % 6 == 0) {
+                if isFirstPoint {
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
+        }
+    }
+    
+    var isFirstPoint: Bool {
+        get {
+            if score[0] + score[1] == 0 {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
+    var totalPointsPlayed: Int {
+        get {
+            return score[0] + score[1]
+        }
+    }
+    
     func getScore(for player: Player) -> String {
-        switch (player, tiebreak) {
+        switch (player, isTiebreak) {
         case (.playerOne, false):
             return Game.pointNames[score[0]]!
         case (.playerTwo, false):
