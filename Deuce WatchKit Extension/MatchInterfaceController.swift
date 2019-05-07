@@ -9,7 +9,7 @@
 import WatchKit
 import Foundation
 
-class ScoreInterfaceController: WKInterfaceController {
+class MatchInterfaceController: WKInterfaceController {
     
     // MARK: Properties
     
@@ -51,7 +51,7 @@ class ScoreInterfaceController: WKInterfaceController {
         playerOneServiceLabel.setHidden(true)
         playerTwoServiceLabel.setHidden(true)
         updateMenu()
-        presentController(withName: "Settings", context: nil)
+        presentController(withName: "Rules Formats", context: nil)
     }
     
     // MARK: Actions
