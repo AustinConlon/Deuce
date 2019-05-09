@@ -16,7 +16,7 @@ struct Game {
     
     var score = [0, 0] {
         didSet {
-            switch tiebreak {
+            switch isTiebreak {
             case true:
                 if isOddPointConcluded {
                     serviceSide = .deuceCourt
@@ -79,21 +79,21 @@ struct Game {
     ]
     
     var isDeuce: Bool {
-        if (score[0] >= 3 || score[1] >= 3) && score[0] == score[1] && !tiebreak {
+        if (score[0] >= 3 || score[1] >= 3) && score[0] == score[1] && !isTiebreak {
             return true
         } else {
             return false
         }
     }
     
-    var minimumToWin = 4
+    var numberOfPointsToWin = 4
     var marginToWin = 2
     
     var winner: Player? {
         get {
-            if score[0] >= minimumToWin && score[0] >= score[1] + marginToWin {
+            if score[0] >= numberOfPointsToWin && score[0] >= score[1] + marginToWin {
                 return .playerOne
-            } else if score[1] >= minimumToWin && score[1] >= score[0] + marginToWin {
+            } else if score[1] >= numberOfPointsToWin && score[1] >= score[0] + marginToWin {
                 return .playerTwo
             } else {
                 return nil
@@ -102,13 +102,11 @@ struct Game {
     }
     var state: MatchState = .playing
     
-    var tiebreak = false {
+    var isTiebreak = false {
         didSet {
-            if tiebreak == true {
+            if isTiebreak == true {
                 if Set.setType == .tiebreak {
-                    minimumToWin = 7
-                } else if Set.setType == .superTiebreak {
-                    minimumToWin = 10
+                    numberOfPointsToWin = 7
                 }
                 
                 if score == [0, 0] {
@@ -128,8 +126,63 @@ struct Game {
         }
     }
     
+    var isBreakPoint: Bool {
+        get {
+            if let servicePlayerScore = servicePlayerScore, let receiverPlayerScore = receiverPlayerScore {
+                if (receiverPlayerScore >= numberOfPointsToWin - 1) && (receiverPlayerScore >= servicePlayerScore + 1) && !isTiebreak {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+        }
+    }
+    
+    var isPointAfterSwitchingEnds: Bool {
+        get {
+            if isTiebreak && (totalPointsPlayed % 6 == 0) {
+                if isFirstPoint {
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
+        }
+    }
+    
+    var isFirstPoint: Bool {
+        get {
+            if score[0] + score[1] == 0 {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
+    var totalPointsPlayed: Int {
+        get {
+            return score[0] + score[1]
+        }
+    }
+    
+    init() {
+        // FIXME: There's probably a better way for a game to get the results format rather than directly from UserDefaults.
+        let userDefaults = UserDefaults()
+        if let rulesFormatValue = userDefaults.string(forKey: "Rules Format") {
+            let rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
+            if rulesFormat == .noAd {
+                marginToWin = 1
+            }
+        }
+    }
+    
     func getScore(for player: Player) -> String {
-        switch (player, tiebreak) {
+        switch (player, isTiebreak) {
         case (.playerOne, false):
             return Game.pointNames[score[0]]!
         case (.playerTwo, false):

@@ -21,6 +21,9 @@ class ScoreInterfaceController: WKInterfaceController {
     @IBOutlet weak var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoServiceLabel: WKInterfaceLabel!
     
+    @IBOutlet weak var playerOneButton: WKInterfaceButton!
+    @IBOutlet weak var playerTwoButton: WKInterfaceButton!
+        
     @IBOutlet weak var playerOneGameScoreLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoGameScoreLabel: WKInterfaceLabel!
     
@@ -48,7 +51,6 @@ class ScoreInterfaceController: WKInterfaceController {
         playerOneServiceLabel.setHidden(true)
         playerTwoServiceLabel.setHidden(true)
         updateMenu()
-        presentController(withName: "Settings", context: nil)
     }
     
     // MARK: Actions
@@ -57,8 +59,6 @@ class ScoreInterfaceController: WKInterfaceController {
         switch match.state {
         case .notStarted:
             presentCoinToss()
-        case .finished:
-            endMatch()
         default:
             match.scorePoint(for: .playerOne)
             undoStack.append(match)
@@ -70,6 +70,7 @@ class ScoreInterfaceController: WKInterfaceController {
             updateServiceSide(for: match.set.game)
             updateServicePlayer(for: match.set.game)
             updateMenu()
+            updateInteractionEnabledState()
         }
     }
     
@@ -77,8 +78,6 @@ class ScoreInterfaceController: WKInterfaceController {
         switch match.state {
         case .notStarted:
             presentCoinToss()
-        case .finished:
-            endMatch()
         default:
             match.scorePoint(for: .playerTwo)
             undoStack.append(match)
@@ -90,6 +89,7 @@ class ScoreInterfaceController: WKInterfaceController {
             updateServiceSide(for: match.set.game)
             updateServicePlayer(for: match.set.game)
             updateMenu()
+            updateInteractionEnabledState()
         }
     }
     
@@ -126,6 +126,8 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         match.state = .playing
+        
+        updateInteractionEnabledState()
     }
     
     @objc func endMatch() {
@@ -153,6 +155,11 @@ class ScoreInterfaceController: WKInterfaceController {
         
         playerOneColumnFourSetScoreLabel.setHidden(true)
         playerTwoColumnFourSetScoreLabel.setHidden(true)
+        
+        playerOneGameScoreLabel.setVerticalAlignment(.center)
+        playerTwoGameScoreLabel.setVerticalAlignment(.center)
+        
+        updateInteractionEnabledState()
     }
     
     func updateServiceSide(for game: Game) {
@@ -214,7 +221,7 @@ class ScoreInterfaceController: WKInterfaceController {
         playerOneGameScoreLabel.setText(localizedPlayerOneGameScore)
         playerTwoGameScoreLabel.setText(localizedPlayerTwoGameScore)
         
-        if match.set.game.tiebreak == false {
+        if match.set.game.isTiebreak == false {
             if match.set.game.score[0] == 4 {
                 switch match.set.game.servicePlayer! {
                 case .playerOne:
@@ -302,20 +309,29 @@ class ScoreInterfaceController: WKInterfaceController {
     func updateTitle(for match: Match) {
         setTitle(nil)
         
-        if match.set.game.isDeuce {
-            setTitle(NSLocalizedString("Deuce", tableName: "Interface", comment: ""))
-        }
-        
         if match.set.game.score == [0, 0] {
             if match.set.isOddGameConcluded || (match.set.score == [0, 0] && match.sets.count > 0) {
-                setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: ""))
+                setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
             } else {
                 setTitle(nil)
             }
         }
         
-        if match.set.isSetPoint && !match.isMatchPoint {
-            setTitle("Set Point")
+        if match.set.game.isBreakPoint {
+            setTitle(NSLocalizedString("Break Point", tableName: "Interface", comment: "Receiving player is one point away from winning the game."))
+        }
+        
+        
+        if match.set.isSetPoint {
+            setTitle(NSLocalizedString("Set Point", tableName: "Interface", comment: "A player is one point away from winning the set."))
+            
+            if match.isMatchPoint {
+                setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
+            }
+        }
+        
+        if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
+            setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
         }
         
         if match.winner != nil {
@@ -328,7 +344,7 @@ class ScoreInterfaceController: WKInterfaceController {
             WKInterfaceDevice.current().play(.notification)
         }
         
-        switch match.set.game.tiebreak {
+        switch match.set.game.isTiebreak {
         case true:
             if match.set.game.score == [0, 0] {
                 WKInterfaceDevice.current().play(.notification)
@@ -349,48 +365,21 @@ class ScoreInterfaceController: WKInterfaceController {
     func updateMenu() {
         clearAllMenuItems()
         
-        if match.state == .playing && !undoStack.isEmpty {
+        if match.state == .notStarted {
+            addMenuItem(with: .info, title: "Formats", action: #selector(presentRulesFormatsController))
+        }
+        
+        if match.state != .notStarted && !undoStack.isEmpty {
             addMenuItem(with: .repeat, title: "Undo", action: #selector(undoPoint))
         }
         
         if match.state == .playing || match.winner != nil {
-            addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
+            addMenuItem(with: .decline, title: "End Match", action: #selector(endMatch))
         }
     }
     
-    @objc func presentNumberOfSetsAlertAction() {
-        let oneSet = WKAlertAction(title: "1 set", style: .default) {
-            self.match.minimumToWin = 1
-        }
-        
-        let bestOfThreeSets = WKAlertAction(title: NSLocalizedString("Best-of 3 sets", tableName: "Interface", comment: "First to win 2 sets wins the series"), style: .default) {
-            self.match.minimumToWin = 2
-        }
-        
-        let bestOfFiveSets = WKAlertAction(title: NSLocalizedString("Best-of 5 sets", tableName: "Interface", comment: "First to win 3 sets wins the series"), style: .default) {
-            self.match.minimumToWin = 3
-        }
-        
-        let localizedMatchLengthTitle = NSLocalizedString("Match Length", tableName: "Interface", comment: "Length of the best-of series of sets")
-        
-        presentAlert(withTitle: localizedMatchLengthTitle, message: nil, preferredStyle: .actionSheet, actions: [oneSet, bestOfThreeSets, bestOfFiveSets])
-    }
-    
-    @objc func presentSetTypeAlertAction() {
-        let tiebreak = WKAlertAction(title: NSLocalizedString("Tiebreak", tableName: "Interface", comment: "When the set score is 6 games to 6, a tiebreak game will be played"), style: .default) {
-            Set.setType = .tiebreak
-        }
-        
-        let superTiebreak = WKAlertAction(title: NSLocalizedString("Super Tiebreak in 3rd Set", tableName: "Interface", comment: "The 3rd set tiebreak would require a minimum of 10 points"), style: .default) {
-            Set.setType = .tiebreak
-            self.match.minimumToWin = 2
-        }
-        
-        let advantage = WKAlertAction(title: NSLocalizedString("Advantage", tableName: "Interface", comment: "When the set score is 6 games to 6, the set will continue being played until someone wins by a margin of 2 games"), style: .default) {
-            Set.setType = .advantage
-        }
-        
-        presentAlert(withTitle: "Type of Set", message: nil, preferredStyle: .actionSheet, actions: [tiebreak, superTiebreak, advantage])
+    @objc func presentRulesFormatsController() {
+        presentController(withName: "Rules Formats", context: nil)
     }
     
     @objc func startMatch() {
@@ -401,11 +390,11 @@ class ScoreInterfaceController: WKInterfaceController {
         match.state = .playing
         
         if UserDefaults.standard.integer(forKey: "minimumSetsToWinMatch") != 0 {
-            match.minimumToWin = UserDefaults.standard.integer(forKey: "minimumSetsToWinMatch")
+            match.numberOfSetsToWin = UserDefaults.standard.integer(forKey: "minimumSetsToWinMatch")
         }
         
         clearAllMenuItems()
-        addMenuItem(with: .decline, title: "End", action: #selector(endMatch))
+        addMenuItem(with: .decline, title: "End Match", action: #selector(endMatch))
     }
     
     @objc func presentCoinToss() {
@@ -433,5 +422,16 @@ class ScoreInterfaceController: WKInterfaceController {
         let localizedCoinTossQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
         
         presentAlert(withTitle: localizedCoinTossWinnerMessage, message: localizedCoinTossQuestion, preferredStyle: .actionSheet, actions: [playerTwoBeginService, playerOneBeginService])
+    }
+    
+    private func updateInteractionEnabledState() {
+        switch match.state {
+        case .notStarted, .playing:
+            playerOneButton.setEnabled(true)
+            playerTwoButton.setEnabled(true)
+        case .finished:
+            playerOneButton.setEnabled(false)
+            playerTwoButton.setEnabled(false)
+        }
     }
 }

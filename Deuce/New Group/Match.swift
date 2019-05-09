@@ -30,9 +30,21 @@ enum SetType {
     case advantage
 }
 
+
+enum RulesFormats: String {
+    case main = "Main (Best-of 3 Sets)"
+    case alternate = "Alternate (Best-of 3 Sets)"
+    case noAd = "No-Ad (Best-of 3 Sets)"
+}
+
 struct Match {
     // MARK: Properties
-    var score = [0, 0]
+    var score = [0, 0] {
+        didSet {
+            if score[0] >= numberOfSetsToWin { winner = .playerOne }
+            if score[1] >= numberOfSetsToWin { winner = .playerTwo }
+        }
+    }
     
     var set = Set()
     
@@ -40,50 +52,61 @@ struct Match {
         didSet {
             set = Set()
             
-            var lastServicePlayer: Player
+            var lastServicePlayer: Player?
             
-            if let tiebreakStartingServicePlayer = sets.last!.games.last!.tiebreakStartingServicePlayer {
+            if let tiebreakStartingServicePlayer = sets.last?.games.last?.tiebreakStartingServicePlayer {
                 lastServicePlayer = tiebreakStartingServicePlayer
-            } else {
-                lastServicePlayer = sets.last!.games.last!.servicePlayer!
+            } else if let servicePlayer = sets.last?.games.last?.servicePlayer {
+                lastServicePlayer = servicePlayer
             }
             
             switch lastServicePlayer {
-            case .playerOne:
+            case .playerOne?:
                 set.game.servicePlayer = .playerTwo
-            case .playerTwo:
+            case .playerTwo?:
                 set.game.servicePlayer = .playerOne
+            case .none:
+                break
+            }
+            
+            if (rulesFormat == .alternate || rulesFormat == .noAd) && score == [1, 1] {
+                set.isSupertiebreak = true
             }
         }
     }
     
-    var minimumToWin = 3
+    /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
+    var numberOfSetsToWin = 2
     
-    var winner: Player? {
-        get {
-            if score[0] >= minimumToWin {
-                return .playerOne
-            } else if score[1] >= minimumToWin {
-                return .playerTwo
-            } else {
-                return nil
+    var winner: Player?
+    
+    var state: MatchState = .notStarted {
+        didSet {
+            switch state {
+            case .playing:
+                let userDefaults = UserDefaults()
+                if let rulesFormatValue = userDefaults.string(forKey: "Rules Format") {
+                    rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
+                }
+            default:
+                break
             }
         }
     }
-    
-    var state: MatchState = .notStarted
     
     var isMatchPoint: Bool {
         get {
-            if (score[0] >= minimumToWin - 1) && (score[0] >= score[1] + 1) {
+            if (score[0] >= numberOfSetsToWin - 1) {
                 return true
-            } else if (score[1] >= minimumToWin - 1) && (score[1] >= score[0] + 1) {
+            } else if (score[1] >= numberOfSetsToWin - 1) {
                 return true
             } else {
                 return false
             }
         }
     }
+    
+    lazy var rulesFormat = RulesFormats.main
     
     // MARK: Methods
     mutating func scorePoint(for player: Player) {
@@ -101,6 +124,7 @@ struct Match {
             set.game.score[1] = 3
         }
         
+        // TODO: Simplify game winner and set winner logic to make it consistent with match winner implementation.
         if let gameWinner = set.game.winner {
             switch gameWinner {
             case .playerOne:
@@ -110,6 +134,10 @@ struct Match {
             }
             
             set.games.append(set.game)
+            
+            if set.isSupertiebreak {
+                winner = gameWinner
+            }
         }
         
         if let setWinner = set.winner {
@@ -121,6 +149,14 @@ struct Match {
             }
             
             sets.append(set)
+        }
+        
+        if winner != nil {
+            // FIXME: Reduce dependencies related to sets count.
+            if set.isSupertiebreak {
+                sets.append(set)
+            }
+            state = .finished
         }
     }
 }
