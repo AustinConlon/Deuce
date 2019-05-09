@@ -50,7 +50,7 @@
         <!--Scoreboard-->
         <scene sceneID="Xzb-fA-FdN">
             <objects>
-                <controller identifier="scoreboard" fullBounds="YES" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="MatchInterfaceController" customModule="Deuce_WatchKit_Extension">
+                <controller identifier="scoreboard" fullBounds="YES" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
                         <group width="1" height="1" alignment="center" layout="vertical" spacing="0.0" id="uoz-QG-hL7" userLabel="Court Group">
                             <items>
@@ -67,17 +67,13 @@
                                             </group>
                                             <group width="1" height="1" alignment="left" verticalAlignment="bottom" layout="vertical" spacing="0.0" id="WVb-ui-PA2" userLabel="Player Two Scores Group">
                                                 <items>
-                                                    <group width="1" alignment="left" verticalAlignment="center" id="dy2-2Q-Lhv" userLabel="Player Two Game Score Group">
-                                                        <items>
-                                                            <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player Two Game Score">
-                                                                <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
-                                                                <variation key="device=watch38mm">
-                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                                </variation>
-                                                            </label>
-                                                        </items>
-                                                    </group>
+                                                    <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player Two Game Score">
+                                                        <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                                                        <variation key="device=watch38mm">
+                                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                        </variation>
+                                                    </label>
                                                     <group alignment="center" verticalAlignment="bottom" id="aaL-Es-rY2" userLabel="Player Two Sets Group">
                                                         <items>
                                                             <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="dyO-v0-GZE" userLabel="Player Two Column 1 Set Score Label">
@@ -167,17 +163,13 @@
                                             </group>
                                             <group width="1" height="1" alignment="left" layout="vertical" spacing="0.0" id="qFD-0u-Lke" userLabel="Player One Scores Group">
                                                 <items>
-                                                    <group width="1" alignment="left" verticalAlignment="center" id="PSr-3c-weK" userLabel="Player One Game Score Group">
-                                                        <items>
-                                                            <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player One Game Score">
-                                                                <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
-                                                                <variation key="device=watch38mm">
-                                                                    <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
-                                                                </variation>
-                                                            </label>
-                                                        </items>
-                                                    </group>
+                                                    <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player One Game Score">
+                                                        <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                                                        <variation key="device=watch38mm">
+                                                            <fontDescription key="font" style="UICTFontTextStyleTitle2"/>
+                                                        </variation>
+                                                    </label>
                                                     <group alignment="center" id="7fq-fx-g6a" userLabel="Player One Sets Group">
                                                         <items>
                                                             <label alignment="right" verticalAlignment="bottom" hidden="YES" text="0" textAlignment="center" id="6cz-w8-Mnx" userLabel="Player One Column 1 Set Score Label">

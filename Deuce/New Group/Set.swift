@@ -35,7 +35,8 @@ struct Set {
     
     static var setType: SetType = .tiebreak
     
-    var minimumToWin = 6
+    /// Number of games required to win the set. This is typically 6 games, but in a supertiebreak format it's 1 supertiebreakgame that replaces the 3rd set when it's tied 1 set to 1.
+    var numberOfGamesToWin = 6
     
     var marginToWin: Int {
         get {
@@ -49,9 +50,9 @@ struct Set {
     
     var winner: Player? {
         get {
-            if (score[0] >= minimumToWin) && (score[0] >= score[1] + marginToWin) {
+            if (score[0] >= numberOfGamesToWin) && (score[0] >= score[1] + marginToWin) {
                 return .playerOne
-            } else if (score[1] >= minimumToWin) && (score[1] >= score[0] + marginToWin) {
+            } else if (score[1] >= numberOfGamesToWin) && (score[1] >= score[0] + marginToWin) {
                 return .playerTwo
             } else {
                 return nil
@@ -73,12 +74,23 @@ struct Set {
     
     var isSetPoint: Bool {
         get {
-            if ((score[0] >= minimumToWin - 1) && (score[0] >= score[1] + 1) && (game.score[0] >= game.minimumToWin - 1) && (game.score[0] >= game.score[1] + 1)) {
+            if ((score[0] >= numberOfGamesToWin - 1) && (score[0] >= score[1] + 1) && (game.score[0] >= game.numberOfPointsToWin - 1) && (game.score[0] >= game.score[1] + 1)) {
                 return true
-            } else if ((score[1] >= minimumToWin - 1) && (score[1] >= score[0] + 1) && (game.score[1] >= game.minimumToWin - 1) && (game.score[1] >= game.score[0] + 1)) {
+            } else if ((score[1] >= numberOfGamesToWin - 1) && (score[1] >= score[0] + 1) && (game.score[1] >= game.numberOfPointsToWin - 1) && (game.score[1] >= game.score[0] + 1)) {
                 return true
             } else {
                 return false
+            }
+        }
+    }
+    
+    /// In an alternate match format when it's tied 1 set to 1, a 10 point "supertiebreak" game is played instead of a third set.
+    var isSupertiebreak = false {
+        didSet {
+            if isSupertiebreak {
+                numberOfGamesToWin = 1
+                game.isTiebreak = true
+                game.numberOfPointsToWin = 10
             }
         }
     }

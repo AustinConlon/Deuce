@@ -86,14 +86,14 @@ struct Game {
         }
     }
     
-    var minimumToWin = 4
+    var numberOfPointsToWin = 4
     var marginToWin = 2
     
     var winner: Player? {
         get {
-            if score[0] >= minimumToWin && score[0] >= score[1] + marginToWin {
+            if score[0] >= numberOfPointsToWin && score[0] >= score[1] + marginToWin {
                 return .playerOne
-            } else if score[1] >= minimumToWin && score[1] >= score[0] + marginToWin {
+            } else if score[1] >= numberOfPointsToWin && score[1] >= score[0] + marginToWin {
                 return .playerTwo
             } else {
                 return nil
@@ -106,9 +106,7 @@ struct Game {
         didSet {
             if isTiebreak == true {
                 if Set.setType == .tiebreak {
-                    minimumToWin = 7
-                } else if Set.setType == .superTiebreak {
-                    minimumToWin = 10
+                    numberOfPointsToWin = 7
                 }
                 
                 if score == [0, 0] {
@@ -131,7 +129,7 @@ struct Game {
     var isBreakPoint: Bool {
         get {
             if let servicePlayerScore = servicePlayerScore, let receiverPlayerScore = receiverPlayerScore {
-                if (receiverPlayerScore >= minimumToWin - 1) && (receiverPlayerScore >= servicePlayerScore + 1) && !isTiebreak {
+                if (receiverPlayerScore >= numberOfPointsToWin - 1) && (receiverPlayerScore >= servicePlayerScore + 1) && !isTiebreak {
                     return true
                 } else {
                     return false

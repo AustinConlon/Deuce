@@ -13,41 +13,28 @@ import Foundation
 class RulesFormatsInterfaceController: WKInterfaceController {
 
     @IBOutlet weak var rulesFormatsTable: WKInterfaceTable!
+    var rulesFormat = RulesFormats.main
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
-        rulesFormatsTable.setRowTypes(["Main (Best-of 3 Sets)",
-                                       "Alternate (Best-of 3 Sets)",
-                                       "No-Ad (Best-of 3 Sets)"])
-    }
-
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
-    }
-
-    override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
-        super.didDeactivate()
+        rulesFormatsTable.setRowTypes([RulesFormats.main.rawValue,
+                                       RulesFormats.alternate.rawValue,
+                                       RulesFormats.noAd.rawValue])
     }
     
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
         switch rowIndex {
         case 0:
-            UserDefaults.standard.set("Main (Best-of 3 Sets)", forKey: "Type of Set")
+            rulesFormat = .main
         case 1:
-            UserDefaults.standard.set("Alternate (Best-of 3 Sets)", forKey: "Type of Set")
+            rulesFormat = .alternate
         case 2:
-            UserDefaults.standard.set("No-Ad (Best-of 3 Sets)", forKey: "Type of Set")
+            rulesFormat = .noAd
         default:
             break
         }
+        UserDefaults.standard.set(rulesFormat.rawValue, forKey: "Rules Format")
+        dismiss()
     }
 
-}
-
-enum RulesFormats {
-    case main
-    case alternate
-    case noAd
 }
