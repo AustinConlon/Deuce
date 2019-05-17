@@ -16,61 +16,7 @@ struct Game {
     
     var score = [0, 0] {
         didSet {
-            switch isTiebreak {
-            case true:
-                if isOddPointConcluded {
-                    serviceSide = .deuceCourt
-                    
-                    switch servicePlayer {
-                    case .playerOne?:
-                        servicePlayer = .playerTwo
-                    case .playerTwo?:
-                        servicePlayer = .playerOne
-                    default:
-                        break
-                    }
-                } else {
-                    switch serviceSide {
-                    case .deuceCourt:
-                        serviceSide = .adCourt
-                    case .adCourt:
-                        serviceSide = .deuceCourt
-                    }
-                }
-            case false:
-                switch serviceSide {
-                case .deuceCourt:
-                    serviceSide = .adCourt
-                case .adCourt:
-                    serviceSide = .deuceCourt
-                }
-            }
-        }
-    }
-    
-    var servicePlayerScore: Int? {
-        get {
-            switch servicePlayer {
-            case .playerOne?:
-                return score[0]
-            case .playerTwo?:
-                return score[1]
-            default:
-                return 0
-            }
-        }
-    }
-    
-    var receiverPlayerScore: Int? {
-        get {
-            switch servicePlayer {
-            case .playerOne?:
-                return score[1]
-            case .playerTwo?:
-                return score[0]
-            default:
-                return 0
-            }
+            updateService()
         }
     }
     
@@ -120,20 +66,6 @@ struct Game {
         get {
             if (score[0] + score[1]) % 2 == 1 {
                 return true
-            } else {
-                return false
-            }
-        }
-    }
-    
-    var isBreakPoint: Bool {
-        get {
-            if let servicePlayerScore = servicePlayerScore, let receiverPlayerScore = receiverPlayerScore {
-                if (receiverPlayerScore >= numberOfPointsToWin - 1) && (receiverPlayerScore >= servicePlayerScore + 1) && !isTiebreak {
-                    return true
-                } else {
-                    return false
-                }
             } else {
                 return false
             }
@@ -192,5 +124,56 @@ struct Game {
         case (.playerTwo, true):
             return String(score[1])
         }
+    }
+    
+    /// Updates the state of the service player and side of the court they are serving on.
+    private mutating func updateService() {
+        switch isTiebreak {
+        case true:
+            if isOddPointConcluded {
+                serviceSide = .deuceCourt
+                
+                switch servicePlayer {
+                case .playerOne?:
+                    servicePlayer = .playerTwo
+                case .playerTwo?:
+                    servicePlayer = .playerOne
+                default:
+                    break
+                }
+            } else {
+                switch serviceSide {
+                case .deuceCourt:
+                    serviceSide = .adCourt
+                case .adCourt:
+                    serviceSide = .deuceCourt
+                }
+            }
+        case false:
+            switch serviceSide {
+            case .deuceCourt:
+                serviceSide = .adCourt
+            case .adCourt:
+                serviceSide = .deuceCourt
+            }
+        }
+    }
+    
+    /// Player is both receiving and is one point away from winning the game.
+    func isBreakPoint() -> Bool {
+        switch servicePlayer {
+        case .playerOne?:
+            if score[1] >= numberOfPointsToWin - 1 && score[1] > score[0] && !isTiebreak {
+                return true
+            }
+        case .playerTwo?:
+            if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] && !isTiebreak {
+                return true
+            }
+        case .none:
+            break
+        }
+        
+        return false
     }
 }

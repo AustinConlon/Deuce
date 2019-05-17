@@ -317,7 +317,7 @@ class ScoreInterfaceController: WKInterfaceController {
             }
         }
         
-        if match.set.game.isBreakPoint {
+        if match.set.game.isBreakPoint() {
             setTitle(NSLocalizedString("Break Point", tableName: "Interface", comment: "Receiving player is one point away from winning the game."))
         }
         
