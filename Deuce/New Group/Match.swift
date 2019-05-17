@@ -32,9 +32,9 @@ enum SetType {
 
 
 enum RulesFormats: String {
-    case main = "Main (Best-of 3 Sets)"
-    case alternate = "Alternate (Best-of 3 Sets)"
-    case noAd = "No-Ad (Best-of 3 Sets)"
+    case main = "Main"
+    case alternate = "Alternate"
+    case noAd = "No-Ad"
 }
 
 struct Match {
