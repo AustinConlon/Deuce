@@ -159,7 +159,7 @@ struct Game {
         }
     }
     
-    /// Player is both receiving and is one point away from winning the game.
+    /// Receiving player is one point away from winning the game.
     func isBreakPoint() -> Bool {
         switch servicePlayer {
         case .playerOne?:
@@ -175,5 +175,16 @@ struct Game {
         }
         
         return false
+    }
+    
+    /// Convienence method for `isSetPoint()` in a `Set`.
+    func isGamePoint() -> Bool {
+        if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] {
+            return true
+        } else if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] {
+            return true
+        } else {
+            return false
+        }
     }
 }

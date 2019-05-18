@@ -317,21 +317,21 @@ class ScoreInterfaceController: WKInterfaceController {
             }
         }
         
+        if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
+            setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
+        }
+        
         if match.set.game.isBreakPoint() {
             setTitle(NSLocalizedString("Break Point", tableName: "Interface", comment: "Receiving player is one point away from winning the game."))
         }
         
         
-        if match.set.isSetPoint {
+        if match.set.isSetPoint() {
             setTitle(NSLocalizedString("Set Point", tableName: "Interface", comment: "A player is one point away from winning the set."))
             
             if match.isMatchPoint {
                 setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
             }
-        }
-        
-        if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
-            setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
         }
         
         if match.winner != nil {

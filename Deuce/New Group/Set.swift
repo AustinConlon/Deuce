@@ -72,18 +72,6 @@ struct Set {
         }
     }
     
-    var isSetPoint: Bool {
-        get {
-            if ((score[0] >= numberOfGamesToWin - 1) && (score[0] >= score[1] + 1) && (game.score[0] >= game.numberOfPointsToWin - 1) && (game.score[0] >= game.score[1] + 1)) {
-                return true
-            } else if ((score[1] >= numberOfGamesToWin - 1) && (score[1] >= score[0] + 1) && (game.score[1] >= game.numberOfPointsToWin - 1) && (game.score[1] >= game.score[0] + 1)) {
-                return true
-            } else {
-                return false
-            }
-        }
-    }
-    
     /// In an alternate match format when it's tied 1 set to 1, a 10 point "supertiebreak" game is played instead of a third set.
     var isSupertiebreak = false {
         didSet {
@@ -96,12 +84,38 @@ struct Set {
     }
     
     // MARK: Methods
+    
     func getScore(for player: Player) -> String {
         switch player {
         case .playerOne:
             return String(self.score[0])
         case .playerTwo:
             return String(self.score[1])
+        }
+    }
+    
+    func isSetPoint() -> Bool {
+        if game.isGamePoint() {
+            switch game.isTiebreak {
+            case true:
+                if score[0] >= numberOfGamesToWin - 1 && score[0] >= score[1] {
+                    return true
+                } else if score[1] >= numberOfGamesToWin - 1 && score[1] >= score[0] {
+                    return true
+                } else {
+                    return false
+                }
+            case false:
+                if score[0] >= numberOfGamesToWin - 1 && score[0] > score[1] {
+                    return true
+                } else if score[1] >= numberOfGamesToWin - 1 && score[1] > score[0] {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        } else {
+            return false
         }
     }
 }
