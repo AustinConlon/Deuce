@@ -94,17 +94,12 @@ struct Set {
         }
     }
     
+    /// Either player is one point away from winning the set. In a tiebreak, a set point is simply whether or not it is game point.
     func isSetPoint() -> Bool {
-        if game.isGamePoint() {
+        if game.isGamePoint() && playerWithSetPoint() == game.playerWithGamePoint() {
             switch game.isTiebreak {
             case true:
-                if score[0] >= numberOfGamesToWin - 1 && score[0] >= score[1] {
-                    return true
-                } else if score[1] >= numberOfGamesToWin - 1 && score[1] >= score[0] {
-                    return true
-                } else {
-                    return false
-                }
+                return game.isGamePoint()
             case false:
                 if score[0] >= numberOfGamesToWin - 1 && score[0] > score[1] {
                     return true
@@ -116,6 +111,21 @@ struct Set {
             }
         } else {
             return false
+        }
+    }
+    
+    func playerWithSetPoint() -> Player? {
+        switch game.isTiebreak {
+        case true:
+            return game.playerWithGamePoint()
+        case false:
+            if score[0] >= numberOfGamesToWin - 1 && score[0] >= score[1] {
+                return .playerOne
+            } else if score[1] >= numberOfGamesToWin - 1 && score[1] >= score[0] {
+                return .playerTwo
+            } else {
+                return nil
+            }
         }
     }
 }

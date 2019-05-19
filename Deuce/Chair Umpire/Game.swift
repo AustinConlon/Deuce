@@ -181,10 +181,20 @@ struct Game {
     func isGamePoint() -> Bool {
         if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] {
             return true
-        } else if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] {
+        } else if score[1] >= numberOfPointsToWin - 1 && score[1] > score[0] {
             return true
         } else {
             return false
+        }
+    }
+    
+    func playerWithGamePoint() -> Player? {
+        if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] {
+            return .playerOne
+        } else if score[1] >= numberOfPointsToWin - 1 && score[1] > score[0] {
+            return .playerTwo
+        } else {
+            return nil
         }
     }
 }

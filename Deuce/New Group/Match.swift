@@ -94,21 +94,10 @@ struct Match {
         }
     }
     
-    var isMatchPoint: Bool {
-        get {
-            if (score[0] >= numberOfSetsToWin - 1) {
-                return true
-            } else if (score[1] >= numberOfSetsToWin - 1) {
-                return true
-            } else {
-                return false
-            }
-        }
-    }
-    
     lazy var rulesFormat = RulesFormats.main
     
     // MARK: Methods
+    
     mutating func scorePoint(for player: Player) {
         state = .playing
         
@@ -157,6 +146,31 @@ struct Match {
                 sets.append(set)
             }
             state = .finished
+        }
+    }
+    
+    /// Either player is one point away from winning the match.
+    func isMatchPoint() -> Bool {
+        if set.isSetPoint() && playerWithMatchPoint() == set.playerWithSetPoint() {
+            if score[0] >= numberOfSetsToWin - 1 && score[0] > score[1] {
+                return true
+            } else if score[1] >= numberOfSetsToWin - 1 && score[1] > score[0] {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+    
+    func playerWithMatchPoint() -> Player? {
+        if score[0] >= numberOfSetsToWin - 1 && score[0] >= score[1] {
+            return .playerOne
+        } else if score[1] >= numberOfSetsToWin - 1 && score[1] >= score[0] {
+            return .playerTwo
+        } else {
+            return nil
         }
     }
 }

@@ -328,10 +328,10 @@ class ScoreInterfaceController: WKInterfaceController {
         
         if match.set.isSetPoint() {
             setTitle(NSLocalizedString("Set Point", tableName: "Interface", comment: "A player is one point away from winning the set."))
-            
-            if match.isMatchPoint {
-                setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
-            }
+        }
+        
+        if match.isMatchPoint() {
+            setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
         }
         
         if match.winner != nil {
