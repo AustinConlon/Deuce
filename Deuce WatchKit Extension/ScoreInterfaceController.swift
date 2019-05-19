@@ -366,15 +366,18 @@ class ScoreInterfaceController: WKInterfaceController {
         clearAllMenuItems()
         
         if match.state == .notStarted {
-            addMenuItem(with: .info, title: "Formats", action: #selector(presentRulesFormatsController))
+            let formatsMenuItemTitle = NSLocalizedString("Formats", tableName: "Interface", comment: "Menu item for presenting the formats screen")
+            addMenuItem(with: .info, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
         if match.state != .notStarted && !undoStack.isEmpty {
-            addMenuItem(with: .repeat, title: "Undo", action: #selector(undoPoint))
+            let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
+            addMenuItem(with: .repeat, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
         
         if match.state == .playing || match.winner != nil {
-            addMenuItem(with: .decline, title: "End Match", action: #selector(endMatch))
+            let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
+            addMenuItem(with: .decline, title: endMatchMenuItemTitle, action: #selector(endMatch))
         }
     }
     
@@ -394,7 +397,7 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         clearAllMenuItems()
-        addMenuItem(with: .decline, title: "End Match", action: #selector(endMatch))
+        updateMenu()
     }
     
     @objc func presentCoinToss() {
