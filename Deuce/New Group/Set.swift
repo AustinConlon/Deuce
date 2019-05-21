@@ -9,7 +9,15 @@
 import Foundation
 
 struct Set {
-    var score = [0, 0]
+    var score = [0, 0] {
+        didSet {
+            if (score[0] >= numberOfGamesToWin) && (score[0] >= score[1] + marginToWin) {
+                winner = .playerOne
+            } else if (score[1] >= numberOfGamesToWin) && (score[1] >= score[0] + marginToWin) {
+                winner = .playerTwo
+            }
+        }
+    }
     
     var game = Game()
     
@@ -48,17 +56,7 @@ struct Set {
         }
     }
     
-    var winner: Player? {
-        get {
-            if (score[0] >= numberOfGamesToWin) && (score[0] >= score[1] + marginToWin) {
-                return .playerOne
-            } else if (score[1] >= numberOfGamesToWin) && (score[1] >= score[0] + marginToWin) {
-                return .playerTwo
-            } else {
-                return nil
-            }
-        }
-    }
+    var winner: Player?
     
     var state: MatchState = .playing
     
@@ -79,6 +77,7 @@ struct Set {
                 numberOfGamesToWin = 1
                 game.isTiebreak = true
                 game.numberOfPointsToWin = 10
+
             }
         }
     }

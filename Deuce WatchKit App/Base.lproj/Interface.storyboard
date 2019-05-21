@@ -385,7 +385,7 @@
                                                 <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
                                             </label>
                                             <label alignment="left" text="3 sets to 6 games" numberOfLines="0" id="gxJ-l9-5mg"/>
-                                            <label alignment="left" text="Tiebreak at 6-6" id="pbv-bz-j3p">
+                                            <label alignment="left" text="Tiebreak at 6-6 for all sets" numberOfLines="0" id="pbv-bz-j3p">
                                                 <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                             </label>
                                             <label alignment="left" text="Advantage games" id="Mc6-RC-L4h">
@@ -404,8 +404,10 @@
                                             <label alignment="left" text="Best-of 3 Sets" id="m1p-dJ-3iA">
                                                 <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
                                             </label>
-                                            <label alignment="left" text="2 sets to 6 games + 10 point supertiebreak" textAlignment="center" numberOfLines="0" id="AOM-aq-MMS"/>
-                                            <label alignment="left" text="Tiebreak at 6-6" id="aWW-s4-EdE">
+                                            <label alignment="left" text="2 sets to 6 games + 10 point supertiebreak" textAlignment="left" numberOfLines="0" id="AOM-aq-MMS">
+                                                <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                            </label>
+                                            <label alignment="left" text="Tiebreak at 6-6 for sets 1 and 2" numberOfLines="0" id="aWW-s4-EdE">
                                                 <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                             </label>
                                             <label alignment="left" text="Advantage games" id="5NQ-cm-0zb">
@@ -425,7 +427,7 @@
                                                 <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
                                             </label>
                                             <label alignment="left" text="2 sets to 6 games + 10 point supertiebreak" numberOfLines="0" id="B3M-mX-unK"/>
-                                            <label alignment="left" text="Tiebreak at 6-6" id="znz-6Y-2Ub">
+                                            <label alignment="left" text="Tiebreak at 6-6 for sets 1 and 2" numberOfLines="0" id="znz-6Y-2Ub">
                                                 <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                             </label>
                                             <label alignment="left" text="No-ad games" numberOfLines="0" id="LK8-jZ-LKs">

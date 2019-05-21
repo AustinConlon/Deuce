@@ -55,8 +55,12 @@ struct Game {
                     numberOfPointsToWin = 7
                 }
                 
-                if score == [0, 0] {
-                    serviceSide = .adCourt
+                let userDefaults = UserDefaults()
+                if let rulesFormatValue = userDefaults.string(forKey: "Rules Format") {
+                    let rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
+                    if rulesFormat == .noAd {
+                        marginToWin = 2
+                    }
                 }
             }
         }
@@ -131,7 +135,7 @@ struct Game {
         switch isTiebreak {
         case true:
             if isOddPointConcluded {
-                serviceSide = .deuceCourt
+                serviceSide = .adCourt
                 
                 switch servicePlayer {
                 case .playerOne?:

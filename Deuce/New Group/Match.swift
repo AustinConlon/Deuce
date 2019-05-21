@@ -94,7 +94,7 @@ struct Match {
         }
     }
     
-    lazy var rulesFormat = RulesFormats.main
+    var rulesFormat = RulesFormats.main
     
     // MARK: Methods
     
