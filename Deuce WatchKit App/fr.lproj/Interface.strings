@@ -90,7 +90,7 @@
 
 "Undo" = "Corriger";
 
-"End" = "Finir";
+"End Match" = "Finir le match";
 
 "Play" = "Jouer";
 
@@ -111,3 +111,4 @@
 "NN1-x6-Fn5.title" = "A jeu décisif";
 
 "Kcb-Gw-tz1.title" = "A l’avantage";
+

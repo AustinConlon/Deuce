@@ -9,7 +9,15 @@
 import Foundation
 
 struct Set {
-    var score = [0, 0]
+    var score = [0, 0] {
+        didSet {
+            if (score[0] >= numberOfGamesToWin) && (score[0] >= score[1] + marginToWin) {
+                winner = .playerOne
+            } else if (score[1] >= numberOfGamesToWin) && (score[1] >= score[0] + marginToWin) {
+                winner = .playerTwo
+            }
+        }
+    }
     
     var game = Game()
     
@@ -48,35 +56,13 @@ struct Set {
         }
     }
     
-    var winner: Player? {
-        get {
-            if (score[0] >= numberOfGamesToWin) && (score[0] >= score[1] + marginToWin) {
-                return .playerOne
-            } else if (score[1] >= numberOfGamesToWin) && (score[1] >= score[0] + marginToWin) {
-                return .playerTwo
-            } else {
-                return nil
-            }
-        }
-    }
+    var winner: Player?
     
     var state: MatchState = .playing
     
     var isOddGameConcluded: Bool {
         get {
             if games.count % 2 == 1 {
-                return true
-            } else {
-                return false
-            }
-        }
-    }
-    
-    var isSetPoint: Bool {
-        get {
-            if ((score[0] >= numberOfGamesToWin - 1) && (score[0] >= score[1] + 1) && (game.score[0] >= game.numberOfPointsToWin - 1) && (game.score[0] >= game.score[1] + 1)) {
-                return true
-            } else if ((score[1] >= numberOfGamesToWin - 1) && (score[1] >= score[0] + 1) && (game.score[1] >= game.numberOfPointsToWin - 1) && (game.score[1] >= game.score[0] + 1)) {
                 return true
             } else {
                 return false
@@ -91,17 +77,54 @@ struct Set {
                 numberOfGamesToWin = 1
                 game.isTiebreak = true
                 game.numberOfPointsToWin = 10
+
             }
         }
     }
     
     // MARK: Methods
+    
     func getScore(for player: Player) -> String {
         switch player {
         case .playerOne:
             return String(self.score[0])
         case .playerTwo:
             return String(self.score[1])
+        }
+    }
+    
+    /// Either player is one point away from winning the set. In a tiebreak, a set point is simply whether or not it is game point.
+    func isSetPoint() -> Bool {
+        if game.isGamePoint() && playerWithSetPoint() == game.playerWithGamePoint() {
+            switch game.isTiebreak {
+            case true:
+                return game.isGamePoint()
+            case false:
+                if score[0] >= numberOfGamesToWin - 1 && score[0] > score[1] {
+                    return true
+                } else if score[1] >= numberOfGamesToWin - 1 && score[1] > score[0] {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        } else {
+            return false
+        }
+    }
+    
+    func playerWithSetPoint() -> Player? {
+        switch game.isTiebreak {
+        case true:
+            return game.playerWithGamePoint()
+        case false:
+            if score[0] >= numberOfGamesToWin - 1 && score[0] >= score[1] {
+                return .playerOne
+            } else if score[1] >= numberOfGamesToWin - 1 && score[1] >= score[0] {
+                return .playerTwo
+            } else {
+                return nil
+            }
         }
     }
 }

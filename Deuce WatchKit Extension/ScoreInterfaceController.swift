@@ -310,28 +310,28 @@ class ScoreInterfaceController: WKInterfaceController {
         setTitle(nil)
         
         if match.set.game.score == [0, 0] {
-            if match.set.isOddGameConcluded || (match.set.score == [0, 0] && match.sets.count > 0) {
+            if match.set.isOddGameConcluded {
                 setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
             } else {
                 setTitle(nil)
             }
         }
         
-        if match.set.game.isBreakPoint {
+        if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
+            setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
+        }
+        
+        if match.set.game.isBreakPoint() {
             setTitle(NSLocalizedString("Break Point", tableName: "Interface", comment: "Receiving player is one point away from winning the game."))
         }
         
         
-        if match.set.isSetPoint {
+        if match.set.isSetPoint() {
             setTitle(NSLocalizedString("Set Point", tableName: "Interface", comment: "A player is one point away from winning the set."))
-            
-            if match.isMatchPoint {
-                setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
-            }
         }
         
-        if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
-            setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
+        if match.isMatchPoint() {
+            setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
         }
         
         if match.winner != nil {
@@ -366,15 +366,18 @@ class ScoreInterfaceController: WKInterfaceController {
         clearAllMenuItems()
         
         if match.state == .notStarted {
-            addMenuItem(with: .info, title: "Formats", action: #selector(presentRulesFormatsController))
+            let formatsMenuItemTitle = NSLocalizedString("Formats", tableName: "Interface", comment: "Menu item for presenting the formats screen")
+            addMenuItem(with: .info, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
         if match.state != .notStarted && !undoStack.isEmpty {
-            addMenuItem(with: .repeat, title: "Undo", action: #selector(undoPoint))
+            let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
+            addMenuItem(with: .repeat, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
         
         if match.state == .playing || match.winner != nil {
-            addMenuItem(with: .decline, title: "End Match", action: #selector(endMatch))
+            let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
+            addMenuItem(with: .decline, title: endMatchMenuItemTitle, action: #selector(endMatch))
         }
     }
     
@@ -394,7 +397,7 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         clearAllMenuItems()
-        addMenuItem(with: .decline, title: "End Match", action: #selector(endMatch))
+        updateMenu()
     }
     
     @objc func presentCoinToss() {
