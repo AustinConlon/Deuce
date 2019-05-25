@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */; };
 		FB1DF1152203B1A70069071A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02F1DEAD77C00B2E195 /* Assets.xcassets */; };
+		FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */; };
 		FB3479532251F84C000F59A8 /* SettingsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3479522251F84C000F59A8 /* SettingsInterfaceController.swift */; };
 		FB49BA0220986DC100C8491F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49BA0120986DC100C8491F /* ComplicationController.swift */; };
 		FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */; };
@@ -138,6 +140,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
 		FB3377421E6E3C89000B9E30 /* Deuce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce.entitlements; sourceTree = "<group>"; };
 		FB3479522251F84C000F59A8 /* SettingsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInterfaceController.swift; sourceTree = "<group>"; };
 		FB49BA0120986DC100C8491F /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
@@ -161,7 +165,6 @@
 		FB51A0451DEAD77C00B2E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB6DAA092210284400949669 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
-		FB72DAAF225C941300AD3CB4 /* Deuce WatchKit Extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Deuce WatchKit Extension-Bridging-Header.h"; sourceTree = "<group>"; };
 		FB77B3FC2202FB1A00D42963 /* ScoreInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInterfaceController.swift; sourceTree = "<group>"; };
 		FB82818A2210ACA000E6BAF9 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		FB82818D2210AD5400E6BAF9 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
@@ -276,8 +279,9 @@
 			isa = PBXGroup;
 			children = (
 				FB3377421E6E3C89000B9E30 /* Deuce.entitlements */,
-				FB8281892210AC7500E6BAF9 /* Score */,
 				FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */,
+				FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */,
+				FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */,
 				FB51A0111DEAD77C00B2E195 /* Main.storyboard */,
 				FB51A0141DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0161DEAD77C00B2E195 /* LaunchScreen.storyboard */,
@@ -310,6 +314,7 @@
 			children = (
 				FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */,
 				FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */,
+				FB8281892210AC7500E6BAF9 /* Score */,
 				FB6DAA092210284400949669 /* Workout.swift */,
 				FBD5DC17227BC62800119DF4 /* RulesFormatsInterfaceController.swift */,
 				FB3479522251F84C000F59A8 /* SettingsInterfaceController.swift */,
@@ -318,7 +323,6 @@
 				FB49BA0120986DC100C8491F /* ComplicationController.swift */,
 				FB51A0431DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0451DEAD77C00B2E195 /* Info.plist */,
-				FB72DAAF225C941300AD3CB4 /* Deuce WatchKit Extension-Bridging-Header.h */,
 			);
 			path = "Deuce WatchKit Extension";
 			sourceTree = "<group>";
@@ -350,7 +354,7 @@
 				FB8CD9D621F5E3AD00C122CF /* Game.swift */,
 			);
 			name = Score;
-			path = "New Group";
+			path = "../Deuce/New Group";
 			sourceTree = "<group>";
 		};
 		FB9E8143222CB43B007BA926 /* Deuce-macOS */ = {
@@ -682,10 +686,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */,
 				FB82818E2210AD5400E6BAF9 /* Set.swift in Sources */,
 				FB8CD9D721F5E3AD00C122CF /* Game.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 				FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */,
+				FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -945,7 +951,6 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Deuce WatchKit Extension/Deuce WatchKit Extension-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -970,7 +975,6 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Deuce WatchKit Extension/Deuce WatchKit Extension-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;

@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct Game {
+struct Game: Codable {
     // Properties
+    
     var servicePlayer: Player?
     var serviceSide: Court = .deuceCourt
     var tiebreakStartingServicePlayer: Player?

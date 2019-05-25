@@ -8,8 +8,9 @@
 
 import WatchKit
 import Foundation
+import WatchConnectivity
 
-class ScoreInterfaceController: WKInterfaceController {
+class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     // MARK: Properties
     
@@ -17,6 +18,8 @@ class ScoreInterfaceController: WKInterfaceController {
     var undoStack = [Match]()
     
     var workout: Workout?
+    
+    var session: WCSession?
     
     @IBOutlet weak var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoServiceLabel: WKInterfaceLabel!
@@ -44,6 +47,11 @@ class ScoreInterfaceController: WKInterfaceController {
     
     override init() {
         super.init()
+        if WCSession.isSupported() {
+            session = WCSession.default
+            session?.delegate = self
+            session?.activate()
+        }
     }
     
     override func awake(withContext context: Any?) {
@@ -59,7 +67,7 @@ class ScoreInterfaceController: WKInterfaceController {
         switch match.state {
         case .notStarted:
             presentCoinToss()
-        default:
+        case .playing:
             match.scorePoint(for: .playerOne)
             undoStack.append(match)
             
@@ -71,6 +79,8 @@ class ScoreInterfaceController: WKInterfaceController {
             updateServicePlayer(for: match.set.game)
             updateMenu()
             updateInteractionEnabledState()
+        case .finished:
+            break
         }
     }
     
@@ -78,7 +88,7 @@ class ScoreInterfaceController: WKInterfaceController {
         switch match.state {
         case .notStarted:
             presentCoinToss()
-        default:
+        case .playing:
             match.scorePoint(for: .playerTwo)
             undoStack.append(match)
             
@@ -90,6 +100,8 @@ class ScoreInterfaceController: WKInterfaceController {
             updateServicePlayer(for: match.set.game)
             updateMenu()
             updateInteractionEnabledState()
+        case .finished:
+            break
         }
     }
     
@@ -132,6 +144,10 @@ class ScoreInterfaceController: WKInterfaceController {
     
     @objc func endMatch() {
         workout?.stop()
+        
+        if let matchData = try? PropertyListEncoder().encode(match) {
+            session?.transferUserInfo(["Match" : matchData])
+        }
         
         // TODO: Reduce code duplication between reseting the match state and starting a new match.
         match = Match()
@@ -436,5 +452,11 @@ class ScoreInterfaceController: WKInterfaceController {
             playerOneButton.setEnabled(false)
             playerTwoButton.setEnabled(false)
         }
+    }
+    
+    // MARK: WCSessionDelegate
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("\(#function): activationState:\(WCSession.default.activationState.rawValue)")
     }
 }
