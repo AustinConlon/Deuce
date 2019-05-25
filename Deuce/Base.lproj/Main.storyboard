@@ -89,6 +89,9 @@
                                         <constraint firstItem="cMf-Mq-Zsq" firstAttribute="centerY" secondItem="z1g-q8-kql" secondAttribute="centerY" id="d7R-sY-5gN"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dateLabel" destination="sho-lO-2es" id="Rk9-ls-fny"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

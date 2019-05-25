@@ -100,6 +100,8 @@ struct Match: Codable {
     
     var rulesFormat = RulesFormats.main
     
+    var date = Date()
+    
     // MARK: Methods
     
     mutating func scorePoint(for player: Player) {
