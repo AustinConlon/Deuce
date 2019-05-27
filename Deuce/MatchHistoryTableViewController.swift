@@ -8,6 +8,7 @@
 
 import UIKit
 import WatchConnectivity
+import os.log
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
     
@@ -17,11 +18,49 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if WCSession.isSupported() {
             session = WCSession.default
             session?.delegate = self
             session?.activate()
         }
+        
+        if let savedMatches = loadMatches() {
+            matches += savedMatches
+        }
+    }
+    
+    private func saveMatches() {
+        var matchesData: NSData
+    
+        do {
+            try matchesData = NSKeyedArchiver.archivedData(withRootObject: matches, requiringSecureCoding: false) as NSData
+
+            do {
+                try matchesData.write(toFile: Match.ArchiveURL.path)
+            } catch {
+                os_log("Failed to write matches...", log: OSLog.default, type: .error)
+            }
+        } catch {
+             os_log("Failed to save matches...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    private func loadMatches() -> [Match]?  {
+        let matchesData: Data
+        
+        do {
+            try matchesData = NSData(contentsOfFile: Match.ArchiveURL.path) as Data
+            do {
+                return try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(matchesData) as? [Match]
+            } catch {
+                os_log("Failed to load matches...", log: OSLog.default, type: .error)
+            }
+        } catch {
+            os_log("Failed to read matches from disk...", log: OSLog.default, type: .error)
+        }
+        
+        return nil
     }
 
     // MARK: - Table view data source
@@ -50,6 +89,36 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         let dateString = dateFormatter.string(from: match.date)
         
         cell.dateLabel.text = dateString
+        
+        if match.sets.count >= 1 {
+            cell.setOneStackView.isHidden = false
+            cell.playerOneSetOneScoreLabel.text = String(match.sets[0].score[0])
+            cell.playerTwoSetOneScoreLabel.text = String(match.sets[0].score[1])
+        }
+        
+        if match.sets.count >= 2 {
+            cell.setTwoStackView.isHidden = false
+            cell.playerOneSetTwoScoreLabel.text = String(match.sets[1].score[0])
+            cell.playerTwoSetTwoScoreLabel.text = String(match.sets[1].score[1])
+        }
+        
+        if match.sets.count >= 3 {
+            cell.setThreeStackView.isHidden = false
+            cell.playerOneSetThreeScoreLabel.text = String(match.sets[2].score[0])
+            cell.playerTwoSetThreeScoreLabel.text = String(match.sets[2].score[1])
+        }
+        
+        if match.sets.count >= 4 {
+            cell.setFourStackView.isHidden = false
+            cell.playerOneSetFourScoreLabel.text = String(match.sets[3].score[0])
+            cell.playerTwoSetFourScoreLabel.text = String(match.sets[3].score[1])
+        }
+        
+        if match.sets.count >= 5 {
+            cell.setFiveStackView.isHidden = false
+            cell.playerOneSetFiveScoreLabel.text = String(match.sets[4].score[0])
+            cell.playerTwoSetFiveScoreLabel.text = String(match.sets[4].score[1])
+        }
 
         return cell
     }
@@ -75,6 +144,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
                 let newIndexPath = IndexPath(row: self.matches.count, section: 0)
                 matches.append(match)
+                saveMatches()
                 DispatchQueue.main.async {
                     self.tableView.insertRows(at: [newIndexPath], with: .automatic)
                     self.tableView.reloadData()

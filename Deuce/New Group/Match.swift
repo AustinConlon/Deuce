@@ -102,6 +102,14 @@ struct Match: Codable {
     
     var date = Date()
     
+    // MARK: Archiving Paths
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("matches")
+    
+    struct Keys {
+        static let matches = "matches"
+    }
+    
     // MARK: Methods
     
     mutating func scorePoint(for player: Player) {

@@ -15,9 +15,32 @@ class MatchHistoryTableViewCell: UITableViewCell {
 
     @IBOutlet weak var dateLabel: UILabel!
     
+    @IBOutlet weak var setOneStackView: UIStackView!
+    @IBOutlet weak var setTwoStackView: UIStackView!
+    @IBOutlet weak var setThreeStackView: UIStackView!
+    @IBOutlet weak var setFourStackView: UIStackView!
+    @IBOutlet weak var setFiveStackView: UIStackView!
+    
+    @IBOutlet weak var playerOneSetOneScoreLabel: UILabel!
+    @IBOutlet weak var playerOneSetTwoScoreLabel: UILabel!
+    @IBOutlet weak var playerOneSetThreeScoreLabel: UILabel!
+    @IBOutlet weak var playerOneSetFourScoreLabel: UILabel!
+    @IBOutlet weak var playerOneSetFiveScoreLabel: UILabel!
+    
+    @IBOutlet weak var playerTwoSetOneScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoSetTwoScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoSetThreeScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoSetFourScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoSetFiveScoreLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        setOneStackView.isHidden = true
+        setTwoStackView.isHidden = true
+        setThreeStackView.isHidden = true
+        setFourStackView.isHidden = true
+        setFiveStackView.isHidden = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
