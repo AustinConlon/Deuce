@@ -11,7 +11,7 @@ import Foundation
 
 class ScoreInterfaceController: WKInterfaceController {
     
-    // MARK: Properties
+    // MARK: - Properties
     
     lazy var match = Match()
     var undoStack = [Match]()
@@ -53,7 +53,7 @@ class ScoreInterfaceController: WKInterfaceController {
         updateMenu()
     }
     
-    // MARK: Actions
+    // MARK: - Actions
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
         switch match.state {
@@ -370,7 +370,7 @@ class ScoreInterfaceController: WKInterfaceController {
             addMenuItem(with: .info, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
-        if match.state != .notStarted && !undoStack.isEmpty {
+        if !undoStack.isEmpty {
             let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
             addMenuItem(with: .repeat, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
@@ -386,7 +386,6 @@ class ScoreInterfaceController: WKInterfaceController {
     }
     
     @objc func startMatch() {
-        undoStack = [match]
         workout = Workout()
         workout!.start()
         updateServicePlayer(for: match.set.game)

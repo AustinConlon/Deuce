@@ -41,8 +41,6 @@ class SettingsInterfaceController: WKInterfaceController {
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
-        
-        
     }
     
     @IBAction func setMatchLength(_ value: Int) {
