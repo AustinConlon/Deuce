@@ -361,7 +361,7 @@ class ScoreInterfaceController: WKInterfaceController {
             }
         case false:
             if match.set.game.score == [0, 0] {
-                if match.set.isOddGameConcluded || match.set.score == [0, 0] {
+                if match.set.isOddGameConcluded {
                     WKInterfaceDevice.current().play(.stop)
                 }
             } else {
