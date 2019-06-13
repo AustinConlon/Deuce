@@ -95,7 +95,10 @@ class ScoreInterfaceController: WKInterfaceController {
     
     @objc func undoPoint() {
         undoStack.removeLast()
-        match = undoStack.last!
+        
+        if let lastMatch = undoStack.last {
+            match = lastMatch
+        }
         
         updateTitle(for: match)
         updateGameScoreLabels(for: match.set.game)
@@ -174,6 +177,11 @@ class ScoreInterfaceController: WKInterfaceController {
             playerTwoServiceLabel.setHorizontalAlignment(.right)
         default:
             break
+        }
+    
+        if match.rulesFormat == .noAd && match.set.game.score == [3, 3] {
+            playerOneServiceLabel.setHorizontalAlignment(.center)
+            playerTwoServiceLabel.setHorizontalAlignment(.center)
         }
     }
     
@@ -370,7 +378,7 @@ class ScoreInterfaceController: WKInterfaceController {
             addMenuItem(with: .info, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
-        if !undoStack.isEmpty {
+        if match.state == .playing {
             let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
             addMenuItem(with: .repeat, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
@@ -386,6 +394,8 @@ class ScoreInterfaceController: WKInterfaceController {
     }
     
     @objc func startMatch() {
+        undoStack.append(match)
+        
         workout = Workout()
         workout!.start()
         updateServicePlayer(for: match.set.game)
@@ -396,7 +406,11 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         clearAllMenuItems()
-        updateMenu()
+        
+        if match.state == .playing || match.winner != nil {
+            let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
+            addMenuItem(with: .decline, title: endMatchMenuItemTitle, action: #selector(endMatch))
+        }
     }
     
     @objc func presentCoinToss() {
