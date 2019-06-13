@@ -11,7 +11,7 @@ import Foundation
 
 class ScoreInterfaceController: WKInterfaceController {
     
-    // MARK: Properties
+    // MARK: - Properties
     
     lazy var match = Match()
     var undoStack = [Match]()
@@ -53,7 +53,7 @@ class ScoreInterfaceController: WKInterfaceController {
         updateMenu()
     }
     
-    // MARK: Actions
+    // MARK: - Actions
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
         switch match.state {
@@ -95,7 +95,10 @@ class ScoreInterfaceController: WKInterfaceController {
     
     @objc func undoPoint() {
         undoStack.removeLast()
-        match = undoStack.last!
+        
+        if let lastMatch = undoStack.last {
+            match = lastMatch
+        }
         
         updateTitle(for: match)
         updateGameScoreLabels(for: match.set.game)
@@ -174,6 +177,11 @@ class ScoreInterfaceController: WKInterfaceController {
             playerTwoServiceLabel.setHorizontalAlignment(.right)
         default:
             break
+        }
+    
+        if match.rulesFormat == .noAd && match.set.game.score == [3, 3] {
+            playerOneServiceLabel.setHorizontalAlignment(.center)
+            playerTwoServiceLabel.setHorizontalAlignment(.center)
         }
     }
     
@@ -353,7 +361,7 @@ class ScoreInterfaceController: WKInterfaceController {
             }
         case false:
             if match.set.game.score == [0, 0] {
-                if match.set.isOddGameConcluded || match.set.score == [0, 0] {
+                if match.set.isOddGameConcluded {
                     WKInterfaceDevice.current().play(.stop)
                 }
             } else {
@@ -370,7 +378,7 @@ class ScoreInterfaceController: WKInterfaceController {
             addMenuItem(with: .info, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
-        if match.state != .notStarted && !undoStack.isEmpty {
+        if match.state == .playing {
             let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
             addMenuItem(with: .repeat, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
@@ -386,7 +394,8 @@ class ScoreInterfaceController: WKInterfaceController {
     }
     
     @objc func startMatch() {
-        undoStack = [match]
+        undoStack.append(match)
+        
         workout = Workout()
         workout!.start()
         updateServicePlayer(for: match.set.game)
@@ -397,7 +406,11 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         clearAllMenuItems()
-        updateMenu()
+        
+        if match.state == .playing || match.winner != nil {
+            let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
+            addMenuItem(with: .decline, title: endMatchMenuItemTitle, action: #selector(endMatch))
+        }
     }
     
     @objc func presentCoinToss() {
