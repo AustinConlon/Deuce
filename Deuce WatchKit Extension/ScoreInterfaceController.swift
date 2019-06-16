@@ -352,21 +352,8 @@ class ScoreInterfaceController: WKInterfaceController {
             WKInterfaceDevice.current().play(.notification)
         }
         
-        switch match.set.game.isTiebreak {
-        case true:
-            if match.set.game.score == [0, 0] {
-                WKInterfaceDevice.current().play(.notification)
-            } else if (match.set.game.score[0] + match.set.game.score[1]) % 6 == 0 {
-                WKInterfaceDevice.current().play(.stop)
-            }
-        case false:
-            if match.set.game.score == [0, 0] {
-                if match.set.isOddGameConcluded {
-                    WKInterfaceDevice.current().play(.stop)
-                }
-            } else {
-                WKInterfaceDevice.current().play(.click)
-            }
+        if match.set.game.score != [0, 0] && !match.set.game.isTiebreak && !match.set.isSupertiebreak {
+            WKInterfaceDevice.current().play(.start)
         }
     }
     
