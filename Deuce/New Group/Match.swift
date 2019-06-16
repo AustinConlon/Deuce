@@ -71,6 +71,7 @@ struct Match {
             
             if (rulesFormat == .alternate || rulesFormat == .noAd) && score == [1, 1] {
                 set.isSupertiebreak = true
+                set.game.marginToWin = 2
             }
         }
     }
