@@ -318,7 +318,7 @@ class ScoreInterfaceController: WKInterfaceController {
         setTitle(nil)
         
         if match.set.game.score == [0, 0] {
-            if match.set.isOddGameConcluded {
+            if match.gamesCount % 2 == 1 {
                 setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
             } else {
                 setTitle(nil)

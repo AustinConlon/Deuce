@@ -97,6 +97,8 @@ struct Match {
     
     var rulesFormat = RulesFormats.main
     
+    var gamesCount = 0
+    
     // MARK: Methods
     
     mutating func scorePoint(for player: Player) {
@@ -128,6 +130,8 @@ struct Match {
             if set.isSupertiebreak {
                 winner = gameWinner
             }
+            
+            gamesCount += 1
         }
         
         if let setWinner = set.winner {
