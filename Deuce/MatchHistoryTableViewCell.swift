@@ -2,116 +2,45 @@
 //  MatchHistoryTableViewCell.swift
 //  Deuce
 //
-//  Created by Austin Conlon on 7/3/18.
-//  Copyright © 2018 Austin Conlon. All rights reserved.
+//  Created by Austin Conlon on 5/23/19.
+//  Copyright © 2019 Austin Conlon. All rights reserved.
 //
 
 import UIKit
 
 class MatchHistoryTableViewCell: UITableViewCell {
-    // MARK: Properties
-    @IBOutlet weak var matchStateLabel: UILabel!
     
-    @IBOutlet weak var columnOneSetLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnTwoSetLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnThreeSetLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnFourSetLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnFiveSetLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
+    /// The identifier used to register and dequeue cells of this class with a table view.
+    static let reuseIdentifier = "MatchHistoryTableViewCell"
+
+    @IBOutlet weak var dateLabel: UILabel!
     
-    // Opponent
-    @IBOutlet weak var playerTwoNameLabel: UILabel!
-    @IBOutlet weak var columnOnePlayerTwoSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnTwoPlayerTwoSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnThreePlayerTwoSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnFourPlayerTwoSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnFivePlayerTwoSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
+    @IBOutlet weak var setOneStackView: UIStackView!
+    @IBOutlet weak var setTwoStackView: UIStackView!
+    @IBOutlet weak var setThreeStackView: UIStackView!
+    @IBOutlet weak var setFourStackView: UIStackView!
+    @IBOutlet weak var setFiveStackView: UIStackView!
     
-    // You
-    @IBOutlet weak var playerOneNameLabel: UILabel!
-    @IBOutlet weak var columnOnePlayerOneSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnTwoPlayerOneSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnThreePlayerOneSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnFourPlayerOneSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
-    @IBOutlet weak var columnFivePlayerOneSetScoreLabel: UILabel! {
-        didSet {
-            self.isHidden = false
-        }
-    }
+    @IBOutlet weak var playerOneSetOneScoreLabel: UILabel!
+    @IBOutlet weak var playerOneSetTwoScoreLabel: UILabel!
+    @IBOutlet weak var playerOneSetThreeScoreLabel: UILabel!
+    @IBOutlet weak var playerOneSetFourScoreLabel: UILabel!
+    @IBOutlet weak var playerOneSetFiveScoreLabel: UILabel!
     
+    @IBOutlet weak var playerTwoSetOneScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoSetTwoScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoSetThreeScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoSetFourScoreLabel: UILabel!
+    @IBOutlet weak var playerTwoSetFiveScoreLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        columnOneSetLabel.isHidden = true
-        columnTwoSetLabel.isHidden = true
-        columnThreeSetLabel.isHidden = true
-        columnFourSetLabel.isHidden = true
-        columnFiveSetLabel.isHidden = true
-        columnOnePlayerOneSetScoreLabel.isHidden = true
-        columnOnePlayerTwoSetScoreLabel.isHidden = true
-        columnTwoPlayerOneSetScoreLabel.isHidden = true
-        columnTwoPlayerTwoSetScoreLabel.isHidden = true
-        columnThreePlayerOneSetScoreLabel.isHidden = true
-        columnThreePlayerTwoSetScoreLabel.isHidden = true
-        columnFourPlayerOneSetScoreLabel.isHidden = true
-        columnFourPlayerTwoSetScoreLabel.isHidden = true
-        columnFivePlayerOneSetScoreLabel.isHidden = true
-        columnFivePlayerTwoSetScoreLabel.isHidden = true
+        
+        setOneStackView.isHidden = true
+        setTwoStackView.isHidden = true
+        setThreeStackView.isHidden = true
+        setFourStackView.isHidden = true
+        setFiveStackView.isHidden = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

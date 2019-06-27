@@ -8,6 +8,7 @@
 
 import UIKit
 import HealthKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

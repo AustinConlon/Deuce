@@ -8,37 +8,38 @@
 
 import Foundation
 
-enum MatchState {
+enum MatchState: String, Codable {
     case notStarted
     case playing
     case finished
 }
 
-enum Player {
+enum Player: String, Codable {
     case playerOne
     case playerTwo
 }
 
-enum Court {
+enum Court: String, Codable {
     case deuceCourt
     case adCourt
 }
 
-enum SetType {
+enum SetType: String, Codable {
     case tiebreak
     case superTiebreak
     case advantage
 }
 
 
-enum RulesFormats: String {
+enum RulesFormats: String, Codable {
     case main = "Main"
     case alternate = "Alternate"
     case noAd = "No-Ad"
 }
 
-struct Match {
-    // MARK: - Properties
+struct Match: Codable {
+    
+    // MARK: Properties
     var score = [0, 0] {
         didSet {
             if score[0] >= numberOfSetsToWin { winner = .playerOne }
@@ -89,6 +90,8 @@ struct Match {
                 if let rulesFormatValue = userDefaults.string(forKey: "Rules Format") {
                     rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
                 }
+            case .finished:
+                break
             default:
                 break
             }
@@ -96,7 +99,7 @@ struct Match {
     }
     
     var rulesFormat = RulesFormats.main
-    
+    var date = Date()
     var gamesCount = 0
     
     // MARK: Methods

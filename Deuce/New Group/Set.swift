@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Set {
+struct Set: Codable {
     var score = [0, 0] {
         didSet {
             if (score[0] >= numberOfGamesToWin) && (score[0] >= score[1] + marginToWin) {
