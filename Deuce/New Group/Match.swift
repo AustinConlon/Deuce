@@ -71,6 +71,7 @@ struct Match {
             
             if (rulesFormat == .alternate || rulesFormat == .noAd) && score == [1, 1] {
                 set.isSupertiebreak = true
+                set.game.marginToWin = 2
             }
         }
     }
@@ -95,6 +96,8 @@ struct Match {
     }
     
     var rulesFormat = RulesFormats.main
+    
+    var gamesCount = 0
     
     // MARK: Methods
     
@@ -127,6 +130,8 @@ struct Match {
             if set.isSupertiebreak {
                 winner = gameWinner
             }
+            
+            gamesCount += 1
         }
         
         if let setWinner = set.winner {

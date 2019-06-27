@@ -318,7 +318,7 @@ class ScoreInterfaceController: WKInterfaceController {
         setTitle(nil)
         
         if match.set.game.score == [0, 0] {
-            if match.set.isOddGameConcluded {
+            if match.gamesCount % 2 == 1 {
                 setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
             } else {
                 setTitle(nil)
@@ -352,21 +352,8 @@ class ScoreInterfaceController: WKInterfaceController {
             WKInterfaceDevice.current().play(.notification)
         }
         
-        switch match.set.game.isTiebreak {
-        case true:
-            if match.set.game.score == [0, 0] {
-                WKInterfaceDevice.current().play(.notification)
-            } else if (match.set.game.score[0] + match.set.game.score[1]) % 6 == 0 {
-                WKInterfaceDevice.current().play(.stop)
-            }
-        case false:
-            if match.set.game.score == [0, 0] {
-                if match.set.isOddGameConcluded {
-                    WKInterfaceDevice.current().play(.stop)
-                }
-            } else {
-                WKInterfaceDevice.current().play(.click)
-            }
+        if match.set.game.score != [0, 0] && !match.set.game.isTiebreak && !match.set.isSupertiebreak {
+            WKInterfaceDevice.current().play(.start)
         }
     }
     
@@ -378,7 +365,7 @@ class ScoreInterfaceController: WKInterfaceController {
             addMenuItem(with: .info, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
-        if match.state == .playing {
+        if match.state == .playing || match.state == .finished {
             let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
             addMenuItem(with: .repeat, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
