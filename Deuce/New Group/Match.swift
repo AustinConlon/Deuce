@@ -40,7 +40,6 @@ enum RulesFormats: String, Codable {
 struct Match: Codable {
     
     // MARK: Properties
-    
     var score = [0, 0] {
         didSet {
             if score[0] >= numberOfSetsToWin { winner = .playerOne }
@@ -73,6 +72,7 @@ struct Match: Codable {
             
             if (rulesFormat == .alternate || rulesFormat == .noAd) && score == [1, 1] {
                 set.isSupertiebreak = true
+                set.game.marginToWin = 2
             }
         }
     }
@@ -99,16 +99,8 @@ struct Match: Codable {
     }
     
     var rulesFormat = RulesFormats.main
-    
     var date = Date()
-    
-    // MARK: Archiving Paths
-    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("matches")
-    
-    struct Keys {
-        static let matches = "matches"
-    }
+    var gamesCount = 0
     
     // MARK: Methods
     
@@ -141,6 +133,8 @@ struct Match: Codable {
             if set.isSupertiebreak {
                 winner = gameWinner
             }
+            
+            gamesCount += 1
         }
         
         if let setWinner = set.winner {
@@ -165,26 +159,16 @@ struct Match: Codable {
     
     /// Either player is one point away from winning the match.
     func isMatchPoint() -> Bool {
-        if set.isSetPoint() && playerWithMatchPoint() == set.playerWithSetPoint() {
-            if score[0] >= numberOfSetsToWin - 1 && score[0] > score[1] {
+        if set.isSetPoint() {
+            if (score[0] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerOne) {
                 return true
-            } else if score[1] >= numberOfSetsToWin - 1 && score[1] > score[0] {
-                return true
-            } else {
-                return false
             }
-        } else {
-            return false
+            
+            if (score[1] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerTwo) {
+                return true
+            }
         }
-    }
-    
-    func playerWithMatchPoint() -> Player? {
-        if score[0] >= numberOfSetsToWin - 1 && score[0] >= score[1] {
-            return .playerOne
-        } else if score[1] >= numberOfSetsToWin - 1 && score[1] >= score[0] {
-            return .playerTwo
-        } else {
-            return nil
-        }
+        
+        return false
     }
 }

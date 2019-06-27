@@ -12,7 +12,7 @@ import WatchConnectivity
 
 class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     
-    // MARK: Properties
+    // MARK: - Properties
     
     lazy var match = Match()
     var undoStack = [Match]()
@@ -61,7 +61,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         updateMenu()
     }
     
-    // MARK: Actions
+    // MARK: - Actions
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
         switch match.state {
@@ -107,7 +107,10 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @objc func undoPoint() {
         undoStack.removeLast()
-        match = undoStack.last!
+        
+        if let lastMatch = undoStack.last {
+            match = lastMatch
+        }
         
         updateTitle(for: match)
         updateGameScoreLabels(for: match.set.game)
@@ -190,6 +193,11 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             playerTwoServiceLabel.setHorizontalAlignment(.right)
         default:
             break
+        }
+    
+        if match.rulesFormat == .noAd && match.set.game.score == [3, 3] {
+            playerOneServiceLabel.setHorizontalAlignment(.center)
+            playerTwoServiceLabel.setHorizontalAlignment(.center)
         }
     }
     
@@ -326,7 +334,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         setTitle(nil)
         
         if match.set.game.score == [0, 0] {
-            if match.set.isOddGameConcluded {
+            if match.gamesCount % 2 == 1 {
                 setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
             } else {
                 setTitle(nil)
@@ -360,21 +368,8 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             WKInterfaceDevice.current().play(.notification)
         }
         
-        switch match.set.game.isTiebreak {
-        case true:
-            if match.set.game.score == [0, 0] {
-                WKInterfaceDevice.current().play(.notification)
-            } else if (match.set.game.score[0] + match.set.game.score[1]) % 6 == 0 {
-                WKInterfaceDevice.current().play(.stop)
-            }
-        case false:
-            if match.set.game.score == [0, 0] {
-                if match.set.isOddGameConcluded || match.set.score == [0, 0] {
-                    WKInterfaceDevice.current().play(.stop)
-                }
-            } else {
-                WKInterfaceDevice.current().play(.click)
-            }
+        if match.set.game.score != [0, 0] && !match.set.game.isTiebreak && !match.set.isSupertiebreak {
+            WKInterfaceDevice.current().play(.start)
         }
     }
     
@@ -386,7 +381,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             addMenuItem(with: .info, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
-        if match.state != .notStarted && !undoStack.isEmpty {
+        if match.state == .playing || match.state == .finished {
             let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
             addMenuItem(with: .repeat, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
@@ -402,7 +397,8 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @objc func startMatch() {
-        undoStack = [match]
+        undoStack.append(match)
+        
         workout = Workout()
         workout!.start()
         updateServicePlayer(for: match.set.game)
@@ -413,7 +409,11 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
         
         clearAllMenuItems()
-        updateMenu()
+        
+        if match.state == .playing || match.winner != nil {
+            let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
+            addMenuItem(with: .decline, title: endMatchMenuItemTitle, action: #selector(endMatch))
+        }
     }
     
     @objc func presentCoinToss() {

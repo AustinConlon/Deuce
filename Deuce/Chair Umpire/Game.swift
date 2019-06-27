@@ -60,7 +60,7 @@ struct Game: Codable {
                 if let rulesFormatValue = userDefaults.string(forKey: "Rules Format") {
                     let rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
                     if rulesFormat == .noAd {
-                        marginToWin = 2
+                        marginToWin = 1
                     }
                 }
             }
@@ -131,7 +131,7 @@ struct Game: Codable {
         }
     }
     
-    /// Updates the state of the service player and side of the court they are serving on.
+    /// Updates the state of the service player and side of the court which they are serving on.
     private mutating func updateService() {
         switch isTiebreak {
         case true:
@@ -194,9 +194,9 @@ struct Game: Codable {
     }
     
     func playerWithGamePoint() -> Player? {
-        if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] {
+        if score[0] >= (numberOfPointsToWin - 1) && score[0] > score[1] {
             return .playerOne
-        } else if score[1] >= numberOfPointsToWin - 1 && score[1] > score[0] {
+        } else if score[1] >= (numberOfPointsToWin - 1) && score[1] > score[0] {
             return .playerTwo
         } else {
             return nil
