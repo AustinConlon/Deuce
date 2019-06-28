@@ -195,7 +195,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             break
         }
     
-        if match.rulesFormat == .noAd && match.set.game.score == [3, 3] {
+        if match.rulesFormat == .noAd && match.set.game.score == [3, 3] && !match.set.isSupertiebreak && !match.set.game.isTiebreak {
             playerOneServiceLabel.setHorizontalAlignment(.center)
             playerTwoServiceLabel.setHorizontalAlignment(.center)
         }
@@ -368,8 +368,16 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             WKInterfaceDevice.current().play(.notification)
         }
         
-        if match.set.game.score != [0, 0] && !match.set.game.isTiebreak && !match.set.isSupertiebreak {
+        if match.set.game.score != [0, 0] {
             WKInterfaceDevice.current().play(.start)
+        }
+        
+        if match.set.game.score == [0, 0] {
+            if match.gamesCount % 2 == 1 {
+                WKInterfaceDevice.current().play(.stop)
+            } else {
+                WKInterfaceDevice.current().play(.success)
+            }
         }
     }
     
