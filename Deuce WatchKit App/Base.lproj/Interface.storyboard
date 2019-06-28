@@ -394,7 +394,7 @@
                                     </group>
                                 </tableRow>
                                 <tableRow identifier="Alternate" id="JeR-rz-z9d">
-                                    <group key="rootItem" width="1" height="143" alignment="left" layout="vertical" id="n2r-4w-ru0">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="n2r-4w-ru0">
                                         <items>
                                             <label alignment="left" text="Alternate" numberOfLines="0" id="TsX-P9-OZI">
                                                 <color key="textColor" red="0.015686274509803921" green="0.87058823529411766" blue="0.44313725490196076" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -443,7 +443,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="677.78260869565213" y="142.67857142857142"/>
+            <point key="canvasLocation" x="674" y="130"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

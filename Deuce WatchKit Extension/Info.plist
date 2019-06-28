@@ -46,6 +46,6 @@
 	<key>WKExtensionDelegateClassName</key>
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
 	<key>WKRunsIndependentlyOfCompanionApp</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

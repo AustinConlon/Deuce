@@ -195,7 +195,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             break
         }
     
-        if match.rulesFormat == .noAd && match.set.game.score == [3, 3] {
+        if match.rulesFormat == .noAd && match.set.game.score == [3, 3] && !match.set.isSupertiebreak && !match.set.game.isTiebreak {
             playerOneServiceLabel.setHorizontalAlignment(.center)
             playerTwoServiceLabel.setHorizontalAlignment(.center)
         }

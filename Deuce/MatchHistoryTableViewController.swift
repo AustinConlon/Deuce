@@ -24,43 +24,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             session?.delegate = self
             session?.activate()
         }
-        
-        if let savedMatches = loadMatches() {
-            matches += savedMatches
-        }
-    }
-    
-    private func saveMatches() {
-        var matchesData: NSData
-    
-        do {
-            try matchesData = NSKeyedArchiver.archivedData(withRootObject: matches, requiringSecureCoding: false) as NSData
-
-            do {
-                try matchesData.write(toFile: Match.ArchiveURL.path)
-            } catch {
-                os_log("Failed to write matches...", log: OSLog.default, type: .error)
-            }
-        } catch {
-             os_log("Failed to save matches...", log: OSLog.default, type: .error)
-        }
-    }
-    
-    private func loadMatches() -> [Match]?  {
-        let matchesData: Data
-        
-        do {
-            try matchesData = NSData(contentsOfFile: Match.ArchiveURL.path) as Data
-            do {
-                return try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(matchesData) as? [Match]
-            } catch {
-                os_log("Failed to load matches...", log: OSLog.default, type: .error)
-            }
-        } catch {
-            os_log("Failed to read matches from disk...", log: OSLog.default, type: .error)
-        }
-        
-        return nil
     }
 
     // MARK: - Table view data source
@@ -144,7 +107,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
                 let newIndexPath = IndexPath(row: self.matches.count, section: 0)
                 matches.append(match)
-                saveMatches()
+                
                 DispatchQueue.main.async {
                     self.tableView.insertRows(at: [newIndexPath], with: .automatic)
                     self.tableView.reloadData()
