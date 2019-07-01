@@ -90,6 +90,10 @@ struct Match: Codable {
                 if let rulesFormatValue = userDefaults.string(forKey: "Rules Format") {
                     rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
                 }
+                
+                if rulesFormat == .noAd {
+                    set.game.marginToWin = 1
+                }
             case .finished:
                 break
             default:

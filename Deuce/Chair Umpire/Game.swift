@@ -107,17 +107,6 @@ struct Game: Codable {
         }
     }
     
-    init() {
-        // FIXME: There's probably a better way for a game to get the results format rather than directly from UserDefaults.
-        let userDefaults = UserDefaults()
-        if let rulesFormatValue = userDefaults.string(forKey: "Rules Format") {
-            let rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
-            if rulesFormat == .noAd {
-                marginToWin = 1
-            }
-        }
-    }
-    
     func getScore(for player: Player) -> String {
         switch (player, isTiebreak) {
         case (.playerOne, false):
