@@ -9,12 +9,15 @@
 import UIKit
 import WatchConnectivity
 import os.log
+import CloudKit
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
-    
+    // MARK: - Properties
     var matches = [Match]()
     
     var session: WCSession?
+    
+    var matchRecord: CKRecord?
     
     override func viewDidLoad() {
         super.viewDidLoad()
