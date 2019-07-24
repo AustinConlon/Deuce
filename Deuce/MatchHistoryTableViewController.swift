@@ -17,7 +17,33 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     var session: WCSession?
     
-    var matchRecord: CKRecord?
+    private let database = CKContainer.default().privateCloudDatabase
+    
+    var matchRecord: CKRecord!
+    
+    var records = [CKRecord]() {
+        didSet {
+            if !records.isEmpty {
+                matches.removeAll()
+                
+                for record in records {
+                    let matchData = record["matchData"] as! Data
+                    let propertyListDecoder = PropertyListDecoder()
+                    if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
+                        matches.append(match)
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        fetchMatches()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +115,27 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source.
+            matches.remove(at: indexPath.row)
+            
+            database.delete(withRecordID: records[indexPath.row].recordID) { (recordID, error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.records.remove(at: indexPath.row)
+                }
+            }
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
     // MARK: - WCSessionDelegate
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -108,13 +155,43 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         if let matchData = userInfo["Match"] as? Data {
             let propertyListDecoder = PropertyListDecoder()
             if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
-                let newIndexPath = IndexPath(row: self.matches.count, section: 0)
                 matches.append(match)
                 
+                matchRecord = CKRecord(recordType: "Match")
+                matchRecord["matchData"] = matchData as NSData
+                
+                database.save(matchRecord!) { (savedRecord, error) in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        print("Record successfully saved.")
+                    }
+                }
+                
                 DispatchQueue.main.async {
-                    self.tableView.insertRows(at: [newIndexPath], with: .automatic)
+                    self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
                     self.tableView.reloadData()
                 }
+            }
+        }
+    }
+    
+    // MARK: - CloudKit
+    
+    private func fetchMatches() {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "Match", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        database.perform(query, inZoneWith: nil) { (fetchedRecords, error) in
+            if let fetchedRecords = fetchedRecords {
+                DispatchQueue.main.async {
+                    self.records = fetchedRecords
+                }
+            }
+            
+            if let error = error {
+                print(error)
             }
         }
     }
