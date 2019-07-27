@@ -116,7 +116,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        true
+        return true
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -194,5 +194,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 print(error)
             }
         }
+    }
+    
+    @IBAction func refresh(_ sender: UIRefreshControl) {
     }
 }
