@@ -11,6 +11,7 @@
 		FB1DF1152203B1A70069071A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02F1DEAD77C00B2E195 /* Assets.xcassets */; };
 		FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */; };
 		FB3479532251F84C000F59A8 /* SettingsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3479522251F84C000F59A8 /* SettingsInterfaceController.swift */; };
+		FB35651922DCC81900E97919 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB35651822DCC81900E97919 /* CloudKit.framework */; };
 		FB49BA0220986DC100C8491F /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49BA0120986DC100C8491F /* ComplicationController.swift */; };
 		FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */; };
 		FB51A0131DEAD77C00B2E195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0111DEAD77C00B2E195 /* Main.storyboard */; };
@@ -145,6 +146,7 @@
 		FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
 		FB3377421E6E3C89000B9E30 /* Deuce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce.entitlements; sourceTree = "<group>"; };
 		FB3479522251F84C000F59A8 /* SettingsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInterfaceController.swift; sourceTree = "<group>"; };
+		FB35651822DCC81900E97919 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		FB49BA0120986DC100C8491F /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		FB51A00A1DEAD77C00B2E195 /* Deuce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deuce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBE56FFB2208571A00042188 /* HealthKit.framework in Frameworks */,
+				FB35651922DCC81900E97919 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +345,7 @@
 		FB712C142096EFA7005AA807 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FB35651822DCC81900E97919 /* CloudKit.framework */,
 				FBE56FFA2208571A00042188 /* HealthKit.framework */,
 				FB51A03B1DEAD77C00B2E195 /* Supporting Files */,
 				FB712C152096EFA7005AA807 /* HealthKit.framework */,
