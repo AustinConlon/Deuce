@@ -425,8 +425,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @objc func presentCoinToss() {
-        
-        
         let playerTwoBeginService = WKAlertAction(title: NSLocalizedString("Opponent", tableName: "Interface", comment: "Player the watch wearer is playing against"), style: .`default`) {
             self.match.set.game.servicePlayer = .playerTwo
             self.startMatch()

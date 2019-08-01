@@ -9,7 +9,7 @@
 import Foundation
 
 struct Game: Codable {
-    // Properties
+    // MARK: - Properties
     
     var servicePlayer: Player?
     var serviceSide: Court = .deuceCourt
@@ -38,9 +38,9 @@ struct Game: Codable {
     
     var winner: Player? {
         get {
-            if score[0] >= numberOfPointsToWin && score[0] >= score[1] + marginToWin {
+            if (score[0] >= numberOfPointsToWin) && score[0] >= (score[1] + marginToWin) {
                 return .playerOne
-            } else if score[1] >= numberOfPointsToWin && score[1] >= score[0] + marginToWin {
+            } else if (score[1] >= numberOfPointsToWin) && score[1] >= (score[0] + marginToWin) {
                 return .playerTwo
             } else {
                 return nil
@@ -54,14 +54,6 @@ struct Game: Codable {
             if isTiebreak == true {
                 if Set.setType == .tiebreak {
                     numberOfPointsToWin = 7
-                }
-                
-                let userDefaults = UserDefaults()
-                if let rulesFormatValue = userDefaults.string(forKey: "Rules Format") {
-                    let rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
-                    if rulesFormat == .noAd {
-                        marginToWin = 1
-                    }
                 }
             }
         }
@@ -106,6 +98,8 @@ struct Game: Codable {
             return score[0] + score[1]
         }
     }
+    
+    // MARK: - Methods
     
     func getScore(for player: Player) -> String {
         switch (player, isTiebreak) {
