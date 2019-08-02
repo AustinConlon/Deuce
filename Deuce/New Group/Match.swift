@@ -72,7 +72,6 @@ struct Match: Codable {
             
             if (rulesFormat == .alternate || rulesFormat == .noAd) && score == [1, 1] {
                 set.isSupertiebreak = true
-                set.game.marginToWin = 2
             }
         }
     }
@@ -91,7 +90,7 @@ struct Match: Codable {
                     rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
                 }
                 
-                if rulesFormat == .noAd {
+                if rulesFormat == .noAd && !set.game.isTiebreak {
                     set.game.marginToWin = 1
                 }
             case .finished:
@@ -103,10 +102,15 @@ struct Match: Codable {
     }
     
     var rulesFormat = RulesFormats.main
+    
     var date = Date()
     var gamesCount = 0
     
-    // MARK: Methods
+    // MARK: - Methods
+    
+    init() {
+        UserDefaults.standard.set(rulesFormat.rawValue, forKey: "Rules Format")
+    }
     
     mutating func scorePoint(for player: Player) {
         state = .playing

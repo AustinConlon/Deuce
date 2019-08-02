@@ -34,7 +34,7 @@ struct Set: Codable {
                 game.servicePlayer = .playerOne
             }
             
-            if score == [6, 6] && Set.setType == .tiebreak {
+            if score == [6, 6] {
                 game.isTiebreak = true
                 game.tiebreakStartingServicePlayer = game.servicePlayer
             }

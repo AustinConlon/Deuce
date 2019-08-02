@@ -33,15 +33,6 @@
 		FB82818E2210AD5400E6BAF9 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818D2210AD5400E6BAF9 /* Set.swift */; };
 		FB82818F2210AD5400E6BAF9 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818D2210AD5400E6BAF9 /* Set.swift */; };
 		FB8CD9D721F5E3AD00C122CF /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8CD9D621F5E3AD00C122CF /* Game.swift */; };
-		FB9E8145222CB43B007BA926 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9E8144222CB43B007BA926 /* AppDelegate.swift */; };
-		FB9E8147222CB43B007BA926 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9E8146222CB43B007BA926 /* ViewController.swift */; };
-		FB9E8149222CB43C007BA926 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB9E8148222CB43C007BA926 /* Assets.xcassets */; };
-		FB9E814C222CB43C007BA926 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB9E814A222CB43C007BA926 /* Main.storyboard */; };
-		FB9E8158222CB43C007BA926 /* Deuce_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9E8157222CB43C007BA926 /* Deuce_macOSTests.swift */; };
-		FB9E8163222CB43C007BA926 /* Deuce_macOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9E8162222CB43C007BA926 /* Deuce_macOSUITests.swift */; };
-		FBBC548A2235150F00E5D00A /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818A2210ACA000E6BAF9 /* Match.swift */; };
-		FBBC548B2235151700E5D00A /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818D2210AD5400E6BAF9 /* Set.swift */; };
-		FBBC548C2235151A00E5D00A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8CD9D621F5E3AD00C122CF /* Game.swift */; };
 		FBD169362224D6230027557D /* PracticeInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD169352224D6230027557D /* PracticeInterfaceController.swift */; };
 		FBD5DC18227BC62800119DF4 /* RulesFormatsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD5DC17227BC62800119DF4 /* RulesFormatsInterfaceController.swift */; };
 		FBE321CD21CC7EE8005D22FB /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A02C1DEAD77C00B2E195 /* Interface.storyboard */; };
@@ -69,20 +60,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = FB51A0351DEAD77C00B2E195;
 			remoteInfo = "Deuce WatchKit Extension";
-		};
-		FB9E8154222CB43C007BA926 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FB51A0021DEAD77C00B2E195 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FB9E8141222CB43B007BA926;
-			remoteInfo = "Deuce-macOS";
-		};
-		FB9E815F222CB43C007BA926 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FB51A0021DEAD77C00B2E195 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FB9E8141222CB43B007BA926;
-			remoteInfo = "Deuce-macOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -174,19 +151,6 @@
 		FB82818D2210AD5400E6BAF9 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
 		FB8CD9D621F5E3AD00C122CF /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Game.swift; path = "../Chair Umpire/Game.swift"; sourceTree = "<group>"; };
 		FB9180101F00B1A60028AFE0 /* Deuce WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deuce WatchKit Extension.entitlements"; sourceTree = "<group>"; };
-		FB9E8142222CB43B007BA926 /* Deuce-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deuce-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FB9E8144222CB43B007BA926 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FB9E8146222CB43B007BA926 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		FB9E8148222CB43C007BA926 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FB9E814B222CB43C007BA926 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		FB9E814D222CB43C007BA926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FB9E814E222CB43C007BA926 /* Deuce_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce_macOS.entitlements; sourceTree = "<group>"; };
-		FB9E8153222CB43C007BA926 /* Deuce-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Deuce-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FB9E8157222CB43C007BA926 /* Deuce_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deuce_macOSTests.swift; sourceTree = "<group>"; };
-		FB9E8159222CB43C007BA926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FB9E815E222CB43C007BA926 /* Deuce-macOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Deuce-macOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FB9E8162222CB43C007BA926 /* Deuce_macOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deuce_macOSUITests.swift; sourceTree = "<group>"; };
-		FB9E8164222CB43C007BA926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBA7C26D21CA73B40071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		FBA7C26E21CA73BA0071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		FBA7C26F21CA73BC0071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Interface.strings; sourceTree = "<group>"; };
@@ -227,27 +191,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FB9E813F222CB43B007BA926 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FB9E8150222CB43C007BA926 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FB9E815B222CB43C007BA926 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -258,9 +201,6 @@
 				FB51A0211DEAD77C00B2E195 /* DeuceTests */,
 				FB51A02B1DEAD77C00B2E195 /* Deuce WatchKit App */,
 				FB51A03A1DEAD77C00B2E195 /* Deuce WatchKit Extension */,
-				FB9E8143222CB43B007BA926 /* Deuce-macOS */,
-				FB9E8156222CB43C007BA926 /* Deuce-macOSTests */,
-				FB9E8161222CB43C007BA926 /* Deuce-macOSUITests */,
 				FB51A00B1DEAD77C00B2E195 /* Products */,
 				FB712C142096EFA7005AA807 /* Frameworks */,
 			);
@@ -273,9 +213,6 @@
 				FB51A01E1DEAD77C00B2E195 /* DeuceTests.xctest */,
 				FB51A0271DEAD77C00B2E195 /* Deuce WatchKit App.app */,
 				FB51A0361DEAD77C00B2E195 /* Deuce WatchKit Extension.appex */,
-				FB9E8142222CB43B007BA926 /* Deuce-macOS.app */,
-				FB9E8153222CB43C007BA926 /* Deuce-macOSTests.xctest */,
-				FB9E815E222CB43C007BA926 /* Deuce-macOSUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -364,37 +301,6 @@
 			path = "../Deuce/New Group";
 			sourceTree = "<group>";
 		};
-		FB9E8143222CB43B007BA926 /* Deuce-macOS */ = {
-			isa = PBXGroup;
-			children = (
-				FB9E8144222CB43B007BA926 /* AppDelegate.swift */,
-				FB9E8146222CB43B007BA926 /* ViewController.swift */,
-				FB9E8148222CB43C007BA926 /* Assets.xcassets */,
-				FB9E814A222CB43C007BA926 /* Main.storyboard */,
-				FB9E814D222CB43C007BA926 /* Info.plist */,
-				FB9E814E222CB43C007BA926 /* Deuce_macOS.entitlements */,
-			);
-			path = "Deuce-macOS";
-			sourceTree = "<group>";
-		};
-		FB9E8156222CB43C007BA926 /* Deuce-macOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				FB9E8157222CB43C007BA926 /* Deuce_macOSTests.swift */,
-				FB9E8159222CB43C007BA926 /* Info.plist */,
-			);
-			path = "Deuce-macOSTests";
-			sourceTree = "<group>";
-		};
-		FB9E8161222CB43C007BA926 /* Deuce-macOSUITests */ = {
-			isa = PBXGroup;
-			children = (
-				FB9E8162222CB43C007BA926 /* Deuce_macOSUITests.swift */,
-				FB9E8164222CB43C007BA926 /* Info.plist */,
-			);
-			path = "Deuce-macOSUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -473,59 +379,6 @@
 			productReference = FB51A0361DEAD77C00B2E195 /* Deuce WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
 		};
-		FB9E8141222CB43B007BA926 /* Deuce-macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FB9E816B222CB43C007BA926 /* Build configuration list for PBXNativeTarget "Deuce-macOS" */;
-			buildPhases = (
-				FB9E813E222CB43B007BA926 /* Sources */,
-				FB9E813F222CB43B007BA926 /* Frameworks */,
-				FB9E8140222CB43B007BA926 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Deuce-macOS";
-			productName = "Deuce-macOS";
-			productReference = FB9E8142222CB43B007BA926 /* Deuce-macOS.app */;
-			productType = "com.apple.product-type.application";
-		};
-		FB9E8152222CB43C007BA926 /* Deuce-macOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FB9E816C222CB43C007BA926 /* Build configuration list for PBXNativeTarget "Deuce-macOSTests" */;
-			buildPhases = (
-				FB9E814F222CB43C007BA926 /* Sources */,
-				FB9E8150222CB43C007BA926 /* Frameworks */,
-				FB9E8151222CB43C007BA926 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FB9E8155222CB43C007BA926 /* PBXTargetDependency */,
-			);
-			name = "Deuce-macOSTests";
-			productName = "Deuce-macOSTests";
-			productReference = FB9E8153222CB43C007BA926 /* Deuce-macOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		FB9E815D222CB43C007BA926 /* Deuce-macOSUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FB9E816D222CB43C007BA926 /* Build configuration list for PBXNativeTarget "Deuce-macOSUITests" */;
-			buildPhases = (
-				FB9E815A222CB43C007BA926 /* Sources */,
-				FB9E815B222CB43C007BA926 /* Frameworks */,
-				FB9E815C222CB43C007BA926 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FB9E8160222CB43C007BA926 /* PBXTargetDependency */,
-			);
-			name = "Deuce-macOSUITests";
-			productName = "Deuce-macOSUITests";
-			productReference = FB9E815E222CB43C007BA926 /* Deuce-macOSUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -583,23 +436,6 @@
 							};
 						};
 					};
-					FB9E8141222CB43B007BA926 = {
-						CreatedOnToolsVersion = 10.2;
-						DevelopmentTeam = AV84QJNZ49;
-						ProvisioningStyle = Automatic;
-					};
-					FB9E8152222CB43C007BA926 = {
-						CreatedOnToolsVersion = 10.2;
-						DevelopmentTeam = AV84QJNZ49;
-						ProvisioningStyle = Automatic;
-						TestTargetID = FB9E8141222CB43B007BA926;
-					};
-					FB9E815D222CB43C007BA926 = {
-						CreatedOnToolsVersion = 10.2;
-						DevelopmentTeam = AV84QJNZ49;
-						ProvisioningStyle = Automatic;
-						TestTargetID = FB9E8141222CB43B007BA926;
-					};
 				};
 			};
 			buildConfigurationList = FB51A0051DEAD77C00B2E195 /* Build configuration list for PBXProject "Deuce" */;
@@ -620,9 +456,6 @@
 				FB51A01D1DEAD77C00B2E195 /* DeuceTests */,
 				FB51A0261DEAD77C00B2E195 /* Deuce WatchKit App */,
 				FB51A0351DEAD77C00B2E195 /* Deuce WatchKit Extension */,
-				FB9E8141222CB43B007BA926 /* Deuce-macOS */,
-				FB9E8152222CB43C007BA926 /* Deuce-macOSTests */,
-				FB9E815D222CB43C007BA926 /* Deuce-macOSUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -660,29 +493,6 @@
 			files = (
 				FBE321CD21CC7EE8005D22FB /* Interface.storyboard in Resources */,
 				FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FB9E8140222CB43B007BA926 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FB9E8149222CB43C007BA926 /* Assets.xcassets in Resources */,
-				FB9E814C222CB43C007BA926 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FB9E8151222CB43C007BA926 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FB9E815C222CB43C007BA926 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,34 +538,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FB9E813E222CB43B007BA926 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FBBC548B2235151700E5D00A /* Set.swift in Sources */,
-				FBBC548C2235151A00E5D00A /* Game.swift in Sources */,
-				FB9E8147222CB43B007BA926 /* ViewController.swift in Sources */,
-				FB9E8145222CB43B007BA926 /* AppDelegate.swift in Sources */,
-				FBBC548A2235150F00E5D00A /* Match.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FB9E814F222CB43C007BA926 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FB9E8158222CB43C007BA926 /* Deuce_macOSTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FB9E815A222CB43C007BA926 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FB9E8163222CB43C007BA926 /* Deuce_macOSUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -773,16 +555,6 @@
 			isa = PBXTargetDependency;
 			target = FB51A0351DEAD77C00B2E195 /* Deuce WatchKit Extension */;
 			targetProxy = FB51A0381DEAD77C00B2E195 /* PBXContainerItemProxy */;
-		};
-		FB9E8155222CB43C007BA926 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FB9E8141222CB43B007BA926 /* Deuce-macOS */;
-			targetProxy = FB9E8154222CB43C007BA926 /* PBXContainerItemProxy */;
-		};
-		FB9E8160222CB43C007BA926 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FB9E8141222CB43B007BA926 /* Deuce-macOS */;
-			targetProxy = FB9E815F222CB43C007BA926 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -812,14 +584,6 @@
 				FBA7C26F21CA73BC0071A137 /* fr */,
 			);
 			name = Interface.storyboard;
-			sourceTree = "<group>";
-		};
-		FB9E814A222CB43C007BA926 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FB9E814B222CB43C007BA926 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1105,161 +869,6 @@
 			};
 			name = Release;
 		};
-		FB9E8165222CB43C007BA926 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = "Deuce-macOS/Deuce_macOS.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = AV84QJNZ49;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Deuce-macOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "Austin-Conlon.Deuce-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		FB9E8166222CB43C007BA926 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = "Deuce-macOS/Deuce_macOS.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = AV84QJNZ49;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Deuce-macOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "Austin-Conlon.Deuce-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		FB9E8167222CB43C007BA926 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = AV84QJNZ49;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Deuce-macOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "Austin-Conlon.Deuce-macOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Deuce-macOS.app/Contents/MacOS/Deuce-macOS";
-			};
-			name = Debug;
-		};
-		FB9E8168222CB43C007BA926 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = AV84QJNZ49;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Deuce-macOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "Austin-Conlon.Deuce-macOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Deuce-macOS.app/Contents/MacOS/Deuce-macOS";
-			};
-			name = Release;
-		};
-		FB9E8169222CB43C007BA926 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = AV84QJNZ49;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Deuce-macOSUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "Austin-Conlon.Deuce-macOSUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "Deuce-macOS";
-			};
-			name = Debug;
-		};
-		FB9E816A222CB43C007BA926 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = AV84QJNZ49;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Deuce-macOSUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "Austin-Conlon.Deuce-macOSUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "Deuce-macOS";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1304,33 +913,6 @@
 			buildConfigurations = (
 				FB51A0541DEAD77C00B2E195 /* Debug */,
 				FB51A0551DEAD77C00B2E195 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FB9E816B222CB43C007BA926 /* Build configuration list for PBXNativeTarget "Deuce-macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FB9E8165222CB43C007BA926 /* Debug */,
-				FB9E8166222CB43C007BA926 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FB9E816C222CB43C007BA926 /* Build configuration list for PBXNativeTarget "Deuce-macOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FB9E8167222CB43C007BA926 /* Debug */,
-				FB9E8168222CB43C007BA926 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FB9E816D222CB43C007BA926 /* Build configuration list for PBXNativeTarget "Deuce-macOSUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FB9E8169222CB43C007BA926 /* Debug */,
-				FB9E816A222CB43C007BA926 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

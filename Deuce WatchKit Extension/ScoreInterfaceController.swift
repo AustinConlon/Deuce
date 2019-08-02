@@ -435,20 +435,12 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             self.startMatch()
         }
         
-        var coinTossWinnerMessage: String
-        
-        switch Bool.random() {
-        case true:
-            coinTossWinnerMessage = "You won the coin toss."
-        case false:
-            coinTossWinnerMessage = "Your opponent won the coin toss."
-        }
-        
-        let localizedCoinTossWinnerMessage = NSLocalizedString(coinTossWinnerMessage, tableName: "Interface", comment: "Announcement of which player won the coin toss")
-        
         let localizedCoinTossQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
         
-        presentAlert(withTitle: localizedCoinTossWinnerMessage, message: localizedCoinTossQuestion, preferredStyle: .actionSheet, actions: [playerTwoBeginService, playerOneBeginService])
+        let userDefaults = UserDefaults()
+        if let rulesFormatTitle = userDefaults.string(forKey: "Rules Format") {
+            presentAlert(withTitle: rulesFormatTitle, message: localizedCoinTossQuestion, preferredStyle: .actionSheet, actions: [playerTwoBeginService, playerOneBeginService])
+        }
     }
     
     private func updateInteractionEnabledState() {

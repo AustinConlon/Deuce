@@ -13,6 +13,7 @@ import CloudKit
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
     // MARK: - Properties
+    
     var matches = [Match]()
     
     var session: WCSession?
@@ -43,6 +44,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     override func viewWillAppear(_ animated: Bool) {
         fetchMatches()
+        configureRefreshControl()
     }
     
     override func viewDidLoad() {
@@ -155,22 +157,23 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         if let matchData = userInfo["Match"] as? Data {
             let propertyListDecoder = PropertyListDecoder()
             if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
-                matches.append(match)
-                
-                matchRecord = CKRecord(recordType: "Match")
-                matchRecord["matchData"] = matchData as NSData
-                
-                database.save(matchRecord!) { (savedRecord, error) in
-                    if let error = error {
-                        print(error)
-                    } else {
-                        print("Record successfully saved.")
+                if match.winner != nil {
+                    matches.append(match)
+                    
+                    matchRecord = CKRecord(recordType: "Match")
+                    matchRecord["matchData"] = matchData as NSData
+                    
+                    database.save(matchRecord!) { (savedRecord, error) in
+                        if let error = error {
+                            print(error)
+                        } else {
+                            print("Record successfully saved.")
+                        }
                     }
-                }
-                
-                DispatchQueue.main.async {
-                    self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-                    self.tableView.reloadData()
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+                    }
                 }
             }
         }
@@ -196,6 +199,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }
     }
     
-    @IBAction func refresh(_ sender: UIRefreshControl) {
+    // MARK: - Refresh
+    
+    func configureRefreshControl () {
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc func handleRefreshControl() {
+        fetchMatches()
+        
+        DispatchQueue.main.async {
+            self.tableView.refreshControl?.endRefreshing()
+        }
     }
 }

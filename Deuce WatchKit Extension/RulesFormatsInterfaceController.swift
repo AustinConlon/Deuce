@@ -36,5 +36,4 @@ class RulesFormatsInterfaceController: WKInterfaceController {
         UserDefaults.standard.set(rulesFormat.rawValue, forKey: "Rules Format")
         dismiss()
     }
-
 }
