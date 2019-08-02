@@ -172,7 +172,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 
                 DispatchQueue.main.async {
                     self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-                    self.tableView.reloadData()
                 }
             }
         }
