@@ -13,6 +13,7 @@ import CloudKit
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
     // MARK: - Properties
+    
     var matches = [Match]()
     
     var session: WCSession?
@@ -43,6 +44,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     override func viewWillAppear(_ animated: Bool) {
         fetchMatches()
+        configureRefreshControl()
     }
     
     override func viewDidLoad() {
@@ -196,6 +198,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }
     }
     
-    @IBAction func refresh(_ sender: UIRefreshControl) {
+    // MARK: - Refresh
+    
+    func configureRefreshControl () {
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc func handleRefreshControl() {
+        fetchMatches()
+        
+        DispatchQueue.main.async {
+            self.tableView.refreshControl?.endRefreshing()
+        }
     }
 }
