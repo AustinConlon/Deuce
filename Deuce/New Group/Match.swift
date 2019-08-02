@@ -102,10 +102,15 @@ struct Match: Codable {
     }
     
     var rulesFormat = RulesFormats.main
+    
     var date = Date()
     var gamesCount = 0
     
-    // MARK: Methods
+    // MARK: - Methods
+    
+    init() {
+        UserDefaults.standard.set(rulesFormat.rawValue, forKey: "Rules Format")
+    }
     
     mutating func scorePoint(for player: Player) {
         state = .playing
