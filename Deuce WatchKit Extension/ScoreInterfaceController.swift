@@ -334,15 +334,15 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         setTitle(nil)
         
         if match.set.game.score == [0, 0] {
-            if match.gamesCount % 2 == 1 {
-                setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
+            if match.isChangeover {
+                setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
             } else {
                 setTitle(nil)
             }
         }
         
         if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
-            setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
+            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
         }
         
         if match.set.game.isBreakPoint() {
@@ -373,10 +373,10 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
         
         if match.set.game.score == [0, 0] {
-            if match.gamesCount % 2 == 1 {
-                WKInterfaceDevice.current().play(.stop)
+            if match.isChangeover {
+                WKInterfaceDevice.current().play(.retry)
             } else {
-                WKInterfaceDevice.current().play(.success)
+                WKInterfaceDevice.current().play(.stop)
             }
         }
     }
