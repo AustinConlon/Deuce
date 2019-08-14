@@ -229,13 +229,7 @@
                             <outlet property="delegate" destination="IK4-br-vsG" id="5me-pI-NUP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Match History" id="7Ow-nq-jA7">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Rules" id="4Qp-AJ-aJY">
-                            <connections>
-                                <action selector="showScoringRules:" destination="IK4-br-vsG" id="Bao-Lg-FIj"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Match History" id="7Ow-nq-jA7"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="kZ3-kN-R0Z">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>

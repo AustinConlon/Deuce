@@ -43,6 +43,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
         fetchMatches()
         configureRefreshControl()
     }
@@ -157,22 +159,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         if let matchData = userInfo["Match"] as? Data {
             let propertyListDecoder = PropertyListDecoder()
             if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
-                if match.winner != nil {
-                    matches.append(match)
-                    
-                    matchRecord = CKRecord(recordType: "Match")
-                    matchRecord["matchData"] = matchData as NSData
-                    
-                    database.save(matchRecord!) { (savedRecord, error) in
-                        if let error = error {
-                            print(error)
-                        } else {
-                            print("Record successfully saved.")
+                matches.insert(match, at: 0)
+                
+                matchRecord = CKRecord(recordType: "Match")
+                matchRecord["matchData"] = matchData as NSData
+                
+                database.save(matchRecord!) { (savedRecord, error) in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        DispatchQueue.main.async {
+                            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
                         }
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
                     }
                 }
             }

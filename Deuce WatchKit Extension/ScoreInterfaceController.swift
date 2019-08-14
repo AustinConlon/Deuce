@@ -66,7 +66,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
         switch match.state {
         case .notStarted:
-            presentCoinToss()
+            presentServiceSetting()
         case .playing:
             match.scorePoint(for: .playerOne)
             undoStack.append(match)
@@ -87,7 +87,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
         switch match.state {
         case .notStarted:
-            presentCoinToss()
+            presentServiceSetting()
         case .playing:
             match.scorePoint(for: .playerTwo)
             undoStack.append(match)
@@ -334,15 +334,15 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         setTitle(nil)
         
         if match.set.game.score == [0, 0] {
-            if match.gamesCount % 2 == 1 {
-                setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
+            if match.isChangeover {
+                setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
             } else {
                 setTitle(nil)
             }
         }
         
         if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
-            setTitle(NSLocalizedString("Switch Ends", tableName: "Interface", comment: "Both players switch ends of the court."))
+            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
         }
         
         if match.set.game.isBreakPoint() {
@@ -373,10 +373,14 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
         
         if match.set.game.score == [0, 0] {
-            if match.gamesCount % 2 == 1 {
-                WKInterfaceDevice.current().play(.stop)
+            if match.set.game.isTiebreak || match.set.isSupertiebreak {
+                WKInterfaceDevice.current().play(.notification)
+            }
+            
+            if match.isChangeover {
+                WKInterfaceDevice.current().play(.retry)
             } else {
-                WKInterfaceDevice.current().play(.success)
+                WKInterfaceDevice.current().play(.stop)
             }
         }
     }
@@ -424,22 +428,23 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
     }
     
-    @objc func presentCoinToss() {
-        let playerTwoBeginService = WKAlertAction(title: NSLocalizedString("Opponent", tableName: "Interface", comment: "Player the watch wearer is playing against"), style: .`default`) {
+    @objc func presentServiceSetting() {
+        let playerTwoServesFirst = WKAlertAction(title: NSLocalizedString("Opponent", tableName: "Interface", comment: "Player the watch wearer is playing against"), style: .`default`) {
             self.match.set.game.servicePlayer = .playerTwo
             self.startMatch()
         }
         
-        let playerOneBeginService = WKAlertAction(title: NSLocalizedString("You", tableName: "Interface", comment: "Player wearing the watch"), style: .`default`) {
+        let playerOneServesFirst = WKAlertAction(title: NSLocalizedString("You", tableName: "Interface", comment: "Player wearing the watch"), style: .`default`) {
             self.match.set.game.servicePlayer = .playerOne
             self.startMatch()
         }
         
-        let localizedCoinTossQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
+        let localizedServiceQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
         
         let userDefaults = UserDefaults()
         if let rulesFormatTitle = userDefaults.string(forKey: "Rules Format") {
-            presentAlert(withTitle: rulesFormatTitle, message: localizedCoinTossQuestion, preferredStyle: .actionSheet, actions: [playerTwoBeginService, playerOneBeginService])
+            let localizedRulesFormatTitle = NSLocalizedString(rulesFormatTitle, tableName: "Interface", comment: "Rules format to be played")
+            presentAlert(withTitle: localizedRulesFormatTitle, message: localizedServiceQuestion, preferredStyle: .actionSheet, actions: [playerTwoServesFirst, playerOneServesFirst])
         }
     }
     

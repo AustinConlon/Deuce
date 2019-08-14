@@ -106,6 +106,16 @@ struct Match: Codable {
     var date = Date()
     var gamesCount = 0
     
+    var isChangeover: Bool {
+        get {
+            if gamesCount % 2 == 1 {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
     // MARK: - Methods
     
     init() {
