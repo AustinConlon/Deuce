@@ -148,6 +148,8 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     @objc func endMatch() {
         workout?.stop()
         
+        match.stop()
+        
         if let matchData = try? PropertyListEncoder().encode(match) {
             session?.transferUserInfo(["Match" : matchData])
         }
@@ -334,6 +336,14 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         setTitle(nil)
         
         if match.set.game.score == [0, 0] {
+            if match.set.game.isTiebreak {
+                setTitle("Tiebreak")
+            }
+            
+            if match.set.isSupertiebreak {
+                setTitle("Supertiebreak")
+            }
+            
             if match.isChangeover {
                 setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
             } else {

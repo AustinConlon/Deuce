@@ -167,11 +167,11 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 database.save(matchRecord!) { (savedRecord, error) in
                     if let error = error {
                         print(error)
-                    } else {
-                        DispatchQueue.main.async {
-                            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-                        }
                     }
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
                 }
             }
         }

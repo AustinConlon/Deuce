@@ -129,3 +129,7 @@
 "B3M-mX-unK.text" = "2 sets à 6 jeux + super tie-break à 10 points";
 "znz-6Y-2Ub.text" = "Tie-break à 6-6 aux sets 1 et 2";
 "LK8-jZ-LKs.text" = "Jeux à point décisif";
+
+"Main" = "Format 1";
+"Alternate" = "Format 2";
+"No-Ad" = "Format 4";
