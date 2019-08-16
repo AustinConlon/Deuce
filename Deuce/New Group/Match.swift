@@ -189,4 +189,11 @@ struct Match: Codable {
         
         return false
     }
+    
+    // TODO: Remove this temporary workaround.
+    mutating func stop() {
+        if set.score != [0, 0] {
+            sets.append(set)
+        }
+    }
 }
