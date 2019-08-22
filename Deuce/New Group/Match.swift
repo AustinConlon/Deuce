@@ -132,13 +132,10 @@ struct Match: Codable {
         }
     }
     
-    var undoStack = Stack<Match>()
-    
     // MARK: - Methods
     
     init() {
         UserDefaults.standard.set(rulesFormat.rawValue, forKey: "Rules Format")
-        undoStack.push(self)
     }
     
     mutating func scorePoint(for player: Player) {
@@ -192,8 +189,6 @@ struct Match: Codable {
             }
             state = .finished
         }
-        
-        undoStack.push(self)
     }
     
     /// Either player is one point away from winning the match.
@@ -215,14 +210,6 @@ struct Match: Codable {
     mutating func stop() {
         if set.score != [0, 0] {
             sets.append(set)
-        }
-    }
-    
-    mutating func undo() {
-        undoStack.pop()
-        
-        if let previousMatchState = undoStack.topItem {
-            self = previousMatchState
         }
     }
 }

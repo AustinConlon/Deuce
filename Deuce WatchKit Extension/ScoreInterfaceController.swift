@@ -15,6 +15,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     // MARK: - Properties
     
     lazy var match = Match()
+    var undoStack = Stack<Match>()
     
     var workout: Workout?
     
@@ -68,6 +69,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             presentServiceSetting()
         case .playing:
             match.scorePoint(for: .playerOne)
+            undoStack.push(match)
             updateUI()
         case .finished:
             break
@@ -80,6 +82,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             presentServiceSetting()
         case .playing:
             match.scorePoint(for: .playerTwo)
+            undoStack.push(match)
             updateUI()
         case .finished:
             break
@@ -98,8 +101,10 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @objc func undoPoint() {
-        match.undo()
-        print(match)
+        undoStack.pop()
+        if let lastMatch = undoStack.topItem {
+            match = lastMatch
+        }
         
         updateUI()
         
@@ -402,6 +407,8 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @objc func startMatch() {
+        undoStack.push(match)
+        
         workout = Workout()
         workout!.start()
         updateServicePlayer(for: match.set.game)
