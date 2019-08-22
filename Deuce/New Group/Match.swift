@@ -37,6 +37,22 @@ enum RulesFormats: String, Codable {
     case noAd = "No-Ad"
 }
 
+struct Stack<Element: Codable>: Codable {
+    var items = [Element]()
+    
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    
+    mutating func pop() {
+        items.removeLast()
+    }
+    
+    var topItem: Element? {
+        return items.isEmpty ? nil : items[items.count - 1]
+    }
+}
+
 struct Match: Codable {
     
     // MARK: Properties
@@ -116,10 +132,13 @@ struct Match: Codable {
         }
     }
     
+    var undoStack = Stack<Match>()
+    
     // MARK: - Methods
     
     init() {
         UserDefaults.standard.set(rulesFormat.rawValue, forKey: "Rules Format")
+        undoStack.push(self)
     }
     
     mutating func scorePoint(for player: Player) {
@@ -173,6 +192,8 @@ struct Match: Codable {
             }
             state = .finished
         }
+        
+        undoStack.push(self)
     }
     
     /// Either player is one point away from winning the match.
@@ -194,6 +215,14 @@ struct Match: Codable {
     mutating func stop() {
         if set.score != [0, 0] {
             sets.append(set)
+        }
+    }
+    
+    mutating func undo() {
+        undoStack.pop()
+        
+        if let previousMatchState = undoStack.topItem {
+            self = previousMatchState
         }
     }
 }

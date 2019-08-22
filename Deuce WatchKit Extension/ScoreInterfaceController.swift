@@ -15,7 +15,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     // MARK: - Properties
     
     lazy var match = Match()
-    var undoStack = [Match]()
     
     var workout: Workout?
     
@@ -69,16 +68,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             presentServiceSetting()
         case .playing:
             match.scorePoint(for: .playerOne)
-            undoStack.append(match)
-            
-            playHaptic(for: match)
-            updateTitle(for: match)
-            updateGameScoreLabels(for: match.set.game)
-            updateScores(for: match)
-            updateServiceSide(for: match.set.game)
-            updateServicePlayer(for: match.set.game)
-            updateMenu()
-            updateInteractionEnabledState()
+            updateUI()
         case .finished:
             break
         }
@@ -90,34 +80,28 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             presentServiceSetting()
         case .playing:
             match.scorePoint(for: .playerTwo)
-            undoStack.append(match)
-            
-            playHaptic(for: match)
-            updateTitle(for: match)
-            updateGameScoreLabels(for: match.set.game)
-            updateScores(for: match)
-            updateServiceSide(for: match.set.game)
-            updateServicePlayer(for: match.set.game)
-            updateMenu()
-            updateInteractionEnabledState()
+            updateUI()
         case .finished:
             break
         }
     }
     
-    @objc func undoPoint() {
-        undoStack.removeLast()
-        
-        if let lastMatch = undoStack.last {
-            match = lastMatch
-        }
-        
+    private func updateUI() {
+        playHaptic(for: match)
         updateTitle(for: match)
         updateGameScoreLabels(for: match.set.game)
         updateScores(for: match)
         updateServiceSide(for: match.set.game)
         updateServicePlayer(for: match.set.game)
         updateMenu()
+        updateInteractionEnabledState()
+    }
+    
+    @objc func undoPoint() {
+        match.undo()
+        print(match)
+        
+        updateUI()
         
         playerOneGameScoreLabel.setVerticalAlignment(.center)
         playerTwoGameScoreLabel.setVerticalAlignment(.center)
@@ -156,7 +140,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         
         // TODO: Reduce code duplication between reseting the match state and starting a new match.
         match = Match()
-        undoStack = [Match]()
         
         updateTitle(for: match)
         updateGameScoreLabels(for: match.set.game)
@@ -419,8 +402,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     @objc func startMatch() {
-        undoStack.append(match)
-        
         workout = Workout()
         workout!.start()
         updateServicePlayer(for: match.set.game)
