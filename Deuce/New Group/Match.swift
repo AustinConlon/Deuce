@@ -37,6 +37,22 @@ enum RulesFormats: String, Codable {
     case noAd = "No-Ad"
 }
 
+struct Stack<Element: Codable>: Codable {
+    var items = [Element]()
+    
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    
+    mutating func pop() {
+        items.removeLast()
+    }
+    
+    var topItem: Element? {
+        return items.isEmpty ? nil : items[items.count - 1]
+    }
+}
+
 struct Match: Codable {
     
     // MARK: Properties
