@@ -119,7 +119,7 @@ struct Match: Codable {
     
     var rulesFormat = RulesFormats.main
     
-    var date = Date()
+    var date: Date!
     var gamesCount = 0
     
     var isChangeover: Bool {
@@ -211,5 +211,7 @@ struct Match: Codable {
         if set.score != [0, 0] {
             sets.append(set)
         }
+        
+        date = Date()
     }
 }
