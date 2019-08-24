@@ -136,7 +136,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 }
             }
             
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.reloadData()
         }
     }
     

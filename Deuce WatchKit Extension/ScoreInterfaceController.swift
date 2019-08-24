@@ -462,4 +462,23 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("\(#function): activationState:\(WCSession.default.activationState.rawValue)")
     }
+    
+    private func testMatch() {
+        match = Match()
+        match.date = Date()
+        match.set.game.servicePlayer = .playerOne
+        
+        while match.winner == nil {
+            switch Bool.random() {
+            case true:
+                match.scorePoint(for: .playerOne)
+            case false:
+                match.scorePoint(for: .playerTwo)
+            }
+        }
+        
+        if let matchData = try? PropertyListEncoder().encode(match) {
+            session?.transferUserInfo(["Match" : matchData])
+        }
+    }
 }

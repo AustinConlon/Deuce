@@ -25,7 +25,6 @@
 		FB51A0441DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0431DEAD77C00B2E195 /* Assets.xcassets */; };
 		FB6DAA0A2210284400949669 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DAA092210284400949669 /* Workout.swift */; };
 		FB712C162096EFA7005AA807 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB712C152096EFA7005AA807 /* HealthKit.framework */; };
-		FB76DA86229C89F600611D63 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FB76DA84229C89F600611D63 /* Model.xcdatamodeld */; };
 		FB77B3FD2202FB1A00D42963 /* ScoreInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77B3FC2202FB1A00D42963 /* ScoreInterfaceController.swift */; };
 		FB77B3FE2202FB7D00D42963 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8CD9D621F5E3AD00C122CF /* Game.swift */; };
 		FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818A2210ACA000E6BAF9 /* Match.swift */; };
@@ -145,7 +144,6 @@
 		FB51A0451DEAD77C00B2E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB6DAA092210284400949669 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
-		FB76DA85229C89F600611D63 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		FB77B3FC2202FB1A00D42963 /* ScoreInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInterfaceController.swift; sourceTree = "<group>"; };
 		FB82818A2210ACA000E6BAF9 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		FB82818D2210AD5400E6BAF9 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
@@ -228,7 +226,6 @@
 				FB51A0141DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0161DEAD77C00B2E195 /* LaunchScreen.storyboard */,
 				FB51A0191DEAD77C00B2E195 /* Info.plist */,
-				FB76DA84229C89F600611D63 /* Model.xcdatamodeld */,
 			);
 			path = Deuce;
 			sourceTree = "<group>";
@@ -506,7 +503,6 @@
 				FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */,
 				FB82818E2210AD5400E6BAF9 /* Set.swift in Sources */,
 				FB8CD9D721F5E3AD00C122CF /* Game.swift in Sources */,
-				FB76DA86229C89F600611D63 /* Model.xcdatamodeld in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 				FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */,
 				FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */,
@@ -930,19 +926,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		FB76DA84229C89F600611D63 /* Model.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				FB76DA85229C89F600611D63 /* Model.xcdatamodel */,
-			);
-			currentVersion = FB76DA85229C89F600611D63 /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = FB51A0021DEAD77C00B2E195 /* Project object */;
 }
