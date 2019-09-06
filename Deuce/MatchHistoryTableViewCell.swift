@@ -49,4 +49,11 @@ class MatchHistoryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    override func prepareForReuse() {
+        setOneStackView.isHidden = true
+        setTwoStackView.isHidden = true
+        setThreeStackView.isHidden = true
+        setFourStackView.isHidden = true
+        setFiveStackView.isHidden = true
+    }
 }

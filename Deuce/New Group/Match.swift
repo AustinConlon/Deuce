@@ -134,10 +134,6 @@ struct Match: Codable {
     
     // MARK: - Methods
     
-    init() {
-        UserDefaults.standard.set(rulesFormat.rawValue, forKey: "Rules Format")
-    }
-    
     mutating func scorePoint(for player: Player) {
         state = .playing
         

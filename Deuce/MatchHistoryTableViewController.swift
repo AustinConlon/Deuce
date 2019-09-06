@@ -18,7 +18,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     var session: WCSession?
     
-    private let database = CKContainer.default().privateCloudDatabase
+    let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
     
     var matchRecord: CKRecord!
     
@@ -35,18 +35,16 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                     }
                 }
             }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
         }
     }
+    
+    let propertyListDecoder = PropertyListDecoder()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        fetchMatches()
         configureRefreshControl()
+        fetchMatches()
     }
     
     override func viewDidLoad() {
@@ -86,10 +84,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         cell.dateLabel.text = dateString
         
-        if match.sets.count >= 1 {
+        if match.sets.count >= 0 {
             cell.setOneStackView.isHidden = false
-            cell.playerOneSetOneScoreLabel.text = String(match.sets[0].score[0])
-            cell.playerTwoSetOneScoreLabel.text = String(match.sets[0].score[1])
+            cell.playerOneSetOneScoreLabel.text = String(match.sets.last?.score[0] ?? match.set.score[0])
+            cell.playerTwoSetOneScoreLabel.text = String(match.sets.last?.score[1] ?? match.set.score[1])
         }
         
         if match.sets.count >= 2 {
@@ -125,7 +123,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source.
             matches.remove(at: indexPath.row)
             
             database.delete(withRecordID: records[indexPath.row].recordID) { (recordID, error) in
@@ -136,7 +133,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 }
             }
             
-            tableView.reloadData()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
@@ -155,28 +152,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         session.activate()
     }
     
-    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        if let matchData = userInfo["Match"] as? Data {
-            let propertyListDecoder = PropertyListDecoder()
-            if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
-                matches.insert(match, at: 0)
-                
-                matchRecord = CKRecord(recordType: "Match")
-                matchRecord["matchData"] = matchData as NSData
-                
-                database.save(matchRecord!) { (savedRecord, error) in
-                    if let error = error {
-                        print(error)
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
-    }
-    
     // MARK: - CloudKit
     
     private func fetchMatches() {
@@ -186,13 +161,14 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         database.perform(query, inZoneWith: nil) { (fetchedRecords, error) in
             if let fetchedRecords = fetchedRecords {
+                self.records = fetchedRecords
                 DispatchQueue.main.async {
-                    self.records = fetchedRecords
+                    self.tableView.reloadData()
                 }
             }
             
             if let error = error {
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -208,6 +184,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         fetchMatches()
         
         DispatchQueue.main.async {
+            self.tableView.reloadData()
             self.tableView.refreshControl?.endRefreshing()
         }
     }

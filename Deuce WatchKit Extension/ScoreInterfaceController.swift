@@ -8,9 +8,10 @@
 
 import WatchKit
 import Foundation
+import CloudKit
 import WatchConnectivity
 
-class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
+class ScoreInterfaceController: WKInterfaceController {
     
     // MARK: - Properties
     
@@ -18,8 +19,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     var undoStack = Stack<Match>()
     
     var workout: Workout?
-    
-    var session: WCSession?
     
     @IBOutlet weak var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoServiceLabel: WKInterfaceLabel!
@@ -44,15 +43,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBOutlet weak var playerOneColumnOneSetScoreLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoColumnOneSetScoreLabel: WKInterfaceLabel!
-    
-    override init() {
-        super.init()
-        if WCSession.isSupported() {
-            session = WCSession.default
-            session?.delegate = self
-            session?.activate()
-        }
-    }
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
@@ -136,14 +126,10 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @objc func endMatch() {
         workout?.stop()
-        
         match.stop()
         
-        if let matchData = try? PropertyListEncoder().encode(match) {
-            session?.transferUserInfo(["Match" : matchData])
-        }
+        uploadMatchToCloud()
         
-        // TODO: Reduce code duplication between reseting the match state and starting a new match.
         match = Match()
         
         updateTitle(for: match)
@@ -457,7 +443,7 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
     }
     
-    // MARK: WCSessionDelegate
+    // MARK: - WCSessionDelegate
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("\(#function): activationState:\(WCSession.default.activationState.rawValue)")
@@ -476,9 +462,19 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
                 match.scorePoint(for: .playerTwo)
             }
         }
-        
+    }
+    
+    private func uploadMatchToCloud() {
         if let matchData = try? PropertyListEncoder().encode(match) {
-            session?.transferUserInfo(["Match" : matchData])
+            let database = CKContainer.default().privateCloudDatabase
+            let matchRecord = CKRecord(recordType: "Match")
+            matchRecord["matchData"] = matchData as NSData
+            
+            database.save(matchRecord) { (savedRecord, error) in
+                if let error = error {
+                    print(error)
+                }
+            }
         }
     }
 }
