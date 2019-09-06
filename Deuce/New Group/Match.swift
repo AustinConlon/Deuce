@@ -124,7 +124,7 @@ struct Match: Codable {
     
     var isChangeover: Bool {
         get {
-            if gamesCount % 2 == 1 {
+            if set.games.count % 2 == 1 || (!sets.isEmpty && set.score == [0, 0]) {
                 return true
             } else {
                 return false
