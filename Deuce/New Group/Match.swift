@@ -95,7 +95,11 @@ struct Match: Codable {
     /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
     var numberOfSetsToWin = 2
     
-    var winner: Player?
+    var winner: Player? {
+        didSet {
+            set.winner = winner
+        }
+    }
     
     var state: MatchState = .notStarted {
         didSet {
@@ -204,7 +208,8 @@ struct Match: Codable {
     
     // TODO: Remove this temporary workaround.
     mutating func stop() {
-        if set.score != [0, 0] {
+        print(set.score)
+        if sets.last?.winner == nil {
             sets.append(set)
         }
         

@@ -84,12 +84,12 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         cell.dateLabel.text = dateString
         
-        if match.sets.count >= 0 {
+        if match.sets.count >= 1 {
             cell.setOneStackView.isHidden = false
-            cell.playerOneSetOneScoreLabel.text = String(match.sets.last?.score[0] ?? match.set.score[0])
-            cell.playerTwoSetOneScoreLabel.text = String(match.sets.last?.score[1] ?? match.set.score[1])
+            cell.playerOneSetOneScoreLabel.text = String(match.sets[0].score[0])
+            cell.playerTwoSetOneScoreLabel.text = String(match.sets[0].score[1])
         }
-        
+    
         if match.sets.count >= 2 {
             cell.setTwoStackView.isHidden = false
             cell.playerOneSetTwoScoreLabel.text = String(match.sets[1].score[0])
