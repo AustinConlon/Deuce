@@ -14,6 +14,8 @@ class MatchHistoryTableViewCell: UITableViewCell {
     static let reuseIdentifier = "MatchHistoryTableViewCell"
 
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var playerOneName: UILabel!
+    @IBOutlet weak var playerTwoName: UILabel!
     
     @IBOutlet weak var setOneStackView: UIStackView!
     @IBOutlet weak var setTwoStackView: UIStackView!

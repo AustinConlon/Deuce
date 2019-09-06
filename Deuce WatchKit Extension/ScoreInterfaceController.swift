@@ -325,10 +325,6 @@ class ScoreInterfaceController: WKInterfaceController {
             }
         }
         
-        if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
-            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
-        }
-        
         if match.set.game.isBreakPoint() {
             setTitle(NSLocalizedString("Break Point", tableName: "Interface", comment: "Receiving player is one point away from winning the game."))
         }
@@ -338,8 +334,20 @@ class ScoreInterfaceController: WKInterfaceController {
             setTitle(NSLocalizedString("Set Point", tableName: "Interface", comment: "A player is one point away from winning the set."))
         }
         
+        if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
+            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
+        }
+        
         if match.isMatchPoint() {
             setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
+        }
+        
+        if match.set.game.isTiebreak && match.set.game.score == [0, 0] {
+            setTitle(NSLocalizedString("Tiebreak", tableName: "Interface", comment: ""))
+        }
+        
+        if match.set.isSupertiebreak && match.set.game.score == [0, 0] {
+            setTitle(NSLocalizedString("Supertiebreak", tableName: "Interface", comment: ""))
         }
         
         if match.winner != nil {
