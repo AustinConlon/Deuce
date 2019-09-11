@@ -40,11 +40,16 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     let propertyListDecoder = PropertyListDecoder()
     
+    var activeObserver: NSObjectProtocol?
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         configureRefreshControl()
-        fetchMatches()
+        
+        activeObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
+            self.fetchMatches()
+        }
     }
     
     override func viewDidLoad() {
@@ -188,6 +193,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             if let error = error {
                 print(error.localizedDescription)
             }
+        }
+        
+        if let observer = self.activeObserver {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
     
