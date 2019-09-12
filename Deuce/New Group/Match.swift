@@ -207,8 +207,7 @@ struct Match: Codable {
     }
     
     // TODO: Remove this temporary workaround.
-    mutating func stop() {
-        print(set.score)
+    mutating func stop() { 
         if sets.last?.winner == nil {
             sets.append(set)
         }
