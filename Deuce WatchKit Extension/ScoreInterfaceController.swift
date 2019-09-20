@@ -326,10 +326,6 @@ class ScoreInterfaceController: WKInterfaceController {
             setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
         }
         
-        if match.winner != nil  {
-            setTitle(nil)
-        }
-        
         if match.set.game.score == [0, 0] {
             if match.set.game.isTiebreak {
                 setTitle(NSLocalizedString("Tiebreak", tableName: "Interface", comment: ""))
@@ -348,6 +344,10 @@ class ScoreInterfaceController: WKInterfaceController {
         
         if match.isChangeover {
             setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
+        }
+        
+        if match.winner != nil  {
+            setTitle(nil)
         }
     }
     
