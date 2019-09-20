@@ -137,12 +137,12 @@ struct Match: Codable {
                 }
             } else {
                 // Changeovers happen between games rather than during the game.
-                if set.games.count % 2 == 1 {
+                if (set.games.count % 2 == 1) && set.game.score == [0, 0] {
                     return true
                 } else {
                     // Check the games count of the set that was just finished and appended.
                     if set.score == [0, 0] {
-                        if ((sets.last?.games.count) ?? 0) % 2 == 1 {
+                        if (((sets.last?.games.count) ?? 0) % 2 == 1) && set.game.score == [0, 0] {
                             return true
                         } else {
                             return false
