@@ -40,14 +40,19 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     let propertyListDecoder = PropertyListDecoder()
     
-    var activeObserver: NSObjectProtocol?
+    var becomeActiveObserver: NSObjectProtocol?
+    var enterForegroundObserver: NSObjectProtocol?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         configureRefreshControl()
         
-        activeObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
+        becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
+            self.fetchMatches()
+        }
+        
+        enterForegroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: OperationQueue.main) { notification in
             self.fetchMatches()
         }
     }
@@ -195,8 +200,12 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             }
         }
         
-        if let observer = self.activeObserver {
-            NotificationCenter.default.removeObserver(observer)
+        if let becomeActiveObserver = self.becomeActiveObserver {
+            NotificationCenter.default.removeObserver(becomeActiveObserver)
+        }
+        
+        if let enterForegroundObserver = self.enterForegroundObserver {
+            NotificationCenter.default.removeObserver(enterForegroundObserver)
         }
     }
     
