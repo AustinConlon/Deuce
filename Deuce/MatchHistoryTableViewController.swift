@@ -18,7 +18,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     var session: WCSession?
     
-    private let database = CKContainer.default().privateCloudDatabase
+    let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
     
     var matchRecord: CKRecord!
     
@@ -35,18 +35,26 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                     }
                 }
             }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
         }
     }
+    
+    let propertyListDecoder = PropertyListDecoder()
+    
+    var becomeActiveObserver: NSObjectProtocol?
+    var enterForegroundObserver: NSObjectProtocol?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        fetchMatches()
         configureRefreshControl()
+        
+        becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
+            self.fetchMatches()
+        }
+        
+        enterForegroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: OperationQueue.main) { notification in
+            self.fetchMatches()
+        }
     }
     
     override func viewDidLoad() {
@@ -90,31 +98,49 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             cell.setOneStackView.isHidden = false
             cell.playerOneSetOneScoreLabel.text = String(match.sets[0].score[0])
             cell.playerTwoSetOneScoreLabel.text = String(match.sets[0].score[1])
+            
+            if match.sets[0].winner == .playerOne { cell.playerOneSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[0].winner == .playerTwo { cell.playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
-        
+    
         if match.sets.count >= 2 {
             cell.setTwoStackView.isHidden = false
             cell.playerOneSetTwoScoreLabel.text = String(match.sets[1].score[0])
             cell.playerTwoSetTwoScoreLabel.text = String(match.sets[1].score[1])
+            
+            if match.sets[1].winner == .playerOne { cell.playerOneSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[1].winner == .playerTwo { cell.playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
         
         if match.sets.count >= 3 {
             cell.setThreeStackView.isHidden = false
             cell.playerOneSetThreeScoreLabel.text = String(match.sets[2].score[0])
             cell.playerTwoSetThreeScoreLabel.text = String(match.sets[2].score[1])
+            
+            if match.sets[2].winner == .playerOne { cell.playerOneSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[2].winner == .playerTwo { cell.playerTwoSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
         
         if match.sets.count >= 4 {
             cell.setFourStackView.isHidden = false
             cell.playerOneSetFourScoreLabel.text = String(match.sets[3].score[0])
             cell.playerTwoSetFourScoreLabel.text = String(match.sets[3].score[1])
+            
+            if match.sets[3].winner == .playerOne { cell.playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[3].winner == .playerTwo { cell.playerTwoSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
         
         if match.sets.count >= 5 {
             cell.setFiveStackView.isHidden = false
             cell.playerOneSetFiveScoreLabel.text = String(match.sets[4].score[0])
             cell.playerTwoSetFiveScoreLabel.text = String(match.sets[4].score[1])
+            
+            if match.sets[4].winner == .playerOne { cell.playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[4].winner == .playerTwo { cell.playerTwoSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
+        
+        if match.winner == .playerOne { cell.playerOneName.font = .preferredFont(forTextStyle: .headline) }
+        if match.winner == .playerTwo { cell.playerTwoName.font = .preferredFont(forTextStyle: .headline) }
 
         return cell
     }
@@ -125,7 +151,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source.
             matches.remove(at: indexPath.row)
             
             database.delete(withRecordID: records[indexPath.row].recordID) { (recordID, error) in
@@ -136,7 +161,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 }
             }
             
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
@@ -155,28 +180,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         session.activate()
     }
     
-    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        if let matchData = userInfo["Match"] as? Data {
-            let propertyListDecoder = PropertyListDecoder()
-            if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
-                matches.insert(match, at: 0)
-                
-                matchRecord = CKRecord(recordType: "Match")
-                matchRecord["matchData"] = matchData as NSData
-                
-                database.save(matchRecord!) { (savedRecord, error) in
-                    if let error = error {
-                        print(error)
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
-    }
-    
     // MARK: - CloudKit
     
     private func fetchMatches() {
@@ -186,14 +189,23 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         database.perform(query, inZoneWith: nil) { (fetchedRecords, error) in
             if let fetchedRecords = fetchedRecords {
+                self.records = fetchedRecords
                 DispatchQueue.main.async {
-                    self.records = fetchedRecords
+                    self.tableView.reloadData()
                 }
             }
             
             if let error = error {
-                print(error)
+                print(error.localizedDescription)
             }
+        }
+        
+        if let becomeActiveObserver = self.becomeActiveObserver {
+            NotificationCenter.default.removeObserver(becomeActiveObserver)
+        }
+        
+        if let enterForegroundObserver = self.enterForegroundObserver {
+            NotificationCenter.default.removeObserver(enterForegroundObserver)
         }
     }
     
@@ -208,6 +220,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         fetchMatches()
         
         DispatchQueue.main.async {
+            self.tableView.reloadData()
             self.tableView.refreshControl?.endRefreshing()
         }
     }

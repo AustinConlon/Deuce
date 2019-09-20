@@ -8,9 +8,10 @@
 
 import WatchKit
 import Foundation
+import CloudKit
 import WatchConnectivity
 
-class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
+class ScoreInterfaceController: WKInterfaceController {
     
     // MARK: - Properties
     
@@ -18,8 +19,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     var undoStack = Stack<Match>()
     
     var workout: Workout?
-    
-    var session: WCSession?
     
     @IBOutlet weak var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoServiceLabel: WKInterfaceLabel!
@@ -44,15 +43,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @IBOutlet weak var playerOneColumnOneSetScoreLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoColumnOneSetScoreLabel: WKInterfaceLabel!
-    
-    override init() {
-        super.init()
-        if WCSession.isSupported() {
-            session = WCSession.default
-            session?.delegate = self
-            session?.activate()
-        }
-    }
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
@@ -136,14 +126,10 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     
     @objc func endMatch() {
         workout?.stop()
-        
         match.stop()
         
-        if let matchData = try? PropertyListEncoder().encode(match) {
-            session?.transferUserInfo(["Match" : matchData])
-        }
+        uploadMatchToCloud()
         
-        // TODO: Reduce code duplication between reseting the match state and starting a new match.
         match = Match()
         
         updateTitle(for: match)
@@ -323,26 +309,6 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
     func updateTitle(for match: Match) {
         setTitle(nil)
         
-        if match.set.game.score == [0, 0] {
-            if match.set.game.isTiebreak {
-                setTitle("Tiebreak")
-            }
-            
-            if match.set.isSupertiebreak {
-                setTitle("Supertiebreak")
-            }
-            
-            if match.isChangeover {
-                setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
-            } else {
-                setTitle(nil)
-            }
-        }
-        
-        if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
-            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
-        }
-        
         if match.set.game.isBreakPoint() {
             setTitle(NSLocalizedString("Break Point", tableName: "Interface", comment: "Receiving player is one point away from winning the game."))
         }
@@ -352,11 +318,35 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
             setTitle(NSLocalizedString("Set Point", tableName: "Interface", comment: "A player is one point away from winning the set."))
         }
         
+        if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
+            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
+        }
+        
         if match.isMatchPoint() {
             setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
         }
         
-        if match.winner != nil {
+        if match.set.game.score == [0, 0] {
+            if match.set.game.isTiebreak {
+                setTitle(NSLocalizedString("Tiebreak", tableName: "Interface", comment: ""))
+            }
+            
+            if match.set.isSupertiebreak {
+                setTitle(NSLocalizedString("Supertiebreak", tableName: "Interface", comment: ""))
+            }
+            
+            if match.isChangeover {
+                setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
+            } else {
+                setTitle(nil)
+            }
+        }
+        
+        if match.isChangeover {
+            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
+        }
+        
+        if match.winner != nil  {
             setTitle(nil)
         }
     }
@@ -457,9 +447,38 @@ class ScoreInterfaceController: WKInterfaceController, WCSessionDelegate {
         }
     }
     
-    // MARK: WCSessionDelegate
+    // MARK: - WCSessionDelegate
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("\(#function): activationState:\(WCSession.default.activationState.rawValue)")
+    }
+    
+    private func testMatch() {
+        match = Match()
+        match.date = Date()
+        match.set.game.servicePlayer = .playerOne
+        
+        while match.winner == nil {
+            switch Bool.random() {
+            case true:
+                match.scorePoint(for: .playerOne)
+            case false:
+                match.scorePoint(for: .playerTwo)
+            }
+        }
+    }
+    
+    private func uploadMatchToCloud() {
+        if let matchData = try? PropertyListEncoder().encode(match) {
+            let database = CKContainer.default().privateCloudDatabase
+            let matchRecord = CKRecord(recordType: "Match")
+            matchRecord["matchData"] = matchData as NSData
+            
+            database.save(matchRecord) { (savedRecord, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 }

@@ -95,7 +95,11 @@ struct Match: Codable {
     /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
     var numberOfSetsToWin = 2
     
-    var winner: Player?
+    var winner: Player? {
+        didSet {
+            set.winner = winner
+        }
+    }
     
     var state: MatchState = .notStarted {
         didSet {
@@ -119,24 +123,39 @@ struct Match: Codable {
     
     var rulesFormat = RulesFormats.main
     
-    var date = Date()
+    var date: Date!
     var gamesCount = 0
     
     var isChangeover: Bool {
         get {
-            if gamesCount % 2 == 1 {
-                return true
+            // Changeovers happen during the tiebreak or superbreak.
+            if set.game.isTiebreak || set.isSupertiebreak {
+                if (set.game.score[0] + set.game.score[1]) % 6 == 0 {
+                    return true
+                } else {
+                    return false
+                }
             } else {
-                return false
+                // Changeovers happen between games rather than during the game.
+                if (set.games.count % 2 == 1) && set.game.score == [0, 0] {
+                    return true
+                } else {
+                    // Check the games count of the set that was just finished and appended.
+                    if set.score == [0, 0] {
+                        if (((sets.last?.games.count) ?? 0) % 2 == 1) && set.game.score == [0, 0] {
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
+                }
             }
         }
     }
     
     // MARK: - Methods
-    
-    init() {
-        UserDefaults.standard.set(rulesFormat.rawValue, forKey: "Rules Format")
-    }
     
     mutating func scorePoint(for player: Player) {
         state = .playing
@@ -207,9 +226,11 @@ struct Match: Codable {
     }
     
     // TODO: Remove this temporary workaround.
-    mutating func stop() {
-        if set.score != [0, 0] {
+    mutating func stop() { 
+        if sets.last?.winner == nil {
             sets.append(set)
         }
+        
+        date = Date()
     }
 }
