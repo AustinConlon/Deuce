@@ -128,10 +128,29 @@ struct Match: Codable {
     
     var isChangeover: Bool {
         get {
-            if set.games.count % 2 == 1 || (!sets.isEmpty && set.score == [0, 0]) {
-                return true
+            // Changeovers happen during the tiebreak or superbreak.
+            if set.game.isTiebreak || set.isSupertiebreak {
+                if (set.game.score[0] + set.game.score[1]) % 6 == 0 {
+                    return true
+                } else {
+                    return false
+                }
             } else {
-                return false
+                // Changeovers happen between games rather than during the game.
+                if set.games.count % 2 == 1 {
+                    return true
+                } else {
+                    // Check the games count of the set that was just finished and appended.
+                    if set.score == [0, 0] {
+                        if ((sets.last?.games.count) ?? 0) % 2 == 1 {
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
+                }
             }
         }
     }
