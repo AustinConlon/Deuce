@@ -1,5 +1,5 @@
 //
-//  Set.swift
+//  SetManager.swift
 //  Deuce
 //
 //  Created by Austin Conlon on 1/21/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Set: Codable {
+struct SetManager: Codable {
     var score = [0, 0] {
         didSet {
             if (score[0] >= numberOfGamesToWin) && (score[0] >= score[1] + marginToWin) {
@@ -48,7 +48,7 @@ struct Set: Codable {
     
     var marginToWin: Int {
         get {
-            if Set.setType == .tiebreak && (score == [7, 6] || score == [6, 7]) {
+            if SetManager.setType == .tiebreak && (score == [7, 6] || score == [6, 7]) {
                 return 1
             } else {
                 return 2

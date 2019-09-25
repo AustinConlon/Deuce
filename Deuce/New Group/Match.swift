@@ -63,11 +63,11 @@ struct Match: Codable {
         }
     }
     
-    var set = Set()
+    var set = SetManager()
     
-    var sets = [Set]() {
+    var sets = [SetManager]() {
         didSet {
-            set = Set()
+            set = SetManager()
             
             var lastServicePlayer: Player?
             

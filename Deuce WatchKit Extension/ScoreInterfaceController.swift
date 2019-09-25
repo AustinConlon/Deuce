@@ -18,7 +18,7 @@ class ScoreInterfaceController: WKInterfaceController {
     lazy var match = Match()
     var undoStack = Stack<Match>()
     
-    var workout: Workout?
+    var workout = Workout()
     
     @IBOutlet weak var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoServiceLabel: WKInterfaceLabel!
@@ -125,7 +125,7 @@ class ScoreInterfaceController: WKInterfaceController {
     }
     
     @objc func endMatch() {
-        workout?.stop()
+        workout.stop()
         match.stop()
         
         uploadMatchToCloud()
@@ -190,7 +190,7 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         if let matchWinner = match.winner {
-            workout?.stop()
+            workout.stop()
             
             match.state = .finished
             
@@ -326,6 +326,10 @@ class ScoreInterfaceController: WKInterfaceController {
             setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
         }
         
+        if match.isChangeover {
+            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
+        }
+        
         if match.set.game.score == [0, 0] {
             if match.set.game.isTiebreak {
                 setTitle(NSLocalizedString("Tiebreak", tableName: "Interface", comment: ""))
@@ -334,17 +338,9 @@ class ScoreInterfaceController: WKInterfaceController {
             if match.set.isSupertiebreak {
                 setTitle(NSLocalizedString("Supertiebreak", tableName: "Interface", comment: ""))
             }
-            
-            if match.isChangeover {
-                setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
-            } else {
-                setTitle(nil)
-            }
         }
         
-        if match.isChangeover {
-            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
-        }
+        
         
         if match.winner != nil  {
             setTitle(nil)
@@ -378,17 +374,20 @@ class ScoreInterfaceController: WKInterfaceController {
         
         if match.state == .notStarted {
             let formatsMenuItemTitle = NSLocalizedString("Formats", tableName: "Interface", comment: "Menu item for presenting the formats screen")
-            addMenuItem(with: .info, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
+            addMenuItem(with: UIImage(systemName: "gear", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
+            
+//            let privacyMenuItemTitle = NSLocalizedString("Privacy", tableName: "Interface", comment: "Menu item for presenting the formats screen")
+//            addMenuItem(with: UIImage(systemName: "hand.raised.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: privacyMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
         if match.state == .playing || match.state == .finished {
             let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
-            addMenuItem(with: .repeat, title: undoMenuItemTitle, action: #selector(undoPoint))
+            addMenuItem(with: UIImage(systemName: "arrow.counterclockwise", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
         
         if match.state == .playing || match.winner != nil {
             let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
-            addMenuItem(with: .decline, title: endMatchMenuItemTitle, action: #selector(endMatch))
+            addMenuItem(with: UIImage(systemName: "icloud.and.arrow.up", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: endMatchMenuItemTitle, action: #selector(endMatch))
         }
     }
     
@@ -400,7 +399,7 @@ class ScoreInterfaceController: WKInterfaceController {
         undoStack.push(match)
         
         workout = Workout()
-        workout!.start()
+        workout.start()
         updateServicePlayer(for: match.set.game)
         match.state = .playing
         
@@ -412,7 +411,7 @@ class ScoreInterfaceController: WKInterfaceController {
         
         if match.state == .playing || match.winner != nil {
             let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
-            addMenuItem(with: .decline, title: endMatchMenuItemTitle, action: #selector(endMatch))
+            addMenuItem(with: UIImage(systemName: "icloud.and.arrow.up", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: endMatchMenuItemTitle, action: #selector(endMatch))
         }
     }
     

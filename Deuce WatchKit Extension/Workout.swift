@@ -17,7 +17,18 @@ class Workout: NSObject, HKWorkoutSessionDelegate {
     var workoutStartDate: Date?
     var totalEnergyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 0)
     
-    // Methods
+    func requestAuthorization() {
+        // Create the heart rate and heartbeat type identifiers.
+        let sampleTypesToShare = Set([HKObjectType.quantityType(forIdentifier: .basalEnergyBurned)!, HKWorkoutType.workoutType()])
+        let sampleTypesToRead = Set([HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!, HKObjectType.quantityType(forIdentifier: .heartRate)!])
+        
+        // Request permission to read and write heart rate and heartbeat data.
+        healthStore.requestAuthorization(toShare: sampleTypesToShare, read: sampleTypesToRead) { (success, error) in
+            print("Request Authorization -- Success: ", success, " Error: ", error ?? "nil")
+            // Handle authorization errors here.
+        }
+    }
+    
     func start() {
         let workoutConfiguration = HKWorkoutConfiguration()
         workoutConfiguration.activityType = .tennis

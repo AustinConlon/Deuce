@@ -58,12 +58,14 @@ class MatchHistoryTableViewCell: UITableViewCell {
         setFourStackView.isHidden = true
         setFiveStackView.isHidden = true
         
+        playerOneName.font = .preferredFont(forTextStyle: .body)
         playerOneSetOneScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetTwoScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetThreeScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .body)
         
+        playerOneName.font = .preferredFont(forTextStyle: .body)
         playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerTwoSetThreeScoreLabel.font = .preferredFont(forTextStyle: .body)
