@@ -10,12 +10,13 @@ import WatchKit
 import Foundation
 import CloudKit
 import WatchConnectivity
+import HealthKit
 
 class ScoreInterfaceController: WKInterfaceController {
     
     // MARK: - Properties
     
-    lazy var match = Match()
+    var match = Match()
     var undoStack = Stack<Match>()
     
     var workout = Workout()
@@ -51,12 +52,16 @@ class ScoreInterfaceController: WKInterfaceController {
         updateMenu()
     }
     
+    override func didAppear() {
+        workout.requestAuthorization()
+    }
+    
     // MARK: - Actions
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
         switch match.state {
         case .notStarted:
-            presentServiceSetting()
+            presentServiceChoice()
         case .playing:
             match.scorePoint(for: .playerOne)
             undoStack.push(match)
@@ -69,7 +74,7 @@ class ScoreInterfaceController: WKInterfaceController {
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
         switch match.state {
         case .notStarted:
-            presentServiceSetting()
+            presentServiceChoice()
         case .playing:
             match.scorePoint(for: .playerTwo)
             undoStack.push(match)
@@ -375,9 +380,6 @@ class ScoreInterfaceController: WKInterfaceController {
         if match.state == .notStarted {
             let formatsMenuItemTitle = NSLocalizedString("Formats", tableName: "Interface", comment: "Menu item for presenting the formats screen")
             addMenuItem(with: UIImage(systemName: "gear", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
-            
-//            let privacyMenuItemTitle = NSLocalizedString("Privacy", tableName: "Interface", comment: "Menu item for presenting the formats screen")
-//            addMenuItem(with: UIImage(systemName: "hand.raised.fill", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: privacyMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
         if match.state == .playing || match.state == .finished {
@@ -398,7 +400,6 @@ class ScoreInterfaceController: WKInterfaceController {
     @objc func startMatch() {
         undoStack.push(match)
         
-        workout = Workout()
         workout.start()
         updateServicePlayer(for: match.set.game)
         match.state = .playing
@@ -415,7 +416,7 @@ class ScoreInterfaceController: WKInterfaceController {
         }
     }
     
-    @objc func presentServiceSetting() {
+    @objc func presentServiceChoice() {
         let playerTwoServesFirst = WKAlertAction(title: NSLocalizedString("Opponent", tableName: "Interface", comment: "Player the watch wearer is playing against"), style: .`default`) {
             self.match.set.game.servicePlayer = .playerTwo
             self.startMatch()
@@ -429,10 +430,13 @@ class ScoreInterfaceController: WKInterfaceController {
         let localizedServiceQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
         
         let userDefaults = UserDefaults()
+        var localizedRulesFormatTitle = match.rulesFormat.rawValue
+        
         if let rulesFormatTitle = userDefaults.string(forKey: "Rules Format") {
-            let localizedRulesFormatTitle = NSLocalizedString(rulesFormatTitle, tableName: "Interface", comment: "Rules format to be played")
-            presentAlert(withTitle: localizedRulesFormatTitle, message: localizedServiceQuestion, preferredStyle: .actionSheet, actions: [playerTwoServesFirst, playerOneServesFirst])
+            localizedRulesFormatTitle = NSLocalizedString(rulesFormatTitle, tableName: "Interface", comment: "Rules format to be played")
         }
+        
+        presentAlert(withTitle: localizedRulesFormatTitle, message: localizedServiceQuestion, preferredStyle: .actionSheet, actions: [playerTwoServesFirst, playerOneServesFirst])
     }
     
     private func updateInteractionEnabledState() {

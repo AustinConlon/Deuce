@@ -62,6 +62,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        
+        if let becomeActiveObserver = self.becomeActiveObserver {
+            NotificationCenter.default.removeObserver(becomeActiveObserver)
+        }
+        
+        if let enterForegroundObserver = self.enterForegroundObserver {
+            NotificationCenter.default.removeObserver(enterForegroundObserver)
+        }
+    }
+    
     fileprivate func addObservers() {
         becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
             self.fetchMatches()
@@ -203,14 +215,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             if let error = error {
                 print(error.localizedDescription)
             }
-        }
-        
-        if let becomeActiveObserver = self.becomeActiveObserver {
-            NotificationCenter.default.removeObserver(becomeActiveObserver)
-        }
-        
-        if let enterForegroundObserver = self.enterForegroundObserver {
-            NotificationCenter.default.removeObserver(enterForegroundObserver)
         }
     }
     
