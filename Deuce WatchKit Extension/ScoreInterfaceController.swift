@@ -379,18 +379,30 @@ class ScoreInterfaceController: WKInterfaceController {
         
         if match.state == .notStarted {
             let formatsMenuItemTitle = NSLocalizedString("Formats", tableName: "Interface", comment: "Menu item for presenting the formats screen")
-            addMenuItem(with: UIImage(systemName: "gear", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
+            
+            let gearSymbol = UIImage(systemName: "gear", withConfiguration: UIImage.SymbolConfiguration(textStyle: .title2, scale: .medium))!
+           
+            addMenuItem(with: gearSymbol, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
         if match.state == .playing || match.state == .finished {
             let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
-            addMenuItem(with: UIImage(systemName: "arrow.counterclockwise", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: undoMenuItemTitle, action: #selector(undoPoint))
+            let arrowCounterclockwiseSymbol = UIImage(systemName: "arrow.counterclockwise", withConfiguration: UIImage.SymbolConfiguration(textStyle: .title2, scale: .medium))!
+            addMenuItem(with: arrowCounterclockwiseSymbol, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
         
         if match.state == .playing || match.winner != nil {
+            if match.set.game.score == [0, 0] && match.set.score == [0, 0] && match.score == [0, 0] {
+                // Undo is not shown at the start of a match.
+                clearAllMenuItems()
+            }
+            
             let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
-            addMenuItem(with: UIImage(systemName: "icloud.and.arrow.up", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: endMatchMenuItemTitle, action: #selector(endMatch))
+            let iCloudAndArrowUpSymbol = UIImage(systemName: "icloud.and.arrow.up", withConfiguration: UIImage.SymbolConfiguration(textStyle: .title2, scale: .medium))!
+            addMenuItem(with: iCloudAndArrowUpSymbol, title: endMatchMenuItemTitle, action: #selector(endMatch))
         }
+        
+        
     }
     
     @objc func presentRulesFormatsController() {
@@ -409,11 +421,7 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         clearAllMenuItems()
-        
-        if match.state == .playing || match.winner != nil {
-            let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
-            addMenuItem(with: UIImage(systemName: "icloud.and.arrow.up", withConfiguration: UIImage.SymbolConfiguration(scale: .large))!, title: endMatchMenuItemTitle, action: #selector(endMatch))
-        }
+        updateMenu()
     }
     
     @objc func presentServiceChoice() {
