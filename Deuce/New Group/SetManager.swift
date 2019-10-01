@@ -77,7 +77,6 @@ struct SetManager: Codable {
                 numberOfGamesToWin = 1
                 game.isTiebreak = true
                 game.numberOfPointsToWin = 10
-
             }
         }
     }

@@ -65,7 +65,7 @@ class MatchHistoryTableViewCell: UITableViewCell {
         playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .body)
         
-        playerOneName.font = .preferredFont(forTextStyle: .body)
+        playerTwoName.font = .preferredFont(forTextStyle: .body)
         playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerTwoSetThreeScoreLabel.font = .preferredFont(forTextStyle: .body)

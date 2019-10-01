@@ -346,7 +346,6 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         
-        
         if match.winner != nil  {
             setTitle(nil)
         }
