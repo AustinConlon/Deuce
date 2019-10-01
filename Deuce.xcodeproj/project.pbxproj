@@ -119,6 +119,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FB02623F2340D31E000A3340 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
+		FB0262412340D32A000A3340 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = fr; path = fr.lproj/Info.plist; sourceTree = "<group>"; };
 		FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
 		FB3377421E6E3C89000B9E30 /* Deuce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce.entitlements; sourceTree = "<group>"; };
@@ -142,7 +144,6 @@
 		FB51A03C1DEAD77C00B2E195 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		FB51A03F1DEAD77C00B2E195 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		FB51A0431DEAD77C00B2E195 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FB51A0451DEAD77C00B2E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB6DAA092210284400949669 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FB77B3FC2202FB1A00D42963 /* ScoreInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInterfaceController.swift; sourceTree = "<group>"; };
@@ -265,7 +266,7 @@
 				FBD169352224D6230027557D /* PracticeInterfaceController.swift */,
 				FB49BA0120986DC100C8491F /* ComplicationController.swift */,
 				FB51A0431DEAD77C00B2E195 /* Assets.xcassets */,
-				FB51A0451DEAD77C00B2E195 /* Info.plist */,
+				FB0262402340D31E000A3340 /* Info.plist */,
 			);
 			path = "Deuce WatchKit Extension";
 			sourceTree = "<group>";
@@ -559,6 +560,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		FB0262402340D31E000A3340 /* Info.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB02623F2340D31E000A3340 /* Base */,
+				FB0262412340D32A000A3340 /* fr */,
+			);
+			name = Info.plist;
+			sourceTree = "<group>";
+		};
 		FB51A0111DEAD77C00B2E195 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -715,10 +725,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Deuce WatchKit Extension/Deuce WatchKit Extension.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				INFOPLIST_FILE = "Deuce WatchKit Extension/Info.plist";
+				INFOPLIST_FILE = "Deuce WatchKit Extension/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 3.00;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp.watchkitextension;
@@ -741,10 +751,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Deuce WatchKit Extension/Deuce WatchKit Extension.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				INFOPLIST_FILE = "Deuce WatchKit Extension/Info.plist";
+				INFOPLIST_FILE = "Deuce WatchKit Extension/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 3.00;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp.watchkitextension;
@@ -765,7 +775,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				IBSC_MODULE = Deuce_WatchKit_Extension;
 				INFOPLIST_FILE = "Deuce WatchKit App/Info.plist";
@@ -787,7 +797,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				IBSC_MODULE = Deuce_WatchKit_Extension;
 				INFOPLIST_FILE = "Deuce WatchKit App/Info.plist";
@@ -811,7 +821,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
@@ -833,7 +843,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
