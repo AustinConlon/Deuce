@@ -129,7 +129,7 @@ struct Match: Codable {
     var isChangeover: Bool {
         get {
             // Changeovers happen during the tiebreak or superbreak.
-            if set.game.isTiebreak || set.isSupertiebreak {
+            if (set.game.isTiebreak || set.isSupertiebreak) && set.game.score != [0, 0] {
                 if (set.game.score[0] + set.game.score[1]) % 6 == 0 {
                     return true
                 } else {

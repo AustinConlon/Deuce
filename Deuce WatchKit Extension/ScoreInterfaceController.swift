@@ -341,7 +341,11 @@ class ScoreInterfaceController: WKInterfaceController {
             }
             
             if match.set.isSupertiebreak {
-                setTitle(NSLocalizedString("Supertiebreak", tableName: "Interface", comment: ""))
+                if match.isChangeover {
+                    setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
+                } else {
+                    setTitle(NSLocalizedString("Supertiebreak", tableName: "Interface", comment: ""))
+                }
             }
         }
         
@@ -437,7 +441,7 @@ class ScoreInterfaceController: WKInterfaceController {
         let localizedServiceQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
         
         let userDefaults = UserDefaults()
-        var localizedRulesFormatTitle = match.rulesFormat.rawValue
+        var localizedRulesFormatTitle = NSLocalizedString(match.rulesFormat.rawValue, tableName: "Interface", comment: "Rules format to be played")
         
         if let rulesFormatTitle = userDefaults.string(forKey: "Rules Format") {
             localizedRulesFormatTitle = NSLocalizedString(rulesFormatTitle, tableName: "Interface", comment: "Rules format to be played")
@@ -465,7 +469,9 @@ class ScoreInterfaceController: WKInterfaceController {
     
     private func testMatch() {
         match = Match()
-        match.date = Date()
+        let calendar = Calendar.current
+        let dateComponents = DateComponents(calendar: calendar, year: 2019, month: 10, day: 13)
+        match.date = calendar.date(from: dateComponents)
         match.set.game.servicePlayer = .playerOne
         
         while match.winner == nil {
