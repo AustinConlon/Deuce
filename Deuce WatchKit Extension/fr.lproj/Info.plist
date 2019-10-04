@@ -43,6 +43,10 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>&quot;Ceci afin d&apos;enregistrer vos exercices Tennis dans les apps Santé et Activité.&quot;</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>&quot;Ceci afin d&apos;enregistrer vos exercices Tennis dans les apps Santé et Activité.&quot;</string>
 	<key>WKExtensionDelegateClassName</key>
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
 	<key>WKRunsIndependentlyOfCompanionApp</key>

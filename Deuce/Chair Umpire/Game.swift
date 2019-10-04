@@ -52,7 +52,7 @@ struct Game: Codable {
     var isTiebreak = false {
         didSet {
             if isTiebreak == true {
-                if Set.setType == .tiebreak {
+                if SetManager.setType == .tiebreak {
                     numberOfPointsToWin = 7
                 }
             }
@@ -165,7 +165,7 @@ struct Game: Codable {
         return false
     }
     
-    /// Convienence method for `isSetPoint()` in a `Set`.
+    /// Convienence method for `isSetPoint()` in a `SetManager`.
     func isGamePoint() -> Bool {
         if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] {
             return true

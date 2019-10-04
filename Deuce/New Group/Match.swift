@@ -63,11 +63,11 @@ struct Match: Codable {
         }
     }
     
-    var set = Set()
+    var set = SetManager()
     
-    var sets = [Set]() {
+    var sets = [SetManager]() {
         didSet {
-            set = Set()
+            set = SetManager()
             
             var lastServicePlayer: Player?
             
@@ -129,7 +129,7 @@ struct Match: Codable {
     var isChangeover: Bool {
         get {
             // Changeovers happen during the tiebreak or superbreak.
-            if set.game.isTiebreak || set.isSupertiebreak {
+            if (set.game.isTiebreak || set.isSupertiebreak) && set.game.score != [0, 0] {
                 if (set.game.score[0] + set.game.score[1]) % 6 == 0 {
                     return true
                 } else {
@@ -225,9 +225,8 @@ struct Match: Codable {
         return false
     }
     
-    // TODO: Remove this temporary workaround.
-    mutating func stop() { 
-        if sets.last?.winner == nil {
+    mutating func stop() {
+        if set.score != [0, 0] {
             sets.append(set)
         }
         

@@ -41,20 +41,14 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     let propertyListDecoder = PropertyListDecoder()
     
     var becomeActiveObserver: NSObjectProtocol?
-    var enterForegroundObserver: NSObjectProtocol?
+    var didFinishLaunchingObserver: NSObjectProtocol?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         configureRefreshControl()
         
-        becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
-            self.fetchMatches()
-        }
-        
-        enterForegroundObserver = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: OperationQueue.main) { notification in
-            self.fetchMatches()
-        }
+        addObservers()
     }
     
     override func viewDidLoad() {
@@ -64,6 +58,20 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             session = WCSession.default
             session?.delegate = self
             session?.activate()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        
+        if let becomeActiveObserver = self.becomeActiveObserver {
+            NotificationCenter.default.removeObserver(becomeActiveObserver)
+        }
+    }
+    
+    fileprivate func addObservers() {
+        becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
+            self.fetchMatches()
         }
     }
 
@@ -198,14 +206,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             if let error = error {
                 print(error.localizedDescription)
             }
-        }
-        
-        if let becomeActiveObserver = self.becomeActiveObserver {
-            NotificationCenter.default.removeObserver(becomeActiveObserver)
-        }
-        
-        if let enterForegroundObserver = self.enterForegroundObserver {
-            NotificationCenter.default.removeObserver(enterForegroundObserver)
         }
     }
     

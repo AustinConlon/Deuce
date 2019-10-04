@@ -10,15 +10,16 @@ import WatchKit
 import Foundation
 import CloudKit
 import WatchConnectivity
+import HealthKit
 
 class ScoreInterfaceController: WKInterfaceController {
     
     // MARK: - Properties
     
-    lazy var match = Match()
+    var match = Match()
     var undoStack = Stack<Match>()
     
-    var workout: Workout?
+    var workout = Workout()
     
     @IBOutlet weak var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoServiceLabel: WKInterfaceLabel!
@@ -51,12 +52,16 @@ class ScoreInterfaceController: WKInterfaceController {
         updateMenu()
     }
     
+    override func didAppear() {
+        workout.requestAuthorization()
+    }
+    
     // MARK: - Actions
     
     @IBAction func scorePointForPlayerOne(_ sender: Any) {
         switch match.state {
         case .notStarted:
-            presentServiceSetting()
+            presentServiceChoice()
         case .playing:
             match.scorePoint(for: .playerOne)
             undoStack.push(match)
@@ -69,7 +74,7 @@ class ScoreInterfaceController: WKInterfaceController {
     @IBAction func scorePointForPlayerTwo(_ sender: Any) {
         switch match.state {
         case .notStarted:
-            presentServiceSetting()
+            presentServiceChoice()
         case .playing:
             match.scorePoint(for: .playerTwo)
             undoStack.push(match)
@@ -125,7 +130,7 @@ class ScoreInterfaceController: WKInterfaceController {
     }
     
     @objc func endMatch() {
-        workout?.stop()
+        workout.stop()
         match.stop()
         
         uploadMatchToCloud()
@@ -190,7 +195,7 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         if let matchWinner = match.winner {
-            workout?.stop()
+            workout.stop()
             
             match.state = .finished
             
@@ -326,25 +331,24 @@ class ScoreInterfaceController: WKInterfaceController {
             setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
         }
         
+        if match.isChangeover {
+            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
+        }
+        
         if match.set.game.score == [0, 0] {
             if match.set.game.isTiebreak {
                 setTitle(NSLocalizedString("Tiebreak", tableName: "Interface", comment: ""))
             }
             
             if match.set.isSupertiebreak {
-                setTitle(NSLocalizedString("Supertiebreak", tableName: "Interface", comment: ""))
-            }
-            
-            if match.isChangeover {
-                setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
-            } else {
-                setTitle(nil)
+                if match.isChangeover {
+                    setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
+                } else {
+                    setTitle(NSLocalizedString("Supertiebreak", tableName: "Interface", comment: ""))
+                }
             }
         }
         
-        if match.isChangeover {
-            setTitle(NSLocalizedString("Changeover", tableName: "Interface", comment: "Both players switch ends of the court."))
-        }
         
         if match.winner != nil  {
             setTitle(nil)
@@ -378,18 +382,30 @@ class ScoreInterfaceController: WKInterfaceController {
         
         if match.state == .notStarted {
             let formatsMenuItemTitle = NSLocalizedString("Formats", tableName: "Interface", comment: "Menu item for presenting the formats screen")
-            addMenuItem(with: .info, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
+            
+            let gearSymbol = UIImage(systemName: "gear", withConfiguration: UIImage.SymbolConfiguration(textStyle: .title2, scale: .medium))!
+           
+            addMenuItem(with: gearSymbol, title: formatsMenuItemTitle, action: #selector(presentRulesFormatsController))
         }
         
         if match.state == .playing || match.state == .finished {
             let undoMenuItemTitle = NSLocalizedString("Undo", tableName: "Interface", comment: "Undo the previous point")
-            addMenuItem(with: .repeat, title: undoMenuItemTitle, action: #selector(undoPoint))
+            let arrowCounterclockwiseSymbol = UIImage(systemName: "arrow.counterclockwise", withConfiguration: UIImage.SymbolConfiguration(textStyle: .title2, scale: .medium))!
+            addMenuItem(with: arrowCounterclockwiseSymbol, title: undoMenuItemTitle, action: #selector(undoPoint))
         }
         
         if match.state == .playing || match.winner != nil {
+            if match.set.game.score == [0, 0] && match.set.score == [0, 0] && match.score == [0, 0] {
+                // Undo is not shown at the start of a match.
+                clearAllMenuItems()
+            }
+            
             let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
-            addMenuItem(with: .decline, title: endMatchMenuItemTitle, action: #selector(endMatch))
+            let iCloudAndArrowUpSymbol = UIImage(systemName: "icloud.and.arrow.up", withConfiguration: UIImage.SymbolConfiguration(textStyle: .title2, scale: .medium))!
+            addMenuItem(with: iCloudAndArrowUpSymbol, title: endMatchMenuItemTitle, action: #selector(endMatch))
         }
+        
+        
     }
     
     @objc func presentRulesFormatsController() {
@@ -399,8 +415,7 @@ class ScoreInterfaceController: WKInterfaceController {
     @objc func startMatch() {
         undoStack.push(match)
         
-        workout = Workout()
-        workout!.start()
+        workout.start()
         updateServicePlayer(for: match.set.game)
         match.state = .playing
         
@@ -409,14 +424,10 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         clearAllMenuItems()
-        
-        if match.state == .playing || match.winner != nil {
-            let endMatchMenuItemTitle = NSLocalizedString("End Match", tableName: "Interface", comment: "")
-            addMenuItem(with: .decline, title: endMatchMenuItemTitle, action: #selector(endMatch))
-        }
+        updateMenu()
     }
     
-    @objc func presentServiceSetting() {
+    @objc func presentServiceChoice() {
         let playerTwoServesFirst = WKAlertAction(title: NSLocalizedString("Opponent", tableName: "Interface", comment: "Player the watch wearer is playing against"), style: .`default`) {
             self.match.set.game.servicePlayer = .playerTwo
             self.startMatch()
@@ -430,10 +441,13 @@ class ScoreInterfaceController: WKInterfaceController {
         let localizedServiceQuestion = NSLocalizedString("Who will serve first?", tableName: "Interface", comment: "Question to the user of whether the coin toss winner chose to serve first or receive first")
         
         let userDefaults = UserDefaults()
+        var localizedRulesFormatTitle = NSLocalizedString(match.rulesFormat.rawValue, tableName: "Interface", comment: "Rules format to be played")
+        
         if let rulesFormatTitle = userDefaults.string(forKey: "Rules Format") {
-            let localizedRulesFormatTitle = NSLocalizedString(rulesFormatTitle, tableName: "Interface", comment: "Rules format to be played")
-            presentAlert(withTitle: localizedRulesFormatTitle, message: localizedServiceQuestion, preferredStyle: .actionSheet, actions: [playerTwoServesFirst, playerOneServesFirst])
+            localizedRulesFormatTitle = NSLocalizedString(rulesFormatTitle, tableName: "Interface", comment: "Rules format to be played")
         }
+        
+        presentAlert(withTitle: localizedRulesFormatTitle, message: localizedServiceQuestion, preferredStyle: .actionSheet, actions: [playerTwoServesFirst, playerOneServesFirst])
     }
     
     private func updateInteractionEnabledState() {
@@ -455,7 +469,9 @@ class ScoreInterfaceController: WKInterfaceController {
     
     private func testMatch() {
         match = Match()
-        match.date = Date()
+        let calendar = Calendar.current
+        let dateComponents = DateComponents(calendar: calendar, year: 2019, month: 10, day: 13)
+        match.date = calendar.date(from: dateComponents)
         match.set.game.servicePlayer = .playerOne
         
         while match.winner == nil {
