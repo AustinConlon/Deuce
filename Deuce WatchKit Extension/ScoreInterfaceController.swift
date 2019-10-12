@@ -361,7 +361,11 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         if match.set.game.score != [0, 0] {
-            WKInterfaceDevice.current().play(.start)
+            if match.set.game.isTiebreak && match.isChangeover {
+                WKInterfaceDevice.current().play(.retry)
+            } else {
+                WKInterfaceDevice.current().play(.start)
+            }
         }
         
         if match.set.game.score == [0, 0] {
