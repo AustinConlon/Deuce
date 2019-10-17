@@ -122,9 +122,9 @@ struct Game: Codable {
                 serviceSide = .adCourt
                 
                 switch servicePlayer {
-                case .playerOne?:
+                case .playerOne:
                     servicePlayer = .playerTwo
-                case .playerTwo?:
+                case .playerTwo:
                     servicePlayer = .playerOne
                 default:
                     break
@@ -150,11 +150,11 @@ struct Game: Codable {
     /// Receiving player is one point away from winning the game.
     func isBreakPoint() -> Bool {
         switch servicePlayer {
-        case .playerOne?:
+        case .playerOne:
             if score[1] >= numberOfPointsToWin - 1 && score[1] > score[0] && !isTiebreak {
                 return true
             }
-        case .playerTwo?:
+        case .playerTwo:
             if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] && !isTiebreak {
                 return true
             }

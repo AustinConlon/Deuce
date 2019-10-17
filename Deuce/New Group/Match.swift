@@ -78,9 +78,9 @@ struct Match: Codable {
             }
             
             switch lastServicePlayer {
-            case .playerOne?:
+            case .playerOne:
                 set.game.servicePlayer = .playerTwo
-            case .playerTwo?:
+            case .playerTwo:
                 set.game.servicePlayer = .playerOne
             case .none:
                 break

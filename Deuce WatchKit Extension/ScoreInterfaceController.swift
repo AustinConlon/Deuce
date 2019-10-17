@@ -184,10 +184,10 @@ class ScoreInterfaceController: WKInterfaceController {
     
     func updateServicePlayer(for game: Game) {
         switch match.set.game.servicePlayer {
-        case .playerOne?:
+        case .playerOne:
             playerOneServiceLabel.setHidden(false)
             playerTwoServiceLabel.setHidden(true)
-        case .playerTwo?:
+        case .playerTwo:
             playerOneServiceLabel.setHidden(true)
             playerTwoServiceLabel.setHidden(false)
         default:
@@ -362,7 +362,7 @@ class ScoreInterfaceController: WKInterfaceController {
         
         if match.set.game.score != [0, 0] {
             if match.set.game.isTiebreak && match.isChangeover {
-                WKInterfaceDevice.current().play(.retry)
+                WKInterfaceDevice.current().play(.stop)
             } else {
                 WKInterfaceDevice.current().play(.start)
             }
@@ -374,9 +374,9 @@ class ScoreInterfaceController: WKInterfaceController {
             }
             
             if match.isChangeover {
-                WKInterfaceDevice.current().play(.retry)
-            } else {
                 WKInterfaceDevice.current().play(.stop)
+            } else {
+                WKInterfaceDevice.current().play(.directionUp)
             }
         }
     }
