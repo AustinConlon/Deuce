@@ -95,7 +95,7 @@ struct Game: Codable {
     
     var totalPointsPlayed: Int {
         get {
-            return score[0] + score[1]
+            score[0] + score[1]
         }
     }
     

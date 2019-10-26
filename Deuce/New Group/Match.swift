@@ -49,7 +49,7 @@ struct Stack<Element: Codable>: Codable {
     }
     
     var topItem: Element? {
-        return items.isEmpty ? nil : items[items.count - 1]
+        items.isEmpty ? nil : items[items.count - 1]
     }
 }
 
