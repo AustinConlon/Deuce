@@ -49,7 +49,7 @@ struct Stack<Element: Codable>: Codable {
     }
     
     var topItem: Element? {
-        return items.isEmpty ? nil : items[items.count - 1]
+        items.isEmpty ? nil : items[items.count - 1]
     }
 }
 
@@ -78,9 +78,9 @@ struct Match: Codable {
             }
             
             switch lastServicePlayer {
-            case .playerOne?:
+            case .playerOne:
                 set.game.servicePlayer = .playerTwo
-            case .playerTwo?:
+            case .playerTwo:
                 set.game.servicePlayer = .playerOne
             case .none:
                 break

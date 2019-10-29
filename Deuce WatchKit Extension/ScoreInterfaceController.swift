@@ -184,10 +184,10 @@ class ScoreInterfaceController: WKInterfaceController {
     
     func updateServicePlayer(for game: Game) {
         switch match.set.game.servicePlayer {
-        case .playerOne?:
+        case .playerOne:
             playerOneServiceLabel.setHidden(false)
             playerTwoServiceLabel.setHidden(true)
-        case .playerTwo?:
+        case .playerTwo:
             playerOneServiceLabel.setHidden(true)
             playerTwoServiceLabel.setHidden(false)
         default:
@@ -357,22 +357,26 @@ class ScoreInterfaceController: WKInterfaceController {
     
     func playHaptic(for match: Match) {
         if match.winner != nil {
-            WKInterfaceDevice.current().play(.notification)
+            WKInterfaceDevice.current().play(.success)
         }
         
         if match.set.game.score != [0, 0] {
-            WKInterfaceDevice.current().play(.start)
+            if match.set.game.isTiebreak && match.isChangeover {
+                WKInterfaceDevice.current().play(.retry)
+            } else {
+                WKInterfaceDevice.current().play(.start)
+            }
         }
         
         if match.set.game.score == [0, 0] {
-            if match.set.game.isTiebreak || match.set.isSupertiebreak {
-                WKInterfaceDevice.current().play(.notification)
+            if (match.set.score == [0, 0] || match.set.game.isTiebreak) && !match.isChangeover {
+                WKInterfaceDevice.current().play(.success)
             }
             
             if match.isChangeover {
                 WKInterfaceDevice.current().play(.retry)
             } else {
-                WKInterfaceDevice.current().play(.stop)
+                WKInterfaceDevice.current().play(.directionUp)
             }
         }
     }
