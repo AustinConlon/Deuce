@@ -21,6 +21,9 @@ class ScoreInterfaceController: WKInterfaceController {
     
     var workout = Workout()
     
+    var playerOneGameScore: String!
+    var playerTwoGameScore: String!
+    
     @IBOutlet weak var playerOneServiceLabel: WKInterfaceLabel!
     @IBOutlet weak var playerTwoServiceLabel: WKInterfaceLabel!
     
@@ -86,8 +89,8 @@ class ScoreInterfaceController: WKInterfaceController {
     
     private func updateUI() {
         playHaptic(for: match)
-        updateTitle(for: match)
         updateGameScoreLabels(for: match.set.game)
+        updateTitle(for: match)
         updateScores(for: match)
         updateServiceSide(for: match.set.game)
         updateServicePlayer(for: match.set.game)
@@ -204,11 +207,9 @@ class ScoreInterfaceController: WKInterfaceController {
             
             switch matchWinner {
             case .playerOne:
-                playerOneGameScoreLabel.setText("🥇")
-                playerTwoGameScoreLabel.setText("🥈")
+                playerOneGameScoreLabel.setText("🏆")
             case .playerTwo:
-                playerOneGameScoreLabel.setText("🥈")
-                playerTwoGameScoreLabel.setText("🥇")
+                playerTwoGameScoreLabel.setText("🏆")
             }
             
             playerOneGameScoreLabel.setVerticalAlignment(.bottom)
@@ -226,13 +227,18 @@ class ScoreInterfaceController: WKInterfaceController {
         playerOneGameScoreLabel.setText(localizedPlayerOneGameScore)
         playerTwoGameScoreLabel.setText(localizedPlayerTwoGameScore)
         
+        self.playerOneGameScore = localizedPlayerOneGameScore
+        self.playerTwoGameScore = localizedPlayerTwoGameScore
+        
         if match.set.game.isTiebreak == false {
             if match.set.game.score[0] == 4 {
                 switch match.set.game.servicePlayer! {
                 case .playerOne:
                     playerOneGameScoreLabel.setText(NSLocalizedString("Ad in", tableName: "Interface", comment: ""))
+                    self.playerOneGameScore = NSLocalizedString("Ad in", tableName: "Interface", comment: "")
                 case .playerTwo:
                     playerOneGameScoreLabel.setText(NSLocalizedString("Ad out", tableName: "Interface", comment: ""))
+                    self.playerOneGameScore = NSLocalizedString("Ad out", tableName: "Interface", comment: "")
                 }
                 
                 playerTwoGameScoreLabel.setText(nil)
@@ -242,8 +248,11 @@ class ScoreInterfaceController: WKInterfaceController {
                 switch match.set.game.servicePlayer! {
                 case .playerOne:
                     playerTwoGameScoreLabel.setText(NSLocalizedString("Ad out", tableName: "Interface", comment: ""))
+                    self.playerTwoGameScore = NSLocalizedString("Ad out", tableName: "Interface", comment: "")
                 case .playerTwo:
                     playerTwoGameScoreLabel.setText(NSLocalizedString("Ad in", tableName: "Interface", comment: ""))
+                    self.playerOneGameScore = NSLocalizedString("Ad in", tableName: "Interface", comment: "")
+                    
                 }
                 
                 playerOneGameScoreLabel.setText(nil)
@@ -320,7 +329,14 @@ class ScoreInterfaceController: WKInterfaceController {
         
         
         if match.set.isSetPoint() {
-            setTitle(NSLocalizedString("Set Point", tableName: "Interface", comment: "A player is one point away from winning the set."))
+            switch match.set.game.playerWithGamePoint() {
+            case .playerOne:
+                playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "") → 🏅")
+            case .playerTwo:
+                playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "") → 🏅")
+            default:
+                break
+            }
         }
         
         if match.set.game.isTiebreak && match.set.game.isPointAfterSwitchingEnds {
@@ -328,7 +344,14 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         if match.isMatchPoint() {
-            setTitle(NSLocalizedString("Match Point", tableName: "Interface", comment: "A player is one point away from winning the match."))
+            switch match.set.game.playerWithGamePoint() {
+            case .playerOne:
+                playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "") → 🏆")
+            case .playerTwo:
+                playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "") → 🏆")
+            default:
+                break
+            }
         }
         
         if match.isChangeover {
