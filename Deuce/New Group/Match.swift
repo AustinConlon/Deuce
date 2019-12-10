@@ -55,7 +55,10 @@ struct Stack<Element: Codable>: Codable {
 
 struct Match: Codable {
     
-    // MARK: Properties
+    // MARK: - Properties
+    var playerOneName: String?
+    var playerTwoName: String?
+    
     var score = [0, 0] {
         didSet {
             if score[0] >= numberOfSetsToWin { winner = .playerOne }

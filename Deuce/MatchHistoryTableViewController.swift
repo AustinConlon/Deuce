@@ -32,6 +32,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                     let propertyListDecoder = PropertyListDecoder()
                     if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
                         matches.append(match)
+                    } else {
+                        print("Failed to decode.")
                     }
                 }
             }
@@ -71,7 +73,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     fileprivate func addObservers() {
         becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
-            self.fetchMatches()
+            self.fetchMatchRecords()
         }
     }
 
@@ -101,6 +103,14 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         let dateString = dateFormatter.string(from: match.date)
         
         cell.dateLabel.text = dateString
+        
+        if let playerOneName = match.playerOneName {
+            cell.playerOneName.text = playerOneName
+        }
+        
+        if let playerTwoName = match.playerTwoName {
+            cell.playerTwoName.text = playerTwoName
+        }
         
         if match.sets.count >= 1 {
             cell.setOneStackView.isHidden = false
@@ -173,6 +183,44 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let alert = UIAlertController(title: "My Alert", message: "This is an alert.", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Opponent's name"
+        }
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Your name"
+        }
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in
+            print("The \"Cancel\" alert occured.")
+        }))
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            let playerOneName = alert.textFields?.last?.text
+            let playerTwoName = alert.textFields?.first?.text
+            
+            self.matches[indexPath.row].playerOneName = playerOneName
+            self.matches[indexPath.row].playerTwoName = playerTwoName
+            
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+            
+            let matchRecord = self.records[indexPath.row]
+            matchRecord["playerOneName"] = playerOneName
+            matchRecord["playerTwoName"] = playerTwoName
+            
+            self.database.save(matchRecord) { (savedRecord, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - WCSessionDelegate
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -190,7 +238,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     // MARK: - CloudKit
     
-    private func fetchMatches() {
+    private func fetchMatchRecords() {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Match", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -217,7 +265,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     }
     
     @objc func handleRefreshControl() {
-        fetchMatches()
+        fetchMatchRecords()
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
