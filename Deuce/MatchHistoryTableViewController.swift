@@ -208,12 +208,15 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             tableView.reloadRows(at: [indexPath], with: .automatic)
             
             let matchRecord = self.records[indexPath.row]
-            matchRecord["playerOneName"] = playerOneName
-            matchRecord["playerTwoName"] = playerTwoName
             
-            self.database.save(matchRecord) { (savedRecord, error) in
-                if let error = error {
-                    print(error.localizedDescription)
+            if let matchData = try? PropertyListEncoder().encode(self.matches[indexPath.row]) {
+                let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
+                matchRecord["matchData"] = matchData as NSData
+                
+                database.save(matchRecord) { (savedRecord, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
                 }
             }
         }))
