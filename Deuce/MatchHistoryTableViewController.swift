@@ -105,11 +105,11 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         cell.dateLabel.text = dateString
         
         if let playerOneName = match.playerOneName {
-            cell.playerOneName.text = playerOneName
+            cell.playerOneNameLabel.text = playerOneName
         }
         
         if let playerTwoName = match.playerTwoName {
-            cell.playerTwoName.text = playerTwoName
+            cell.playerTwoNameLabel.text = playerTwoName
         }
         
         if match.sets.count >= 1 {
@@ -157,8 +157,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             if match.sets[4].winner == .playerTwo { cell.playerTwoSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
         
-        if match.winner == .playerOne { cell.playerOneName.font = .preferredFont(forTextStyle: .headline) }
-        if match.winner == .playerTwo { cell.playerTwoName.font = .preferredFont(forTextStyle: .headline) }
+        if match.winner == .playerOne { cell.playerOneNameLabel.font = .preferredFont(forTextStyle: .headline) }
+        if match.winner == .playerTwo { cell.playerTwoNameLabel.font = .preferredFont(forTextStyle: .headline) }
 
         return cell
     }
@@ -184,21 +184,33 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let alert = UIAlertController(title: "My Alert", message: "This is an alert.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Player Names", message: nil, preferredStyle: .alert)
         
         alert.addTextField { textField in
-            textField.placeholder = "Opponent's name"
+            textField.placeholder = "Opponent (e.g. Benoit Paire)"
+            textField.autocapitalizationType = .words
+            textField.returnKeyType = .next
+            
+            if let playerTwoName = self.matches[indexPath.row].playerTwoName {
+                textField.text = playerTwoName
+            }
         }
         
         alert.addTextField { textField in
-            textField.placeholder = "Your name"
+            textField.placeholder = "You (e.g. Gael Monfils)"
+            textField.autocapitalizationType = .words
+            textField.returnKeyType = .done
+            
+            if let playerOneName = self.matches[indexPath.row].playerOneName {
+                textField.text = playerOneName
+            }
         }
         
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in
-            print("The \"Cancel\" alert occured.")
+            tableView.deselectRow(at: indexPath, animated: true)
         }))
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Save", comment: "Default action"), style: .default, handler: { _ in
             let playerOneName = alert.textFields?.last?.text
             let playerTwoName = alert.textFields?.first?.text
             

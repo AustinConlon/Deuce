@@ -14,8 +14,8 @@ class MatchHistoryTableViewCell: UITableViewCell {
     static let reuseIdentifier = "MatchHistoryTableViewCell"
 
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var playerOneName: UILabel!
-    @IBOutlet weak var playerTwoName: UILabel!
+    @IBOutlet weak var playerOneNameLabel: UILabel!
+    @IBOutlet weak var playerTwoNameLabel: UILabel!
     
     @IBOutlet weak var setOneStackView: UIStackView!
     @IBOutlet weak var setTwoStackView: UIStackView!
@@ -58,14 +58,15 @@ class MatchHistoryTableViewCell: UITableViewCell {
         setFourStackView.isHidden = true
         setFiveStackView.isHidden = true
         
-        playerOneName.font = .preferredFont(forTextStyle: .body)
+        playerOneNameLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetOneScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetTwoScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetThreeScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .body)
         
-        playerTwoName.font = .preferredFont(forTextStyle: .body)
+        playerTwoNameLabel.text = "Opponent"
+        playerTwoNameLabel.font = .preferredFont(forTextStyle: .body)
         playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerTwoSetThreeScoreLabel.font = .preferredFont(forTextStyle: .body)
