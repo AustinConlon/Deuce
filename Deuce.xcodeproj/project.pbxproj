@@ -730,7 +730,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "Deuce WatchKit Extension/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 3.01;
+				MARKETING_VERSION = 3.03;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -756,7 +756,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "Deuce WatchKit Extension/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 3.01;
+				MARKETING_VERSION = 3.03;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -779,7 +779,7 @@
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				IBSC_MODULE = Deuce_WatchKit_Extension;
 				INFOPLIST_FILE = "Deuce WatchKit App/Info.plist";
-				MARKETING_VERSION = 3.01;
+				MARKETING_VERSION = 3.03;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -801,7 +801,7 @@
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				IBSC_MODULE = Deuce_WatchKit_Extension;
 				INFOPLIST_FILE = "Deuce WatchKit App/Info.plist";
-				MARKETING_VERSION = 3.01;
+				MARKETING_VERSION = 3.03;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -826,7 +826,7 @@
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.01;
+				MARKETING_VERSION = 3.03;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -848,7 +848,7 @@
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.01;
+				MARKETING_VERSION = 3.03;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
