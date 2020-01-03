@@ -208,7 +208,9 @@ class ScoreInterfaceController: WKInterfaceController {
             switch matchWinner {
             case .playerOne:
                 playerOneGameScoreLabel.setText("🏆")
+                playerTwoGameScoreLabel.setText(nil)
             case .playerTwo:
+                playerOneGameScoreLabel.setText(nil)
                 playerTwoGameScoreLabel.setText("🏆")
             }
             
@@ -331,9 +333,9 @@ class ScoreInterfaceController: WKInterfaceController {
         if match.set.isSetPoint() {
             switch match.set.game.playerWithGamePoint() {
             case .playerOne:
-                playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "") → 🏅")
+                playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "")→🏅")
             case .playerTwo:
-                playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "") → 🏅")
+                playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "")→🏅")
             default:
                 break
             }
@@ -346,9 +348,9 @@ class ScoreInterfaceController: WKInterfaceController {
         if match.isMatchPoint() {
             switch match.set.game.playerWithGamePoint() {
             case .playerOne:
-                playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "") → 🏆")
+                playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "")→🏆")
             case .playerTwo:
-                playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "") → 🏆")
+                playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "")→🏆")
             default:
                 break
             }
