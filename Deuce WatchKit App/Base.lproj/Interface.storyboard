@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14868" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca" pageOrientation="vertical">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15702" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hlr-PA-eca" pageOrientation="vertical">
     <device id="watch44"/>
     <dependencies>
-        <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14643"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
     </dependencies>
     <scenes>
         <!--Done-->
@@ -49,7 +48,7 @@
         <!--Scoreboard-->
         <scene sceneID="Xzb-fA-FdN">
             <objects>
-                <controller identifier="scoreboard" fullBounds="YES" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreInterfaceController" customModule="Deuce_WatchKit_Extension">
+                <controller identifier="scoreboard" contentMode="scaleAspectFit" fullBounds="YES" id="Hlr-PA-eca" userLabel="Scoreboard" customClass="ScoreInterfaceController" customModule="Deuce_WatchKit_Extension">
                     <items>
                         <group width="1" height="1" alignment="center" layout="vertical" spacing="0.0" id="uoz-QG-hL7" userLabel="Court Group">
                             <items>
@@ -66,7 +65,7 @@
                                             </group>
                                             <group width="1" height="1" alignment="left" verticalAlignment="bottom" layout="vertical" spacing="0.0" id="WVb-ui-PA2" userLabel="Player Two Scores Group">
                                                 <items>
-                                                    <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="9fp-xg-3SA" userLabel="Player Two Game Score">
+                                                    <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" minimumScaleFactor="0.90000000000000002" id="9fp-xg-3SA" userLabel="Player Two Game Score">
                                                         <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
                                                         <variation key="device=watch38mm">
@@ -162,7 +161,7 @@
                                             </group>
                                             <group width="1" height="1" alignment="left" layout="vertical" spacing="0.0" id="qFD-0u-Lke" userLabel="Player One Scores Group">
                                                 <items>
-                                                    <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" id="gnp-Ie-dM4" userLabel="Player One Game Score">
+                                                    <label alignment="center" verticalAlignment="center" text="Love" baselineAdjustment="alignCenters" minimumScaleFactor="0.90000000000000002" id="gnp-Ie-dM4" userLabel="Player One Game Score">
                                                         <color key="textColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
                                                         <variation key="device=watch38mm">

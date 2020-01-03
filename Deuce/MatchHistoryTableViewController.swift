@@ -211,11 +211,13 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }))
         
         alert.addAction(UIAlertAction(title: NSLocalizedString("Save", comment: "Default action"), style: .default, handler: { _ in
-            let playerOneName = alert.textFields?.last?.text
-            let playerTwoName = alert.textFields?.first?.text
+            if let playerOneName = alert.textFields?.last?.text, !playerOneName.isEmpty {
+                self.matches[indexPath.row].playerOneName = playerOneName
+            }
             
-            self.matches[indexPath.row].playerOneName = playerOneName
-            self.matches[indexPath.row].playerTwoName = playerTwoName
+            if let playerTwoName = alert.textFields?.first?.text, !playerTwoName.isEmpty {
+                self.matches[indexPath.row].playerTwoName = playerTwoName
+            }
             
             tableView.reloadRows(at: [indexPath], with: .automatic)
             
