@@ -108,6 +108,16 @@ struct SetManager: Codable {
                 }
             }
         } else {
+            /// No-ad format.
+            if game.marginToWin == 1 {
+                if score[0] >= numberOfGamesToWin - 1 && score[0] > score[1] {
+                    return true
+                } else if score[1] >= numberOfGamesToWin - 1 && score[1] > score[0] {
+                    return true
+                } else {
+                    return false
+                }
+            }
             return false
         }
     }
