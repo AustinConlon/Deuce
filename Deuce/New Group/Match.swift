@@ -225,7 +225,32 @@ struct Match: Codable {
             }
         }
         
+        /// No-ad format.
+        if set.game.marginToWin == 1 {
+            if (score[0] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerOne) {
+                return true
+            }
+            
+            if (score[1] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerTwo) {
+                return true
+            }
+        }
+        
         return false
+    }
+    
+    func playerWithMatchPoint() -> Player? {
+        if set.isSetPoint() {
+            if (score[0] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerOne) {
+                return .playerOne
+            }
+            
+            if (score[1] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerTwo) {
+                return .playerTwo
+            }
+        }
+        
+        return nil
     }
     
     mutating func stop() {

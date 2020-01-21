@@ -331,13 +331,24 @@ class ScoreInterfaceController: WKInterfaceController {
         
         
         if match.set.isSetPoint() {
-            switch match.set.game.playerWithGamePoint() {
-            case .playerOne:
-                playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "")→🏅")
-            case .playerTwo:
-                playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "")→🏅")
-            default:
-                break
+            if match.rulesFormat == .noAd && match.set.game.isDeuce {
+                switch match.set.playerWithSetPoint() {
+                case .playerOne:
+                    playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "")→🏅")
+                case .playerTwo:
+                    playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "")→🏅")
+                default:
+                    break
+                }
+            } else if match.set.game.playerWithGamePoint() == match.set.playerWithSetPoint() {
+                switch match.set.game.playerWithGamePoint() {
+                case .playerOne:
+                    playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "")→🏅")
+                case .playerTwo:
+                    playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "")→🏅")
+                default:
+                    break
+                }
             }
         }
         
@@ -346,13 +357,24 @@ class ScoreInterfaceController: WKInterfaceController {
         }
         
         if match.isMatchPoint() {
-            switch match.set.game.playerWithGamePoint() {
-            case .playerOne:
-                playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "")→🏆")
-            case .playerTwo:
-                playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "")→🏆")
-            default:
-                break
+            if match.rulesFormat == .noAd && match.set.game.isDeuce {
+                switch match.playerWithMatchPoint() {
+                case .playerOne:
+                    playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "")→🏆")
+                case .playerTwo:
+                    playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "")→🏆")
+                default:
+                    break
+                }
+            } else {
+                switch match.set.game.playerWithGamePoint() {
+                case .playerOne:
+                    playerOneGameScoreLabel.setText("\(playerOneGameScore ?? "")→🏆")
+                case .playerTwo:
+                    playerTwoGameScoreLabel.setText("\(playerTwoGameScore ?? "")→🏆")
+                default:
+                    break
+                }
             }
         }
         
