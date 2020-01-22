@@ -187,7 +187,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         let alert = UIAlertController(title: "Player Names", message: nil, preferredStyle: .alert)
         
         alert.addTextField { textField in
-            textField.placeholder = "Opponent (e.g. Benoit Paire)"
+            textField.placeholder = "\(NSLocalizedString("Opponent", tableName: "Main", comment: "")) (e.g. Benoit Paire)"
             textField.autocapitalizationType = .words
             textField.returnKeyType = .next
             
@@ -197,7 +197,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }
         
         alert.addTextField { textField in
-            textField.placeholder = "You (e.g. Gael Monfils)"
+            textField.placeholder = "\(NSLocalizedString("You", tableName: "Main", comment: "")) (e.g. Gael Monfils)"
             textField.autocapitalizationType = .words
             textField.returnKeyType = .done
             
@@ -206,11 +206,11 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             }
         }
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", tableName: "Main", comment: ""), style: .cancel, handler: { _ in
             tableView.deselectRow(at: indexPath, animated: true)
         }))
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Save", comment: "Default action"), style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Save", tableName: "Main", comment: "Default action"), style: .default, handler: { _ in
             if let playerOneName = alert.textFields?.last?.text, !playerOneName.isEmpty {
                 self.matches[indexPath.row].playerOneName = playerOneName
             }
