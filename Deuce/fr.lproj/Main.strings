@@ -51,8 +51,8 @@
 /* Class = "UILabel"; text = "6"; ObjectID = "OTi-Pc-RDb"; */
 "OTi-Pc-RDb.text" = "6";
 
-/* Class = "UILabel"; text = "You"; ObjectID = "Qxc-iE-oQ5"; */
-"Qxc-iE-oQ5.text" = "You";
+/* Class = "UILabel"; text = "You"; ObjectID = "F9i-f1-SgU"; */
+"F9i-f1-SgU.text" = "Vous";
 
 /* Class = "UIBarButtonItem"; title = "Start Match"; ObjectID = "Vgu-Jl-uZ9"; */
 "Vgu-Jl-uZ9.title" = "Commencer le match";
@@ -69,8 +69,8 @@
 /* Class = "UILabel"; text = "4"; ObjectID = "eRO-Uf-YD9"; */
 "eRO-Uf-YD9.text" = "4";
 
-/* Class = "UILabel"; text = "Opponent"; ObjectID = "hDy-40-Hlc"; */
-"hDy-40-Hlc.text" = "Opponent";
+/* Class = "UILabel"; text = "Opponent"; ObjectID = "XLZ-WI-qCN"; */
+"XLZ-WI-qCN.text" = "Adversaire";
 
 /* Class = "UISegmentedControl"; j86-GE-gp9.segmentTitles[0] = "Tiebreaker set"; ObjectID = "j86-GE-gp9"; */
 "j86-GE-gp9.segmentTitles[0]" = "Set à jeu décisif";
@@ -127,3 +127,6 @@
 
 "Advantage in" = "Av serv";
 "Advantage out" = "Av ret";
+
+"Opponent" = "Adversaire";
+"You" = "Vous";
