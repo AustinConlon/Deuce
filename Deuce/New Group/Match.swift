@@ -68,7 +68,7 @@ struct Match: Codable {
     
     var set = Set()
     
-    var sets = [Set]() {
+    var sets: [Set] {
         didSet {
             set = Set()
             
@@ -104,7 +104,7 @@ struct Match: Codable {
         }
     }
     
-    var state: MatchState = .notStarted {
+    var state: MatchState = .playing {
         didSet {
             switch state {
             case .playing:
@@ -158,42 +158,61 @@ struct Match: Codable {
         }
     }
     
+    var currentGame: Game {
+        get { sets.last!.games.last! }
+        set { currentSet.games[currentSet.games.count - 1] = newValue }
+    }
+    
+    var currentSet: Set {
+        get { sets.last! }
+        set { sets[sets.count - 1] = newValue }
+    }
+    
+    init() {
+        sets = [set]
+    }
+    
     // MARK: - Methods
     
     mutating func scorePoint(for player: Player) {
-        state = .playing
-        
         switch player {
         case .playerOne:
-            set.game.score[0] += 1
+            currentGame.score[0] += 1
         case .playerTwo:
-            set.game.score[1] += 1
+            currentGame.score[1] += 1
         }
         
-        if set.game.isDeuce {
-            set.game.score[0] = 3
-            set.game.score[1] = 3
+        if currentGame.isDeuce {
+            currentGame.score[0] = 3
+            currentGame.score[1] = 3
         }
         
-        // TODO: Simplify game winner and set winner logic to make it consistent with match winner implementation.
-        if let gameWinner = set.game.winner {
+        checkWonGame()
+    }
+    
+    private mutating func checkWonGame() {
+        if let gameWinner = currentGame.winner {
             switch gameWinner {
             case .playerOne:
-                set.score[0] += 1
+                currentSet.score[0] += 1
             case .playerTwo:
-                set.score[1] += 1
+                currentSet.score[1] += 1
             }
             
-            set.games.append(set.game)
+            currentSet.games.append(Game())
             
-            if set.isSupertiebreak {
+            if currentSet.isSupertiebreak {
                 winner = gameWinner
             }
             
             gamesCount += 1
+            
+            checkWonSet()
         }
-        
-        if let setWinner = set.winner {
+    }
+    
+    private mutating func checkWonSet() {
+        if let setWinner = currentSet.winner {
             switch setWinner {
             case .playerOne:
                 score[0] += 1
@@ -201,13 +220,16 @@ struct Match: Codable {
                 score[1] += 1
             }
             
-            sets.append(set)
+            checkWonMatch()
         }
-        
-        if winner != nil {
-            // FIXME: Reduce dependencies related to sets count.
-            if set.isSupertiebreak {
-                sets.append(set)
+    }
+    
+    private mutating func checkWonMatch() {
+        if self.winner == nil {
+            sets.append(Set())
+        } else {
+            if currentSet.isSupertiebreak {
+                sets.append(Set())
             }
             state = .finished
         }

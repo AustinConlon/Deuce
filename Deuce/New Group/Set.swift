@@ -21,7 +21,7 @@ struct Set: Codable, Hashable {
     
     var game = Game()
     
-    var games = [Game]() {
+    var games: [Game] {
         didSet {
             game = Game()
             
@@ -81,6 +81,10 @@ struct Set: Codable, Hashable {
                 game.numberOfPointsToWin = 10
             }
         }
+    }
+    
+    init() {
+        games = [game]
     }
     
     // MARK: Methods

@@ -101,7 +101,7 @@ struct Game: Codable, Hashable {
     
     // MARK: - Methods
     
-    func getScore(for player: Player) -> String {
+    func score(for player: Player) -> String {
         switch (player, isTiebreak) {
         case (.playerOne, false):
             return Game.pointNames[score[0]]!

@@ -17,10 +17,12 @@ struct MatchView: View {
                 self.match.scorePoint(for: .playerTwo)
             }) {
                 VStack {
-                    Text(match.set.game.getScore(for: .playerTwo))
+                    Text(match.currentGame.score(for: .playerTwo))
+                    
                     HStack {
                         ForEach(match.sets, id: \.self) { set in
                             Text(set.getScore(for: .playerTwo))
+                                .font(.headline)
                         }
                     }
                 }
@@ -32,10 +34,12 @@ struct MatchView: View {
                 VStack {
                     HStack {
                         ForEach(match.sets, id: \.self) { set in
-                            Text(String(set.score[0]))
+                            Text(set.getScore(for: .playerOne))
+                                .font(.headline)
                         }
                     }
-                    Text(match.set.game.getScore(for: .playerOne))
+                    
+                    Text(match.currentGame.score(for: .playerOne))
                 }
             }
         }
