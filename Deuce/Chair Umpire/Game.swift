@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Game: Codable {
+struct Game: Codable, Hashable {
     // MARK: - Properties
     
     var servicePlayer: Player?
@@ -52,7 +52,7 @@ struct Game: Codable {
     var isTiebreak = false {
         didSet {
             if isTiebreak == true {
-                if SetManager.setType == .tiebreak {
+                if Set.setType == .tiebreak {
                     numberOfPointsToWin = 7
                 }
             }
@@ -165,7 +165,7 @@ struct Game: Codable {
         return false
     }
     
-    /// Convienence method for `isSetPoint()` in a `SetManager`.
+    /// Convienence method for `isSetPoint()` in a `Set`.
     func isGamePoint() -> Bool {
         if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] {
             return true
