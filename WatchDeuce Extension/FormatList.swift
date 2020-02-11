@@ -1,5 +1,5 @@
 //
-//  FormatsList.swift
+//  FormatList.swift
 //  WatchDeuce Extension
 //
 //  Created by Austin Conlon on 2/8/20.
@@ -8,10 +8,10 @@
 
 import SwiftUI
 
-struct FormatsList: View {
+struct FormatList<MatchView: View>: View {
     @EnvironmentObject private var userData: UserData
     
-    let matchViewProducer: (Match) -> MatchView
+    let matchViewProducer: (Format) -> MatchView
     
     var body: some View {
         List {
@@ -19,7 +19,7 @@ struct FormatsList: View {
                 NavigationLink(
                 destination:
                 self.matchViewProducer(format).environmentObject(self.userData)) {
-                    
+                    FormatRow(format: format)
                 }
             }
         }
@@ -28,6 +28,7 @@ struct FormatsList: View {
 
 struct FormatsView_Previews: PreviewProvider {
     static var previews: some View {
-        FormatsList()
+        FormatList { MatchView(format: $0) }
+        .environmentObject(UserData())
     }
 }

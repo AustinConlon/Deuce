@@ -9,7 +9,9 @@
 import SwiftUI
 
 struct MatchView: View {
+    @EnvironmentObject var userData: UserData
     @State var match = Match()
+    var format: Format
     
     var body: some View {
         VStack {
@@ -47,8 +49,9 @@ struct MatchView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct MatchView_Previews: PreviewProvider {
     static var previews: some View {
-        MatchView()
+        let userData = UserData()
+        return MatchView(format: userData.formats[0]).environmentObject(userData)
     }
 }

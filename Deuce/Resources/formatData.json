@@ -1,14 +1,18 @@
 [
     {
-        "name": "Main"
+        "name": "Main",
+        "id": 1
     },
     {
-        "name": "Alternate"
+        "name": "Alternate",
+        "id": 2
     },
     {
-        "name": "No-Ad"
+        "name": "No-Ad",
+        "id": 3
     },
     {
-        "name": "Doubles"
+        "name": "Doubles",
+        "id": 4
     }
 ]

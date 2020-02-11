@@ -10,8 +10,8 @@ import WatchKit
 import Foundation
 import SwiftUI
 
-class HostingController: WKHostingController<MatchView> {
-    override var body: MatchView {
-        return MatchView()
+class HostingController: WKHostingController<ContentView> {
+    override var body: ContentView {
+        return ContentView()
     }
 }
