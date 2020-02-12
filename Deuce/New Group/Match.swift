@@ -215,9 +215,9 @@ struct Match: Codable {
         if let setWinner = currentSet.winner {
             switch setWinner {
             case .playerOne:
-                score[0] += 1
+                self.score[0] += 1
             case .playerTwo:
-                score[1] += 1
+                self.score[1] += 1
             }
             
             checkWonMatch()
@@ -231,7 +231,7 @@ struct Match: Codable {
             if currentSet.isSupertiebreak {
                 sets.append(Set())
             }
-            state = .finished
+            self.state = .finished
         }
     }
     

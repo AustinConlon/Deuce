@@ -10,6 +10,7 @@ import SwiftUI
 
 struct FormatList<MatchView: View>: View {
     @EnvironmentObject private var userData: UserData
+    @State private var isPresented = false
     
     let matchViewProducer: (Format) -> MatchView
     
@@ -24,6 +25,10 @@ struct FormatList<MatchView: View>: View {
             }
         }
     }
+    
+//    matchViewProducer(format).environmentObject(self.userData)) {
+//        FormatRow(format: format)
+//    }
 }
 
 struct FormatsView_Previews: PreviewProvider {

@@ -60,8 +60,6 @@ struct Set: Codable, Hashable {
     
     var winner: Player?
     
-    var state: MatchState = .playing
-    
     var isOddGameConcluded: Bool {
         get {
             if games.count % 2 == 1 {

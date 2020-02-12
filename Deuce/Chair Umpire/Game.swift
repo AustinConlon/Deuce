@@ -47,7 +47,6 @@ struct Game: Codable, Hashable {
             }
         }
     }
-    var state: MatchState = .playing
     
     var isTiebreak = false {
         didSet {

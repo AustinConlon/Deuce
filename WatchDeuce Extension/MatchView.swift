@@ -14,38 +14,18 @@ struct MatchView: View {
     var format: Format
     
     var body: some View {
-        VStack {
-            Button(action: {
-                self.match.scorePoint(for: .playerTwo)
-            }) {
-                VStack {
-                    Text(match.currentGame.score(for: .playerTwo))
-                    
-                    HStack {
-                        ForEach(match.sets, id: \.self) { set in
-                            Text(set.getScore(for: .playerTwo))
-                                .font(.headline)
-                        }
-                    }
-                }
-            }
-            
-            Button(action: {
-                self.match.scorePoint(for: .playerOne)
-            }) {
-                VStack {
-                    HStack {
-                        ForEach(match.sets, id: \.self) { set in
-                            Text(set.getScore(for: .playerOne))
-                                .font(.headline)
-                        }
-                    }
-                    
-                    Text(match.currentGame.score(for: .playerOne))
-                }
+        GeometryReader { geometry in
+            VStack() {
+                PlayerTwo(match: self.$match)
+                .frame(maxHeight: geometry.size.height / 2)
+                PlayerOne(match: self.$match)
+                .frame(maxHeight: geometry.size.height / 2)
             }
         }
         .font(.largeTitle)
+        .navigationBarBackButtonHidden(true)
+        .disabled(match.state == .finished ? true : false)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
@@ -53,5 +33,57 @@ struct MatchView_Previews: PreviewProvider {
     static var previews: some View {
         let userData = UserData()
         return MatchView(format: userData.formats[0]).environmentObject(userData)
+    }
+}
+
+struct PlayerTwo: View {
+    @Binding var match: Match
+    
+    var body: some View {
+        GeometryReader { geometry in
+            Button(action: {
+                self.match.scorePoint(for: .playerTwo)
+            }) {
+                VStack {
+                    Text(self.match.currentGame.score(for: .playerTwo))
+                    
+                    Spacer()
+                    
+                    HStack {
+                        ForEach(self.match.sets, id: \.self) { set in
+                            Text(set.getScore(for: .playerTwo))
+                                .font(.headline)
+                        }
+                    }
+                }
+                .frame(height: geometry.size.height)
+            }
+        }
+    }
+}
+
+struct PlayerOne: View {
+    @Binding var match: Match
+    
+    var body: some View {
+        GeometryReader { geometry in
+            Button(action: {
+                self.match.scorePoint(for: .playerOne)
+            }) {
+                VStack {
+                    HStack {
+                        ForEach(self.match.sets, id: \.self) { set in
+                            Text(set.getScore(for: .playerOne))
+                                .font(.headline)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    Text(self.match.currentGame.score(for: .playerOne))
+                }
+                .frame(height: geometry.size.height)
+            }
+        }
     }
 }
