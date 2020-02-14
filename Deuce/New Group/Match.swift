@@ -150,7 +150,7 @@ struct Match: Codable {
         }
     }
     
-    var currentGame: Game {
+    var currentGame: Set.Game {
         get { sets.last!.games.last! }
         set { currentSet.games[currentSet.games.count - 1] = newValue }
     }
@@ -158,16 +158,6 @@ struct Match: Codable {
     var currentSet: Set {
         get { sets.last! }
         set { sets[sets.count - 1] = newValue }
-    }
-    
-    var isTiebreak: Bool {
-        switch rulesFormat {
-        case .main:
-            return currentSet.score == [6, 6]
-        case .alternate, .noAd:
-            /// Third set supertiebreak.
-            return self.score == [1, 1]
-        }
     }
     
     init() {
@@ -202,7 +192,7 @@ struct Match: Codable {
                 currentSet.score[1] += 1
             }
             
-            currentSet.games.append(Game())
+            currentSet.games.append(Set.Game())
             
             if currentSet.isSupertiebreak {
                 winner = gameWinner
@@ -234,46 +224,6 @@ struct Match: Codable {
             }
             self.state = .finished
         }
-    }
-    
-    /// Either player is one point away from winning the match.
-    func isMatchPoint() -> Bool {
-        if set.isSetPoint() {
-            if (score[0] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerOne) {
-                return true
-            }
-            
-            if (score[1] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerTwo) {
-                return true
-            }
-        }
-        
-        /// No-ad format.
-        if set.game.marginToWin == 1 {
-            if (score[0] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerOne) {
-                return true
-            }
-            
-            if (score[1] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerTwo) {
-                return true
-            }
-        }
-        
-        return false
-    }
-    
-    func playerWithMatchPoint() -> Player? {
-        if set.isSetPoint() {
-            if (score[0] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerOne) {
-                return .playerOne
-            }
-            
-            if (score[1] + 1 == numberOfSetsToWin) && (set.game.playerWithGamePoint() == .playerTwo) {
-                return .playerTwo
-            }
-        }
-        
-        return nil
     }
     
     mutating func stop() {
@@ -346,5 +296,154 @@ struct Match: Codable {
         }
         
         return false
+    }
+    
+    struct Set: Codable, Hashable {
+        var score = [0, 0] {
+            didSet {
+                if self.score == [6, 6] && score == [1, 1] {
+                    
+                }
+            }
+        }
+        
+        var game = Game()
+        
+        var games: [Game]
+        
+        static var setType: SetType = .tiebreak
+        
+        /// Number of games required to win the set. This is typically 6 games, but in a supertiebreak format it's 1 supertiebreakgame that replaces the 3rd set when it's tied 1 set to 1.
+        var numberOfGamesToWin = 6
+        
+        var marginToWin: Int {
+            get {
+                if Set.setType == .tiebreak && (score == [7, 6] || score == [6, 7]) {
+                    return 1
+                } else {
+                    return 2
+                }
+            }
+        }
+        
+        var winner: Player?
+        
+        /// In an alternate match format when it's tied 1 set to 1, a 10 point "supertiebreak" game is played instead of a third set.
+        var isSupertiebreak = false {
+            didSet {
+                if isSupertiebreak {
+                    numberOfGamesToWin = 1
+                    game.isTiebreak = true
+                    game.numberOfPointsToWin = 10
+                }
+            }
+        }
+        
+        init() {
+            games = [game]
+        }
+        
+        // MARK: Methods
+        
+        func getScore(for player: Player) -> String {
+            switch player {
+            case .playerOne:
+                return String(self.score[0])
+            case .playerTwo:
+                return String(self.score[1])
+            }
+        }
+        
+        struct Game: Codable, Hashable {
+            // MARK: - Properties
+            
+            var serviceSide: Court = .deuceCourt
+            var tiebreakStartingServicePlayer: Player?
+            
+            var score = [0, 0]
+            
+            static var pointNames = [
+                0: "Love", 1: "15", 2: "30", 3: "40", 4: "Ad"
+            ]
+            
+            var isDeuce: Bool {
+                if (score[0] >= 3 || score[1] >= 3) && score[0] == score[1] && !isTiebreak {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            
+            var numberOfPointsToWin = 4
+            var marginToWin = 2
+            
+            var winner: Player? {
+                get {
+                    if (score[0] >= numberOfPointsToWin) && score[0] >= (score[1] + marginToWin) {
+                        return .playerOne
+                    } else if (score[1] >= numberOfPointsToWin) && score[1] >= (score[0] + marginToWin) {
+                        return .playerTwo
+                    } else {
+                        return nil
+                    }
+                }
+            }
+            
+            var isTiebreak = false {
+                didSet {
+                    if isTiebreak == true {
+                        if Match.Set.setType == .tiebreak {
+                            numberOfPointsToWin = 7
+                        }
+                    }
+                }
+            }
+            
+            var pointsPlayed: Int { score.sum }
+            
+            // MARK: - Methods
+            
+            func score(for player: Player) -> String {
+                switch (player, isTiebreak) {
+                case (.playerOne, false):
+                    return Game.pointNames[score[0]]!
+                case (.playerTwo, false):
+                    return Game.pointNames[score[1]]!
+                case (.playerOne, true):
+                    return String(score[0])
+                case (.playerTwo, true):
+                    return String(score[1])
+                }
+            }
+            
+            /// Convienence method for `isSetPoint()` in a `Set`.
+            func isGamePoint() -> Bool {
+                if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] {
+                    return true
+                } else if score[1] >= numberOfPointsToWin - 1 && score[1] > score[0] {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            
+            func playerWithGamePoint() -> Player? {
+                if score[0] >= (numberOfPointsToWin - 1) && score[0] > score[1] {
+                    return .playerOne
+                } else if score[1] >= (numberOfPointsToWin - 1) && score[1] > score[0] {
+                    return .playerTwo
+                } else {
+                    return nil
+                }
+            }
+            
+            func advantage() -> Player? {
+                if marginToWin == 2 {
+                    if score == [4, 3] { return .playerOne }
+                    if score == [3, 4] { return .playerTwo }
+                }
+                return nil
+            }
+        }
     }
 }

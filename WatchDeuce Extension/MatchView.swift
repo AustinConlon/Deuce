@@ -84,7 +84,7 @@ struct PlayerTwo: View {
         case (.playerOne, _):
             return " "
         default:
-            switch match.isTiebreak {
+            switch match.currentGame.isTiebreak {
             case true:
                 return String(match.currentGame.score[1])
             case false:
@@ -142,7 +142,7 @@ struct PlayerOne: View {
         case (.playerTwo, _):
             return " "
         default:
-            switch match.isTiebreak {
+            switch match.currentGame.isTiebreak {
             case true:
                 return String(match.currentGame.score[0])
             case false:

@@ -31,8 +31,6 @@
 		FB7A6A0C23E99BD70065046E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB7A6A0B23E99BD70065046E /* Preview Assets.xcassets */; };
 		FB7A6A1023E99BD70065046E /* WatchDeuce.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FB7A69EF23E99BD50065046E /* WatchDeuce.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FB7A6A1823E99EB40065046E /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818A2210ACA000E6BAF9 /* Match.swift */; };
-		FB7A6A1923E99EC40065046E /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818D2210AD5400E6BAF9 /* Set.swift */; };
-		FB7A6A1A23E99EC70065046E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8CD9D621F5E3AD00C122CF /* Game.swift */; };
 		FB7CD14F23EF8ED400EB4D04 /* FormatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD14E23EF8ED400EB4D04 /* FormatList.swift */; };
 		FB7CD15123EF91DD00EB4D04 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15023EF91DD00EB4D04 /* UserData.swift */; };
 		FB7CD15223EF91DD00EB4D04 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15023EF91DD00EB4D04 /* UserData.swift */; };
@@ -41,8 +39,6 @@
 		FB7CD15C23EFAAE000EB4D04 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15B23EFAAE000EB4D04 /* Data.swift */; };
 		FB7CD15D23EFAAE000EB4D04 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15B23EFAAE000EB4D04 /* Data.swift */; };
 		FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818A2210ACA000E6BAF9 /* Match.swift */; };
-		FB82818E2210AD5400E6BAF9 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818D2210AD5400E6BAF9 /* Set.swift */; };
-		FB8CD9D721F5E3AD00C122CF /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8CD9D621F5E3AD00C122CF /* Game.swift */; };
 		FBE56FFB2208571A00042188 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBE56FFA2208571A00042188 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -152,8 +148,6 @@
 		FB7CD15823EF949300EB4D04 /* formatData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = formatData.json; sourceTree = "<group>"; };
 		FB7CD15B23EFAAE000EB4D04 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		FB82818A2210ACA000E6BAF9 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
-		FB82818D2210AD5400E6BAF9 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
-		FB8CD9D621F5E3AD00C122CF /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Game.swift; path = "../Chair Umpire/Game.swift"; sourceTree = "<group>"; };
 		FBA7C26D21CA73B40071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		FBA7C26E21CA73BA0071A137 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		FBCB6E8823167FB0006CCF68 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -304,8 +298,6 @@
 			isa = PBXGroup;
 			children = (
 				FB00DDF123F2385D008751D2 /* Format.swift */,
-				FB8CD9D621F5E3AD00C122CF /* Game.swift */,
-				FB82818D2210AD5400E6BAF9 /* Set.swift */,
 				FB82818A2210ACA000E6BAF9 /* Match.swift */,
 				FB6DAA092210284400949669 /* Workout.swift */,
 				FB7CD15023EF91DD00EB4D04 /* UserData.swift */,
@@ -508,9 +500,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */,
-				FB82818E2210AD5400E6BAF9 /* Set.swift in Sources */,
 				FB7CD15123EF91DD00EB4D04 /* UserData.swift in Sources */,
-				FB8CD9D721F5E3AD00C122CF /* Game.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 				FB00DDF223F2385D008751D2 /* Format.swift in Sources */,
 				FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */,
@@ -533,10 +523,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB00DDF323F2385D008751D2 /* Format.swift in Sources */,
-				FB7A6A1923E99EC40065046E /* Set.swift in Sources */,
 				FB7CD15D23EFAAE000EB4D04 /* Data.swift in Sources */,
 				FB7A6A0323E99BD60065046E /* HostingController.swift in Sources */,
-				FB7A6A1A23E99EC70065046E /* Game.swift in Sources */,
 				FB7CD15223EF91DD00EB4D04 /* UserData.swift in Sources */,
 				FB7CD14F23EF8ED400EB4D04 /* FormatList.swift in Sources */,
 				FB7A6A0723E99BD60065046E /* ComplicationController.swift in Sources */,
