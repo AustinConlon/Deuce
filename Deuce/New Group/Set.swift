@@ -3,7 +3,7 @@
 //  Deuce
 //
 //  Created by Austin Conlon on 1/21/19.
-//  Copyright © 2019 Austin Conlon. All rights reserved.
+//  Copyright © 2020 Austin Conlon. All rights reserved.
 //
 
 import Foundation
@@ -11,10 +11,8 @@ import Foundation
 struct Set: Codable, Hashable {
     var score = [0, 0] {
         didSet {
-            if (score[0] >= numberOfGamesToWin) && (score[0] >= score[1] + marginToWin) {
-                winner = .playerOne
-            } else if (score[1] >= numberOfGamesToWin) && (score[1] >= score[0] + marginToWin) {
-                winner = .playerTwo
+            if self.score == [6, 6] && Set.setType == .tiebreak {
+                
             }
         }
     }

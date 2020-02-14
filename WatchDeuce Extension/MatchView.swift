@@ -52,7 +52,7 @@ struct PlayerTwo: View {
                     .foregroundColor(self.match.servicePlayer == .playerTwo ? .green : .clear)
                     .frame(width: geometry.size.width / 3, alignment: self.serviceAlignment())
                     
-                    Text(self.match.currentGame.score(for: .playerTwo))
+                    Text(self.playerTwoGameScore())
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
@@ -74,6 +74,24 @@ struct PlayerTwo: View {
             return .trailing
         }
     }
+    
+    func playerTwoGameScore() -> String {
+        switch (match.currentGame.advantage(), match.servicePlayer!) {
+        case (.playerTwo, .playerOne):
+            return "Ad out"
+        case (.playerTwo, .playerTwo):
+            return "Ad in"
+        case (.playerOne, _):
+            return " "
+        default:
+            switch match.isTiebreak {
+            case true:
+                return String(match.currentGame.score[1])
+            case false:
+                return match.currentGame.score(for: .playerTwo)
+            }
+        }
+    }
 }
 
 struct PlayerOne: View {
@@ -92,7 +110,7 @@ struct PlayerOne: View {
                         }
                     }
                     
-                    Text(self.match.currentGame.score(for: .playerOne))
+                    Text(self.playerOneGameScore())
                     
                     ZStack() {
                         Image(systemName: "circle.fill")
@@ -112,6 +130,24 @@ struct PlayerOne: View {
             return .trailing
         case .adCourt:
             return .leading
+        }
+    }
+    
+    func playerOneGameScore() -> String {
+        switch (match.currentGame.advantage(), match.servicePlayer!) {
+        case (.playerOne, .playerOne):
+            return "Ad in"
+        case (.playerOne, .playerTwo):
+            return "Ad out"
+        case (.playerTwo, _):
+            return " "
+        default:
+            switch match.isTiebreak {
+            case true:
+                return String(match.currentGame.score[0])
+            case false:
+                return match.currentGame.score(for: .playerOne)
+            }
         }
     }
 }

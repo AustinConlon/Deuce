@@ -17,7 +17,7 @@ struct Game: Codable, Hashable {
     var score = [0, 0]
     
     static var pointNames = [
-        0: "Love", 1: "15", 2: "30", 3: "40", 4: "AD"
+        0: "Love", 1: "15", 2: "30", 3: "40", 4: "Ad"
     ]
     
     var isDeuce: Bool {
@@ -129,5 +129,13 @@ struct Game: Codable, Hashable {
         } else {
             return nil
         }
+    }
+    
+    func advantage() -> Player? {
+        if marginToWin == 2 {
+            if score == [4, 3] { return .playerOne }
+            if score == [3, 4] { return .playerTwo }
+        }
+        return nil
     }
 }

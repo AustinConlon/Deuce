@@ -160,6 +160,16 @@ struct Match: Codable {
         set { sets[sets.count - 1] = newValue }
     }
     
+    var isTiebreak: Bool {
+        switch rulesFormat {
+        case .main:
+            return currentSet.score == [6, 6]
+        case .alternate, .noAd:
+            /// Third set supertiebreak.
+            return self.score == [1, 1]
+        }
+    }
+    
     init() {
         sets = [set]
     }
@@ -286,8 +296,6 @@ struct Match: Codable {
                     servicePlayer = .playerTwo
                 case .playerTwo:
                     servicePlayer = .playerOne
-//                case .none:
-//                    break
                 }
             } else {
                 switch currentGame.serviceSide {

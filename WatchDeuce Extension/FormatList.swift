@@ -25,10 +25,6 @@ struct FormatList<MatchView: View>: View {
             }
         }
     }
-    
-//    matchViewProducer(format).environmentObject(self.userData)) {
-//        FormatRow(format: format)
-//    }
 }
 
 struct FormatsView_Previews: PreviewProvider {
