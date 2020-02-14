@@ -21,27 +21,7 @@ struct Set: Codable, Hashable {
     
     var game = Game()
     
-    var games: [Game] {
-        didSet {
-            game = Game()
-            
-            let lastServicePlayer = games.last?.servicePlayer
-            
-            switch lastServicePlayer {
-            case .playerOne:
-                game.servicePlayer = .playerTwo
-            case .playerTwo:
-                game.servicePlayer = .playerOne
-            case .none:
-                break
-            }
-            
-            if score == [6, 6] {
-                game.isTiebreak = true
-                game.tiebreakStartingServicePlayer = game.servicePlayer
-            }
-        }
-    }
+    var games: [Game]
     
     static var setType: SetType = .tiebreak
     

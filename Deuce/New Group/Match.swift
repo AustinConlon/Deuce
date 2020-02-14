@@ -3,7 +3,7 @@
 //  Deuce
 //
 //  Created by Austin Conlon on 1/21/19.
-//  Copyright © 2019 Austin Conlon. All rights reserved.
+//  Copyright © 2020 Austin Conlon. All rights reserved.
 //
 
 import Foundation
@@ -53,11 +53,24 @@ struct Stack<Element: Codable>: Codable {
     }
 }
 
+extension Int {
+    var isEven: Bool  { self % 2 == 0 }
+    var isOdd: Bool { self % 1 == 0 }
+}
+
+extension Array where Element == Int {
+    var sum: Int { return self.reduce(0, +) }
+}
+
+
+
 struct Match: Codable {
     
     // MARK: - Properties
     var playerOneName: String?
     var playerTwoName: String?
+    
+    var servicePlayer: Player! = .playerOne
     
     var score = [0, 0] {
         didSet {
@@ -71,27 +84,6 @@ struct Match: Codable {
     var sets: [Set] {
         didSet {
             set = Set()
-            
-            var lastServicePlayer: Player?
-            
-            if let tiebreakStartingServicePlayer = sets.last?.games.last?.tiebreakStartingServicePlayer {
-                lastServicePlayer = tiebreakStartingServicePlayer
-            } else if let servicePlayer = sets.last?.games.last?.servicePlayer {
-                lastServicePlayer = servicePlayer
-            }
-            
-            switch lastServicePlayer {
-            case .playerOne:
-                set.game.servicePlayer = .playerTwo
-            case .playerTwo:
-                set.game.servicePlayer = .playerOne
-            case .none:
-                break
-            }
-            
-            if (rulesFormat == .alternate || rulesFormat == .noAd) && score == [1, 1] {
-                set.isSupertiebreak = true
-            }
         }
     }
     
@@ -188,6 +180,7 @@ struct Match: Codable {
         }
         
         checkWonGame()
+        updateService()
     }
     
     private mutating func checkWonGame() {
@@ -204,8 +197,6 @@ struct Match: Codable {
             if currentSet.isSupertiebreak {
                 winner = gameWinner
             }
-            
-            gamesCount += 1
             
             checkWonSet()
         }
@@ -281,5 +272,71 @@ struct Match: Codable {
         }
         
         date = Date()
+    }
+    
+    /// Updates the state of the service player and side of the court which they are serving on.
+    private mutating func updateService() {
+        switch currentGame.isTiebreak {
+        case true:
+            if currentGame.pointsPlayed.isOdd {
+                currentGame.serviceSide = .adCourt
+                
+                switch servicePlayer! {
+                case .playerOne:
+                    servicePlayer = .playerTwo
+                case .playerTwo:
+                    servicePlayer = .playerOne
+//                case .none:
+//                    break
+                }
+            } else {
+                switch currentGame.serviceSide {
+                case .deuceCourt:
+                    currentGame.serviceSide = .adCourt
+                case .adCourt:
+                    currentGame.serviceSide = .deuceCourt
+                }
+            }
+        case false:
+            if currentGame.score == [0, 0] {
+                switchServicePlayer()
+            } else {
+                switchServiceCourt()
+            }
+        }
+    }
+    
+    private mutating func switchServiceCourt() {
+        switch currentGame.serviceSide {
+        case .deuceCourt:
+            currentGame.serviceSide = .adCourt
+        case .adCourt:
+            currentGame.serviceSide = .deuceCourt
+        }
+    }
+    
+    private mutating func switchServicePlayer() {
+        switch servicePlayer! {
+        case .playerOne:
+            servicePlayer = .playerTwo
+        case .playerTwo:
+            servicePlayer = .playerOne
+        }
+    }
+    
+    /// Receiving player is one point away from winning the game.
+    func isBreakPoint() -> Bool {
+        switch servicePlayer! {
+        case .playerOne:
+            if score[1] >= currentGame.numberOfPointsToWin - 1 && score[1] > score[0] && !currentGame.isTiebreak {
+                return true
+            }
+        case .playerTwo:
+            if score[0] >= currentGame.numberOfPointsToWin - 1 && score[0] > score[1] && !currentGame.isTiebreak {
+                return true
+            }
+        }
+        
+        return false
     }
 }

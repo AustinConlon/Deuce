@@ -30,10 +30,11 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 for record in records {
                     let matchData = record["matchData"] as! Data
                     let propertyListDecoder = PropertyListDecoder()
-                    if let match = try? propertyListDecoder.decode(Match.self, from: matchData) {
+                    do {
+                        let match = try propertyListDecoder.decode(Match.self, from: matchData)
                         matches.append(match)
-                    } else {
-                        print("Failed to decode.")
+                    } catch {
+                        print(error)
                     }
                 }
             }

@@ -3,7 +3,7 @@
 //  Deuce
 //
 //  Created by Austin Conlon on 1/21/19.
-//  Copyright © 2019 Austin Conlon. All rights reserved.
+//  Copyright © 2020 Austin Conlon. All rights reserved.
 //
 
 import Foundation
@@ -11,15 +11,10 @@ import Foundation
 struct Game: Codable, Hashable {
     // MARK: - Properties
     
-    var servicePlayer: Player?
     var serviceSide: Court = .deuceCourt
     var tiebreakStartingServicePlayer: Player?
     
-    var score = [0, 0] {
-        didSet {
-            updateService()
-        }
-    }
+    var score = [0, 0]
     
     static var pointNames = [
         0: "Love", 1: "15", 2: "30", 3: "40", 4: "AD"
@@ -98,6 +93,8 @@ struct Game: Codable, Hashable {
         }
     }
     
+    var pointsPlayed: Int { score.sum }
+    
     // MARK: - Methods
     
     func score(for player: Player) -> String {
@@ -111,57 +108,6 @@ struct Game: Codable, Hashable {
         case (.playerTwo, true):
             return String(score[1])
         }
-    }
-    
-    /// Updates the state of the service player and side of the court which they are serving on.
-    private mutating func updateService() {
-        switch isTiebreak {
-        case true:
-            if isOddPointConcluded {
-                serviceSide = .adCourt
-                
-                switch servicePlayer {
-                case .playerOne:
-                    servicePlayer = .playerTwo
-                case .playerTwo:
-                    servicePlayer = .playerOne
-                default:
-                    break
-                }
-            } else {
-                switch serviceSide {
-                case .deuceCourt:
-                    serviceSide = .adCourt
-                case .adCourt:
-                    serviceSide = .deuceCourt
-                }
-            }
-        case false:
-            switch serviceSide {
-            case .deuceCourt:
-                serviceSide = .adCourt
-            case .adCourt:
-                serviceSide = .deuceCourt
-            }
-        }
-    }
-    
-    /// Receiving player is one point away from winning the game.
-    func isBreakPoint() -> Bool {
-        switch servicePlayer {
-        case .playerOne:
-            if score[1] >= numberOfPointsToWin - 1 && score[1] > score[0] && !isTiebreak {
-                return true
-            }
-        case .playerTwo:
-            if score[0] >= numberOfPointsToWin - 1 && score[0] > score[1] && !isTiebreak {
-                return true
-            }
-        case .none:
-            break
-        }
-        
-        return false
     }
     
     /// Convienence method for `isSetPoint()` in a `Set`.

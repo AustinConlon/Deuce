@@ -44,10 +44,15 @@ struct PlayerTwo: View {
             Button(action: {
                 self.match.scorePoint(for: .playerTwo)
             }) {
-                VStack {
-                    Text(self.match.currentGame.score(for: .playerTwo))
+                VStack(spacing: 0) {
+                    ZStack() {
+                        Image(systemName: "circle.fill")
+                    }
+                    .font(.caption)
+                    .foregroundColor(self.match.servicePlayer == .playerTwo ? .green : .clear)
+                    .frame(width: geometry.size.width / 3, alignment: self.serviceAlignment())
                     
-                    Spacer()
+                    Text(self.match.currentGame.score(for: .playerTwo))
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
@@ -60,6 +65,15 @@ struct PlayerTwo: View {
             }
         }
     }
+    
+    func serviceAlignment() -> Alignment {
+        switch match.currentGame.serviceSide {
+        case .deuceCourt:
+            return .leading
+        case .adCourt:
+            return .trailing
+        }
+    }
 }
 
 struct PlayerOne: View {
@@ -70,7 +84,7 @@ struct PlayerOne: View {
             Button(action: {
                 self.match.scorePoint(for: .playerOne)
             }) {
-                VStack {
+                VStack(spacing: 0) {
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
                             Text(set.getScore(for: .playerOne))
@@ -78,12 +92,26 @@ struct PlayerOne: View {
                         }
                     }
                     
-                    Spacer()
-                    
                     Text(self.match.currentGame.score(for: .playerOne))
+                    
+                    ZStack() {
+                        Image(systemName: "circle.fill")
+                    }
+                    .font(.caption)
+                    .foregroundColor(self.match.servicePlayer == .playerOne ? .green : .clear)
+                    .frame(width: geometry.size.width / 3, alignment: self.serviceAlignment())
                 }
                 .frame(height: geometry.size.height)
             }
+        }
+    }
+    
+    func serviceAlignment() -> Alignment {
+        switch match.currentGame.serviceSide {
+        case .deuceCourt:
+            return .trailing
+        case .adCourt:
+            return .leading
         }
     }
 }
