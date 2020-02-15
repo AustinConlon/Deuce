@@ -115,8 +115,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         if match.sets.count >= 1 {
             cell.setOneStackView.isHidden = false
-            cell.playerOneSetOneScoreLabel.text = String(match.sets[0].score[0])
-            cell.playerTwoSetOneScoreLabel.text = String(match.sets[0].score[1])
+            cell.playerOneSetOneScoreLabel.text = String(match.sets[0].gamesWon[0])
+            cell.playerTwoSetOneScoreLabel.text = String(match.sets[0].gamesWon[1])
             
             if match.sets[0].winner == .playerOne { cell.playerOneSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
             if match.sets[0].winner == .playerTwo { cell.playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
@@ -124,8 +124,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
         if match.sets.count >= 2 {
             cell.setTwoStackView.isHidden = false
-            cell.playerOneSetTwoScoreLabel.text = String(match.sets[1].score[0])
-            cell.playerTwoSetTwoScoreLabel.text = String(match.sets[1].score[1])
+            cell.playerOneSetTwoScoreLabel.text = String(match.sets[1].gamesWon[0])
+            cell.playerTwoSetTwoScoreLabel.text = String(match.sets[1].gamesWon[1])
             
             if match.sets[1].winner == .playerOne { cell.playerOneSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
             if match.sets[1].winner == .playerTwo { cell.playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
@@ -133,8 +133,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         if match.sets.count >= 3 {
             cell.setThreeStackView.isHidden = false
-            cell.playerOneSetThreeScoreLabel.text = String(match.sets[2].score[0])
-            cell.playerTwoSetThreeScoreLabel.text = String(match.sets[2].score[1])
+            cell.playerOneSetThreeScoreLabel.text = String(match.sets[2].gamesWon[0])
+            cell.playerTwoSetThreeScoreLabel.text = String(match.sets[2].gamesWon[1])
             
             if match.sets[2].winner == .playerOne { cell.playerOneSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
             if match.sets[2].winner == .playerTwo { cell.playerTwoSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
@@ -142,8 +142,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         if match.sets.count >= 4 {
             cell.setFourStackView.isHidden = false
-            cell.playerOneSetFourScoreLabel.text = String(match.sets[3].score[0])
-            cell.playerTwoSetFourScoreLabel.text = String(match.sets[3].score[1])
+            cell.playerOneSetFourScoreLabel.text = String(match.sets[3].gamesWon[0])
+            cell.playerTwoSetFourScoreLabel.text = String(match.sets[3].gamesWon[1])
             
             if match.sets[3].winner == .playerOne { cell.playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
             if match.sets[3].winner == .playerTwo { cell.playerTwoSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
@@ -151,8 +151,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         if match.sets.count >= 5 {
             cell.setFiveStackView.isHidden = false
-            cell.playerOneSetFiveScoreLabel.text = String(match.sets[4].score[0])
-            cell.playerTwoSetFiveScoreLabel.text = String(match.sets[4].score[1])
+            cell.playerOneSetFiveScoreLabel.text = String(match.sets[4].gamesWon[0])
+            cell.playerTwoSetFiveScoreLabel.text = String(match.sets[4].gamesWon[1])
             
             if match.sets[4].winner == .playerOne { cell.playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
             if match.sets[4].winner == .playerTwo { cell.playerTwoSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
