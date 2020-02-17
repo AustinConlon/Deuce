@@ -12,7 +12,6 @@ struct Game: Codable, Hashable {
     // MARK: - Properties
     
     var serviceSide: Court = .deuceCourt
-    var tiebreakStartingServicePlayer: Player?
     
     var pointsWon = [0, 0]
     
@@ -45,11 +44,7 @@ struct Game: Codable, Hashable {
     
     var isTiebreak = false {
         didSet {
-            if isTiebreak == true {
-                if Set.setType == .tiebreak {
-                    numberOfPointsToWin = 7
-                }
-            }
+            if isTiebreak == true { numberOfPointsToWin = 7 }
         }
     }
     
@@ -92,7 +87,7 @@ struct Game: Codable, Hashable {
     }
     
     func advantage() -> Player? {
-        if marginToWin == 2 {
+        if marginToWin == 2 && !isTiebreak {
             if pointsWon == [4, 3] { return .playerOne }
             if pointsWon == [3, 4] { return .playerTwo }
         }

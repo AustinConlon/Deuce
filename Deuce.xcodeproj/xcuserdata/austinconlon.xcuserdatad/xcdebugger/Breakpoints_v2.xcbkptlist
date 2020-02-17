@@ -3,4 +3,54 @@
    uuid = "4C79F3ED-536B-411F-93F9-AA68FE3EAEFF"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E550D927-257C-416D-9639-B5CB0F29CCD0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Deuce/Models/Game.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "isTiebreak"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "E550D927-257C-416D-9639-B5CB0F29CCD0 - 34326621017f46cf"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WatchDeuce_Extension.Game.isTiebreak.setter : Swift.Bool"
+                  moduleName = "WatchDeuce Extension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/austinconlon/Developer/Deuce/Deuce/Models/Game.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "58">
+               </Location>
+               <Location
+                  uuid = "E550D927-257C-416D-9639-B5CB0F29CCD0 - 665d9e8c055f0082"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WatchDeuce_Extension.Game.init() -&gt; WatchDeuce_Extension.Game"
+                  moduleName = "WatchDeuce Extension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/austinconlon/Developer/Deuce/Deuce/Models/Game.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "85">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

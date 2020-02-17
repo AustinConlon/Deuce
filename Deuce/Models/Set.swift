@@ -9,38 +9,42 @@
 import Foundation
 
 struct Set: Codable, Hashable {
-    var gamesWon = [0, 0]
+    var gamesWon = [0, 0] {
+        didSet {
+            games.append(Game())
+            
+            if gamesWon == [6, 6] {
+                currentGame.isTiebreak = true
+                marginToWin = 1
+            }
+        }
+    }
     
     var game = Game()
-    
     var games: [Game]
+    
+    var currentGame: Game {
+        get { games.last! }
+        set { games[games.count - 1] = newValue }
+    }
     
     static var setType: SetType = .tiebreak
     
     /// Number of games required to win the set. This is typically 6 games, but in a supertiebreak format it's 1 supertiebreakgame that replaces the 3rd set when it's tied 1 set to 1.
     var numberOfGamesToWin = 6
     
-    var marginToWin: Int {
-        get {
-            if Set.setType == .tiebreak && (gamesWon == [7, 6] || gamesWon == [6, 7]) {
-                return 1
-            } else {
-                return 2
-            }
-        }
-    }
+    var marginToWin = 2
     
-    var winner: Player?
-    
-    /// In an alternate match format when it's tied 1 set to 1, a 10 point "supertiebreak" game is played instead of a third set.
-    var isSupertiebreak = false {
-        didSet {
-            if isSupertiebreak {
-                numberOfGamesToWin = 1
-                game.isTiebreak = true
-                game.numberOfPointsToWin = 10
-            }
+    var winner: Player? {
+        if gamesWon[0] >= numberOfGamesToWin && ((gamesWon[0] - gamesWon[1]) >= marginToWin) {
+            return .playerOne
         }
+        
+        if gamesWon[1] >= numberOfGamesToWin && ((gamesWon[1] - gamesWon[0]) >= marginToWin) {
+            return .playerTwo
+        }
+        
+        return nil
     }
     
     init() {

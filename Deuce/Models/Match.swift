@@ -9,7 +9,6 @@
 import Foundation
 
 struct Match: Codable {
-    
     // MARK: - Properties
     var playerOneName: String?
     var playerTwoName: String?
@@ -25,20 +24,12 @@ struct Match: Codable {
     
     var set = Set()
     
-    var sets: [Set] {
-        didSet {
-            set = Set()
-        }
-    }
+    var sets: [Set]
     
     /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
     var numberOfSetsToWin = 2
     
-    var winner: Player? {
-        didSet {
-            set.winner = winner
-        }
-    }
+    var winner: Player?
     
     var state: MatchState = .playing {
         didSet {
@@ -68,7 +59,7 @@ struct Match: Codable {
     var isChangeover: Bool {
         get {
             // Changeovers happen during the tiebreak or superbreak.
-            if (set.game.isTiebreak || set.isSupertiebreak) && set.game.pointsWon != [0, 0] {
+            if set.game.isTiebreak && set.game.pointsWon != [0, 0] {
                 if (set.game.pointsWon[0] + set.game.pointsWon[1]) % 6 == 0 {
                     return true
                 } else {
@@ -94,11 +85,6 @@ struct Match: Codable {
         }
     }
     
-    var currentGame: Game {
-        get { sets.last!.games.last! }
-        set { currentSet.games[currentSet.games.count - 1] = newValue }
-    }
-    
     var currentSet: Set {
         get { sets.last! }
         set { sets[sets.count - 1] = newValue }
@@ -113,14 +99,14 @@ struct Match: Codable {
     mutating func scorePoint(for player: Player) {
         switch player {
         case .playerOne:
-            currentGame.pointsWon[0] += 1
+            currentSet.currentGame.pointsWon[0] += 1
         case .playerTwo:
-            currentGame.pointsWon[1] += 1
+            currentSet.currentGame.pointsWon[1] += 1
         }
         
-        if currentGame.isDeuce {
-            currentGame.pointsWon[0] = 3
-            currentGame.pointsWon[1] = 3
+        if currentSet.currentGame.isDeuce {
+            currentSet.currentGame.pointsWon[0] = 3
+            currentSet.currentGame.pointsWon[1] = 3
         }
         
         checkWonGame()
@@ -128,18 +114,12 @@ struct Match: Codable {
     }
     
     private mutating func checkWonGame() {
-        if let gameWinner = currentGame.winner {
+        if let gameWinner = currentSet.currentGame.winner {
             switch gameWinner {
             case .playerOne:
                 currentSet.gamesWon[0] += 1
             case .playerTwo:
                 currentSet.gamesWon[1] += 1
-            }
-            
-            currentSet.games.append(Game())
-            
-            if currentSet.isSupertiebreak {
-                winner = gameWinner
             }
             
             checkWonSet()
@@ -163,9 +143,6 @@ struct Match: Codable {
         if self.winner == nil {
             sets.append(Set())
         } else {
-            if currentSet.isSupertiebreak {
-                sets.append(Set())
-            }
             self.state = .finished
         }
     }
@@ -180,28 +157,12 @@ struct Match: Codable {
     
     /// Updates the state of the service player and side of the court which they are serving on.
     private mutating func updateService() {
-        switch currentGame.isTiebreak {
-        case true:
-            if currentGame.pointsPlayed.isOdd {
-                currentGame.serviceSide = .adCourt
-                
-                switch servicePlayer! {
-                case .playerOne:
-                    servicePlayer = .playerTwo
-                case .playerTwo:
-                    servicePlayer = .playerOne
-                }
-            } else {
-                switch currentGame.serviceSide {
-                case .deuceCourt:
-                    currentGame.serviceSide = .adCourt
-                case .adCourt:
-                    currentGame.serviceSide = .deuceCourt
-                }
-            }
-        case false:
-            if currentGame.pointsWon == [0, 0] {
+        if currentSet.currentGame.pointsWon == [0, 0] {
+            switchServicePlayer()
+        } else {
+            if currentSet.currentGame.isTiebreak && currentSet.currentGame.pointsWon.sum.isOdd {
                 switchServicePlayer()
+                currentSet.currentGame.serviceSide = .adCourt
             } else {
                 switchServiceCourt()
             }
@@ -209,11 +170,11 @@ struct Match: Codable {
     }
     
     private mutating func switchServiceCourt() {
-        switch currentGame.serviceSide {
+        switch currentSet.currentGame.serviceSide {
         case .deuceCourt:
-            currentGame.serviceSide = .adCourt
+            currentSet.currentGame.serviceSide = .adCourt
         case .adCourt:
-            currentGame.serviceSide = .deuceCourt
+            currentSet.currentGame.serviceSide = .deuceCourt
         }
     }
     
@@ -230,11 +191,11 @@ struct Match: Codable {
     func isBreakPoint() -> Bool {
         switch servicePlayer! {
         case .playerOne:
-            if setsWon[1] >= currentGame.numberOfPointsToWin - 1 && setsWon[1] > setsWon[0] && !currentGame.isTiebreak {
+            if setsWon[1] >= currentSet.currentGame.numberOfPointsToWin - 1 && setsWon[1] > setsWon[0] && !currentSet.currentGame.isTiebreak {
                 return true
             }
         case .playerTwo:
-            if setsWon[0] >= currentGame.numberOfPointsToWin - 1 && setsWon[0] > setsWon[1] && !currentGame.isTiebreak {
+            if setsWon[0] >= currentSet.currentGame.numberOfPointsToWin - 1 && setsWon[0] > setsWon[1] && !currentSet.currentGame.isTiebreak {
                 return true
             }
         }
@@ -305,7 +266,7 @@ struct Stack<Element: Codable>: Codable {
 
 extension Int {
     var isEven: Bool  { self % 2 == 0 }
-    var isOdd: Bool { self % 1 == 0 }
+    var isOdd: Bool { !isEven }
 }
 
 extension Array where Element == Int {

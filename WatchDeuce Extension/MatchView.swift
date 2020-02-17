@@ -50,7 +50,7 @@ struct PlayerTwo: View {
                     }
                     .font(.caption)
                     .foregroundColor(self.match.servicePlayer == .playerTwo ? .green : .clear)
-                    .frame(width: geometry.size.width / 3, alignment: self.serviceAlignment())
+                    .frame(width: geometry.size.width / 3, alignment: self.playerTwoServiceAlignment())
                     
                     Text(self.playerTwoGameScore())
                     
@@ -66,8 +66,8 @@ struct PlayerTwo: View {
         }
     }
     
-    func serviceAlignment() -> Alignment {
-        switch match.currentGame.serviceSide {
+    func playerTwoServiceAlignment() -> Alignment {
+        switch match.currentSet.currentGame.serviceSide {
         case .deuceCourt:
             return .leading
         case .adCourt:
@@ -76,7 +76,7 @@ struct PlayerTwo: View {
     }
     
     func playerTwoGameScore() -> String {
-        switch (match.currentGame.advantage(), match.servicePlayer!) {
+        switch (match.currentSet.currentGame.advantage(), match.servicePlayer!) {
         case (.playerTwo, .playerOne):
             return "Ad out"
         case (.playerTwo, .playerTwo):
@@ -84,11 +84,11 @@ struct PlayerTwo: View {
         case (.playerOne, _):
             return " "
         default:
-            switch match.currentGame.isTiebreak {
+            switch match.currentSet.currentGame.isTiebreak {
             case true:
-                return String(match.currentGame.pointsWon[1])
+                return String(match.currentSet.currentGame.pointsWon[1])
             case false:
-                return match.currentGame.score(for: .playerTwo)
+                return match.currentSet.currentGame.score(for: .playerTwo)
             }
         }
     }
@@ -117,15 +117,15 @@ struct PlayerOne: View {
                     }
                     .font(.caption)
                     .foregroundColor(self.match.servicePlayer == .playerOne ? .green : .clear)
-                    .frame(width: geometry.size.width / 3, alignment: self.serviceAlignment())
+                    .frame(width: geometry.size.width / 3, alignment: self.playerOneServiceAlignment())
                 }
                 .frame(height: geometry.size.height)
             }
         }
     }
     
-    func serviceAlignment() -> Alignment {
-        switch match.currentGame.serviceSide {
+    func playerOneServiceAlignment() -> Alignment {
+        switch match.currentSet.currentGame.serviceSide {
         case .deuceCourt:
             return .trailing
         case .adCourt:
@@ -134,7 +134,7 @@ struct PlayerOne: View {
     }
     
     func playerOneGameScore() -> String {
-        switch (match.currentGame.advantage(), match.servicePlayer!) {
+        switch (match.currentSet.currentGame.advantage(), match.servicePlayer!) {
         case (.playerOne, .playerOne):
             return "Ad in"
         case (.playerOne, .playerTwo):
@@ -142,11 +142,11 @@ struct PlayerOne: View {
         case (.playerTwo, _):
             return " "
         default:
-            switch match.currentGame.isTiebreak {
+            switch match.currentSet.currentGame.isTiebreak {
             case true:
-                return String(match.currentGame.pointsWon[0])
+                return String(match.currentSet.currentGame.pointsWon[0])
             case false:
-                return match.currentGame.score(for: .playerOne)
+                return match.currentSet.currentGame.score(for: .playerOne)
             }
         }
     }
