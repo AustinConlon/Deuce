@@ -99,3 +99,14 @@ struct Game: Codable, Hashable {
         return nil
     }
 }
+
+extension Game {
+    enum CodingKeys: String, CodingKey {
+        case pointsWon = "score"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        pointsWon = try values.decode(Array.self, forKey: .pointsWon)
+    }
+}
