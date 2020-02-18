@@ -11,4 +11,6 @@ import Foundation
 struct Format: Codable, Identifiable {
     var id: Int
     var name: String
+    var maximumSets: Int
+    var thirdSetSupertiebreak: Bool
 }

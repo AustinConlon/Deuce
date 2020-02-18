@@ -1,14 +1,20 @@
 [
     {
         "name": "Main",
-        "id": 1
+        "id": 1,
+        "maximumSets": 3,
+        "thirdSetSupertiebreak": false
     },
     {
         "name": "Alternate",
-        "id": 2
+        "id": 2,
+        "maximumSets": 3,
+        "thirdSetSupertiebreak": true
     },
     {
         "name": "No-Ad",
-        "id": 3
+        "id": 3,
+        "maximumSets": 3,
+        "thirdSetSupertiebreak": true
     }
 ]

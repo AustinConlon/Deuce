@@ -24,6 +24,7 @@ struct MatchView: View {
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
+        .navigationBarTitle(format.name)
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
     }

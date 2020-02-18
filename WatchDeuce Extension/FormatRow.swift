@@ -12,12 +12,19 @@ struct FormatRow: View {
     var format: Format
     
     var body: some View {
-        Text(format.name)
+        VStack(alignment: .leading) {
+            Text(format.name).bold()
+            Text("Best-of \(format.maximumSets) sets")
+            Text(format.thirdSetSupertiebreak ? "3rd set is supertiebreak game" : "Tiebreak at 6-6 for all sets")
+        }
+        .padding()
     }
 }
 
 struct FormatsRow_Previews: PreviewProvider {
     static var previews: some View {
-        FormatRow(format: formatData[0])
+        List {
+            FormatRow(format: formatData[0])
+        }
     }
 }
