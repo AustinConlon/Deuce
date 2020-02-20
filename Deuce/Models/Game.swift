@@ -50,6 +50,14 @@ struct Game: Codable, Hashable {
     
     var pointsPlayed: Int { pointsWon.sum }
     
+    static var noAd = false
+    
+    // MARK: - Initialization
+    
+    init() {
+        if Game.noAd { marginToWin = 1 }
+    }
+    
     // MARK: - Methods
     
     func score(for player: Player) -> String {

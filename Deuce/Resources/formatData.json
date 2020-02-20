@@ -3,18 +3,28 @@
         "name": "Main",
         "id": 1,
         "maximumSets": 3,
-        "thirdSetSupertiebreak": false
+        "thirdSetSupertiebreak": false,
+        "noAd": false
     },
     {
         "name": "Alternate",
         "id": 2,
         "maximumSets": 3,
-        "thirdSetSupertiebreak": true
+        "thirdSetSupertiebreak": true,
+        "noAd": false
     },
     {
         "name": "No-Ad",
         "id": 3,
         "maximumSets": 3,
-        "thirdSetSupertiebreak": true
+        "thirdSetSupertiebreak": true,
+        "noAd": true
+    },
+    {
+        "name": "Doubles",
+        "id": 4,
+        "maximumSets": 3,
+        "thirdSetSupertiebreak": false,
+        "noAd": true
     }
 ]

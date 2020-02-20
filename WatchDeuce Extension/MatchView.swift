@@ -10,8 +10,9 @@ import SwiftUI
 
 struct MatchView: View {
     @EnvironmentObject var userData: UserData
-    @State var match = Match()
-    var format: Format
+    @State var match: Match
+    @State var undoStack = Stack<Match>()
+    var workout = Workout()
     
     var body: some View {
         GeometryReader { geometry in
@@ -24,16 +25,45 @@ struct MatchView: View {
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle(format.name)
+        .navigationBarTitle(match.format.rawValue)
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
+        .contextMenu {
+            Button(action: {
+                self.match.undo()
+            }) {
+                VStack {
+                    Image(systemName: "arrow.counterclockwise")
+                    Text("Undo")
+                }
+            }
+            
+            Button(action: {
+                self.workout.start()
+            }) {
+                VStack {
+                    Image(systemName: "chevron.right.2")
+                    Text("Start Workout")
+                }
+            }
+
+            Button(action: {
+                self.workout.stop()
+            }) {
+                VStack {
+                    Image(systemName: "xmark")
+                    Text("Stop Workout")
+                }
+            }
+        }
     }
 }
 
 struct MatchView_Previews: PreviewProvider {
     static var previews: some View {
         let userData = UserData()
-        return MatchView(format: userData.formats[0]).environmentObject(userData)
+        let format = userData.formats[0]
+        return MatchView(match: Match(format: format)).environmentObject(userData)
     }
 }
 
@@ -68,11 +98,15 @@ struct PlayerTwo: View {
     }
     
     func playerTwoServiceAlignment() -> Alignment {
-        switch match.currentSet.currentGame.serviceSide {
-        case .deuceCourt:
-            return .leading
-        case .adCourt:
-            return .trailing
+        if match.format == .noAd && match.currentSet.currentGame.pointsWon == [3, 3] && !match.currentSet.currentGame.isTiebreak {
+            return .center
+        } else {
+            switch match.currentSet.currentGame.serviceSide {
+            case .deuceCourt:
+                return .leading
+            case .adCourt:
+                return .trailing
+            }
         }
     }
     
@@ -126,11 +160,15 @@ struct PlayerOne: View {
     }
     
     func playerOneServiceAlignment() -> Alignment {
-        switch match.currentSet.currentGame.serviceSide {
-        case .deuceCourt:
-            return .trailing
-        case .adCourt:
-            return .leading
+        if match.format == .noAd && match.currentSet.currentGame.pointsWon == [3, 3] && !match.currentSet.currentGame.isTiebreak {
+            return .center
+        } else {
+            switch match.currentSet.currentGame.serviceSide {
+            case .deuceCourt:
+                return .trailing
+            case .adCourt:
+                return .leading
+            }
         }
     }
     

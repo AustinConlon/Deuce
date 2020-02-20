@@ -13,4 +13,13 @@ struct Format: Codable, Identifiable {
     var name: String
     var maximumSets: Int
     var thirdSetSupertiebreak: Bool
+    var noAd: Bool
+}
+
+/// Backwards compatibility.
+enum RulesFormats: String, Codable {
+    case main = "Main"
+    case alternate = "Alternate"
+    case noAd = "No-Ad"
+    case doubles = "Doubles"
 }

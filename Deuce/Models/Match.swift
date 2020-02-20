@@ -19,10 +19,12 @@ struct Match: Codable {
         didSet {
             if setsWon[0] >= numberOfSetsToWin { winner = .playerOne }
             if setsWon[1] >= numberOfSetsToWin { winner = .playerTwo }
+            if winner == nil { sets.append(Set()) }
+            if (format == .alternate || format == .noAd) && setsWon == [1, 1] {
+                startSupertiebreak()
+            }
         }
     }
-    
-    var set = Set()
     
     var sets: [Set]
     
@@ -31,72 +33,31 @@ struct Match: Codable {
     
     var winner: Player?
     
-    var state: MatchState = .playing {
-        didSet {
-            switch state {
-            case .playing:
-                let userDefaults = UserDefaults()
-                if let rulesFormatValue = userDefaults.string(forKey: "Rules Format") {
-                    rulesFormat = RulesFormats(rawValue: rulesFormatValue)!
-                }
-                
-                if rulesFormat == .noAd && !set.game.isTiebreak {
-                    set.game.marginToWin = 1
-                }
-            case .finished:
-                break
-            default:
-                break
-            }
-        }
-    }
+    var state: MatchState = .playing
     
-    var rulesFormat = RulesFormats.main
+    var format: RulesFormats
     
     var date: Date!
     var gamesCount = 0
-    
-    var isChangeover: Bool {
-        get {
-            // Changeovers happen during the tiebreak or superbreak.
-            if set.game.isTiebreak && set.game.pointsWon != [0, 0] {
-                if (set.game.pointsWon[0] + set.game.pointsWon[1]) % 6 == 0 {
-                    return true
-                } else {
-                    return false
-                }
-            } else {
-                // Changeovers happen between games rather than during the game.
-                if (set.games.count % 2 == 1) && set.game.pointsWon == [0, 0] {
-                    return true
-                } else {
-                    // Check the games count of the set that was just finished and appended.
-                    if set.gamesWon == [0, 0] {
-                        if (((sets.last?.games.count) ?? 0) % 2 == 1) && set.game.pointsWon == [0, 0] {
-                            return true
-                        } else {
-                            return false
-                        }
-                    } else {
-                        return false
-                    }
-                }
-            }
-        }
-    }
     
     var currentSet: Set {
         get { sets.last! }
         set { sets[sets.count - 1] = newValue }
     }
     
-    init() {
-        sets = [set]
+    var undoStack = Stack<Match>()
+    
+    init(format: Format) {
+        self.format = RulesFormats(rawValue: format.name)!
+        if self.format == .noAd { Game.noAd = true }
+        sets = [Set()]
     }
     
     // MARK: - Methods
     
     mutating func scorePoint(for player: Player) {
+        undoStack.push(self)
+        
         switch player {
         case .playerOne:
             currentSet.currentGame.pointsWon[0] += 1
@@ -140,18 +101,12 @@ struct Match: Codable {
     }
     
     private mutating func checkWonMatch() {
-        if self.winner == nil {
-            sets.append(Set())
-        } else {
+        if self.winner != nil {
             self.state = .finished
         }
     }
     
     mutating func stop() {
-        if set.gamesWon != [0, 0] {
-            sets.append(set)
-        }
-        
         date = Date()
     }
     
@@ -202,6 +157,19 @@ struct Match: Codable {
         
         return false
     }
+    
+    mutating func startSupertiebreak() {
+        currentSet.currentGame.isTiebreak = true
+        currentSet.currentGame.numberOfPointsToWin = 10
+        currentSet.numberOfGamesToWin = 1
+        currentSet.marginToWin = 1
+    }
+    
+    mutating func undo() {
+        if let previousMatch = undoStack.topItem {
+            self = previousMatch
+        }
+    }
 }
 
 extension Match {
@@ -209,6 +177,7 @@ extension Match {
         case setsWon = "score"
         case sets
         case date
+        case format = "rulesFormat"
     }
     
     init(from decoder: Decoder) throws {
@@ -216,6 +185,7 @@ extension Match {
         setsWon = try values.decode(Array.self, forKey: .setsWon)
         sets = try values.decode(Array.self, forKey: .sets)
         date = try values.decode(Date.self, forKey: .date)
+        format = try values.decode(RulesFormats.self, forKey: .format)
     }
 }
 
@@ -239,13 +209,6 @@ enum SetType: String, Codable {
     case tiebreak
     case superTiebreak
     case advantage
-}
-
-
-enum RulesFormats: String, Codable {
-    case main = "Main"
-    case alternate = "Alternate"
-    case noAd = "No-Ad"
 }
 
 struct Stack<Element: Codable>: Codable {

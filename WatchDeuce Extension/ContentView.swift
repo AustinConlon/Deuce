@@ -10,14 +10,14 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        FormatList { MatchView(format: $0) }
+        FormatList { MatchView(match: Match(format: $0)) }
         .environmentObject(UserData())
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        FormatList { MatchView(format: $0) }
+        FormatList { MatchView(match: Match(format: $0)) }
         .environmentObject(UserData())
     }
 }
