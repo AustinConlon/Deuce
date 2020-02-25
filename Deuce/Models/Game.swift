@@ -32,13 +32,15 @@ struct Game: Codable, Hashable {
     
     var winner: Player? {
         get {
-            if (pointsWon[0] >= numberOfPointsToWin) && pointsWon[0] >= (pointsWon[1] + marginToWin) {
-                return .playerOne
-            } else if (pointsWon[1] >= numberOfPointsToWin) && pointsWon[1] >= (pointsWon[0] + marginToWin) {
-                return .playerTwo
-            } else {
-                return nil
+            if self.pointsWon.contains(where: { $0 >= numberOfPointsToWin }) {
+                if pointsWon[0] >= (pointsWon[1] + marginToWin) {
+                    return .playerOne
+                } else if pointsWon[1] >= (pointsWon[0] + marginToWin) {
+                    return .playerTwo
+                }
             }
+            
+            return nil
         }
     }
     

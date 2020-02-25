@@ -10,7 +10,6 @@ import SwiftUI
 
 struct FormatList<MatchView: View>: View {
     @EnvironmentObject private var userData: UserData
-    @State private var isPresented = false
     
     let matchViewProducer: (Format) -> MatchView
     
@@ -24,6 +23,7 @@ struct FormatList<MatchView: View>: View {
                 }
             }
         }
+        .listStyle(CarouselListStyle())
     }
 }
 

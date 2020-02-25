@@ -12,7 +12,7 @@ struct MatchView: View {
     @EnvironmentObject var userData: UserData
     @State var match: Match
     @State var undoStack = Stack<Match>()
-    var workout = Workout()
+    @State var workout = Workout()
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,7 +25,6 @@ struct MatchView: View {
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle(match.format.rawValue)
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
@@ -37,25 +36,20 @@ struct MatchView: View {
                     Text("Undo")
                 }
             }
-            
-            Button(action: {
-                self.workout.start()
-            }) {
-                VStack {
-                    Image(systemName: "chevron.right.2")
-                    Text("Start Workout")
-                }
-            }
 
             Button(action: {
-                self.workout.stop()
+                self.workout.workoutSession == nil ? self.workout.start() : self.workout.stop()
             }) {
                 VStack {
-                    Image(systemName: "xmark")
-                    Text("Stop Workout")
+                    Image(systemName: self.workout.workoutSession == nil ? "chevron.right.2" : "xmark")
+                    Text(self.workout.workoutSession == nil ? "Start Workout" : "Stop Workout")
                 }
             }
         }
+    }
+    
+    func playHaptic() {
+        WKInterfaceDevice.current().play(.click)
     }
 }
 
@@ -83,7 +77,7 @@ struct PlayerTwo: View {
                     .foregroundColor(self.match.servicePlayer == .playerTwo ? .green : .clear)
                     .frame(width: geometry.size.width / 3, alignment: self.playerTwoServiceAlignment())
                     
-                    Text(self.playerTwoGameScore())
+                    Text(self.playerTwoGameScore()).fontWeight(.medium)
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
@@ -145,7 +139,7 @@ struct PlayerOne: View {
                         }
                     }
                     
-                    Text(self.playerOneGameScore())
+                    Text(self.playerOneGameScore()).fontWeight(.medium)
                     
                     ZStack() {
                         Image(systemName: "circle.fill")

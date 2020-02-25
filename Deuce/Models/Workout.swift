@@ -74,7 +74,7 @@ class Workout: NSObject, HKWorkoutSessionDelegate {
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
-        
+        print("Workout session changed from \(fromState.rawValue) to \(toState.rawValue).")
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
