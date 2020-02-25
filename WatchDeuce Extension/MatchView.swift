@@ -13,6 +13,7 @@ struct MatchView: View {
     @State var match: Match
     @State var undoStack = Stack<Match>()
     @State var workout = Workout()
+    @State var showingAlert = true
     
     var body: some View {
         GeometryReader { geometry in
@@ -45,6 +46,11 @@ struct MatchView: View {
                     Text(self.workout.workoutSession == nil ? "Start Workout" : "Stop Workout")
                 }
             }
+        }
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text("Who will serve first?"),
+                  primaryButton: .default(Text("You")) { self.match.servicePlayer = .playerOne },
+                  secondaryButton: .default(Text("Opponent")) { self.match.servicePlayer = .playerTwo })
         }
     }
     
