@@ -47,6 +47,8 @@ struct Set: Codable, Hashable {
         return nil
     }
     
+    var gamesPlayed: Int { gamesWon.sum }
+    
     init() {
         games = [game]
     }

@@ -27,18 +27,12 @@ struct Match: Codable {
     }
     
     var sets: [Set]
-    
     /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
-    var numberOfSetsToWin = 2
-    
+    var numberOfSetsToWin: Int
     var winner: Player?
-    
     var state: MatchState = .playing
-    
     var format: RulesFormats
-    
     var date: Date!
-    var gamesCount = 0
     
     var currentSet: Set {
         get { sets.last! }
@@ -47,14 +41,31 @@ struct Match: Codable {
     
     var undoStack = Stack<Match>()
     
+    var totalGamesPlayed: Int {
+        var totalGamesPlayed = 0
+        for set in sets { totalGamesPlayed += set.gamesPlayed }
+        return totalGamesPlayed
+    }
+    
+    var isChangeover: Bool {
+        if currentSet.currentGame.pointsPlayed == 0 && totalGamesPlayed.isOdd { return true }
+        if currentSet.currentGame.isTiebreak && (currentSet.currentGame.pointsPlayed % 6 == 0) { return true }
+        return false
+    }
+    
+    // MARK: - Initialization
     init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!
-        if self.format == .noAd { Game.noAd = true }
+        if self.format == .noAd {
+            Game.noAd = true
+        } else {
+            Game.noAd = false
+        }
+        self.numberOfSetsToWin = format.minimumSetsToWinMatch
         sets = [Set()]
     }
     
     // MARK: - Methods
-    
     mutating func scorePoint(for player: Player) {
         undoStack.push(self)
         
@@ -178,6 +189,7 @@ extension Match {
         case sets
         case date
         case format = "rulesFormat"
+        case numberOfSetsToWin
     }
     
     init(from decoder: Decoder) throws {
@@ -186,6 +198,7 @@ extension Match {
         sets = try values.decode(Array.self, forKey: .sets)
         date = try values.decode(Date.self, forKey: .date)
         format = try values.decode(RulesFormats.self, forKey: .format)
+        numberOfSetsToWin = try values.decode(Int.self, forKey: .numberOfSetsToWin)
     }
 }
 

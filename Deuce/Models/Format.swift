@@ -11,7 +11,7 @@ import Foundation
 struct Format: Codable, Identifiable {
     var id: Int
     var name: String
-    var maximumSets: Int
+    var minimumSetsToWinMatch: Int
     var thirdSetSupertiebreak: Bool
     var noAd: Bool
 }

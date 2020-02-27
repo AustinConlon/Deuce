@@ -24,6 +24,7 @@ struct FormatList<MatchView: View>: View {
             }
         }
         .listStyle(CarouselListStyle())
+        .navigationBarBackButtonHidden(true)
     }
 }
 

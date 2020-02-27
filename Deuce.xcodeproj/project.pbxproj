@@ -120,8 +120,8 @@
 /* Begin PBXFileReference section */
 		FB00DDF123F2385D008751D2 /* Format.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		FB00DDF423F23C15008751D2 /* FormatRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatRow.swift; sourceTree = "<group>"; };
-		FB17142623FFFE05001D0CD8 /* StartingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingService.swift; sourceTree = "<group>"; };
 		FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		FB1CC0B724077B6B0078EAC6 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Interface.strings; sourceTree = "<group>"; };
 		FB1FDB4723FA782400CE03B1 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		FB1FDB4A23FA793C00CE03B1 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
 		FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
@@ -280,7 +280,6 @@
 				FB68051523FFA85E00735BE3 /* WatchDeuce Extension.entitlements */,
 				FB52F95123F2476C00AAC1FB /* ContentView.swift */,
 				FB7CD14E23EF8ED400EB4D04 /* FormatList.swift */,
-				FB17142623FFFE05001D0CD8 /* StartingService.swift */,
 				FB00DDF423F23C15008751D2 /* FormatRow.swift */,
 				FB7A6A0023E99BD60065046E /* MatchView.swift */,
 				FB7A6A0223E99BD60065046E /* HostingController.swift */,
@@ -600,6 +599,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				FB7A69F223E99BD50065046E /* Base */,
+				FB1CC0B724077B6B0078EAC6 /* fr */,
 			);
 			name = Interface.storyboard;
 			sourceTree = "<group>";

@@ -57,7 +57,11 @@ struct Game: Codable, Hashable {
     // MARK: - Initialization
     
     init() {
-        if Game.noAd { marginToWin = 1 }
+        if Game.noAd {
+            marginToWin = 1
+        } else {
+            marginToWin = 2
+        }
     }
     
     // MARK: - Methods

@@ -26,11 +26,12 @@ struct MatchView: View {
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
+        .navigationBarTitle(title())
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
             Button(action: {
-                self.match.undo()
+                self.match.undoStack.items.count > 1 ? self.match.undo() : self.showingAlert.toggle()
             }) {
                 VStack {
                     Image(systemName: "arrow.counterclockwise")
@@ -46,6 +47,13 @@ struct MatchView: View {
                     Text(self.workout.workoutSession == nil ? "Start Workout" : "Stop Workout")
                 }
             }
+            
+            NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }) {
+                VStack {
+                    Image(systemName: "archivebox.fill")
+                    Text("End Match")
+                }
+            }
         }
         .alert(isPresented: $showingAlert) {
             Alert(title: Text("Who will serve first?"),
@@ -57,13 +65,17 @@ struct MatchView: View {
     func playHaptic() {
         WKInterfaceDevice.current().play(.click)
     }
-}
-
-struct MatchView_Previews: PreviewProvider {
-    static var previews: some View {
-        let userData = UserData()
-        let format = userData.formats[0]
-        return MatchView(match: Match(format: format)).environmentObject(userData)
+    
+    func endMatch() {
+        match.stop()
+    }
+    
+    func title() -> String {
+        if match.isChangeover {
+            return "Changeover"
+        } else {
+            return ""
+        }
     }
 }
 
@@ -83,7 +95,8 @@ struct PlayerTwo: View {
                     .foregroundColor(self.match.servicePlayer == .playerTwo ? .green : .clear)
                     .frame(width: geometry.size.width / 3, alignment: self.playerTwoServiceAlignment())
                     
-                    Text(self.playerTwoGameScore()).fontWeight(.medium)
+                    Text(self.playerTwoGameScore())
+                        .fontWeight(.medium)
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
@@ -188,5 +201,15 @@ struct PlayerOne: View {
                 return match.currentSet.currentGame.score(for: .playerOne)
             }
         }
+    }
+}
+
+struct MatchView_Previews: PreviewProvider {
+    static var previews: some View {
+        let userData = UserData()
+        let format = userData.formats[0]
+        return MatchView(match: Match(format: format))
+            .environmentObject(userData)
+            .environment(\.locale, .init(identifier: "fr"))
     }
 }
