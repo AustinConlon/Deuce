@@ -26,7 +26,7 @@ struct MatchView: View {
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle(title())
+        .navigationBarTitle(LocalizedStringKey(title()))
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
@@ -56,18 +56,17 @@ struct MatchView: View {
             }
         }
         .alert(isPresented: $showingAlert) {
-            Alert(title: Text("Who will serve first?"),
-                  primaryButton: .default(Text("You")) { self.match.servicePlayer = .playerOne },
+            Alert(title: Text(LocalizedStringKey("Who will serve first?")),
+                  primaryButton: .default(Text(LocalizedStringKey("You"))) { self.match.servicePlayer = .playerOne },
                   secondaryButton: .default(Text("Opponent")) { self.match.servicePlayer = .playerTwo })
+        }
+        .onDisappear() {
+            if self.workout.workoutSession != nil { self.workout.stop() }
         }
     }
     
     func playHaptic() {
         WKInterfaceDevice.current().play(.click)
-    }
-    
-    func endMatch() {
-        match.stop()
     }
     
     func title() -> String {
@@ -95,7 +94,7 @@ struct PlayerTwo: View {
                     .foregroundColor(self.match.servicePlayer == .playerTwo ? .green : .clear)
                     .frame(width: geometry.size.width / 3, alignment: self.playerTwoServiceAlignment())
                     
-                    Text(self.playerTwoGameScore())
+                    Text(LocalizedStringKey(self.playerTwoGameScore()))
                         .fontWeight(.medium)
                     
                     HStack {
@@ -158,7 +157,8 @@ struct PlayerOne: View {
                         }
                     }
                     
-                    Text(self.playerOneGameScore()).fontWeight(.medium)
+                    Text(LocalizedStringKey(self.playerOneGameScore()))
+                        .fontWeight(.medium)
                     
                     ZStack() {
                         Image(systemName: "circle.fill")
@@ -208,8 +208,10 @@ struct MatchView_Previews: PreviewProvider {
     static var previews: some View {
         let userData = UserData()
         let format = userData.formats[0]
-        return MatchView(match: Match(format: format))
-            .environmentObject(userData)
-            .environment(\.locale, .init(identifier: "fr"))
+        return Group {
+            MatchView(match: Match(format: format))
+                .environmentObject(userData)
+                .environment(\.locale, .init(identifier: "en"))
+        }
     }
 }

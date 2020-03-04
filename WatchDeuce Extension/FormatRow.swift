@@ -10,11 +10,12 @@ import SwiftUI
 
 struct FormatRow: View {
     var format: Format
+    var sets: String { "Best-of \(maximumSetsInMatch) sets" }
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(format.name).bold()
-            Text("Best-of \(maximumSetsInMatch) sets")
+            Text(LocalizedStringKey(format.name)).bold()
+            Text(LocalizedStringKey(sets))
             Text(format.thirdSetSupertiebreak ? "3rd set is supertiebreak game" : "Tiebreak at 6-6 for all sets")
             Text(format.noAd ? "No-ad games" : "Advantage games")
         }
