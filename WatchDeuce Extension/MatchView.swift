@@ -56,7 +56,7 @@ struct MatchView: View {
             }
         }
         .alert(isPresented: $showingAlert) {
-            Alert(title: Text(LocalizedStringKey("Who will serve first?")),
+            Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) { self.match.servicePlayer = .playerOne },
                   secondaryButton: .default(Text("Opponent")) { self.match.servicePlayer = .playerTwo })
         }
@@ -74,6 +74,15 @@ struct MatchView: View {
             return "Changeover"
         } else {
             return ""
+        }
+    }
+    
+    func serviceQuestion() -> String {
+        switch match.format {
+        case .doubles:
+            return "Which team will serve first?"
+        default:
+            return "Who will serve first?"
         }
     }
 }
