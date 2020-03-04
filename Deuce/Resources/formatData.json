@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Main",
+        "id": 1,
+        "minimumSetsToWinMatch": 2,
+        "thirdSetSupertiebreak": false,
+        "noAd": false
+    },
+    {
+        "name": "Alternate",
+        "id": 2,
+        "minimumSetsToWinMatch": 2,
+        "thirdSetSupertiebreak": true,
+        "noAd": false
+    },
+    {
+        "name": "No-Ad",
+        "id": 3,
+        "minimumSetsToWinMatch": 2,
+        "thirdSetSupertiebreak": true,
+        "noAd": true
+    }
+]
