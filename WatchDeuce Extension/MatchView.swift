@@ -31,7 +31,7 @@ struct MatchView: View {
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
             Button(action: {
-                self.match.undoStack.items.count > 1 ? self.match.undo() : self.showingAlert.toggle()
+                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.showingAlert.toggle()
             }) {
                 VStack {
                     Image(systemName: "arrow.counterclockwise")
