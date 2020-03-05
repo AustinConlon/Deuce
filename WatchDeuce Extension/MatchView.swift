@@ -112,9 +112,11 @@ struct PlayerTwo: View {
                                 .font(.headline)
                         }
                     }
+                    .foregroundColor(.primary)
                 }
                 .frame(height: geometry.size.height)
             }
+            .accentColor(.blue)
         }
     }
     
@@ -165,6 +167,7 @@ struct PlayerOne: View {
                                 .font(.headline)
                         }
                     }
+                    .accentColor(.primary)
                     
                     Text(LocalizedStringKey(self.playerOneGameScore()))
                         .fontWeight(.medium)
@@ -178,6 +181,7 @@ struct PlayerOne: View {
                 }
                 .frame(height: geometry.size.height)
             }
+            .accentColor(.blue)
         }
     }
     
