@@ -12,7 +12,7 @@ struct MatchView: View {
     @EnvironmentObject var userData: UserData
     @State var match: Match
     @State var undoStack = Stack<Match>()
-    @State var workout = Workout()
+    @State var workout: Workout?
     @State var showingAlert = true
     
     var body: some View {
@@ -40,11 +40,11 @@ struct MatchView: View {
             }
 
             Button(action: {
-                self.workout.workoutSession == nil ? self.workout.start() : self.workout.stop()
+                self.workout?.workoutSession == nil ? self.workout?.start() : self.workout?.stop()
             }) {
                 VStack {
-                    Image(systemName: self.workout.workoutSession == nil ? "chevron.right.2" : "xmark")
-                    Text(self.workout.workoutSession == nil ? "Start Workout" : "Stop Workout")
+                    Image(systemName: self.workout?.workoutSession == nil ? "chevron.right.2" : "xmark")
+                    Text(self.workout?.workoutSession == nil ? "Start Workout" : "Stop Workout")
                 }
             }
             
@@ -61,7 +61,7 @@ struct MatchView: View {
                   secondaryButton: .default(Text("Opponent")) { self.match.servicePlayer = .playerTwo })
         }
         .onDisappear() {
-            if self.workout.workoutSession != nil { self.workout.stop() }
+            if self.workout?.workoutSession != nil { self.workout?.stop() }
         }
     }
     
