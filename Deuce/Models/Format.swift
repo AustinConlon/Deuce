@@ -14,6 +14,7 @@ struct Format: Codable, Identifiable {
     var minimumSetsToWinMatch: Int
     var thirdSetSupertiebreak: Bool
     var noAd: Bool
+    var isDoubles: Bool
 }
 
 /// Backwards compatibility.

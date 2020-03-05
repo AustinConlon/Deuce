@@ -12,7 +12,7 @@ struct MatchView: View {
     @EnvironmentObject var userData: UserData
     @State var match: Match
     @State var undoStack = Stack<Match>()
-    @State var workout = Workout()
+    @State var workout: Workout?
     @State var showingAlert = true
     
     var body: some View {
@@ -31,7 +31,7 @@ struct MatchView: View {
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
             Button(action: {
-                self.match.undoStack.items.count > 1 ? self.match.undo() : self.showingAlert.toggle()
+                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.showingAlert.toggle()
             }) {
                 VStack {
                     Image(systemName: "arrow.counterclockwise")
@@ -40,11 +40,11 @@ struct MatchView: View {
             }
 
             Button(action: {
-                self.workout.workoutSession == nil ? self.workout.start() : self.workout.stop()
+                self.workout?.workoutSession == nil ? self.workout?.start() : self.workout?.stop()
             }) {
                 VStack {
-                    Image(systemName: self.workout.workoutSession == nil ? "chevron.right.2" : "xmark")
-                    Text(self.workout.workoutSession == nil ? "Start Workout" : "Stop Workout")
+                    Image(systemName: self.workout?.workoutSession == nil ? "chevron.right.2" : "xmark")
+                    Text(self.workout?.workoutSession == nil ? "Start Workout" : "Stop Workout")
                 }
             }
             
@@ -56,12 +56,12 @@ struct MatchView: View {
             }
         }
         .alert(isPresented: $showingAlert) {
-            Alert(title: Text(LocalizedStringKey("Who will serve first?")),
+            Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) { self.match.servicePlayer = .playerOne },
                   secondaryButton: .default(Text("Opponent")) { self.match.servicePlayer = .playerTwo })
         }
         .onDisappear() {
-            if self.workout.workoutSession != nil { self.workout.stop() }
+            if self.workout?.workoutSession != nil { self.workout?.stop() }
         }
     }
     
@@ -74,6 +74,15 @@ struct MatchView: View {
             return "Changeover"
         } else {
             return ""
+        }
+    }
+    
+    func serviceQuestion() -> String {
+        switch match.format {
+        case .doubles:
+            return "Which team will serve first?"
+        default:
+            return "Who will serve first?"
         }
     }
 }
@@ -103,9 +112,11 @@ struct PlayerTwo: View {
                                 .font(.headline)
                         }
                     }
+                    .foregroundColor(.primary)
                 }
                 .frame(height: geometry.size.height)
             }
+            .accentColor(.blue)
         }
     }
     
@@ -156,6 +167,7 @@ struct PlayerOne: View {
                                 .font(.headline)
                         }
                     }
+                    .accentColor(.primary)
                     
                     Text(LocalizedStringKey(self.playerOneGameScore()))
                         .fontWeight(.medium)
@@ -169,6 +181,7 @@ struct PlayerOne: View {
                 }
                 .frame(height: geometry.size.height)
             }
+            .accentColor(.blue)
         }
     }
     
