@@ -11,7 +11,11 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         FormatList { MatchView(match: Match(format: $0)) }
-        .environmentObject(UserData())
+            .environmentObject(UserData())
+            .onAppear() {
+                let workout = Workout()
+                workout.requestAuthorization()
+            }
     }
 }
 

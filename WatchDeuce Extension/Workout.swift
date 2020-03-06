@@ -3,25 +3,33 @@
 //  Deuce WatchKit Extension
 //
 //  Created by Austin Conlon on 2/10/19.
-//  Copyright © 2019 Austin Conlon. All rights reserved.
+//  Copyright © 2020 Austin Conlon. All rights reserved.
 //
 
 import Foundation
 import HealthKit
 
 class Workout: NSObject, HKWorkoutSessionDelegate {
-    // Properties
+    // MARK: - Properties
     var workoutSession: HKWorkoutSession?
-    var healthStore = HKHealthStore()
+    let healthStore = HKHealthStore()
     var liveWorkoutBuilder: HKLiveWorkoutBuilder?
     var workoutStartDate: Date?
     var totalEnergyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 0)
     
+    // MARK: - Methods
     func requestAuthorization() {
-        let sampleTypesToShare = Swift.Set([HKObjectType.quantityType(forIdentifier: .basalEnergyBurned)!, HKWorkoutType.workoutType()])
-        let sampleTypesToRead = Swift.Set([HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!, HKObjectType.quantityType(forIdentifier: .heartRate)!])
+        let typesToShare: Swift.Set = [
+            HKObjectType.quantityType(forIdentifier: .basalEnergyBurned)!,
+            HKWorkoutType.workoutType()
+        ]
         
-        healthStore.requestAuthorization(toShare: sampleTypesToShare, read: sampleTypesToRead) { (success, error) in
+        let typesToRead: Swift.Set = [
+            HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
+            HKObjectType.quantityType(forIdentifier: .heartRate)!
+        ]
+        
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
             print("Request Authorization -- Success: ", success, " Error: ", error ?? "nil")
         }
     }

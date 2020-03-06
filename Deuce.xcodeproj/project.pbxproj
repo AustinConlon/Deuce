@@ -40,7 +40,6 @@
 		FB7A6A1023E99BD70065046E /* WatchDeuce.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FB7A69EF23E99BD50065046E /* WatchDeuce.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FB7A6A1823E99EB40065046E /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818A2210ACA000E6BAF9 /* Match.swift */; };
 		FB7CD14F23EF8ED400EB4D04 /* FormatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD14E23EF8ED400EB4D04 /* FormatList.swift */; };
-		FB7CD15123EF91DD00EB4D04 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15023EF91DD00EB4D04 /* UserData.swift */; };
 		FB7CD15223EF91DD00EB4D04 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15023EF91DD00EB4D04 /* UserData.swift */; };
 		FB7CD15923EF949300EB4D04 /* formatData.json in Resources */ = {isa = PBXBuildFile; fileRef = FB7CD15823EF949300EB4D04 /* formatData.json */; };
 		FB7CD15A23EF949300EB4D04 /* formatData.json in Resources */ = {isa = PBXBuildFile; fileRef = FB7CD15823EF949300EB4D04 /* formatData.json */; };
@@ -282,11 +281,12 @@
 		FB7A69FF23E99BD60065046E /* WatchDeuce Extension */ = {
 			isa = PBXGroup;
 			children = (
-				FB3BC950241084B400592CE8 /* NamesView.swift */,
 				FB68051523FFA85E00735BE3 /* WatchDeuce Extension.entitlements */,
+				FB6DAA092210284400949669 /* Workout.swift */,
 				FB52F95123F2476C00AAC1FB /* ContentView.swift */,
 				FB7CD14E23EF8ED400EB4D04 /* FormatList.swift */,
 				FB00DDF423F23C15008751D2 /* FormatRow.swift */,
+				FB3BC950241084B400592CE8 /* NamesView.swift */,
 				FB7A6A0023E99BD60065046E /* MatchView.swift */,
 				FB7A6A0223E99BD60065046E /* HostingController.swift */,
 				FB7A6A0423E99BD60065046E /* ExtensionDelegate.swift */,
@@ -321,7 +321,6 @@
 				FB1FDB4723FA782400CE03B1 /* Game.swift */,
 				FB1FDB4A23FA793C00CE03B1 /* Set.swift */,
 				FB82818A2210ACA000E6BAF9 /* Match.swift */,
-				FB6DAA092210284400949669 /* Workout.swift */,
 				FB7CD15023EF91DD00EB4D04 /* UserData.swift */,
 				FB7CD15B23EFAAE000EB4D04 /* Data.swift */,
 			);
@@ -534,7 +533,6 @@
 				FB1FDB4B23FA793C00CE03B1 /* Set.swift in Sources */,
 				FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */,
 				FB1FDB4823FA782500CE03B1 /* Game.swift in Sources */,
-				FB7CD15123EF91DD00EB4D04 /* UserData.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 				FB00DDF223F2385D008751D2 /* Format.swift in Sources */,
 				FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */,
