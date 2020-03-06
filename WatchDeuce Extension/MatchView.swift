@@ -12,7 +12,6 @@ struct MatchView: View {
     @EnvironmentObject var userData: UserData
     @State var match: Match
     @State var undoStack = Stack<Match>()
-    @State var workout: Workout?
     @State var showingAlert = true
     
     var body: some View {
@@ -38,15 +37,6 @@ struct MatchView: View {
                     Text("Undo")
                 }
             }
-
-            Button(action: {
-                self.workout?.workoutSession == nil ? self.workout?.start() : self.workout?.stop()
-            }) {
-                VStack {
-                    Image(systemName: self.workout?.workoutSession == nil ? "chevron.right.2" : "xmark")
-                    Text(self.workout?.workoutSession == nil ? "Start Workout" : "Stop Workout")
-                }
-            }
             
             NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }) {
                 VStack {
@@ -57,11 +47,14 @@ struct MatchView: View {
         }
         .alert(isPresented: $showingAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
-                  primaryButton: .default(Text(LocalizedStringKey("You"))) { self.match.servicePlayer = .playerOne },
-                  secondaryButton: .default(Text("Opponent")) { self.match.servicePlayer = .playerTwo })
-        }
-        .onDisappear() {
-            if self.workout?.workoutSession != nil { self.workout?.stop() }
+                  primaryButton: .default(Text(LocalizedStringKey("You"))) {
+                    self.match.servicePlayer = .playerOne
+                    self.userData.workout.start()
+                },
+                  secondaryButton: .default(Text("Opponent")) {
+                    self.match.servicePlayer = .playerTwo
+                    self.userData.workout.start()
+                })
         }
     }
     

@@ -25,6 +25,9 @@ struct FormatList<MatchView: View>: View {
         }
         .listStyle(CarouselListStyle())
         .navigationBarBackButtonHidden(true)
+        .onAppear() {
+            self.userData.workout.workoutSession?.state == .running ? self.userData.workout.stop() : self.userData.workout.requestAuthorization()
+        }
     }
 }
 
