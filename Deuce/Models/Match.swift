@@ -10,8 +10,8 @@ import Foundation
 
 struct Match: Codable {
     // MARK: - Properties
-    var playerOneName: String?
-    var playerTwoName: String?
+    var playerOneName = "You"
+    var playerTwoName = "Opponent"
     
     var servicePlayer: Player!
     

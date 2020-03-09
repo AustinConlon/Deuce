@@ -51,7 +51,7 @@ struct MatchView: View {
             }
             
             Button(action: {
-                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.showingAlert.toggle()
+                self.showingNamesSheet.toggle()
             }) {
                 VStack {
                     Image(systemName: "pencil")
@@ -59,7 +59,7 @@ struct MatchView: View {
                 }
             }
             .sheet(isPresented: $showingNamesSheet) {
-                NamesView()
+                NamesView(match: self.$match)
             }
         }
         .alert(isPresented: $showingAlert) {
