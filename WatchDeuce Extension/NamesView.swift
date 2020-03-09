@@ -13,7 +13,7 @@ struct NamesView: View {
     
     var body: some View {
         VStack {
-            TextField("Opponent", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            TextField(match.playerTwoName, text: $match.playerTwoName)
             TextField(match.playerOneName, text: $match.playerOneName)
         }
         .textContentType(.name)

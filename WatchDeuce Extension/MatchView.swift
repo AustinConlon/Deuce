@@ -114,7 +114,7 @@ struct PlayerTwo: View {
             }) {
                 VStack(spacing: 0) {
                     ZStack() {
-                        Image(systemName: "circle.fill")
+                        self.playerTwoServiceImage()
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     }
@@ -169,6 +169,14 @@ struct PlayerTwo: View {
             }
         }
     }
+    
+    func playerTwoServiceImage() -> Image {
+        if match.playerTwoName != "Opponent" {
+            return Image(systemName: "\(match.playerTwoName.first!.lowercased()).circle.fill")
+        } else {
+            return Image(systemName: "circle.fill")
+        }
+    }
 }
 
 struct PlayerOne: View {
@@ -193,7 +201,7 @@ struct PlayerOne: View {
                         .fontWeight(.medium)
                     
                     HStack(alignment: .bottom) {
-                        Image(systemName: "circle.fill")
+                        self.playerOneServiceImage()
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                         
@@ -235,6 +243,14 @@ struct PlayerOne: View {
             case false:
                 return match.currentSet.currentGame.score(for: .playerOne)
             }
+        }
+    }
+    
+    func playerOneServiceImage() -> Image {
+        if match.playerOneName != "You" {
+            return Image(systemName: "\(match.playerOneName.first!.lowercased()).circle.fill")
+        } else {
+            return Image(systemName: "circle.fill")
         }
     }
 }
