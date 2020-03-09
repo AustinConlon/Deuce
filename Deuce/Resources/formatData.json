@@ -2,7 +2,7 @@
     {
         "name": "Main",
         "id": 1,
-        "minimumSetsToWinMatch": 2,
+        "minimumSetsToWinMatch": 3,
         "thirdSetSupertiebreak": false,
         "noAd": false,
         "isDoubles": true
@@ -10,24 +10,8 @@
     {
         "name": "Alternate",
         "id": 2,
-        "minimumSetsToWinMatch": 2,
+        "minimumSetsToWinMatch": 3,
         "thirdSetSupertiebreak": true,
-        "noAd": false,
-        "isDoubles": true
-    },
-    {
-        "name": "No-Ad",
-        "id": 3,
-        "minimumSetsToWinMatch": 2,
-        "thirdSetSupertiebreak": true,
-        "noAd": true,
-        "isDoubles": true
-    },
-    {
-        "name": "Doubles",
-        "id": 4,
-        "minimumSetsToWinMatch": 2,
-        "thirdSetSupertiebreak": false,
         "noAd": false,
         "isDoubles": true
     }

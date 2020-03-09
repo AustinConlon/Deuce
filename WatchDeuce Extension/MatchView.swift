@@ -12,13 +12,18 @@ struct MatchView: View {
     @EnvironmentObject var userData: UserData
     @State var match: Match
     @State var undoStack = Stack<Match>()
+    
     @State var showingAlert = true
+    @State var showingNamesSheet = false
     
     var body: some View {
         GeometryReader { geometry in
-            VStack() {
+            VStack(spacing: 0) {
                 PlayerTwo(match: self.$match)
                 .frame(maxHeight: geometry.size.height / 2)
+                
+                Divider().foregroundColor(.secondary)
+                
                 PlayerOne(match: self.$match)
                 .frame(maxHeight: geometry.size.height / 2)
             }
@@ -44,6 +49,18 @@ struct MatchView: View {
                     Text("End Match")
                 }
             }
+            
+            Button(action: {
+                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.showingAlert.toggle()
+            }) {
+                VStack {
+                    Image(systemName: "pencil")
+                    Text("Player Names")
+                }
+            }
+            .sheet(isPresented: $showingNamesSheet) {
+                NamesView()
+            }
         }
         .alert(isPresented: $showingAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
@@ -63,11 +80,18 @@ struct MatchView: View {
     }
     
     func title() -> String {
-        if match.isChangeover {
-            return "Changeover"
-        } else {
-            return ""
+        if match.undoStack.items.count == 0 {
+            switch match.servicePlayer {
+            case .playerOne:
+                return "You Serve"
+            case .playerTwo:
+                return "Opponent Serves"
+            default:
+                break
+            }
         }
+        if match.isChangeover { return "Changeover" }
+        return ""
     }
     
     func serviceQuestion() -> String {
@@ -91,10 +115,11 @@ struct PlayerTwo: View {
                 VStack(spacing: 0) {
                     ZStack() {
                         Image(systemName: "circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                     }
-                    .font(.caption)
                     .foregroundColor(self.match.servicePlayer == .playerTwo ? .green : .clear)
-                    .frame(width: geometry.size.width / 3, alignment: self.playerTwoServiceAlignment())
+                    .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
                     
                     Text(LocalizedStringKey(self.playerTwoGameScore()))
                         .fontWeight(.medium)
@@ -102,10 +127,11 @@ struct PlayerTwo: View {
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
                             Text(set.getScore(for: .playerTwo))
-                                .font(.headline)
                         }
                     }
                     .foregroundColor(.primary)
+                    .font(.title)
+                    .minimumScaleFactor(0.7)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -127,7 +153,7 @@ struct PlayerTwo: View {
     }
     
     func playerTwoGameScore() -> String {
-        switch (match.currentSet.currentGame.advantage(), match.servicePlayer!) {
+        switch (match.currentSet.currentGame.advantage(), match.servicePlayer) {
         case (.playerTwo, .playerOne):
             return "Ad out"
         case (.playerTwo, .playerTwo):
@@ -154,23 +180,26 @@ struct PlayerOne: View {
                 self.match.scorePoint(for: .playerOne)
             }) {
                 VStack(spacing: 0) {
-                    HStack {
+                    HStack() {
                         ForEach(self.match.sets, id: \.self) { set in
                             Text(set.getScore(for: .playerOne))
-                                .font(.headline)
                         }
                     }
                     .accentColor(.primary)
+                    .font(.title)
+                    .minimumScaleFactor(0.7)
                     
                     Text(LocalizedStringKey(self.playerOneGameScore()))
                         .fontWeight(.medium)
                     
-                    ZStack() {
+                    HStack(alignment: .bottom) {
                         Image(systemName: "circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                        
                     }
-                    .font(.caption)
                     .foregroundColor(self.match.servicePlayer == .playerOne ? .green : .clear)
-                    .frame(width: geometry.size.width / 3, alignment: self.playerOneServiceAlignment())
+                    .frame(width: geometry.size.width / 2, alignment: self.playerOneServiceAlignment())
                 }
                 .frame(height: geometry.size.height)
             }
@@ -192,7 +221,7 @@ struct PlayerOne: View {
     }
     
     func playerOneGameScore() -> String {
-        switch (match.currentSet.currentGame.advantage(), match.servicePlayer!) {
+        switch (match.currentSet.currentGame.advantage(), match.servicePlayer) {
         case (.playerOne, .playerOne):
             return "Ad in"
         case (.playerOne, .playerTwo):

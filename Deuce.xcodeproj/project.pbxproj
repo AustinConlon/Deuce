@@ -46,6 +46,7 @@
 		FB7CD15C23EFAAE000EB4D04 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15B23EFAAE000EB4D04 /* Data.swift */; };
 		FB7CD15D23EFAAE000EB4D04 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15B23EFAAE000EB4D04 /* Data.swift */; };
 		FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818A2210ACA000E6BAF9 /* Match.swift */; };
+		FB8FB780241603A3007F3F5D /* NamesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3BC950241084B400592CE8 /* NamesView.swift */; };
 		FBA3439C240B39D400BF3D13 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB7A69F123E99BD50065046E /* Interface.storyboard */; };
 		FBABCBD6240BAACA00A589DA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB3AA163240BA3BF0090B894 /* Localizable.strings */; };
 		FBE56FFB2208571A00042188 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBE56FFA2208571A00042188 /* HealthKit.framework */; };
@@ -567,6 +568,7 @@
 				FB7A6A1823E99EB40065046E /* Match.swift in Sources */,
 				FB52F95223F2476C00AAC1FB /* ContentView.swift in Sources */,
 				FB7A6A0523E99BD60065046E /* ExtensionDelegate.swift in Sources */,
+				FB8FB780241603A3007F3F5D /* NamesView.swift in Sources */,
 				FB00DDF623F23C15008751D2 /* FormatRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -754,7 +756,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -776,7 +778,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -834,7 +836,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "WatchDeuce Extension/WatchDeuce Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchDeuce Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				ENABLE_PREVIEWS = YES;
@@ -864,7 +866,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "WatchDeuce Extension/WatchDeuce Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchDeuce Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				ENABLE_PREVIEWS = YES;
@@ -895,7 +897,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = WatchDeuce_Extension;
@@ -925,7 +927,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = WatchDeuce_Extension;

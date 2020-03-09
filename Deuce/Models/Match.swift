@@ -13,7 +13,7 @@ struct Match: Codable {
     var playerOneName: String?
     var playerTwoName: String?
     
-    var servicePlayer: Player! = .playerOne
+    var servicePlayer: Player!
     
     var setsWon = [0, 0] {
         didSet {
