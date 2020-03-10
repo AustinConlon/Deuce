@@ -5,13 +5,21 @@
         "minimumSetsToWinMatch": 2,
         "thirdSetSupertiebreak": false,
         "noAd": false,
-        "isDoubles": true
+        "isDoubles": false
     },
     {
         "name": "Alternate",
         "id": 2,
         "minimumSetsToWinMatch": 2,
         "thirdSetSupertiebreak": true,
+        "noAd": false,
+        "isDoubles": false
+    },
+    {
+        "name": "Doubles",
+        "id": 4,
+        "minimumSetsToWinMatch": 2,
+        "thirdSetSupertiebreak": false,
         "noAd": false,
         "isDoubles": true
     }

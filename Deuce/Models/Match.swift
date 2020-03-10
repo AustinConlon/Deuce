@@ -12,6 +12,8 @@ struct Match: Codable {
     // MARK: - Properties
     var playerOneName = "You"
     var playerTwoName = "Opponent"
+    var playerThreeName = "Your Partner"
+    var playerFourName = "Opponent Two"
     
     var servicePlayer: Player!
     

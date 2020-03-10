@@ -13,7 +13,7 @@ struct MatchView: View {
     @State var match: Match
     @State var undoStack = Stack<Match>()
     
-    @State var showingAlert = true
+    @State var singlesServiceAlert = true
     @State var showingNamesSheet = false
     
     var body: some View {
@@ -28,14 +28,14 @@ struct MatchView: View {
                 .frame(maxHeight: geometry.size.height / 2)
             }
         }
-        .font(.largeTitle)
+        .font(.system(.largeTitle, design: .rounded))
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(LocalizedStringKey(title()))
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
             Button(action: {
-                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.showingAlert.toggle()
+                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
             }) {
                 VStack {
                     Image(systemName: "arrow.counterclockwise")
@@ -62,7 +62,7 @@ struct MatchView: View {
                 NamesView(match: self.$match)
             }
         }
-        .alert(isPresented: $showingAlert) {
+        .alert(isPresented: $singlesServiceAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     self.match.servicePlayer = .playerOne
@@ -75,21 +75,7 @@ struct MatchView: View {
         }
     }
     
-    func playHaptic() {
-        WKInterfaceDevice.current().play(.click)
-    }
-    
     func title() -> String {
-        if match.undoStack.items.count == 0 {
-            switch match.servicePlayer {
-            case .playerOne:
-                return "You Serve"
-            case .playerTwo:
-                return "Opponent Serves"
-            default:
-                break
-            }
-        }
         if match.isChangeover { return "Changeover" }
         return ""
     }
@@ -111,6 +97,7 @@ struct PlayerTwo: View {
         GeometryReader { geometry in
             Button(action: {
                 self.match.scorePoint(for: .playerTwo)
+                WKInterfaceDevice.current().play(self.match.isChangeover ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
                     ZStack() {
@@ -186,6 +173,7 @@ struct PlayerOne: View {
         GeometryReader { geometry in
             Button(action: {
                 self.match.scorePoint(for: .playerOne)
+                WKInterfaceDevice.current().play(self.match.isChangeover ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
                     HStack() {
