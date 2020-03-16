@@ -175,7 +175,7 @@ struct Match: Codable {
     }
     
     func isChangeover() -> Bool {
-        if currentSet.currentGame.isTiebreak && (currentSet.currentGame.pointsPlayed % 6 == 0) {
+        if currentSet.currentGame.isTiebreak && (currentSet.currentGame.pointsPlayed % 6 == 0) && currentSet.currentGame.pointsPlayed > 0 {
             return true
         } else if setsPlayed >= 1 &&
                   currentSet.gamesPlayed == 0 &&

@@ -22,7 +22,7 @@ struct MatchView: View {
                 PlayerTwo(match: self.$match)
                 .frame(maxHeight: geometry.size.height / 2)
                 
-                Divider().foregroundColor(.secondary)
+                Divider()
                 
                 PlayerOne(match: self.$match)
                 .frame(maxHeight: geometry.size.height / 2)
@@ -34,6 +34,18 @@ struct MatchView: View {
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
+            Button(action: {
+                self.showingNamesSheet.toggle()
+            }) {
+                VStack {
+                    Image(systemName: "pencil")
+                    Text("Player Names")
+                }
+            }
+            .sheet(isPresented: $showingNamesSheet) {
+                NamesView(match: self.$match)
+            }
+            
             Button(action: {
                 self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
             }) {
@@ -48,18 +60,6 @@ struct MatchView: View {
                     Image(systemName: "archivebox.fill")
                     Text("End Match")
                 }
-            }
-            
-            Button(action: {
-                self.showingNamesSheet.toggle()
-            }) {
-                VStack {
-                    Image(systemName: "pencil")
-                    Text("Player Names")
-                }
-            }
-            .sheet(isPresented: $showingNamesSheet) {
-                NamesView(match: self.$match)
             }
         }
         .alert(isPresented: $singlesServiceAlert) {
@@ -247,7 +247,16 @@ struct MatchView_Previews: PreviewProvider {
         return Group {
             MatchView(match: Match(format: format))
                 .environmentObject(userData)
-                .environment(\.locale, .init(identifier: "en"))
+                .environment(\.locale, .init(identifier: "fr"))
         }
     }
+}
+
+extension HorizontalAlignment {
+    private enum Set : AlignmentID {
+        static func defaultValue(in viewDimensions: ViewDimensions) -> CGFloat {
+            return viewDimensions[HorizontalAlignment.center]
+        }
+    }
+    static let set = HorizontalAlignment(Set.self)
 }

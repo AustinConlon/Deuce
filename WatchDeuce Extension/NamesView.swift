@@ -14,8 +14,6 @@ struct NamesView: View {
     var body: some View {
         Form {
             TextField(match.playerTwoName, text: $match.playerTwoName)
-            TextField(match.playerFourName, text: $match.playerFourName)
-            TextField(match.playerThreeName, text: $match.playerThreeName)
             TextField(match.playerOneName, text: $match.playerOneName)
         }
         .textContentType(.name)
