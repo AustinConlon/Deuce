@@ -12,15 +12,14 @@ struct NamesView: View {
     @Binding var match: Match
     
     var body: some View {
-        ScrollView {
-            VStack {
-                TextField(match.playerTwoName, text: $match.playerTwoName)
-                TextField(match.playerFourName, text: $match.playerFourName)
-                TextField(match.playerThreeName, text: $match.playerThreeName)
-                TextField(match.playerOneName, text: $match.playerOneName)
-            }
-            .textContentType(.name)
+        Form {
+            TextField(match.playerTwoName, text: $match.playerTwoName)
+            TextField(match.playerFourName, text: $match.playerFourName)
+            TextField(match.playerThreeName, text: $match.playerThreeName)
+            TextField(match.playerOneName, text: $match.playerOneName)
         }
+        .textContentType(.name)
         .navigationBarTitle("Done")
     }
 }
+

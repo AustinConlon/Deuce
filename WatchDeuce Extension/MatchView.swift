@@ -28,9 +28,9 @@ struct MatchView: View {
                 .frame(maxHeight: geometry.size.height / 2)
             }
         }
-        .font(.system(.largeTitle, design: .rounded))
+        .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle(LocalizedStringKey(title()))
+        .navigationBarTitle(match.state == .playing ? LocalizedStringKey(match.isChangeover() ? "Changeover" : "") : "")
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
@@ -75,11 +75,6 @@ struct MatchView: View {
         }
     }
     
-    func title() -> String {
-        if match.isChangeover { return "Changeover" }
-        return ""
-    }
-    
     func serviceQuestion() -> String {
         switch match.format {
         case .doubles:
@@ -90,6 +85,7 @@ struct MatchView: View {
     }
 }
 
+// MARK: - Player Two
 struct PlayerTwo: View {
     @Binding var match: Match
     
@@ -97,7 +93,7 @@ struct PlayerTwo: View {
         GeometryReader { geometry in
             Button(action: {
                 self.match.scorePoint(for: .playerTwo)
-                WKInterfaceDevice.current().play(self.match.isChangeover ? .stop : .start)
+                WKInterfaceDevice.current().play(self.match.isChangeover() ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
                     ZStack() {
@@ -105,7 +101,7 @@ struct PlayerTwo: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     }
-                    .foregroundColor(self.match.servicePlayer == .playerTwo ? .green : .clear)
+                    .foregroundColor(self.match.servicePlayer == .playerTwo ? .secondary : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
                     
                     Text(LocalizedStringKey(self.playerTwoGameScore()))
@@ -166,6 +162,7 @@ struct PlayerTwo: View {
     }
 }
 
+// MARK: - Player One
 struct PlayerOne: View {
     @Binding var match: Match
     
@@ -173,7 +170,7 @@ struct PlayerOne: View {
         GeometryReader { geometry in
             Button(action: {
                 self.match.scorePoint(for: .playerOne)
-                WKInterfaceDevice.current().play(self.match.isChangeover ? .stop : .start)
+                WKInterfaceDevice.current().play(self.match.isChangeover() ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
                     HStack() {

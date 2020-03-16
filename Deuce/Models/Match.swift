@@ -28,6 +28,8 @@ struct Match: Codable {
         }
     }
     
+    var setsPlayed: Int { setsWon.sum }
+    
     var sets: [Set]
     /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
     var numberOfSetsToWin: Int
@@ -47,12 +49,6 @@ struct Match: Codable {
         var totalGamesPlayed = 0
         for set in sets { totalGamesPlayed += set.gamesPlayed }
         return totalGamesPlayed
-    }
-    
-    var isChangeover: Bool {
-        if currentSet.currentGame.pointsPlayed == 0 && totalGamesPlayed.isOdd { return true }
-        if currentSet.currentGame.isTiebreak && (currentSet.currentGame.pointsPlayed % 6 == 0) { return true }
-        return false
     }
     
     // MARK: - Initialization
@@ -176,6 +172,21 @@ struct Match: Codable {
         currentSet.currentGame.numberOfPointsToWin = 10
         currentSet.numberOfGamesToWin = 1
         currentSet.marginToWin = 1
+    }
+    
+    func isChangeover() -> Bool {
+        if currentSet.currentGame.isTiebreak && (currentSet.currentGame.pointsPlayed % 6 == 0) {
+            return true
+        } else if setsPlayed >= 1 &&
+                  currentSet.gamesPlayed == 0 &&
+                  currentSet.currentGame.pointsPlayed == 0 {
+            if sets[setsPlayed - 1].gamesPlayed.isOdd {
+                return true
+            }
+        } else if currentSet.currentGame.pointsPlayed == 0 {
+            return currentSet.gamesPlayed.isOdd
+        }
+        return false
     }
     
     mutating func undo() {
