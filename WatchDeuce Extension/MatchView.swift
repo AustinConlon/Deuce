@@ -103,9 +103,10 @@ struct PlayerTwo: View {
                     }
                     .foregroundColor(self.match.servicePlayer == .playerTwo ? .secondary : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
+                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
                     
                     Text(LocalizedStringKey(self.playerTwoGameScore()))
-                        .fontWeight(.medium)
+                        .fontWeight(self.match.isBreakPoint(for: .playerTwo) ? .bold : .medium)
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
@@ -183,7 +184,7 @@ struct PlayerOne: View {
                     .minimumScaleFactor(0.7)
                     
                     Text(LocalizedStringKey(self.playerOneGameScore()))
-                        .fontWeight(.medium)
+                        .fontWeight(self.match.isBreakPoint(for: .playerOne) ? .bold : .medium)
                     
                     HStack(alignment: .bottom) {
                         self.playerOneServiceImage()
@@ -247,16 +248,10 @@ struct MatchView_Previews: PreviewProvider {
         return Group {
             MatchView(match: Match(format: format))
                 .environmentObject(userData)
+                .environment(\.locale, .init(identifier: "en"))
+            MatchView(match: Match(format: format))
+                .environmentObject(userData)
                 .environment(\.locale, .init(identifier: "fr"))
         }
     }
-}
-
-extension HorizontalAlignment {
-    private enum Set : AlignmentID {
-        static func defaultValue(in viewDimensions: ViewDimensions) -> CGFloat {
-            return viewDimensions[HorizontalAlignment.center]
-        }
-    }
-    static let set = HorizontalAlignment(Set.self)
 }

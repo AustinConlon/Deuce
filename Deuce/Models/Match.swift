@@ -17,6 +17,17 @@ struct Match: Codable {
     
     var servicePlayer: Player!
     
+    var returningPlayer: Player! {
+        switch servicePlayer {
+        case .playerOne:
+            return .playerTwo
+        case .playerTwo:
+            return .playerOne
+        case .none:
+            return nil
+        }
+    }
+    
     var setsWon = [0, 0] {
         didSet {
             if setsWon[0] >= numberOfSetsToWin { winner = .playerOne }
@@ -122,18 +133,18 @@ struct Match: Codable {
     /// Updates the state of the service player and side of the court which they are serving on.
     private mutating func updateService() {
         if currentSet.currentGame.pointsWon == [0, 0] {
-            switchServicePlayer()
+            toggleServicePlayer()
         } else {
             if currentSet.currentGame.isTiebreak && currentSet.currentGame.pointsWon.sum.isOdd {
-                switchServicePlayer()
+                toggleServicePlayer()
                 currentSet.currentGame.serviceSide = .adCourt
             } else {
-                switchServiceCourt()
+                toggleServiceCourt()
             }
         }
     }
     
-    private mutating func switchServiceCourt() {
+    private mutating func toggleServiceCourt() {
         switch currentSet.currentGame.serviceSide {
         case .deuceCourt:
             currentSet.currentGame.serviceSide = .adCourt
@@ -142,7 +153,7 @@ struct Match: Codable {
         }
     }
     
-    private mutating func switchServicePlayer() {
+    private mutating func toggleServicePlayer() {
         switch servicePlayer! {
         case .playerOne:
             servicePlayer = .playerTwo
@@ -152,19 +163,13 @@ struct Match: Codable {
     }
     
     /// Receiving player is one point away from winning the game.
-    func isBreakPoint() -> Bool {
-        switch servicePlayer! {
+    func isBreakPoint(for player: Player) -> Bool {
+        switch player {
         case .playerOne:
-            if setsWon[1] >= currentSet.currentGame.numberOfPointsToWin - 1 && setsWon[1] > setsWon[0] && !currentSet.currentGame.isTiebreak {
-                return true
-            }
+            return returningPlayer == .playerOne && currentSet.currentGame.isGamePoint(for: .playerOne)
         case .playerTwo:
-            if setsWon[0] >= currentSet.currentGame.numberOfPointsToWin - 1 && setsWon[0] > setsWon[1] && !currentSet.currentGame.isTiebreak {
-                return true
-            }
+            return returningPlayer == .playerTwo && currentSet.currentGame.isGamePoint(for: .playerTwo)
         }
-        
-        return false
     }
     
     mutating func startSupertiebreak() {

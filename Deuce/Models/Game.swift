@@ -52,7 +52,7 @@ struct Game: Codable, Hashable {
     
     var pointsPlayed: Int { pointsWon.sum }
     
-    static var noAd = false
+    internal static var noAd = false
     
     // MARK: - Initialization
     
@@ -79,24 +79,12 @@ struct Game: Codable, Hashable {
         }
     }
     
-    /// Convienence method for `isSetPoint()` in a `Set`.
-    func isGamePoint() -> Bool {
-        if pointsWon[0] >= numberOfPointsToWin - 1 && pointsWon[0] > pointsWon[1] {
-            return true
-        } else if pointsWon[1] >= numberOfPointsToWin - 1 && pointsWon[1] > pointsWon[0] {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func playerWithGamePoint() -> Player? {
-        if pointsWon[0] >= (numberOfPointsToWin - 1) && pointsWon[0] > pointsWon[1] {
-            return .playerOne
-        } else if pointsWon[1] >= (numberOfPointsToWin - 1) && pointsWon[1] > pointsWon[0] {
-            return .playerTwo
-        } else {
-            return nil
+    func isGamePoint(for player: Player) -> Bool {
+        switch player {
+        case .playerOne:
+            return (pointsWon[0] >= numberOfPointsToWin - 1) && (pointsWon[0] > pointsWon[1])
+        case .playerTwo:
+            return (pointsWon[1] >= numberOfPointsToWin - 1) && (pointsWon[1] > pointsWon[0])
         }
     }
     

@@ -33,8 +33,13 @@ struct FormatList<MatchView: View>: View {
 
 struct FormatsView_Previews: PreviewProvider {
     static var previews: some View {
-        FormatList { MatchView(match: Match(format: $0)) }
-            .environmentObject(UserData())
-            .environment(\.locale, .init(identifier: "en"))
+        Group {
+            FormatList { MatchView(match: Match(format: $0)) }
+                .environmentObject(UserData())
+                .environment(\.locale, .init(identifier: "en"))
+            FormatList { MatchView(match: Match(format: $0)) }
+                .environmentObject(UserData())
+                .environment(\.locale, .init(identifier: "fr"))
+        }
     }
 }

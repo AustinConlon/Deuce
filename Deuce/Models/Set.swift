@@ -20,7 +20,6 @@ struct Set: Codable, Hashable {
         }
     }
     
-    var game = Game()
     var games: [Game]
     
     var currentGame: Game {
@@ -50,7 +49,7 @@ struct Set: Codable, Hashable {
     var gamesPlayed: Int { gamesWon.sum }
     
     init() {
-        games = [game]
+        games = [Game()]
     }
     
     // MARK: Methods

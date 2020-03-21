@@ -16,11 +16,11 @@
         "isDoubles": false
     },
     {
-        "name": "Doubles",
-        "id": 4,
+        "name": "No-Ad",
+        "id": 3,
         "minimumSetsToWinMatch": 2,
         "thirdSetSupertiebreak": false,
-        "noAd": false,
-        "isDoubles": true
+        "noAd": true,
+        "isDoubles": false
     }
 ]
