@@ -10,6 +10,8 @@ import Foundation
 
 struct Match: Codable {
     // MARK: - Properties
+    var format: RulesFormats
+    
     var playerOneName = "You"
     var playerTwoName = "Opponent"
     var playerThreeName = "Your Partner"
@@ -32,7 +34,7 @@ struct Match: Codable {
         didSet {
             if setsWon[0] >= numberOfSetsToWin { winner = .playerOne }
             if setsWon[1] >= numberOfSetsToWin { winner = .playerTwo }
-            if winner == nil { sets.append(Set()) }
+            if self.winner == nil { sets.append(Set(format: format)) }
             if (format == .alternate || format == .noAd) && setsWon == [1, 1] {
                 startSupertiebreak()
             }
@@ -44,9 +46,10 @@ struct Match: Codable {
     var sets: [Set]
     /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
     var numberOfSetsToWin: Int
-    var winner: Player?
+    
+    var winner: Player? { didSet { servicePlayer = nil } }
+    
     var state: MatchState = .playing
-    var format: RulesFormats
     var date: Date!
     
     var currentSet: Set {
@@ -71,7 +74,7 @@ struct Match: Codable {
             Game.noAd = false
         }
         self.numberOfSetsToWin = format.minimumSetsToWinMatch
-        sets = [Set()]
+        sets = [Set(format: self.format)]
     }
     
     // MARK: - Methods
@@ -154,11 +157,13 @@ struct Match: Codable {
     }
     
     private mutating func toggleServicePlayer() {
-        switch servicePlayer! {
+        switch servicePlayer {
         case .playerOne:
             servicePlayer = .playerTwo
         case .playerTwo:
             servicePlayer = .playerOne
+        case .none:
+            break
         }
     }
     

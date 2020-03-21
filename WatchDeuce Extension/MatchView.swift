@@ -85,7 +85,7 @@ struct MatchView: View {
     }
 }
 
-// MARK: - Player Two
+// MARK: - Opponent
 struct PlayerTwo: View {
     @Binding var match: Match
     
@@ -105,7 +105,7 @@ struct PlayerTwo: View {
                     .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
                     .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
                     
-                    Text(LocalizedStringKey(self.playerTwoGameScore()))
+                    Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
                         .fontWeight(self.match.isBreakPoint(for: .playerTwo) ? .bold : .medium)
                     
                     HStack {
@@ -161,9 +161,18 @@ struct PlayerTwo: View {
             return Image(systemName: "circle.fill")
         }
     }
+    
+    func playerTwoMedal() -> String {
+        switch match.winner! {
+        case .playerOne:
+            return "🥈"
+        case .playerTwo:
+            return "🥇"
+        }
+    }
 }
 
-// MARK: - Player One
+// MARK: - User
 struct PlayerOne: View {
     @Binding var match: Match
     
@@ -182,18 +191,19 @@ struct PlayerOne: View {
                     .accentColor(.primary)
                     .font(.title)
                     .minimumScaleFactor(0.7)
+                    .animation(.default)
                     
-                    Text(LocalizedStringKey(self.playerOneGameScore()))
+                    Text(LocalizedStringKey(self.match.state == .finished ? self.playerOneMedal() : self.playerOneGameScore()))
                         .fontWeight(self.match.isBreakPoint(for: .playerOne) ? .bold : .medium)
                     
                     HStack(alignment: .bottom) {
                         self.playerOneServiceImage()
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                        
                     }
                     .foregroundColor(self.match.servicePlayer == .playerOne ? .green : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerOneServiceAlignment())
+                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -237,6 +247,15 @@ struct PlayerOne: View {
             return Image(systemName: "\(match.playerOneName.first!.lowercased()).circle.fill")
         } else {
             return Image(systemName: "circle.fill")
+        }
+    }
+    
+    func playerOneMedal() -> String {
+        switch match.winner! {
+        case .playerOne:
+            return "🥇"
+        case .playerTwo:
+            return "🥈"
         }
     }
 }
