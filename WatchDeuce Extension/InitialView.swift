@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  InitialView.swift
 //  WatchDeuce Extension
 //
 //  Created by Austin Conlon on 2/10/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct InitialView: View {
     var body: some View {
         FormatList { MatchView(match: Match(format: $0)) }
             .environmentObject(UserData())

@@ -10,6 +10,7 @@ import Foundation
 
 struct Game: Codable, Hashable {
     // MARK: - Properties
+    var format: RulesFormats
     
     var serviceSide: Court = .deuceCourt
     
@@ -52,12 +53,13 @@ struct Game: Codable, Hashable {
     
     var pointsPlayed: Int { pointsWon.sum }
     
-    static var noAd = false
+    internal static var noAd = false
     
     // MARK: - Initialization
     
-    init() {
-        if Game.noAd {
+    init(format: RulesFormats) {
+        self.format = format
+        if format == .noAd {
             marginToWin = 1
         } else {
             marginToWin = 2
@@ -79,24 +81,12 @@ struct Game: Codable, Hashable {
         }
     }
     
-    /// Convienence method for `isSetPoint()` in a `Set`.
-    func isGamePoint() -> Bool {
-        if pointsWon[0] >= numberOfPointsToWin - 1 && pointsWon[0] > pointsWon[1] {
-            return true
-        } else if pointsWon[1] >= numberOfPointsToWin - 1 && pointsWon[1] > pointsWon[0] {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func playerWithGamePoint() -> Player? {
-        if pointsWon[0] >= (numberOfPointsToWin - 1) && pointsWon[0] > pointsWon[1] {
-            return .playerOne
-        } else if pointsWon[1] >= (numberOfPointsToWin - 1) && pointsWon[1] > pointsWon[0] {
-            return .playerTwo
-        } else {
-            return nil
+    func isGamePoint(for player: Player) -> Bool {
+        switch player {
+        case .playerOne:
+            return (pointsWon[0] >= numberOfPointsToWin - 1) && (pointsWon[0] > pointsWon[1])
+        case .playerTwo:
+            return (pointsWon[1] >= numberOfPointsToWin - 1) && (pointsWon[1] > pointsWon[0])
         }
     }
     
@@ -112,10 +102,12 @@ struct Game: Codable, Hashable {
 extension Game {
     enum CodingKeys: String, CodingKey {
         case pointsWon = "score"
+        case format
     }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         pointsWon = try values.decode(Array.self, forKey: .pointsWon)
+        format = try values.decode(RulesFormats.self, forKey: .format)
     }
 }

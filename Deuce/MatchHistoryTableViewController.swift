@@ -105,13 +105,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         cell.dateLabel.text = dateString
         
-        if let playerOneName = match.playerOneName {
-            cell.playerOneNameLabel.text = playerOneName
-        }
-        
-        if let playerTwoName = match.playerTwoName {
-            cell.playerTwoNameLabel.text = playerTwoName
-        }
+        cell.playerOneNameLabel.text = match.playerOneName
+        cell.playerTwoNameLabel.text = match.playerTwoName
         
         if match.sets.count >= 1 {
             cell.setOneStackView.isHidden = false
@@ -254,8 +249,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             textField.autocapitalizationType = .words
             textField.returnKeyType = .next
             
-            if let playerTwoName = self.matches[indexPath.row].playerTwoName {
-                textField.text = playerTwoName
+            if !self.matches[indexPath.row].playerTwoName.isEmpty {
+                textField.text = self.matches[indexPath.row].playerTwoName
             }
         }
         
@@ -264,8 +259,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             textField.autocapitalizationType = .words
             textField.returnKeyType = .done
             
-            if let playerOneName = self.matches[indexPath.row].playerOneName {
-                textField.text = playerOneName
+            if !self.matches[indexPath.row].playerOneName.isEmpty {
+                textField.text = self.matches[indexPath.row].playerOneName
             }
         }
         

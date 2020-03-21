@@ -9,21 +9,15 @@
 import SwiftUI
 
 struct NamesView: View {
-    var match: Match
+    @Binding var match: Match
     
     var body: some View {
-        VStack {
-            TextField("Opponent One", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-            TextField("Opponent Two", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-            TextField("Teammate", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-            TextField("You", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+        Form {
+            TextField(match.playerTwoName, text: $match.playerTwoName)
+            TextField(match.playerOneName, text: $match.playerOneName)
         }
-        .navigationBarTitle("Player Names")
+        .textContentType(.name)
+        .navigationBarTitle("Done")
     }
 }
 
-struct NamesView_Previews: PreviewProvider {
-    static var previews: some View {
-        NamesView()
-    }
-}

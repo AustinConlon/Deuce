@@ -10,28 +10,46 @@ import Foundation
 
 struct Match: Codable {
     // MARK: - Properties
-    var playerOneName: String?
-    var playerTwoName: String?
+    var format: RulesFormats
     
-    var servicePlayer: Player! = .playerOne
+    var playerOneName = "You"
+    var playerTwoName = "Opponent"
+    var playerThreeName = "Your Partner"
+    var playerFourName = "Opponent Two"
+    
+    var servicePlayer: Player!
+    
+    var returningPlayer: Player! {
+        switch servicePlayer {
+        case .playerOne:
+            return .playerTwo
+        case .playerTwo:
+            return .playerOne
+        case .none:
+            return nil
+        }
+    }
     
     var setsWon = [0, 0] {
         didSet {
             if setsWon[0] >= numberOfSetsToWin { winner = .playerOne }
             if setsWon[1] >= numberOfSetsToWin { winner = .playerTwo }
-            if winner == nil { sets.append(Set()) }
+            if self.winner == nil { sets.append(Set(format: format)) }
             if (format == .alternate || format == .noAd) && setsWon == [1, 1] {
                 startSupertiebreak()
             }
         }
     }
     
+    var setsPlayed: Int { setsWon.sum }
+    
     var sets: [Set]
     /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
     var numberOfSetsToWin: Int
-    var winner: Player?
+    
+    var winner: Player? { didSet { servicePlayer = nil } }
+    
     var state: MatchState = .playing
-    var format: RulesFormats
     var date: Date!
     
     var currentSet: Set {
@@ -47,12 +65,6 @@ struct Match: Codable {
         return totalGamesPlayed
     }
     
-    var isChangeover: Bool {
-        if currentSet.currentGame.pointsPlayed == 0 && totalGamesPlayed.isOdd { return true }
-        if currentSet.currentGame.isTiebreak && (currentSet.currentGame.pointsPlayed % 6 == 0) { return true }
-        return false
-    }
-    
     // MARK: - Initialization
     init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!
@@ -62,7 +74,7 @@ struct Match: Codable {
             Game.noAd = false
         }
         self.numberOfSetsToWin = format.minimumSetsToWinMatch
-        sets = [Set()]
+        sets = [Set(format: self.format)]
     }
     
     // MARK: - Methods
@@ -124,18 +136,18 @@ struct Match: Codable {
     /// Updates the state of the service player and side of the court which they are serving on.
     private mutating func updateService() {
         if currentSet.currentGame.pointsWon == [0, 0] {
-            switchServicePlayer()
+            toggleServicePlayer()
         } else {
             if currentSet.currentGame.isTiebreak && currentSet.currentGame.pointsWon.sum.isOdd {
-                switchServicePlayer()
+                toggleServicePlayer()
                 currentSet.currentGame.serviceSide = .adCourt
             } else {
-                switchServiceCourt()
+                toggleServiceCourt()
             }
         }
     }
     
-    private mutating func switchServiceCourt() {
+    private mutating func toggleServiceCourt() {
         switch currentSet.currentGame.serviceSide {
         case .deuceCourt:
             currentSet.currentGame.serviceSide = .adCourt
@@ -144,29 +156,25 @@ struct Match: Codable {
         }
     }
     
-    private mutating func switchServicePlayer() {
-        switch servicePlayer! {
+    private mutating func toggleServicePlayer() {
+        switch servicePlayer {
         case .playerOne:
             servicePlayer = .playerTwo
         case .playerTwo:
             servicePlayer = .playerOne
+        case .none:
+            break
         }
     }
     
     /// Receiving player is one point away from winning the game.
-    func isBreakPoint() -> Bool {
-        switch servicePlayer! {
+    func isBreakPoint(for player: Player) -> Bool {
+        switch player {
         case .playerOne:
-            if setsWon[1] >= currentSet.currentGame.numberOfPointsToWin - 1 && setsWon[1] > setsWon[0] && !currentSet.currentGame.isTiebreak {
-                return true
-            }
+            return returningPlayer == .playerOne && currentSet.currentGame.isGamePoint(for: .playerOne)
         case .playerTwo:
-            if setsWon[0] >= currentSet.currentGame.numberOfPointsToWin - 1 && setsWon[0] > setsWon[1] && !currentSet.currentGame.isTiebreak {
-                return true
-            }
+            return returningPlayer == .playerTwo && currentSet.currentGame.isGamePoint(for: .playerTwo)
         }
-        
-        return false
     }
     
     mutating func startSupertiebreak() {
@@ -174,6 +182,21 @@ struct Match: Codable {
         currentSet.currentGame.numberOfPointsToWin = 10
         currentSet.numberOfGamesToWin = 1
         currentSet.marginToWin = 1
+    }
+    
+    func isChangeover() -> Bool {
+        if currentSet.currentGame.isTiebreak && (currentSet.currentGame.pointsPlayed % 6 == 0) && currentSet.currentGame.pointsPlayed > 0 {
+            return true
+        } else if setsPlayed >= 1 &&
+                  currentSet.gamesPlayed == 0 &&
+                  currentSet.currentGame.pointsPlayed == 0 {
+            if sets[setsPlayed - 1].gamesPlayed.isOdd {
+                return true
+            }
+        } else if currentSet.currentGame.pointsPlayed == 0 {
+            return currentSet.gamesPlayed.isOdd
+        }
+        return false
     }
     
     mutating func undo() {

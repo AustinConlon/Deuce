@@ -12,25 +12,42 @@ struct MatchView: View {
     @EnvironmentObject var userData: UserData
     @State var match: Match
     @State var undoStack = Stack<Match>()
-    @State var showingAlert = true
+    
+    @State var singlesServiceAlert = true
+    @State var showingNamesSheet = false
     
     var body: some View {
         GeometryReader { geometry in
-            VStack() {
+            VStack(spacing: 0) {
                 PlayerTwo(match: self.$match)
                 .frame(maxHeight: geometry.size.height / 2)
+                
+                Divider()
+                
                 PlayerOne(match: self.$match)
                 .frame(maxHeight: geometry.size.height / 2)
             }
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle(LocalizedStringKey(title()))
+        .navigationBarTitle(match.state == .playing ? LocalizedStringKey(match.isChangeover() ? "Changeover" : "") : "")
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
             Button(action: {
-                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.showingAlert.toggle()
+                self.showingNamesSheet.toggle()
+            }) {
+                VStack {
+                    Image(systemName: "pencil")
+                    Text("Player Names")
+                }
+            }
+            .sheet(isPresented: $showingNamesSheet) {
+                NamesView(match: self.$match)
+            }
+            
+            Button(action: {
+                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
             }) {
                 VStack {
                     Image(systemName: "arrow.counterclockwise")
@@ -45,7 +62,7 @@ struct MatchView: View {
                 }
             }
         }
-        .alert(isPresented: $showingAlert) {
+        .alert(isPresented: $singlesServiceAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     self.match.servicePlayer = .playerOne
@@ -55,18 +72,6 @@ struct MatchView: View {
                     self.match.servicePlayer = .playerTwo
                     self.userData.workout.start()
                 })
-        }
-    }
-    
-    func playHaptic() {
-        WKInterfaceDevice.current().play(.click)
-    }
-    
-    func title() -> String {
-        if match.isChangeover {
-            return "Changeover"
-        } else {
-            return ""
         }
     }
     
@@ -80,6 +85,7 @@ struct MatchView: View {
     }
 }
 
+// MARK: - Opponent
 struct PlayerTwo: View {
     @Binding var match: Match
     
@@ -87,25 +93,29 @@ struct PlayerTwo: View {
         GeometryReader { geometry in
             Button(action: {
                 self.match.scorePoint(for: .playerTwo)
+                WKInterfaceDevice.current().play(self.match.isChangeover() ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
                     ZStack() {
-                        Image(systemName: "circle.fill")
+                        self.playerTwoServiceImage()
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                     }
-                    .font(.caption)
-                    .foregroundColor(self.match.servicePlayer == .playerTwo ? .green : .clear)
-                    .frame(width: geometry.size.width / 3, alignment: self.playerTwoServiceAlignment())
+                    .foregroundColor(self.match.servicePlayer == .playerTwo ? .secondary : .clear)
+                    .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
+                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
                     
-                    Text(LocalizedStringKey(self.playerTwoGameScore()))
-                        .fontWeight(.medium)
+                    Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
+                        .fontWeight(self.match.isBreakPoint(for: .playerTwo) ? .bold : .medium)
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
                             Text(set.getScore(for: .playerTwo))
-                                .font(.headline)
                         }
                     }
                     .foregroundColor(.primary)
+                    .font(.title)
+                    .minimumScaleFactor(0.7)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -127,7 +137,7 @@ struct PlayerTwo: View {
     }
     
     func playerTwoGameScore() -> String {
-        switch (match.currentSet.currentGame.advantage(), match.servicePlayer!) {
+        switch (match.currentSet.currentGame.advantage(), match.servicePlayer) {
         case (.playerTwo, .playerOne):
             return "Ad out"
         case (.playerTwo, .playerTwo):
@@ -143,8 +153,26 @@ struct PlayerTwo: View {
             }
         }
     }
+    
+    func playerTwoServiceImage() -> Image {
+        if match.playerTwoName != "Opponent" {
+            return Image(systemName: "\(match.playerTwoName.first!.lowercased()).circle.fill")
+        } else {
+            return Image(systemName: "circle.fill")
+        }
+    }
+    
+    func playerTwoMedal() -> String {
+        switch match.winner! {
+        case .playerOne:
+            return "🥈"
+        case .playerTwo:
+            return "🥇"
+        }
+    }
 }
 
+// MARK: - User
 struct PlayerOne: View {
     @Binding var match: Match
     
@@ -152,25 +180,30 @@ struct PlayerOne: View {
         GeometryReader { geometry in
             Button(action: {
                 self.match.scorePoint(for: .playerOne)
+                WKInterfaceDevice.current().play(self.match.isChangeover() ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
-                    HStack {
+                    HStack() {
                         ForEach(self.match.sets, id: \.self) { set in
                             Text(set.getScore(for: .playerOne))
-                                .font(.headline)
                         }
                     }
                     .accentColor(.primary)
+                    .font(.title)
+                    .minimumScaleFactor(0.7)
+                    .animation(.default)
                     
-                    Text(LocalizedStringKey(self.playerOneGameScore()))
-                        .fontWeight(.medium)
+                    Text(LocalizedStringKey(self.match.state == .finished ? self.playerOneMedal() : self.playerOneGameScore()))
+                        .fontWeight(self.match.isBreakPoint(for: .playerOne) ? .bold : .medium)
                     
-                    ZStack() {
-                        Image(systemName: "circle.fill")
+                    HStack(alignment: .bottom) {
+                        self.playerOneServiceImage()
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                     }
-                    .font(.caption)
                     .foregroundColor(self.match.servicePlayer == .playerOne ? .green : .clear)
-                    .frame(width: geometry.size.width / 3, alignment: self.playerOneServiceAlignment())
+                    .frame(width: geometry.size.width / 2, alignment: self.playerOneServiceAlignment())
+                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -192,7 +225,7 @@ struct PlayerOne: View {
     }
     
     func playerOneGameScore() -> String {
-        switch (match.currentSet.currentGame.advantage(), match.servicePlayer!) {
+        switch (match.currentSet.currentGame.advantage(), match.servicePlayer) {
         case (.playerOne, .playerOne):
             return "Ad in"
         case (.playerOne, .playerTwo):
@@ -208,6 +241,23 @@ struct PlayerOne: View {
             }
         }
     }
+    
+    func playerOneServiceImage() -> Image {
+        if match.playerOneName != "You" {
+            return Image(systemName: "\(match.playerOneName.first!.lowercased()).circle.fill")
+        } else {
+            return Image(systemName: "circle.fill")
+        }
+    }
+    
+    func playerOneMedal() -> String {
+        switch match.winner! {
+        case .playerOne:
+            return "🥇"
+        case .playerTwo:
+            return "🥈"
+        }
+    }
 }
 
 struct MatchView_Previews: PreviewProvider {
@@ -218,6 +268,9 @@ struct MatchView_Previews: PreviewProvider {
             MatchView(match: Match(format: format))
                 .environmentObject(userData)
                 .environment(\.locale, .init(identifier: "en"))
+            MatchView(match: Match(format: format))
+                .environmentObject(userData)
+                .environment(\.locale, .init(identifier: "fr"))
         }
     }
 }
