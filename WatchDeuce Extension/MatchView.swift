@@ -11,7 +11,7 @@ import SwiftUI
 struct MatchView: View {
     @EnvironmentObject var userData: UserData
     @State var match: Match
-    @State var undoStack = Stack<Match>()
+    var undoStack = Stack<Match>()
     
     @State var singlesServiceAlert = true
     @State var showingNamesSheet = false
@@ -27,10 +27,19 @@ struct MatchView: View {
                 PlayerOne(match: self.$match)
                 .frame(maxHeight: geometry.size.height / 2)
             }
+            
+            HStack {
+                Image(systemName: "arrow.down").padding()
+                Spacer()
+                Image(systemName: "arrow.up").padding()
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .foregroundColor(self.match.isChangeover() ? .secondary : .clear)
+            .zIndex(0.0)
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle(match.state == .playing ? LocalizedStringKey(match.isChangeover() ? "Changeover" : "") : "")
+        .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
@@ -83,6 +92,11 @@ struct MatchView: View {
             return "Who will serve first?"
         }
     }
+    
+    func title() -> String {
+        if match.isBreakPoint() { return "Break Point" }
+        return ""
+    }
 }
 
 // MARK: - Opponent
@@ -106,7 +120,7 @@ struct PlayerTwo: View {
                     .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
-                        .fontWeight(self.match.isBreakPoint(for: .playerTwo) ? .bold : .medium)
+                    .fontWeight(.medium)
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
@@ -194,7 +208,7 @@ struct PlayerOne: View {
                     .animation(.default)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerOneMedal() : self.playerOneGameScore()))
-                        .fontWeight(self.match.isBreakPoint(for: .playerOne) ? .bold : .medium)
+                        .fontWeight(.medium)
                     
                     HStack(alignment: .bottom) {
                         self.playerOneServiceImage()
@@ -268,9 +282,9 @@ struct MatchView_Previews: PreviewProvider {
             MatchView(match: Match(format: format))
                 .environmentObject(userData)
                 .environment(\.locale, .init(identifier: "en"))
-            MatchView(match: Match(format: format))
-                .environmentObject(userData)
-                .environment(\.locale, .init(identifier: "fr"))
+//            MatchView(match: Match(format: format))
+//                .environmentObject(userData)
+//                .environment(\.locale, .init(identifier: "fr"))
         }
     }
 }

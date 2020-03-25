@@ -168,13 +168,11 @@ struct Match: Codable {
     }
     
     /// Receiving player is one point away from winning the game.
-    func isBreakPoint(for player: Player) -> Bool {
-        switch player {
-        case .playerOne:
-            return returningPlayer == .playerOne && currentSet.currentGame.isGamePoint(for: .playerOne)
-        case .playerTwo:
-            return returningPlayer == .playerTwo && currentSet.currentGame.isGamePoint(for: .playerTwo)
+    func isBreakPoint() -> Bool {
+        if let playerWithGamePoint = currentSet.currentGame.playerWithGamePoint() {
+            return playerWithGamePoint == returningPlayer
         }
+        return false
     }
     
     mutating func startSupertiebreak() {

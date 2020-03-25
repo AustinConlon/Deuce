@@ -50,12 +50,14 @@ struct Set: Codable, Hashable {
     
     var gamesPlayed: Int { gamesWon.sum }
     
+    // MARK: - Initialization
+    
     init(format: RulesFormats) {
         self.format = format
         games = [Game(format: format)]
     }
     
-    // MARK: Methods
+    // MARK: - Methods
     
     func getScore(for player: Player) -> String {
         switch player {
