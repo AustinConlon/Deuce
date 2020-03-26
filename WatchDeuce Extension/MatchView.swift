@@ -94,6 +94,7 @@ struct MatchView: View {
     }
     
     func title() -> String {
+        if match.currentSet.isSetPoint() { return "Set Point" }
         if match.isBreakPoint() { return "Break Point" }
         return ""
     }

@@ -67,6 +67,26 @@ struct Set: Codable, Hashable {
             return String(self.gamesWon[1])
         }
     }
+    
+    func playerWithSetPoint() -> Player? {
+        if let playerWithGamePoint = currentGame.playerWithGamePoint() {
+            switch playerWithGamePoint {
+            case .playerOne:
+                if ((self.gamesWon[0] == numberOfGamesToWin - 1) && (self.gamesWon[0] > self.gamesWon[1])) || currentGame.isTiebreak {
+                    return .playerOne
+                }
+            case .playerTwo:
+                if ((self.gamesWon[1] == numberOfGamesToWin - 1) && (self.gamesWon[1] > self.gamesWon[0])) || currentGame.isTiebreak {
+                    return .playerTwo
+                }
+            }
+        }
+        return nil
+    }
+    
+    func isSetPoint() -> Bool {
+        playerWithSetPoint() != nil ? true : false
+    }
 }
 
 extension Set {
