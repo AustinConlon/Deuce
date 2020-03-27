@@ -94,6 +94,15 @@ struct MatchView: View {
     }
     
     func title() -> String {
+        if match.currentSet.currentGame.isTiebreak && match.currentSet.currentGame.pointsWon == [0, 0] {
+            switch match.format {
+            case .alternate, .noAd:
+                return "Supertiebreak"
+            default:
+                return "Tiebreak"
+            }
+        }
+        if match.isMatchPoint() { return "Match Point" }
         if match.currentSet.isSetPoint() { return "Set Point" }
         if match.isBreakPoint() { return "Break Point" }
         return ""
@@ -180,9 +189,9 @@ struct PlayerTwo: View {
     func playerTwoMedal() -> String {
         switch match.winner! {
         case .playerOne:
-            return "🥈"
+            return ""
         case .playerTwo:
-            return "🥇"
+            return "🏆"
         }
     }
 }
@@ -268,9 +277,9 @@ struct PlayerOne: View {
     func playerOneMedal() -> String {
         switch match.winner! {
         case .playerOne:
-            return "🥇"
+            return "🏆"
         case .playerTwo:
-            return "🥈"
+            return ""
         }
     }
 }

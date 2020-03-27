@@ -197,6 +197,26 @@ struct Match: Codable {
         return false
     }
     
+    func playerWithMatchPoint() -> Player? {
+        if let playerWithSetPoint = currentSet.playerWithSetPoint() {
+            switch playerWithSetPoint {
+            case .playerOne:
+                if self.setsWon[0] == numberOfSetsToWin - 1 {
+                    return .playerOne
+                }
+            case .playerTwo:
+                if self.setsWon[1] == numberOfSetsToWin - 1 {
+                    return .playerTwo
+                }
+            }
+        }
+        return nil
+    }
+    
+    func isMatchPoint() -> Bool {
+        playerWithMatchPoint() != nil ? true : false
+    }
+    
     mutating func undo() {
         if let previousMatch = undoStack.topItem {
             self = previousMatch
