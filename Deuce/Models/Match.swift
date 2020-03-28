@@ -65,6 +65,16 @@ struct Match: Codable {
         return totalGamesPlayed
     }
     
+    var isSupertiebreak: Bool {
+        switch format {
+        case .alternate, .noAd:
+            if setsWon == [1, 1] { return true }
+        default:
+            return false
+        }
+        return false
+    }
+    
     // MARK: - Initialization
     init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!

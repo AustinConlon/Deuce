@@ -93,13 +93,9 @@ struct MatchView: View {
     }
     
     func title() -> String {
-        if match.currentSet.currentGame.isTiebreak && match.currentSet.currentGame.pointsWon == [0, 0] {
-            switch match.format {
-            case .alternate, .noAd:
-                return "Supertiebreak"
-            default:
-                return "Tiebreak"
-            }
+        if match.currentSet.currentGame.pointsWon == [0, 0] {
+            if match.isSupertiebreak { return "Supertiebreak" }
+            if match.currentSet.currentGame.isTiebreak { return "Tiebreak" }
         }
         if match.isMatchPoint() { return "Match Point" }
         if match.currentSet.isSetPoint() { return "Set Point" }
@@ -126,7 +122,7 @@ struct PlayerTwo: View {
                     }
                     .foregroundColor(self.match.servicePlayer == .playerTwo ? .secondary : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
-                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
+                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
                     .fontWeight(.medium)
@@ -139,6 +135,7 @@ struct PlayerTwo: View {
                     .foregroundColor(.primary)
                     .font(.title)
                     .minimumScaleFactor(0.7)
+                    .animation(.default)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -188,7 +185,7 @@ struct PlayerTwo: View {
     func playerTwoMedal() -> String {
         switch match.winner! {
         case .playerOne:
-            return ""
+            return " "
         case .playerTwo:
             return "🏆"
         }
@@ -211,7 +208,7 @@ struct PlayerOne: View {
                             Text(set.getScore(for: .playerOne))
                         }
                     }
-                    .accentColor(.primary)
+                    .foregroundColor(.primary)
                     .font(.title)
                     .minimumScaleFactor(0.7)
                     .animation(.default)
@@ -226,7 +223,7 @@ struct PlayerOne: View {
                     }
                     .foregroundColor(self.match.servicePlayer == .playerOne ? .green : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerOneServiceAlignment())
-                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
+                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -278,7 +275,7 @@ struct PlayerOne: View {
         case .playerOne:
             return "🏆"
         case .playerTwo:
-            return ""
+            return " "
         }
     }
 }
