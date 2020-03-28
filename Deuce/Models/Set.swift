@@ -50,12 +50,14 @@ struct Set: Codable, Hashable {
     
     var gamesPlayed: Int { gamesWon.sum }
     
+    // MARK: - Initialization
+    
     init(format: RulesFormats) {
         self.format = format
         games = [Game(format: format)]
     }
     
-    // MARK: Methods
+    // MARK: - Methods
     
     func getScore(for player: Player) -> String {
         switch player {
@@ -64,6 +66,26 @@ struct Set: Codable, Hashable {
         case .playerTwo:
             return String(self.gamesWon[1])
         }
+    }
+    
+    func playerWithSetPoint() -> Player? {
+        if let playerWithGamePoint = currentGame.playerWithGamePoint() {
+            switch playerWithGamePoint {
+            case .playerOne:
+                if ((self.gamesWon[0] == numberOfGamesToWin - 1) && (self.gamesWon[0] > self.gamesWon[1])) || currentGame.isTiebreak {
+                    return .playerOne
+                }
+            case .playerTwo:
+                if ((self.gamesWon[1] == numberOfGamesToWin - 1) && (self.gamesWon[1] > self.gamesWon[0])) || currentGame.isTiebreak {
+                    return .playerTwo
+                }
+            }
+        }
+        return nil
+    }
+    
+    func isSetPoint() -> Bool {
+        playerWithSetPoint() != nil ? true : false
     }
 }
 

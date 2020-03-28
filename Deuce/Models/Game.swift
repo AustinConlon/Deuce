@@ -81,13 +81,16 @@ struct Game: Codable, Hashable {
         }
     }
     
-    func isGamePoint(for player: Player) -> Bool {
-        switch player {
-        case .playerOne:
-            return (pointsWon[0] >= numberOfPointsToWin - 1) && (pointsWon[0] > pointsWon[1])
-        case .playerTwo:
-            return (pointsWon[1] >= numberOfPointsToWin - 1) && (pointsWon[1] > pointsWon[0])
+    func playerWithGamePoint() -> Player? {
+        if (pointsWon[0] >= numberOfPointsToWin - 1) && (pointsWon[0] > pointsWon[1]) {
+            return .playerOne
         }
+        
+        if (pointsWon[1] >= numberOfPointsToWin - 1) && (pointsWon[1] > pointsWon[0]) {
+            return .playerTwo
+        }
+        
+        return nil
     }
     
     func advantage() -> Player? {
