@@ -34,8 +34,7 @@ struct MatchView: View {
                 Image(systemName: "arrow.up").padding()
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
-            .foregroundColor(self.match.isChangeover() ? .secondary : .clear)
-            .zIndex(0.0)
+            .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
