@@ -234,6 +234,7 @@ struct Match: Codable {
     }
 }
 
+// MARK: - Decoding
 extension Match {
     enum CodingKeys: String, CodingKey {
         case setsWon = "score"
