@@ -20,6 +20,8 @@
 		FB35651922DCC81900E97919 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB35651822DCC81900E97919 /* CloudKit.framework */; };
 		FB3AA15F240BA3BF0090B894 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB3AA163240BA3BF0090B894 /* Localizable.strings */; };
 		FB3AA160240BA3BF0090B894 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB3AA163240BA3BF0090B894 /* Localizable.strings */; };
+		FB4E49FD2430B2A40027B91A /* CloudController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4E49FC2430B2A40027B91A /* CloudController.swift */; };
+		FB4E49FE2430B2A40027B91A /* CloudController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4E49FC2430B2A40027B91A /* CloudController.swift */; };
 		FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */; };
 		FB51A0131DEAD77C00B2E195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0111DEAD77C00B2E195 /* Main.storyboard */; };
 		FB51A0151DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0141DEAD77C00B2E195 /* Assets.xcassets */; };
@@ -132,6 +134,7 @@
 		FB35651822DCC81900E97919 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		FB3AA164240BA3E10090B894 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FB3BC950241084B400592CE8 /* NamesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamesView.swift; sourceTree = "<group>"; };
+		FB4E49FC2430B2A40027B91A /* CloudController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudController.swift; sourceTree = "<group>"; };
 		FB51A00A1DEAD77C00B2E195 /* Deuce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deuce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB51A0121DEAD77C00B2E195 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -196,6 +199,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB4E49FF2430B2AD0027B91A /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				FB4E49FC2430B2A40027B91A /* CloudController.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		FB51A0011DEAD77C00B2E195 = {
 			isa = PBXGroup;
 			children = (
@@ -228,6 +239,7 @@
 				FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */,
 				FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */,
 				FB7CD15723EF947F00EB4D04 /* Resources */,
+				FB4E49FF2430B2AD0027B91A /* Shared */,
 				FB51A0111DEAD77C00B2E195 /* Main.storyboard */,
 				FB51A0141DEAD77C00B2E195 /* Assets.xcassets */,
 				FB51A0161DEAD77C00B2E195 /* LaunchScreen.storyboard */,
@@ -536,6 +548,7 @@
 				FB1FDB4823FA782500CE03B1 /* Game.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 				FB00DDF223F2385D008751D2 /* Format.swift in Sources */,
+				FB4E49FD2430B2A40027B91A /* CloudController.swift in Sources */,
 				FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */,
 				FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */,
 				FB7CD15C23EFAAE000EB4D04 /* Data.swift in Sources */,
@@ -566,6 +579,7 @@
 				FB1FDB4923FA782500CE03B1 /* Game.swift in Sources */,
 				FB68051423FFA18200735BE3 /* Workout.swift in Sources */,
 				FB7A6A1823E99EB40065046E /* Match.swift in Sources */,
+				FB4E49FE2430B2A40027B91A /* CloudController.swift in Sources */,
 				FB52F95223F2476C00AAC1FB /* InitialView.swift in Sources */,
 				FB7A6A0523E99BD60065046E /* ExtensionDelegate.swift in Sources */,
 				FB8FB780241603A3007F3F5D /* NamesView.swift in Sources */,

@@ -11,10 +11,10 @@ import SwiftUI
 struct MatchView: View {
     @EnvironmentObject var userData: UserData
     @State var match: Match
-    var undoStack = Stack<Match>()
-    
     @State var singlesServiceAlert = true
     @State var showingNamesSheet = false
+    
+    var undoStack = Stack<Match>()
     
     var body: some View {
         GeometryReader { geometry in
