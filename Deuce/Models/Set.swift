@@ -9,11 +9,11 @@
 import Foundation
 
 struct Set: Codable, Hashable {
-    var format: RulesFormats
+    var format: RulesFormats?
     
     var gamesWon = [0, 0] {
         didSet {
-            games.append(Game(format: format))
+            games.append(Game(format: format!))
             
             if gamesWon == [6, 6] {
                 currentGame.isTiebreak = true
@@ -93,13 +93,11 @@ extension Set {
     enum CodingKeys: String, CodingKey {
         case gamesWon = "score"
         case games
-        case format
     }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         gamesWon = try values.decode(Array.self, forKey: .gamesWon)
         games = try values.decode(Array.self, forKey: .games)
-        format = try values.decode(RulesFormats.self, forKey: .format)
     }
 }
