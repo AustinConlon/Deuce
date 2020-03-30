@@ -22,6 +22,7 @@
 		FB3AA160240BA3BF0090B894 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB3AA163240BA3BF0090B894 /* Localizable.strings */; };
 		FB4E49FD2430B2A40027B91A /* CloudController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4E49FC2430B2A40027B91A /* CloudController.swift */; };
 		FB4E49FE2430B2A40027B91A /* CloudController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4E49FC2430B2A40027B91A /* CloudController.swift */; };
+		FB4E4A012430CC8A0027B91A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB4E4A002430CC8A0027B91A /* CloudKit.framework */; };
 		FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */; };
 		FB51A0131DEAD77C00B2E195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0111DEAD77C00B2E195 /* Main.storyboard */; };
 		FB51A0151DEAD77C00B2E195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0141DEAD77C00B2E195 /* Assets.xcassets */; };
@@ -135,6 +136,7 @@
 		FB3AA164240BA3E10090B894 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FB3BC950241084B400592CE8 /* NamesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamesView.swift; sourceTree = "<group>"; };
 		FB4E49FC2430B2A40027B91A /* CloudController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudController.swift; sourceTree = "<group>"; };
+		FB4E4A002430CC8A0027B91A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		FB51A00A1DEAD77C00B2E195 /* Deuce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deuce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB51A0121DEAD77C00B2E195 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB68051723FFA85E00735BE3 /* HealthKit.framework in Frameworks */,
+				FB4E4A012430CC8A0027B91A /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +273,7 @@
 		FB712C142096EFA7005AA807 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FB4E4A002430CC8A0027B91A /* CloudKit.framework */,
 				FB68051623FFA85E00735BE3 /* HealthKit.framework */,
 				FBCB6E8823167FB0006CCF68 /* CloudKit.framework */,
 				FB35651822DCC81900E97919 /* CloudKit.framework */,
@@ -770,7 +774,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -792,7 +796,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -850,7 +854,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "WatchDeuce Extension/WatchDeuce Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchDeuce Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				ENABLE_PREVIEWS = YES;
@@ -880,7 +884,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "WatchDeuce Extension/WatchDeuce Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchDeuce Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				ENABLE_PREVIEWS = YES;
@@ -911,7 +915,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = WatchDeuce_Extension;
@@ -941,7 +945,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = WatchDeuce_Extension;

@@ -17,7 +17,7 @@ struct Set: Codable, Hashable {
             
             if gamesWon == [6, 6] {
                 currentGame.isTiebreak = true
-                marginToWin = 1
+                self.marginToWin = 1
             }
         }
     }

@@ -47,7 +47,10 @@ struct Game: Codable, Hashable {
     
     var isTiebreak = false {
         didSet {
-            if isTiebreak == true { numberOfPointsToWin = 7 }
+            if isTiebreak == true {
+                numberOfPointsToWin = 7
+                marginToWin = 2
+            }
         }
     }
     

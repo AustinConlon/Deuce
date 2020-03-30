@@ -10,11 +10,14 @@ import SwiftUI
 
 struct MatchView: View {
     @EnvironmentObject var userData: UserData
+    
     @State var match: Match
     @State var singlesServiceAlert = true
     @State var showingNamesSheet = false
     
     var undoStack = Stack<Match>()
+    
+    var cloudController = CloudController()
     
     var body: some View {
         GeometryReader { geometry in
@@ -63,7 +66,9 @@ struct MatchView: View {
                 }
             }
             
-            NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }) {
+            NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }.onAppear() {
+                self.match.stop()
+            }) {
                 VStack {
                     Image(systemName: "archivebox.fill")
                     Text("End Match")
@@ -80,6 +85,9 @@ struct MatchView: View {
                     self.match.servicePlayer = .playerTwo
                     self.userData.workout.start()
                 })
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .matchDidEnd)) { _ in
+            self.cloudController.uploadToCloud(match: self.match)
         }
     }
     
