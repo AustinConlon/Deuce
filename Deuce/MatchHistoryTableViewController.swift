@@ -3,7 +3,7 @@
 //  Deuce
 //
 //  Created by Austin Conlon on 5/23/19.
-//  Copyright © 2019 Austin Conlon. All rights reserved.
+//  Copyright © 2020 Austin Conlon. All rights reserved.
 //
 
 import UIKit
@@ -36,6 +36,15 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                     } catch {
                         print(error)
                     }
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.tableView.refreshControl?.endRefreshing()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.tableView.refreshControl?.endRefreshing()
                 }
             }
         }
@@ -105,8 +114,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         cell.dateLabel.text = dateString
         
-        cell.playerOneNameLabel.text = match.playerOneName
-        cell.playerTwoNameLabel.text = match.playerTwoName
+        if !match.playerOneName.isEmpty { cell.playerOneNameLabel.text = match.playerOneName }
+        if !match.playerTwoName.isEmpty { cell.playerTwoNameLabel.text = match.playerTwoName }
         
         if match.sets.count >= 1 {
             cell.setOneStackView.isHidden = false
@@ -190,11 +199,11 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     // MARK: - WCSessionDelegate
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("\(#function): activationState:\(WCSession.default.activationState.rawValue)")
+        
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        print("\(#function): activationState = \(session.activationState.rawValue)")
+        
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
@@ -212,9 +221,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         database.perform(query, inZoneWith: nil) { (fetchedRecords, error) in
             if let fetchedRecords = fetchedRecords {
                 self.records = fetchedRecords
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
             }
             
             if let error = error {
@@ -232,11 +238,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     @objc func handleRefreshControl() {
         fetchMatchRecords()
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.tableView.refreshControl?.endRefreshing()
-        }
     }
     
     // MARK: - Helper Functions

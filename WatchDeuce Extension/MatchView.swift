@@ -87,7 +87,7 @@ struct MatchView: View {
                 })
         }
         .onReceive(NotificationCenter.default.publisher(for: .matchDidEnd)) { _ in
-            self.cloudController.uploadToCloud(match: self.match)
+            self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
         }
     }
     
@@ -183,10 +183,11 @@ struct PlayerTwo: View {
     }
     
     func playerTwoServiceImage() -> Image {
-        if match.playerTwoName != "Opponent" {
-            return Image(systemName: "\(match.playerTwoName.first!.lowercased()).circle.fill")
-        } else {
+        switch match.playerTwoName.isEmpty {
+        case true:
             return Image(systemName: "circle.fill")
+        case false:
+            return Image(systemName: "\(match.playerTwoName.first!.lowercased()).circle.fill")
         }
     }
     
@@ -271,10 +272,11 @@ struct PlayerOne: View {
     }
     
     func playerOneServiceImage() -> Image {
-        if match.playerOneName != "You" {
-            return Image(systemName: "\(match.playerOneName.first!.lowercased()).circle.fill")
-        } else {
+        switch match.playerOneName.isEmpty {
+        case true:
             return Image(systemName: "circle.fill")
+        case false:
+            return Image(systemName: "\(match.playerOneName.first!.lowercased()).circle.fill")
         }
     }
     
