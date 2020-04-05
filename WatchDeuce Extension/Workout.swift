@@ -28,37 +28,40 @@ class Workout: NSObject, HKWorkoutSessionDelegate {
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
             HKObjectType.quantityType(forIdentifier: .heartRate)!
         ]
-        
-        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
-            print("Request Authorization -- Success: ", success, " Error: ", error ?? "nil")
+        if healthStore.authorizationStatus(for: .workoutType()) == .notDetermined {
+            healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
+                
+            }
         }
     }
     
     func start() {
-        let workoutConfiguration = HKWorkoutConfiguration()
-        workoutConfiguration.activityType = .tennis
-        
-        do {
-            workoutSession = try HKWorkoutSession(healthStore: healthStore,
-                                                  configuration: workoutConfiguration)
-            liveWorkoutBuilder = workoutSession!.associatedWorkoutBuilder()
-            workoutStartDate = Date()
-        } catch {
-            return
-        }
-        
-        workoutSession?.startActivity(with: workoutStartDate)
-        
-        liveWorkoutBuilder!.beginCollection(withStart: workoutStartDate!) { (success, error) in
+        if healthStore.authorizationStatus(for: .workoutType()) == .sharingAuthorized {
+            let workoutConfiguration = HKWorkoutConfiguration()
+            workoutConfiguration.activityType = .tennis
             
+            do {
+                workoutSession = try HKWorkoutSession(healthStore: healthStore,
+                                                      configuration: workoutConfiguration)
+                liveWorkoutBuilder = workoutSession!.associatedWorkoutBuilder()
+                workoutStartDate = Date()
+            } catch {
+                return
+            }
+            
+            workoutSession?.startActivity(with: workoutStartDate)
+            
+            liveWorkoutBuilder!.beginCollection(withStart: workoutStartDate!) { (success, error) in
+                
+            }
+            
+            let dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
+                                                     workoutConfiguration: workoutConfiguration)
+            
+            liveWorkoutBuilder?.dataSource = dataSource
+            
+            workoutSession?.delegate = self
         }
-        
-        let dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
-                                                 workoutConfiguration: workoutConfiguration)
-        
-        liveWorkoutBuilder?.dataSource = dataSource
-        
-        workoutSession?.delegate = self
     }
     
     func stop() {

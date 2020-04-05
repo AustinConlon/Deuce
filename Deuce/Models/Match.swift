@@ -141,7 +141,6 @@ struct Match: Codable {
     
     mutating func stop() {
         date = Date()
-        NotificationCenter.default.post(name: Notification.Name.matchDidEnd, object: nil)
     }
     
     /// Updates the state of the service player and side of the court which they are serving on.

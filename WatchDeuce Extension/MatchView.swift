@@ -66,8 +66,9 @@ struct MatchView: View {
                 }
             }
             
-            NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }.onAppear() {
+            NavigationLink(destination: InitialView().onAppear() {
                 self.match.stop()
+                self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
             }) {
                 VStack {
                     Image(systemName: "archivebox.fill")
@@ -87,7 +88,8 @@ struct MatchView: View {
                 })
         }
         .onReceive(NotificationCenter.default.publisher(for: .matchDidEnd)) { _ in
-            self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
+            print("received notification")
+            
         }
     }
     

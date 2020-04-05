@@ -24,6 +24,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     var records = [CKRecord]() {
         didSet {
+            print(records.count)
             if !records.isEmpty {
                 matches.removeAll()
                 
