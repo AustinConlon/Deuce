@@ -46,18 +46,6 @@ struct MatchView: View {
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
             Button(action: {
-                self.showingNamesSheet.toggle()
-            }) {
-                VStack {
-                    Image(systemName: "pencil")
-                    Text("Player Names")
-                }
-            }
-            .sheet(isPresented: $showingNamesSheet) {
-                NamesView(match: self.$match)
-            }
-            
-            Button(action: {
                 self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
             }) {
                 VStack {
@@ -66,7 +54,7 @@ struct MatchView: View {
                 }
             }
             
-            NavigationLink(destination: InitialView().onAppear() {
+            NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }.onAppear() {
                 self.match.stop()
                 self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
             }) {
@@ -86,10 +74,6 @@ struct MatchView: View {
                     self.match.servicePlayer = .playerTwo
                     self.userData.workout.start()
                 })
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .matchDidEnd)) { _ in
-            print("received notification")
-            
         }
     }
     
@@ -185,12 +169,7 @@ struct PlayerTwo: View {
     }
     
     func playerTwoServiceImage() -> Image {
-        switch match.playerTwoName.isEmpty {
-        case true:
-            return Image(systemName: "circle.fill")
-        case false:
-            return Image(systemName: "\(match.playerTwoName.first!.lowercased()).circle.fill")
-        }
+        Image(systemName: "circle.fill")
     }
     
     func playerTwoMedal() -> String {
@@ -274,12 +253,7 @@ struct PlayerOne: View {
     }
     
     func playerOneServiceImage() -> Image {
-        switch match.playerOneName.isEmpty {
-        case true:
-            return Image(systemName: "circle.fill")
-        case false:
-            return Image(systemName: "\(match.playerOneName.first!.lowercased()).circle.fill")
-        }
+        Image(systemName: "circle.fill")
     }
     
     func playerOneMedal() -> String {

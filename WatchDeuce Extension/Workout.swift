@@ -36,32 +36,30 @@ class Workout: NSObject, HKWorkoutSessionDelegate {
     }
     
     func start() {
-        if healthStore.authorizationStatus(for: .workoutType()) == .sharingAuthorized {
-            let workoutConfiguration = HKWorkoutConfiguration()
-            workoutConfiguration.activityType = .tennis
-            
-            do {
-                workoutSession = try HKWorkoutSession(healthStore: healthStore,
-                                                      configuration: workoutConfiguration)
-                liveWorkoutBuilder = workoutSession!.associatedWorkoutBuilder()
-                workoutStartDate = Date()
-            } catch {
-                return
-            }
-            
-            workoutSession?.startActivity(with: workoutStartDate)
-            
-            liveWorkoutBuilder!.beginCollection(withStart: workoutStartDate!) { (success, error) in
-                
-            }
-            
-            let dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
-                                                     workoutConfiguration: workoutConfiguration)
-            
-            liveWorkoutBuilder?.dataSource = dataSource
-            
-            workoutSession?.delegate = self
+        let workoutConfiguration = HKWorkoutConfiguration()
+        workoutConfiguration.activityType = .tennis
+        
+        do {
+            workoutSession = try HKWorkoutSession(healthStore: healthStore,
+                                                  configuration: workoutConfiguration)
+            liveWorkoutBuilder = workoutSession!.associatedWorkoutBuilder()
+            workoutStartDate = Date()
+        } catch {
+            return
         }
+        
+        workoutSession?.startActivity(with: workoutStartDate)
+        
+        liveWorkoutBuilder!.beginCollection(withStart: workoutStartDate!) { (success, error) in
+            
+        }
+        
+        let dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
+                                                 workoutConfiguration: workoutConfiguration)
+        
+        liveWorkoutBuilder?.dataSource = dataSource
+        
+        workoutSession?.delegate = self
     }
     
     func stop() {
