@@ -217,7 +217,6 @@
 				FB7A69F023E99BD50065046E /* WatchDeuce */,
 				FB7A69FF23E99BD60065046E /* WatchDeuce Extension */,
 				FB51A00B1DEAD77C00B2E195 /* Products */,
-				FB712C142096EFA7005AA807 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -281,6 +280,7 @@
 				FB712C152096EFA7005AA807 /* HealthKit.framework */,
 			);
 			name = Frameworks;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		FB7A69F023E99BD50065046E /* WatchDeuce */ = {
@@ -308,6 +308,7 @@
 				FB7A6A0623E99BD60065046E /* ComplicationController.swift */,
 				FB7A6A0823E99BD70065046E /* Assets.xcassets */,
 				FB7A6A0D23E99BD70065046E /* Info.plist */,
+				FB712C142096EFA7005AA807 /* Frameworks */,
 				FB7A6A0A23E99BD70065046E /* Preview Content */,
 			);
 			path = "WatchDeuce Extension";
@@ -772,7 +773,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -794,7 +795,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -852,7 +853,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "WatchDeuce Extension/WatchDeuce Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchDeuce Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				ENABLE_PREVIEWS = YES;
@@ -882,7 +883,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "WatchDeuce Extension/WatchDeuce Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchDeuce Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				ENABLE_PREVIEWS = YES;
@@ -913,7 +914,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = WatchDeuce_Extension;
@@ -943,7 +944,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = WatchDeuce_Extension;

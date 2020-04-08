@@ -240,8 +240,8 @@ extension Match {
         case date
         case format = "rulesFormat"
         case numberOfSetsToWin
-//        case playerOneName
-//        case playerTwoName
+        case playerOneName
+        case playerTwoName
     }
     
     init(from decoder: Decoder) throws {
@@ -251,8 +251,8 @@ extension Match {
         date = try values.decode(Date.self, forKey: .date)
         format = try values.decode(RulesFormats.self, forKey: .format)
         numberOfSetsToWin = try values.decode(Int.self, forKey: .numberOfSetsToWin)
-//        playerOneName = try values.decode(String.self, forKey: .playerOneName)
-//        playerTwoName = try values.decode(String.self, forKey: .playerTwoName)
+        playerOneName = try values.decodeIfPresent(String.self, forKey: .playerOneName)
+        playerTwoName = try values.decodeIfPresent(String.self, forKey: .playerTwoName)
     }
 }
 

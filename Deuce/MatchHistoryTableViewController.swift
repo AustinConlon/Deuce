@@ -20,8 +20,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
     
-    var matchRecord: CKRecord!
-    
     var records = [CKRecord]() {
         didSet {
             if !records.isEmpty {
@@ -178,7 +176,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             
             database.delete(withRecordID: records[indexPath.row].recordID) { (recordID, error) in
                 if let error = error {
-                    print(error)
+                    print(error.localizedDescription)
                 } else {
                     self.records.remove(at: indexPath.row)
                 }
@@ -249,6 +247,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             textField.placeholder = "\(NSLocalizedString("Opponent", tableName: "Main", comment: "")) (e.g. Benoit Paire)"
             textField.autocapitalizationType = .words
             textField.returnKeyType = .next
+            textField.clearButtonMode = .whileEditing
             
             if let playerTwoName = self.matches[indexPath.row].playerTwoName {
                 textField.text = playerTwoName
@@ -259,6 +258,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             textField.placeholder = "\(NSLocalizedString("You", tableName: "Main", comment: "")) (e.g. Gael Monfils)"
             textField.autocapitalizationType = .words
             textField.returnKeyType = .done
+            textField.clearButtonMode = .whileEditing
             
             if let playerOneName = self.matches[indexPath.row].playerOneName {
                 textField.text = playerOneName
@@ -278,17 +278,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 self.matches[indexPath.row].playerTwoName = playerTwoName
             }
             
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            
             let matchRecord = self.records[indexPath.row]
             
             if let matchData = try? PropertyListEncoder().encode(self.matches[indexPath.row]) {
-                let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
                 matchRecord["matchData"] = matchData as NSData
                 
-                database.save(matchRecord) { (savedRecord, error) in
+                self.database.save(matchRecord) { (savedRecord, error) in
                     if let error = error {
                         print(error.localizedDescription)
+                    } else {
+                        DispatchQueue.main.async {
+                            tableView.reloadRows(at: [indexPath], with: .automatic)
+                        }
                     }
                 }
             }
