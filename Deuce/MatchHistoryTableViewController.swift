@@ -111,6 +111,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         let dateString = dateFormatter.string(from: match.date)
         
         cell.dateLabel.text = dateString
+        cell.playerTwoNameLabel.text = NSLocalizedString("Opponent", comment: "")
         
         if let playerOneName = match.playerOneName { cell.playerOneNameLabel.text = playerOneName }
         if let playerTwoName = match.playerTwoName { cell.playerTwoNameLabel.text = playerTwoName }
@@ -288,7 +289,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                         print(error.localizedDescription)
                     } else {
                         DispatchQueue.main.async {
-                            tableView.reloadRows(at: [indexPath], with: .automatic)
+                            tableView.reloadData()
                         }
                     }
                 }
