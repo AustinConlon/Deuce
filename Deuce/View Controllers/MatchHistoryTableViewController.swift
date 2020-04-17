@@ -36,6 +36,21 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                     }
                 }
                 
+                if records.count > oldValue.count && matches.count > 1, let previousMatchIndex = matches.index(0, offsetBy: 1, limitedBy: 1) {
+                    if let previousPlayerOneName = matches[previousMatchIndex].playerOneName {
+                        matches[0].playerOneName = previousPlayerOneName
+
+                        let matchRecord = self.records[0]
+                        if let matchData = try? PropertyListEncoder().encode(self.matches[0]) {
+                            matchRecord["matchData"] = matchData as NSData
+
+                            self.database.save(matchRecord) { (savedRecord, error) in
+                                if let error = error { print(error.localizedDescription) }
+                            }
+                        }
+                    }
+                }
+                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.tableView.refreshControl?.endRefreshing()
@@ -51,13 +66,13 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     let propertyListDecoder = PropertyListDecoder()
     
     var becomeActiveObserver: NSObjectProtocol?
-    var didFinishLaunchingObserver: NSObjectProtocol?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
         configureRefreshControl()
-        
+    }
+    
+    override func viewDidLayoutSubviews() {
         addObservers()
     }
     
@@ -239,7 +254,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         fetchMatchRecords()
     }
     
-    // MARK: - Helper Functions
+    // MARK: - Editing
     
     fileprivate func editNames(_ indexPath: IndexPath, _ tableView: UITableView) {
         let alert = UIAlertController(title: "Player Names", message: nil, preferredStyle: .alert)
@@ -289,7 +304,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                         print(error.localizedDescription)
                     } else {
                         DispatchQueue.main.async {
-                            tableView.reloadData()
+                            self.fetchMatchRecords()
                         }
                     }
                 }
@@ -298,4 +313,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         self.present(alert, animated: true, completion: nil)
     }
+}
+
+extension UserDefaults {
+    static let playerOneName = "playerOneName"
 }
