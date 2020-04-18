@@ -70,9 +70,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         configureRefreshControl()
-    }
-    
-    override func viewDidLayoutSubviews() {
         addObservers()
     }
     
