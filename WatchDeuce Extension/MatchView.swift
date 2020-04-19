@@ -10,11 +10,14 @@ import SwiftUI
 
 struct MatchView: View {
     @EnvironmentObject var userData: UserData
-    @State var match: Match
-    var undoStack = Stack<Match>()
     
+    @State var match: Match
     @State var singlesServiceAlert = true
     @State var showingNamesSheet = false
+    
+    var undoStack = Stack<Match>()
+    
+    var cloudController = CloudController()
     
     var body: some View {
         GeometryReader { geometry in
@@ -34,8 +37,7 @@ struct MatchView: View {
                 Image(systemName: "arrow.up").padding()
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
-            .foregroundColor(self.match.isChangeover() ? .secondary : .clear)
-            .zIndex(0.0)
+            .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
@@ -43,18 +45,6 @@ struct MatchView: View {
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
         .contextMenu {
-            Button(action: {
-                self.showingNamesSheet.toggle()
-            }) {
-                VStack {
-                    Image(systemName: "pencil")
-                    Text("Player Names")
-                }
-            }
-            .sheet(isPresented: $showingNamesSheet) {
-                NamesView(match: self.$match)
-            }
-            
             Button(action: {
                 self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
             }) {
@@ -64,7 +54,10 @@ struct MatchView: View {
                 }
             }
             
-            NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }) {
+            NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }.onAppear() {
+                self.match.stop()
+                self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
+            }) {
                 VStack {
                     Image(systemName: "archivebox.fill")
                     Text("End Match")
@@ -94,13 +87,9 @@ struct MatchView: View {
     }
     
     func title() -> String {
-        if match.currentSet.currentGame.isTiebreak && match.currentSet.currentGame.pointsWon == [0, 0] {
-            switch match.format {
-            case .alternate, .noAd:
-                return "Supertiebreak"
-            default:
-                return "Tiebreak"
-            }
+        if match.currentSet.currentGame.pointsWon == [0, 0] {
+            if match.isSupertiebreak { return "Supertiebreak" }
+            if match.currentSet.currentGame.isTiebreak { return "Tiebreak" }
         }
         if match.isMatchPoint() { return "Match Point" }
         if match.currentSet.isSetPoint() { return "Set Point" }
@@ -127,7 +116,7 @@ struct PlayerTwo: View {
                     }
                     .foregroundColor(self.match.servicePlayer == .playerTwo ? .secondary : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
-                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
+                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
                     .fontWeight(.medium)
@@ -140,6 +129,7 @@ struct PlayerTwo: View {
                     .foregroundColor(.primary)
                     .font(.title)
                     .minimumScaleFactor(0.7)
+                    .animation(.default)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -179,17 +169,13 @@ struct PlayerTwo: View {
     }
     
     func playerTwoServiceImage() -> Image {
-        if match.playerTwoName != "Opponent" {
-            return Image(systemName: "\(match.playerTwoName.first!.lowercased()).circle.fill")
-        } else {
-            return Image(systemName: "circle.fill")
-        }
+        Image(systemName: "circle.fill")
     }
     
     func playerTwoMedal() -> String {
         switch match.winner! {
         case .playerOne:
-            return ""
+            return " "
         case .playerTwo:
             return "🏆"
         }
@@ -212,7 +198,7 @@ struct PlayerOne: View {
                             Text(set.getScore(for: .playerOne))
                         }
                     }
-                    .accentColor(.primary)
+                    .foregroundColor(.primary)
                     .font(.title)
                     .minimumScaleFactor(0.7)
                     .animation(.default)
@@ -227,7 +213,7 @@ struct PlayerOne: View {
                     }
                     .foregroundColor(self.match.servicePlayer == .playerOne ? .green : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerOneServiceAlignment())
-                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 ? .default : nil)
+                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -267,11 +253,7 @@ struct PlayerOne: View {
     }
     
     func playerOneServiceImage() -> Image {
-        if match.playerOneName != "You" {
-            return Image(systemName: "\(match.playerOneName.first!.lowercased()).circle.fill")
-        } else {
-            return Image(systemName: "circle.fill")
-        }
+        Image(systemName: "circle.fill")
     }
     
     func playerOneMedal() -> String {
@@ -279,7 +261,7 @@ struct PlayerOne: View {
         case .playerOne:
             return "🏆"
         case .playerTwo:
-            return ""
+            return " "
         }
     }
 }

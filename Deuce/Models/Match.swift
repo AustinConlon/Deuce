@@ -12,10 +12,8 @@ struct Match: Codable {
     // MARK: - Properties
     var format: RulesFormats
     
-    var playerOneName = "You"
-    var playerTwoName = "Opponent"
-    var playerThreeName = "Your Partner"
-    var playerFourName = "Opponent Two"
+    var playerOneName: String?
+    var playerTwoName: String?
     
     var servicePlayer: Player!
     
@@ -63,6 +61,16 @@ struct Match: Codable {
         var totalGamesPlayed = 0
         for set in sets { totalGamesPlayed += set.gamesPlayed }
         return totalGamesPlayed
+    }
+    
+    var isSupertiebreak: Bool {
+        switch format {
+        case .alternate, .noAd:
+            if setsWon == [1, 1] { return true }
+        default:
+            return false
+        }
+        return false
     }
     
     // MARK: - Initialization
@@ -224,6 +232,7 @@ struct Match: Codable {
     }
 }
 
+// MARK: - Decoding
 extension Match {
     enum CodingKeys: String, CodingKey {
         case setsWon = "score"
@@ -231,6 +240,8 @@ extension Match {
         case date
         case format = "rulesFormat"
         case numberOfSetsToWin
+        case playerOneName
+        case playerTwoName
     }
     
     init(from decoder: Decoder) throws {
@@ -240,6 +251,8 @@ extension Match {
         date = try values.decode(Date.self, forKey: .date)
         format = try values.decode(RulesFormats.self, forKey: .format)
         numberOfSetsToWin = try values.decode(Int.self, forKey: .numberOfSetsToWin)
+        playerOneName = try values.decodeIfPresent(String.self, forKey: .playerOneName)
+        playerTwoName = try values.decodeIfPresent(String.self, forKey: .playerTwoName)
     }
 }
 

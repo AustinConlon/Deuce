@@ -45,12 +45,6 @@ class MatchHistoryTableViewCell: UITableViewCell {
         setFiveStackView.isHidden = true
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     override func prepareForReuse() {
         setOneStackView.isHidden = true
         setTwoStackView.isHidden = true
@@ -65,7 +59,6 @@ class MatchHistoryTableViewCell: UITableViewCell {
         playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .body)
         
-        playerTwoNameLabel.text = NSLocalizedString("Opponent", comment: "")
         playerTwoNameLabel.font = .preferredFont(forTextStyle: .body)
         playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .body)
         playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .body)

@@ -10,7 +10,7 @@ import Foundation
 
 struct Game: Codable, Hashable {
     // MARK: - Properties
-    var format: RulesFormats
+    var format: RulesFormats?
     
     var serviceSide: Court = .deuceCourt
     
@@ -47,7 +47,10 @@ struct Game: Codable, Hashable {
     
     var isTiebreak = false {
         didSet {
-            if isTiebreak == true { numberOfPointsToWin = 7 }
+            if isTiebreak == true {
+                numberOfPointsToWin = 7
+                marginToWin = 2
+            }
         }
     }
     
@@ -105,12 +108,10 @@ struct Game: Codable, Hashable {
 extension Game {
     enum CodingKeys: String, CodingKey {
         case pointsWon = "score"
-        case format
     }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         pointsWon = try values.decode(Array.self, forKey: .pointsWon)
-        format = try values.decode(RulesFormats.self, forKey: .format)
     }
 }

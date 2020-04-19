@@ -28,9 +28,10 @@ class Workout: NSObject, HKWorkoutSessionDelegate {
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
             HKObjectType.quantityType(forIdentifier: .heartRate)!
         ]
-        
-        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
-            print("Request Authorization -- Success: ", success, " Error: ", error ?? "nil")
+        if healthStore.authorizationStatus(for: .workoutType()) == .notDetermined {
+            healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
+                
+            }
         }
     }
     

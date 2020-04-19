@@ -3,7 +3,7 @@
 //  Deuce
 //
 //  Created by Austin Conlon on 5/23/19.
-//  Copyright © 2019 Austin Conlon. All rights reserved.
+//  Copyright © 2020 Austin Conlon. All rights reserved.
 //
 
 import UIKit
@@ -20,8 +20,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
     
-    var matchRecord: CKRecord!
-    
     var records = [CKRecord]() {
         didSet {
             if !records.isEmpty {
@@ -37,6 +35,30 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                         print(error)
                     }
                 }
+                
+                if records.count > oldValue.count && matches.count > 1, let previousMatchIndex = matches.index(0, offsetBy: 1, limitedBy: 1) {
+                    if let previousPlayerOneName = matches[previousMatchIndex].playerOneName {
+                        matches[0].playerOneName = previousPlayerOneName
+
+                        let matchRecord = self.records[0]
+                        if let matchData = try? PropertyListEncoder().encode(self.matches[0]) {
+                            matchRecord["matchData"] = matchData as NSData
+
+                            self.database.save(matchRecord) { (savedRecord, error) in
+                                if let error = error { print(error.localizedDescription) }
+                            }
+                        }
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.tableView.refreshControl?.endRefreshing()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.tableView.refreshControl?.endRefreshing()
+                }
             }
         }
     }
@@ -44,13 +66,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     let propertyListDecoder = PropertyListDecoder()
     
     var becomeActiveObserver: NSObjectProtocol?
-    var didFinishLaunchingObserver: NSObjectProtocol?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
         configureRefreshControl()
-        
         addObservers()
     }
     
@@ -104,9 +123,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         let dateString = dateFormatter.string(from: match.date)
         
         cell.dateLabel.text = dateString
+        cell.playerTwoNameLabel.text = NSLocalizedString("Opponent", comment: "")
         
-        cell.playerOneNameLabel.text = match.playerOneName
-        cell.playerTwoNameLabel.text = match.playerTwoName
+        if let playerOneName = match.playerOneName { cell.playerOneNameLabel.text = playerOneName }
+        if let playerTwoName = match.playerTwoName { cell.playerTwoNameLabel.text = playerTwoName }
         
         if match.sets.count >= 1 {
             cell.setOneStackView.isHidden = false
@@ -169,7 +189,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             
             database.delete(withRecordID: records[indexPath.row].recordID) { (recordID, error) in
                 if let error = error {
-                    print(error)
+                    print(error.localizedDescription)
                 } else {
                     self.records.remove(at: indexPath.row)
                 }
@@ -190,11 +210,11 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     // MARK: - WCSessionDelegate
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("\(#function): activationState:\(WCSession.default.activationState.rawValue)")
+        
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        print("\(#function): activationState = \(session.activationState.rawValue)")
+        
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
@@ -212,9 +232,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         database.perform(query, inZoneWith: nil) { (fetchedRecords, error) in
             if let fetchedRecords = fetchedRecords {
                 self.records = fetchedRecords
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
             }
             
             if let error = error {
@@ -232,14 +249,9 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     @objc func handleRefreshControl() {
         fetchMatchRecords()
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.tableView.refreshControl?.endRefreshing()
-        }
     }
     
-    // MARK: - Helper Functions
+    // MARK: - Editing
     
     fileprivate func editNames(_ indexPath: IndexPath, _ tableView: UITableView) {
         let alert = UIAlertController(title: "Player Names", message: nil, preferredStyle: .alert)
@@ -248,9 +260,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             textField.placeholder = "\(NSLocalizedString("Opponent", tableName: "Main", comment: "")) (e.g. Benoit Paire)"
             textField.autocapitalizationType = .words
             textField.returnKeyType = .next
+            textField.clearButtonMode = .whileEditing
             
-            if !self.matches[indexPath.row].playerTwoName.isEmpty {
-                textField.text = self.matches[indexPath.row].playerTwoName
+            if let playerTwoName = self.matches[indexPath.row].playerTwoName {
+                textField.text = playerTwoName
             }
         }
         
@@ -258,9 +271,10 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             textField.placeholder = "\(NSLocalizedString("You", tableName: "Main", comment: "")) (e.g. Gael Monfils)"
             textField.autocapitalizationType = .words
             textField.returnKeyType = .done
+            textField.clearButtonMode = .whileEditing
             
-            if !self.matches[indexPath.row].playerOneName.isEmpty {
-                textField.text = self.matches[indexPath.row].playerOneName
+            if let playerOneName = self.matches[indexPath.row].playerOneName {
+                textField.text = playerOneName
             }
         }
         
@@ -277,17 +291,18 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 self.matches[indexPath.row].playerTwoName = playerTwoName
             }
             
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            
             let matchRecord = self.records[indexPath.row]
             
             if let matchData = try? PropertyListEncoder().encode(self.matches[indexPath.row]) {
-                let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
                 matchRecord["matchData"] = matchData as NSData
                 
-                database.save(matchRecord) { (savedRecord, error) in
+                self.database.save(matchRecord) { (savedRecord, error) in
                     if let error = error {
                         print(error.localizedDescription)
+                    } else {
+                        DispatchQueue.main.async {
+                            self.fetchMatchRecords()
+                        }
                     }
                 }
             }
@@ -295,4 +310,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         self.present(alert, animated: true, completion: nil)
     }
+}
+
+extension UserDefaults {
+    static let playerOneName = "playerOneName"
 }

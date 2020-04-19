@@ -19,7 +19,7 @@
         "name": "No-Ad",
         "id": 3,
         "minimumSetsToWinMatch": 2,
-        "thirdSetSupertiebreak": false,
+        "thirdSetSupertiebreak": true,
         "noAd": true,
         "isDoubles": false
     }
