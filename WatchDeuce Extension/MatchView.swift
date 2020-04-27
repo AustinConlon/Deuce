@@ -127,7 +127,7 @@ struct PlayerTwo: View {
                         }
                     }
                     .foregroundColor(.primary)
-                    .font(.title)
+                    .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(.default)
                 }
@@ -199,7 +199,7 @@ struct PlayerOne: View {
                         }
                     }
                     .foregroundColor(.primary)
-                    .font(.title)
+                    .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(.default)
                     
