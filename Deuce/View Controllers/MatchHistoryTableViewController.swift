@@ -10,6 +10,7 @@ import UIKit
 import WatchConnectivity
 import os.log
 import CloudKit
+import SafariServices
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
     // MARK: - Properties
@@ -175,6 +176,9 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         if match.winner == .playerOne { cell.playerOneNameLabel.font = .preferredFont(forTextStyle: .headline) }
         if match.winner == .playerTwo { cell.playerTwoNameLabel.font = .preferredFont(forTextStyle: .headline) }
+        
+        cell.accessoryView = UIImageView(image: UIImage(systemName: "pencil"))
+        cell.accessoryView?.tintColor = .systemOrange
 
         return cell
     }
@@ -201,10 +205,12 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         editNames(indexPath, tableView)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         editNames(indexPath, tableView)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - WCSessionDelegate
@@ -309,6 +315,17 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         }))
         
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func presentRules(_ sender: UIBarButtonItem) {
+        var url: URL
+        switch Locale.preferredLanguages.first {
+        case "fr":
+            url = URL(string: "http://www.arbitrage.fft.fr/wp-content/uploads/A255Q_2017.pdf")!
+        default:
+            url = URL(string: "https://www.itftennis.com/media/2510/2020-rules-of-tennis-english.pdf")!
+        }
+        self.present(SFSafariViewController(url: url), animated: true)
     }
 }
 
