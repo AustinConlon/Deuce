@@ -30,8 +30,6 @@ struct Match: Codable {
     
     var setsWon = [0, 0] {
         didSet {
-            if setsWon[0] >= numberOfSetsToWin { winner = .playerOne }
-            if setsWon[1] >= numberOfSetsToWin { winner = .playerTwo }
             if self.winner == nil { sets.append(Set(format: format)) }
             if (format == .alternate || format == .noAd) && setsWon == [1, 1] {
                 startSupertiebreak()
@@ -45,7 +43,13 @@ struct Match: Codable {
     /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
     var numberOfSetsToWin: Int
     
-    var winner: Player? { didSet { servicePlayer = nil } }
+    var winner: Player? {
+        get {
+            if setsWon[0] >= numberOfSetsToWin { return .playerOne }
+            if setsWon[1] >= numberOfSetsToWin { return .playerTwo }
+            return nil
+        }
+    }
     
     var state: MatchState = .playing
     var date: Date!
