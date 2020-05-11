@@ -234,6 +234,31 @@ struct Match: Codable {
             self = previousMatch
         }
     }
+    
+    func breakPoints(for player: Player) -> (played: Int, won: Int) {
+        var breakPointsPlayed = 0
+        for point in undoStack.items {
+            if point.isBreakPoint() && point.servicePlayer == player {
+                breakPointsPlayed += 1
+            }
+        }
+        return (0, 0)
+    }
+    
+    func totalPointsWon(by player: Player) -> Int {
+        var totalPointsWon = 0
+        for set in sets {
+            for game in set.games {
+                switch player {
+                case .playerOne:
+                    totalPointsWon += game.pointsWon[0]
+                case .playerTwo:
+                    totalPointsWon += game.pointsWon[1]
+                }
+            }
+        }
+        return totalPointsWon
+    }
 }
 
 // MARK: - Decoding
@@ -305,4 +330,22 @@ extension Int {
 
 extension Array where Element == Int {
     var sum: Int { return self.reduce(0, +) }
+}
+
+extension Match {
+    /// Mock data.
+    static func random() -> Match {
+        var match = Match(format: formatData.randomElement()!)
+        match.servicePlayer = .playerOne
+        while match.state != .finished {
+            switch Bool.random() {
+            case true:
+                match.scorePoint(for: .playerOne)
+            case false:
+                match.scorePoint(for: .playerTwo)
+            }
+        }
+        match.date = Date()
+        return match
+    }
 }

@@ -11,6 +11,7 @@ import WatchConnectivity
 import os.log
 import CloudKit
 import SafariServices
+import SwiftUI
 
 class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
     // MARK: - Properties
@@ -204,7 +205,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        editNames(indexPath, tableView)
+//        editNames(indexPath, tableView)
+        present(UIHostingController(rootView: MatchDetail(match: matches[indexPath.row])), animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
