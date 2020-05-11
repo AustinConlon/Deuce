@@ -259,6 +259,19 @@ struct Match: Codable {
         }
         return totalPointsWon
     }
+    
+    func totalGamesWon(by player: Player) -> Int {
+        var totalGamesWon = 0
+        for set in sets {
+            switch player {
+            case .playerOne:
+                totalGamesWon += set.gamesWon[0]
+            case .playerTwo:
+                totalGamesWon += set.gamesWon[1]
+            }
+        }
+        return totalGamesWon
+    }
 }
 
 // MARK: - Decoding

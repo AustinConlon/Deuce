@@ -35,6 +35,7 @@ struct MatchDetail: View {
             HStack {
                 VStack {
                     Text(String(match.totalPointsWon(by: .playerOne)))
+                    Text(String(match.totalGamesWon(by: .playerOne)))
                 }
                 .font(.title)
                 .padding(.horizontal)
@@ -43,6 +44,7 @@ struct MatchDetail: View {
                 
                 VStack {
                     Text("Points Won")
+                    Text("Games Won")
                     
                 }
                 .font(.body)
@@ -51,9 +53,10 @@ struct MatchDetail: View {
                 
                 VStack {
                     Text(String(match.totalPointsWon(by: .playerTwo)))
-                        .font(.title)
-                        .padding(.horizontal)
+                    Text(String(match.totalGamesWon(by: .playerTwo)))
                 }
+                .font(.title)
+                .padding(.horizontal)
             }
         .padding()
         }
