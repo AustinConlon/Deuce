@@ -32,33 +32,33 @@ struct MatchDetail: View {
                 
             Divider()
             
-            HStack {
+            HStack() {
                 VStack {
                     Text(String(match.totalPointsWon(by: .playerOne)))
                     Text(String(match.totalGamesWon(by: .playerOne)))
+                    Text(String(match.totalServicePointsPlayed(by: .playerOne)))
                 }
-                .font(.title)
-                .padding(.horizontal)
+                .padding(.leading)
                 
                 Spacer()
                 
                 VStack {
                     Text("Points Won")
                     Text("Games Won")
-                    
+                    Text("Service Points Played")
                 }
-                .font(.body)
+                .foregroundColor(.secondary)
                 
                 Spacer()
                 
                 VStack {
                     Text(String(match.totalPointsWon(by: .playerTwo)))
                     Text(String(match.totalGamesWon(by: .playerTwo)))
+                    Text(String(match.totalServicePointsPlayed(by: .playerTwo)))
                 }
-                .font(.title)
-                .padding(.horizontal)
+                .padding(.trailing)
             }
-        .padding()
+            .padding()
         }
     }
     
@@ -67,6 +67,15 @@ struct MatchDetail: View {
         dateFormatter.dateStyle = .full
         return dateFormatter.string(from: match.date)
     }
+}
+
+extension HorizontalAlignment {
+    private enum StatisticsAndTitle: AlignmentID {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            return context[HorizontalAlignment.center]
+        }
+    }
+    static let statisticsAndTitle = HorizontalAlignment(StatisticsAndTitle.self)
 }
 
 struct MatchDetail_Previews: PreviewProvider {

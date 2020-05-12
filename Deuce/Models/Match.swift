@@ -235,14 +235,14 @@ struct Match: Codable {
         }
     }
     
-    func breakPoints(for player: Player) -> (played: Int, won: Int) {
+    func breakPoints(for player: Player) -> Int {
         var breakPointsPlayed = 0
         for point in undoStack.items {
             if point.isBreakPoint() && point.servicePlayer == player {
                 breakPointsPlayed += 1
             }
         }
-        return (0, 0)
+        return breakPointsPlayed
     }
     
     func totalPointsWon(by player: Player) -> Int {
@@ -258,6 +258,16 @@ struct Match: Codable {
             }
         }
         return totalPointsWon
+    }
+    
+    func totalServicePointsPlayed(by player: Player) -> Int {
+        var totalServicePointsPlayed = 0
+        for point in undoStack.items {
+            if point.servicePlayer == player {
+                totalServicePointsPlayed += 1
+            }
+        }
+        return totalServicePointsPlayed
     }
     
     func totalGamesWon(by player: Player) -> Int {
