@@ -270,6 +270,16 @@ struct Match: Codable {
         return totalServicePointsPlayed
     }
     
+    func totalReturningPointsPlayed(by player: Player) -> Int {
+        var totalReturningPointsPlayed = 0
+        for point in undoStack.items {
+            if point.servicePlayer != player {
+                totalReturningPointsPlayed += 1
+            }
+        }
+        return totalReturningPointsPlayed
+    }
+    
     func totalGamesWon(by player: Player) -> Int {
         var totalGamesWon = 0
         for set in sets {
