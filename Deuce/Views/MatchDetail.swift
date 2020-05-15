@@ -32,12 +32,18 @@ struct MatchDetail: View {
                 
             Divider()
             
+            HStack {
+                Text(match.playerOneName ?? "You")
+                Text(match.playerTwoName ?? "Opponent")
+            }
+            
             HStack() {
                 VStack {
                     Text(String(match.totalPointsWon(by: .playerOne)))
                     Text(String(match.totalGamesWon(by: .playerOne)))
                     Text(String(match.totalServicePointsPlayed(by: .playerOne)))
                     Text(String(match.totalReturningPointsPlayed(by: .playerOne)))
+                    Text(String(match.totalBreakPointsPlayed(for: .playerOne)))
                 }
                 .padding(.leading)
                 
@@ -48,6 +54,7 @@ struct MatchDetail: View {
                     Text("Games Won")
                     Text("Service Points Played")
                     Text("Returning Points Played")
+                    Text("Break Points Played")
                 }
                 .foregroundColor(.secondary)
                 
@@ -58,6 +65,7 @@ struct MatchDetail: View {
                     Text(String(match.totalGamesWon(by: .playerTwo)))
                     Text(String(match.totalServicePointsPlayed(by: .playerTwo)))
                     Text(String(match.totalReturningPointsPlayed(by: .playerTwo)))
+                    Text(String(match.totalBreakPointsPlayed(for: .playerTwo)))
                 }
                 .padding(.trailing)
             }

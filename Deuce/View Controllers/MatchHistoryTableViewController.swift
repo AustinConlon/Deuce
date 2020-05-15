@@ -69,6 +69,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     var becomeActiveObserver: NSObjectProtocol?
     
+    let cloudController = CloudController()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         configureRefreshControl()

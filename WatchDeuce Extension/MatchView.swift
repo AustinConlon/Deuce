@@ -15,8 +15,6 @@ struct MatchView: View {
     @State var singlesServiceAlert = true
     @State var showingNamesSheet = false
     
-    var undoStack = Stack<Match>()
-    
     var cloudController = CloudController()
     
     var body: some View {

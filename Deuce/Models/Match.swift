@@ -235,14 +235,14 @@ struct Match: Codable {
         }
     }
     
-    func breakPoints(for player: Player) -> Int {
-        var breakPointsPlayed = 0
-        for point in undoStack.items {
-            if point.isBreakPoint() && point.servicePlayer == player {
-                breakPointsPlayed += 1
+    func totalBreakPointsPlayed(for player: Player) -> Int {
+        var totalBreakPointsPlayed = 0
+        for snapshot in undoStack.items {
+            if snapshot.isBreakPoint() && snapshot.servicePlayer == player {
+                totalBreakPointsPlayed += 1
             }
         }
-        return breakPointsPlayed
+        return totalBreakPointsPlayed
     }
     
     func totalPointsWon(by player: Player) -> Int {
@@ -304,17 +304,19 @@ extension Match {
         case numberOfSetsToWin
         case playerOneName
         case playerTwoName
+        case undoStack
     }
     
     init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        setsWon = try values.decode(Array.self, forKey: .setsWon)
-        sets = try values.decode(Array.self, forKey: .sets)
-        date = try values.decode(Date.self, forKey: .date)
-        format = try values.decode(RulesFormats.self, forKey: .format)
-        numberOfSetsToWin = try values.decode(Int.self, forKey: .numberOfSetsToWin)
-        playerOneName = try values.decodeIfPresent(String.self, forKey: .playerOneName)
-        playerTwoName = try values.decodeIfPresent(String.self, forKey: .playerTwoName)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        setsWon = try container.decode(Array.self, forKey: .setsWon)
+        sets = try container.decode(Array.self, forKey: .sets)
+        date = try container.decode(Date.self, forKey: .date)
+        format = try container.decode(RulesFormats.self, forKey: .format)
+        numberOfSetsToWin = try container.decode(Int.self, forKey: .numberOfSetsToWin)
+        playerOneName = try container.decodeIfPresent(String.self, forKey: .playerOneName)
+        playerTwoName = try container.decodeIfPresent(String.self, forKey: .playerTwoName)
+//        undoStack = try container.decodeIfPresent(Stack<Match>.self, forKey: .undoStack) ?? Stack<Match>()
     }
 }
 
