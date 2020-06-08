@@ -77,6 +77,9 @@ struct Match: Codable {
         return false
     }
     
+    var playerOneServicePointsPlayed = 0
+    var playerTwoServicePointsPlayed = 0
+    
     // MARK: - Initialization
     init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!
@@ -143,6 +146,7 @@ struct Match: Codable {
     
     mutating func stop() {
         date = Date()
+        updateStatistics()
     }
     
     /// Updates the state of the service player and side of the court which they are serving on.
@@ -260,26 +264,6 @@ struct Match: Codable {
         return totalPointsWon
     }
     
-    func totalServicePointsPlayed(by player: Player) -> Int {
-        var totalServicePointsPlayed = 0
-        for point in undoStack.items {
-            if point.servicePlayer == player {
-                totalServicePointsPlayed += 1
-            }
-        }
-        return totalServicePointsPlayed
-    }
-    
-    func totalReturningPointsPlayed(by player: Player) -> Int {
-        var totalReturningPointsPlayed = 0
-        for point in undoStack.items {
-            if point.servicePlayer != player {
-                totalReturningPointsPlayed += 1
-            }
-        }
-        return totalReturningPointsPlayed
-    }
-    
     func totalGamesWon(by player: Player) -> Int {
         var totalGamesWon = 0
         for set in sets {
@@ -291,6 +275,19 @@ struct Match: Codable {
             }
         }
         return totalGamesWon
+    }
+    
+    private mutating func updateStatistics() {
+        for snapshot in undoStack.items {
+            switch snapshot.servicePlayer {
+            case .playerOne:
+                self.playerOneServicePointsPlayed += 1
+            case .playerTwo:
+                self.playerTwoServicePointsPlayed += 1
+            default:
+                break
+            }
+        }
     }
 }
 
@@ -380,7 +377,7 @@ extension Match {
                 match.scorePoint(for: .playerTwo)
             }
         }
-        match.date = Date()
+        match.stop()
         return match
     }
 }
