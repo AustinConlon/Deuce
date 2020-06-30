@@ -33,8 +33,8 @@ struct MatchDetail: View {
             Divider()
             
             HStack {
-                Text(match.playerOneName ?? "You")
-                Text(match.playerTwoName ?? "Opponent")
+                Text(match.playerOneName ?? "You").frame(maxWidth: .infinity)
+                Text(match.playerTwoName ?? "Opponent").frame(maxWidth: .infinity)
             }
             
             HStack() {
@@ -42,7 +42,7 @@ struct MatchDetail: View {
                     Text(String(match.totalPointsWon(by: .playerOne)))
                     Text(String(match.totalGamesWon(by: .playerOne)))
                     Text(String(match.playerOneServicePointsPlayed))
-//                    Text(String(match.totalReturningPointsPlayed(by: .playerOne)))
+                    Text(String(match.playerTwoServicePointsPlayed))
 //                    Text(String(match.totalBreakPointsPlayed(for: .playerOne)))
                 }
                 .padding(.leading)
@@ -53,7 +53,7 @@ struct MatchDetail: View {
                     Text("Points Won")
                     Text("Games Won")
                     Text("Service Points Played")
-//                    Text("Returning Points Played")
+                    Text("Receiving Points Played")
 //                    Text("Break Points Played")
                 }
                 .foregroundColor(.secondary)
@@ -64,7 +64,7 @@ struct MatchDetail: View {
                     Text(String(match.totalPointsWon(by: .playerTwo)))
                     Text(String(match.totalGamesWon(by: .playerTwo)))
                     Text(String(match.playerTwoServicePointsPlayed))
-//                    Text(String(match.totalReturningPointsPlayed(by: .playerTwo)))
+                    Text(String(match.playerOneServicePointsPlayed))
 //                    Text(String(match.totalBreakPointsPlayed(for: .playerTwo)))
                 }
                 .padding(.trailing)
@@ -83,6 +83,5 @@ struct MatchDetail: View {
 struct MatchDetail_Previews: PreviewProvider {
     static var previews: some View {
         MatchDetail(match: Match.random())
-            .preferredColorScheme(.dark)
     }
 }
