@@ -80,6 +80,12 @@ struct Match: Codable {
     var playerOneServicePointsPlayed = 0
     var playerTwoServicePointsPlayed = 0
     
+    var playerOneServicePointsWon = 0
+    var playerTwoServicePointsWon = 0
+    
+    var playerOneBreakPointsPlayed = 0
+    var playerTwoBreakPointsPlayed = 0
+    
     // MARK: - Initialization
     init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!
@@ -278,6 +284,11 @@ struct Match: Codable {
     }
     
     private mutating func updateStatistics() {
+        updateServicePointsPlayed()
+        updateBreakPointsPlayed()
+    }
+    
+    private mutating func updateServicePointsPlayed() {
         for snapshot in undoStack.items {
             switch snapshot.servicePlayer {
             case .playerOne:
@@ -286,6 +297,21 @@ struct Match: Codable {
                 self.playerTwoServicePointsPlayed += 1
             default:
                 break
+            }
+        }
+    }
+    
+    private mutating func updateBreakPointsPlayed() {
+        for snapshot in undoStack.items {
+            if snapshot.isBreakPoint() {
+                switch snapshot.servicePlayer {
+                case .playerOne:
+                    self.playerOneBreakPointsPlayed += 1
+                case .playerTwo:
+                    self.playerTwoBreakPointsPlayed += 1
+                default:
+                    break
+                }
             }
         }
     }
