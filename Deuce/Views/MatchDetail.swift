@@ -83,5 +83,6 @@ struct MatchDetail: View {
 struct MatchDetail_Previews: PreviewProvider {
     static var previews: some View {
         MatchDetail(match: Match.random())
+            .preferredColorScheme(.dark)
     }
 }

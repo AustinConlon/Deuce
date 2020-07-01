@@ -29,15 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       language = "fr"
       region = "FR">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FB51A0091DEAD77C00B2E195"
-            BuildableName = "Deuce.app"
-            BlueprintName = "Deuce"
-            ReferencedContainer = "container:Deuce.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">

@@ -86,6 +86,9 @@ struct Match: Codable {
     var playerOneBreakPointsPlayed = 0
     var playerTwoBreakPointsPlayed = 0
     
+    var playerOneTiebreaksWon = 0
+    var playerTwoTiebreaksWon = 0
+    
     // MARK: - Initialization
     init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!
@@ -245,6 +248,8 @@ struct Match: Codable {
         }
     }
     
+    // MARK: Statistics
+    
     func totalBreakPointsPlayed(for player: Player) -> Int {
         var totalBreakPointsPlayed = 0
         for snapshot in undoStack.items {
@@ -327,7 +332,14 @@ extension Match {
         case numberOfSetsToWin
         case playerOneName
         case playerTwoName
-        case undoStack
+        case playerOneServicePointsPlayed
+        case playerTwoServicePointsPlayed
+        case playerOneServicePointsWon
+        case playerTwoServicePointsWon
+        case playerOneBreakPointsPlayed
+        case playerTwoBreakPointsPlayed
+        case playerOneTiebreaksWon
+        case playerTwoTiebreaksWon
     }
     
     init(from decoder: Decoder) throws {
@@ -339,7 +351,14 @@ extension Match {
         numberOfSetsToWin = try container.decode(Int.self, forKey: .numberOfSetsToWin)
         playerOneName = try container.decodeIfPresent(String.self, forKey: .playerOneName)
         playerTwoName = try container.decodeIfPresent(String.self, forKey: .playerTwoName)
-//        undoStack = try container.decodeIfPresent(Stack<Match>.self, forKey: .undoStack) ?? Stack<Match>()
+        playerOneServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsPlayed) ?? 0
+        playerTwoServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsPlayed) ?? 0
+        playerOneServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsWon) ?? 0
+        playerTwoServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsWon) ?? 0
+        playerOneBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsPlayed) ?? 0
+        playerTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsPlayed) ?? 0
+        playerOneTiebreaksWon = try container.decodeIfPresent(Int.self, forKey: .playerOneTiebreaksWon) ?? 0
+        playerTwoTiebreaksWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoTiebreaksWon) ?? 0
     }
 }
 
