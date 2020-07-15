@@ -52,7 +52,11 @@ struct MatchView: View {
                 }
             }
             
-            NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }.onAppear() {
+            NavigationLink(destination: FormatList {
+                MatchView(match: Match(format: $0))
+            }
+            .environmentObject(userData)
+            .onAppear() {
                 self.match.stop()
                 self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
             }) {
