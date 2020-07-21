@@ -29,7 +29,7 @@
 		FB51A0181DEAD77C00B2E195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0161DEAD77C00B2E195 /* LaunchScreen.storyboard */; };
 		FB51A0231DEAD77C00B2E195 /* DeuceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A0221DEAD77C00B2E195 /* DeuceTests.swift */; };
 		FB52F95223F2476C00AAC1FB /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB52F95123F2476C00AAC1FB /* InitialView.swift */; };
-		FB68051423FFA18200735BE3 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DAA092210284400949669 /* Workout.swift */; };
+		FB68051423FFA18200735BE3 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DAA092210284400949669 /* WorkoutManager.swift */; };
 		FB68051723FFA85E00735BE3 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB68051623FFA85E00735BE3 /* HealthKit.framework */; };
 		FB6DE88024AF041900C537CC /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DE87F24AF041900C537CC /* Point.swift */; };
 		FB6DE88124AF041900C537CC /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DE87F24AF041900C537CC /* Point.swift */; };
@@ -152,7 +152,7 @@
 		FB52F95123F2476C00AAC1FB /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
 		FB68051523FFA85E00735BE3 /* WatchDeuce Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WatchDeuce Extension.entitlements"; sourceTree = "<group>"; };
 		FB68051623FFA85E00735BE3 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
-		FB6DAA092210284400949669 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
+		FB6DAA092210284400949669 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
 		FB6DE87F24AF041900C537CC /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FB7A69EF23E99BD50065046E /* WatchDeuce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchDeuce.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -320,11 +320,11 @@
 			isa = PBXGroup;
 			children = (
 				FB68051523FFA85E00735BE3 /* WatchDeuce Extension.entitlements */,
-				FB6DAA092210284400949669 /* Workout.swift */,
 				FB52F95123F2476C00AAC1FB /* InitialView.swift */,
 				FB7CD14E23EF8ED400EB4D04 /* FormatList.swift */,
 				FB00DDF423F23C15008751D2 /* FormatRow.swift */,
 				FB7A6A0023E99BD60065046E /* MatchView.swift */,
+				FB6DAA092210284400949669 /* WorkoutManager.swift */,
 				FB7A6A0223E99BD60065046E /* HostingController.swift */,
 				FB7A6A0423E99BD60065046E /* ExtensionDelegate.swift */,
 				FB7A6A0623E99BD60065046E /* ComplicationController.swift */,
@@ -606,7 +606,7 @@
 				FB7A6A0723E99BD60065046E /* ComplicationController.swift in Sources */,
 				FB7A6A0123E99BD60065046E /* MatchView.swift in Sources */,
 				FB1FDB4923FA782500CE03B1 /* Game.swift in Sources */,
-				FB68051423FFA18200735BE3 /* Workout.swift in Sources */,
+				FB68051423FFA18200735BE3 /* WorkoutManager.swift in Sources */,
 				FB7A6A1823E99EB40065046E /* Match.swift in Sources */,
 				FB4E49FE2430B2A40027B91A /* CloudController.swift in Sources */,
 				FB52F95223F2476C00AAC1FB /* InitialView.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  Workout.swift
+//  WorkoutManager.swift
 //  Deuce WatchKit Extension
 //
 //  Created by Austin Conlon on 2/10/19.
@@ -9,18 +9,19 @@
 import Foundation
 import HealthKit
 
-class Workout: NSObject, HKWorkoutSessionDelegate {
-    // MARK: - Properties
-    var workoutSession: HKWorkoutSession?
+class WorkoutManager: NSObject, HKWorkoutSessionDelegate, ObservableObject {
+    
     let healthStore = HKHealthStore()
-    var liveWorkoutBuilder: HKLiveWorkoutBuilder?
-    var workoutStartDate: Date?
+    var session: HKWorkoutSession?
+    var builder: HKLiveWorkoutBuilder?
+    
+    var start: Date?
     var totalEnergyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 0)
     
     // MARK: - Methods
     func requestAuthorization() {
         let typesToShare: Swift.Set = [
-            HKObjectType.quantityType(forIdentifier: .basalEnergyBurned)!,
+            HKObjectType.quantityType(forIdentifier: .heartRate)!,
             HKWorkoutType.workoutType()
         ]
         
@@ -35,49 +36,49 @@ class Workout: NSObject, HKWorkoutSessionDelegate {
         }
     }
     
-    func start() {
+    func startWorkout() {
         let workoutConfiguration = HKWorkoutConfiguration()
         workoutConfiguration.activityType = .tennis
         
         do {
-            workoutSession = try HKWorkoutSession(healthStore: healthStore,
+            session = try HKWorkoutSession(healthStore: healthStore,
                                                   configuration: workoutConfiguration)
-            liveWorkoutBuilder = workoutSession!.associatedWorkoutBuilder()
-            workoutStartDate = Date()
+            builder = session!.associatedWorkoutBuilder()
+            start = Date()
         } catch {
             return
         }
         
-        workoutSession?.startActivity(with: workoutStartDate)
+        session?.startActivity(with: start)
         
-        liveWorkoutBuilder!.beginCollection(withStart: workoutStartDate!) { (success, error) in
+        builder!.beginCollection(withStart: start!) { (success, error) in
             
         }
         
         let dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
                                                  workoutConfiguration: workoutConfiguration)
         
-        liveWorkoutBuilder?.dataSource = dataSource
+        builder?.dataSource = dataSource
         
-        workoutSession?.delegate = self
+        session?.delegate = self
     }
     
     func stop() {
         let totalEnergyBurnedSample = HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
                                                        quantity: self.totalEnergyBurned,
-                                                       start: self.workoutStartDate!,
+                                                       start: self.start!,
                                                        end: Date())
-        liveWorkoutBuilder?.add([totalEnergyBurnedSample]) { (success, error) in
+        builder?.add([totalEnergyBurnedSample]) { (success, error) in
             
         }
         
-        workoutSession?.end()
+        session?.end()
         
-        liveWorkoutBuilder?.endCollection(withEnd: Date()) { (success, error) in
+        builder?.endCollection(withEnd: Date()) { (success, error) in
             
         }
         
-        liveWorkoutBuilder?.finishWorkout { (workout, error) in
+        builder?.finishWorkout { (workout, error) in
             
         }
     }
