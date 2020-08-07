@@ -70,11 +70,11 @@ struct MatchView: View {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     self.match.servicePlayer = .playerOne
-                    self.userData.workout.start()
+                    self.userData.workout.startWorkout()
                 },
                   secondaryButton: .default(Text("Opponent")) {
                     self.match.servicePlayer = .playerTwo
-                    self.userData.workout.start()
+                    self.userData.workout.startWorkout()
                 })
         }
     }

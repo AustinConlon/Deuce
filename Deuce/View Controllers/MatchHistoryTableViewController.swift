@@ -179,9 +179,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         
         if match.winner == .playerOne { cell.playerOneNameLabel.font = .preferredFont(forTextStyle: .headline) }
         if match.winner == .playerTwo { cell.playerTwoNameLabel.font = .preferredFont(forTextStyle: .headline) }
-        
-        cell.accessoryView = UIImageView(image: UIImage(systemName: "pencil"))
-        cell.accessoryView?.tintColor = .systemOrange
 
         return cell
     }
@@ -207,13 +204,12 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        editNames(indexPath, tableView)
-        present(UIHostingController(rootView: MatchDetail(match: matches[indexPath.row])), animated: true)
+        editNames(indexPath, tableView)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        editNames(indexPath, tableView)
+        present(UIHostingController(rootView: MatchDetail(match: matches[indexPath.row])), animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
