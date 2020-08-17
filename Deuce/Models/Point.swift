@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct Point {
-    var score = [0, 0]
+struct Point: Codable, Hashable {
+    var winner: Player?
 }

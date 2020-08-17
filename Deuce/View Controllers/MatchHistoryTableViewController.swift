@@ -85,6 +85,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             session?.delegate = self
             session?.activate()
         }
+        
+        matches.append(Match.random())
     }
     
     override func viewDidDisappear(_ animated: Bool) {

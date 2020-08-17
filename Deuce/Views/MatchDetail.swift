@@ -41,7 +41,7 @@ struct MatchDetail: View {
                 VStack {
                     Text(String(match.totalPointsWon(by: .playerOne)))
                     Text(String(match.totalGamesWon(by: .playerOne)))
-                    Text(String(match.playerOneServicePointsPlayed))
+                    Text("\(match.playerOneServicePointsWon)/\(match.playerOneServicePointsPlayed)")
                     Text(String(match.playerTwoServicePointsPlayed))
                     Text(String(match.playerOneBreakPointsPlayed))
                 }
@@ -52,9 +52,9 @@ struct MatchDetail: View {
                 VStack {
                     Text("Points Won")
                     Text("Games Won")
-                    Text("Service Points Played")
-                    Text("Receiving Points Played")
-                    Text("Break Points Played")
+                    Text("Service Points Won/Played")
+                    Text("Returning Points Won/Played")
+                    Text("Break Points Won/Played")
                 }
                 .foregroundColor(.secondary)
                 
@@ -63,13 +63,13 @@ struct MatchDetail: View {
                 VStack {
                     Text(String(match.totalPointsWon(by: .playerTwo)))
                     Text(String(match.totalGamesWon(by: .playerTwo)))
-                    Text(String(match.playerTwoServicePointsPlayed))
+                    Text("\(match.playerTwoServicePointsWon)/\(match.playerTwoServicePointsPlayed)")
                     Text(String(match.playerOneServicePointsPlayed))
                     Text(String(match.playerTwoBreakPointsPlayed))
                 }
                 .padding(.trailing)
             }
-            .padding()
+            .padding(.top)
         }
     }
     
@@ -82,7 +82,8 @@ struct MatchDetail: View {
 
 struct MatchDetail_Previews: PreviewProvider {
     static var previews: some View {
-        MatchDetail(match: Match.random())
+        let randomlyGeneratedMatch = Match.random()
+        MatchDetail(match: randomlyGeneratedMatch)
             .preferredColorScheme(.dark)
     }
 }

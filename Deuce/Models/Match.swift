@@ -155,7 +155,7 @@ struct Match: Codable {
     
     mutating func stop() {
         date = Date()
-        updateStatistics()
+        calculateStatistics()
     }
     
     /// Updates the state of the service player and side of the court which they are serving on.
@@ -288,12 +288,33 @@ struct Match: Codable {
         return totalGamesWon
     }
     
-    private mutating func updateStatistics() {
-        updateServicePointsPlayed()
-        updateBreakPointsPlayed()
+    private mutating func calculateStatistics() {
+        calculateServicePointsWon()
+        calculateServicePointsPlayed()
+        calculateBreakPointsPlayed()
     }
     
-    private mutating func updateServicePointsPlayed() {
+    private mutating func calculateServicePointsWon() {
+        for snapshot in undoStack.items {
+            if let servicePlayer = snapshot.servicePlayer {
+                print()
+                if let pointWinner = snapshot.currentSet.currentGame.points.last?.winner {
+                    print(servicePlayer)
+                    print(pointWinner)
+                    switch (servicePlayer, pointWinner) {
+                    case (.playerOne, .playerOne):
+                        self.playerOneServicePointsWon += 1
+                    case (.playerTwo, .playerTwo):
+                        self.playerTwoServicePointsWon += 1
+                    default:
+                        break
+                    }
+                }
+            }
+        }
+    }
+    
+    private mutating func calculateServicePointsPlayed() {
         for snapshot in undoStack.items {
             switch snapshot.servicePlayer {
             case .playerOne:
@@ -306,7 +327,7 @@ struct Match: Codable {
         }
     }
     
-    private mutating func updateBreakPointsPlayed() {
+    private mutating func calculateBreakPointsPlayed() {
         for snapshot in undoStack.items {
             if snapshot.isBreakPoint() {
                 switch snapshot.servicePlayer {
@@ -425,4 +446,9 @@ extension Match {
         match.stop()
         return match
     }
+}
+
+extension Notification.Name {
+    static let playerOneWonServicePoint = Notification.Name("playerOneWonServicePoint")
+    static let playerTwoWonServicePoint = Notification.Name("playerTwoWonServicePoint")
 }
