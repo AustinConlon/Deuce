@@ -83,8 +83,14 @@ struct Match: Codable {
     var playerOneServicePointsWon = 0
     var playerTwoServicePointsWon = 0
     
+    var playerOneReturnPointsWon: Int { playerTwoServicePointsPlayed - playerTwoServicePointsWon }
+    var playerTwoReturnPointsWon: Int { playerOneServicePointsPlayed - playerOneServicePointsWon }
+    
     var playerOneBreakPointsPlayed = 0
     var playerTwoBreakPointsPlayed = 0
+    
+    var playerOneBreakPointsWon = 0
+    var playerTwoBreakPointsWon = 0
     
     var playerOneTiebreaksWon = 0
     var playerTwoTiebreaksWon = 0
@@ -291,16 +297,14 @@ struct Match: Codable {
     private mutating func calculateStatistics() {
         calculateServicePointsWon()
         calculateServicePointsPlayed()
+        calculateBreakPointsWon()
         calculateBreakPointsPlayed()
     }
     
     private mutating func calculateServicePointsWon() {
         for snapshot in undoStack.items {
             if let servicePlayer = snapshot.servicePlayer {
-                print()
                 if let pointWinner = snapshot.currentSet.currentGame.points.last?.winner {
-                    print(servicePlayer)
-                    print(pointWinner)
                     switch (servicePlayer, pointWinner) {
                     case (.playerOne, .playerOne):
                         self.playerOneServicePointsWon += 1
@@ -323,6 +327,21 @@ struct Match: Codable {
                 self.playerTwoServicePointsPlayed += 1
             default:
                 break
+            }
+        }
+    }
+    
+    private mutating func calculateBreakPointsWon() {
+        for (index, snapshot) in undoStack.items.enumerated() {
+            if let winner = snapshot.currentSet.currentGame.winner, winner == undoStack.items[index - 1].returningPlayer {
+                switch winner {
+                case .playerOne:
+                    playerOneBreakPointsWon += 1
+                case .playerTwo:
+                    playerTwoBreakPointsWon += 1
+                default:
+                    break
+                }
             }
         }
     }

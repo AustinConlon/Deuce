@@ -42,8 +42,8 @@ struct MatchDetail: View {
                     Text(String(match.totalPointsWon(by: .playerOne)))
                     Text(String(match.totalGamesWon(by: .playerOne)))
                     Text("\(match.playerOneServicePointsWon)/\(match.playerOneServicePointsPlayed)")
-                    Text(String(match.playerTwoServicePointsPlayed))
-                    Text(String(match.playerOneBreakPointsPlayed))
+                    Text("\(match.playerOneReturnPointsWon)/\(match.playerTwoServicePointsPlayed)")
+                    Text("\(match.playerOneBreakPointsWon)/\(match.playerOneBreakPointsPlayed)")
                 }
                 .padding(.leading)
                 
@@ -53,7 +53,7 @@ struct MatchDetail: View {
                     Text("Points Won")
                     Text("Games Won")
                     Text("Service Points Won/Played")
-                    Text("Returning Points Won/Played")
+                    Text("Return Points Won/Played")
                     Text("Break Points Won/Played")
                 }
                 .foregroundColor(.secondary)
@@ -64,8 +64,8 @@ struct MatchDetail: View {
                     Text(String(match.totalPointsWon(by: .playerTwo)))
                     Text(String(match.totalGamesWon(by: .playerTwo)))
                     Text("\(match.playerTwoServicePointsWon)/\(match.playerTwoServicePointsPlayed)")
-                    Text(String(match.playerOneServicePointsPlayed))
-                    Text(String(match.playerTwoBreakPointsPlayed))
+                    Text("\(match.playerTwoReturnPointsWon)/\(match.playerOneServicePointsPlayed)")
+                    Text("\(match.playerTwoBreakPointsWon)/\(match.playerTwoBreakPointsPlayed)")
                 }
                 .padding(.trailing)
             }
