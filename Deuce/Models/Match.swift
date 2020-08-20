@@ -254,7 +254,7 @@ struct Match: Codable {
         }
     }
     
-    // MARK: Statistics
+    // MARK: - Statistics
     
     func totalBreakPointsPlayed(for player: Player) -> Int {
         var totalBreakPointsPlayed = 0
@@ -297,7 +297,6 @@ struct Match: Codable {
     private mutating func calculateStatistics() {
         calculateServicePointsWon()
         calculateServicePointsPlayed()
-        calculateBreakPointsWon()
         calculateBreakPointsPlayed()
     }
     
@@ -327,21 +326,6 @@ struct Match: Codable {
                 self.playerTwoServicePointsPlayed += 1
             default:
                 break
-            }
-        }
-    }
-    
-    private mutating func calculateBreakPointsWon() {
-        for (index, snapshot) in undoStack.items.enumerated() {
-            if let winner = snapshot.currentSet.currentGame.winner, winner == undoStack.items[index - 1].returningPlayer {
-                switch winner {
-                case .playerOne:
-                    playerOneBreakPointsWon += 1
-                case .playerTwo:
-                    playerTwoBreakPointsWon += 1
-                default:
-                    break
-                }
             }
         }
     }

@@ -85,8 +85,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             session?.delegate = self
             session?.activate()
         }
-        
-        matches.append(Match.random())
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -321,13 +319,15 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     @IBAction func presentRules(_ sender: UIBarButtonItem) {
         var url: URL
-        switch Locale.preferredLanguages.first {
+        switch Locale.current.languageCode {
         case "fr":
-            url = URL(string: "http://www.arbitrage.fft.fr/wp-content/uploads/A255Q_2017.pdf")!
+            url = URL(string: "https://www.fft.fr/file/7966/download?token=DmjkAHAr")!
         default:
             url = URL(string: "https://www.itftennis.com/media/2510/2020-rules-of-tennis-english.pdf")!
         }
-        self.present(SFSafariViewController(url: url), animated: true)
+        let rulesViewController = SFSafariViewController(url: url)
+        rulesViewController.modalPresentationStyle = .pageSheet
+        self.present(rulesViewController, animated: true)
     }
 }
 

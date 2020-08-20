@@ -64,7 +64,7 @@ struct Game: Codable, Hashable {
     
     var pointsPlayed: Int { pointsWon.sum }
     
-    internal static var noAd = false
+    static var noAd = false
     
     // MARK: - Initialization
     

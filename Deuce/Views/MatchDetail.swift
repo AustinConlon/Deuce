@@ -43,7 +43,7 @@ struct MatchDetail: View {
                     Text(String(match.totalGamesWon(by: .playerOne)))
                     Text("\(match.playerOneServicePointsWon)/\(match.playerOneServicePointsPlayed)")
                     Text("\(match.playerOneReturnPointsWon)/\(match.playerTwoServicePointsPlayed)")
-                    Text("\(match.playerOneBreakPointsWon)/\(match.playerOneBreakPointsPlayed)")
+                    Text("\(match.playerOneBreakPointsPlayed)")
                 }
                 .padding(.leading)
                 
@@ -54,7 +54,7 @@ struct MatchDetail: View {
                     Text("Games Won")
                     Text("Service Points Won/Played")
                     Text("Return Points Won/Played")
-                    Text("Break Points Won/Played")
+                    Text("Break Points Played")
                 }
                 .foregroundColor(.secondary)
                 
@@ -65,7 +65,7 @@ struct MatchDetail: View {
                     Text(String(match.totalGamesWon(by: .playerTwo)))
                     Text("\(match.playerTwoServicePointsWon)/\(match.playerTwoServicePointsPlayed)")
                     Text("\(match.playerTwoReturnPointsWon)/\(match.playerOneServicePointsPlayed)")
-                    Text("\(match.playerTwoBreakPointsWon)/\(match.playerTwoBreakPointsPlayed)")
+                    Text("\(match.playerTwoBreakPointsPlayed)")
                 }
                 .padding(.trailing)
             }
@@ -84,6 +84,5 @@ struct MatchDetail_Previews: PreviewProvider {
     static var previews: some View {
         let randomlyGeneratedMatch = Match.random()
         MatchDetail(match: randomlyGeneratedMatch)
-            .preferredColorScheme(.dark)
     }
 }
