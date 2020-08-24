@@ -21,12 +21,12 @@ struct MatchView: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 PlayerTwo(match: self.$match)
-                .frame(maxHeight: geometry.size.height / 2)
+                .frame(height: geometry.size.height / 2)
                 
                 Divider()
                 
                 PlayerOne(match: self.$match)
-                .frame(maxHeight: geometry.size.height / 2)
+                .frame(height: geometry.size.height / 2)
             }
             
             HStack {
@@ -122,20 +122,19 @@ struct PlayerTwo: View {
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
                     .fontWeight(.medium)
+                    .foregroundColor(.blue)
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
                             Text(set.getScore(for: .playerTwo))
                         }
                     }
-                    .foregroundColor(.primary)
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(.default)
                 }
                 .frame(height: geometry.size.height)
             }
-            .accentColor(.blue)
         }
     }
     
@@ -200,13 +199,13 @@ struct PlayerOne: View {
                             Text(set.getScore(for: .playerOne))
                         }
                     }
-                    .foregroundColor(.primary)
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(.default)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerOneMedal() : self.playerOneGameScore()))
-                        .fontWeight(.medium)
+                    .fontWeight(.medium)
+                    .foregroundColor(.blue)
                     
                     HStack(alignment: .bottom) {
                         self.playerOneServiceImage()
@@ -219,7 +218,6 @@ struct PlayerOne: View {
                 }
                 .frame(height: geometry.size.height)
             }
-            .accentColor(.blue)
         }
     }
     

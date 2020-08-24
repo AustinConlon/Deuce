@@ -10,5 +10,5 @@ import Foundation
 
 struct Point: Codable, Hashable {
     var winner: Player?
-    var breakPoint: Player?
+    var servicePlayer: Player!
 }

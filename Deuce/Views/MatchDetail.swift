@@ -83,6 +83,6 @@ struct MatchDetail: View {
 struct MatchDetail_Previews: PreviewProvider {
     static var previews: some View {
         let randomlyGeneratedMatch = Match.random()
-        MatchDetail(match: randomlyGeneratedMatch)
+        return MatchDetail(match: randomlyGeneratedMatch)
     }
 }

@@ -15,7 +15,11 @@ struct Match: Codable {
     var playerOneName: String?
     var playerTwoName: String?
     
-    var servicePlayer: Player!
+    var servicePlayer: Player! {
+        didSet {
+            currentSet.currentGame.currentPoint.servicePlayer = servicePlayer
+        }
+    }
     
     var returningPlayer: Player! {
         switch servicePlayer {
@@ -301,10 +305,10 @@ struct Match: Codable {
     }
     
     private mutating func calculateServicePointsWon() {
-        for snapshot in undoStack.items {
-            if let servicePlayer = snapshot.servicePlayer {
-                if let pointWinner = snapshot.currentSet.currentGame.points.last?.winner {
-                    switch (servicePlayer, pointWinner) {
+        for set in sets {
+            for game in set.games {
+                for point in game.points {
+                    switch (point.servicePlayer, point.winner) {
                     case (.playerOne, .playerOne):
                         self.playerOneServicePointsWon += 1
                     case (.playerTwo, .playerTwo):
@@ -315,6 +319,20 @@ struct Match: Codable {
                 }
             }
         }
+//        for snapshot in undoStack.items {
+//            if let servicePlayer = snapshot.servicePlayer {
+//                if let pointWinner = snapshot.currentSet.currentGame.points.last?.winner {
+//                    switch (servicePlayer, pointWinner) {
+//                    case (.playerOne, .playerOne):
+//                        self.playerOneServicePointsWon += 1
+//                    case (.playerTwo, .playerTwo):
+//                        self.playerTwoServicePointsWon += 1
+//                    default:
+//                        break
+//                    }
+//                }
+//            }
+//        }
     }
     
     private mutating func calculateServicePointsPlayed() {
