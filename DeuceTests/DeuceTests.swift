@@ -10,11 +10,13 @@ import XCTest
 @testable import Deuce
 
 class DeuceTests: XCTestCase {
-    func test() {
-        let match = Match.random()
-        for _ in match.setsWon {
-            print()
+    func testStatisticsPositive() {
+        for _ in 0...100 {
+            let match = Match.random()
+            XCTAssert(match.playerOneServicePointsWon >= 0)
+            XCTAssert(match.playerTwoServicePointsWon >= 0)
+            XCTAssert(match.playerOneReturnPointsWon >= 0)
+            XCTAssert(match.playerTwoReturnPointsWon >= 0)
         }
-        print(match.setsWon)
     }
 }
