@@ -25,9 +25,7 @@ struct MatchDetail: View {
                     ForEach(match.sets, id: \.self) { set in
                         VStack {
                             Text(String(set.gamesWon[1]))
-                            .fontWeight(set.winner == .playerTwo ? .semibold : .regular)
                             Text(String(set.gamesWon[0]))
-                            .fontWeight(set.winner == .playerOne ? .semibold : .regular)
                         }
                         .font(Font.largeTitle.monospacedDigit())
                     }
@@ -37,10 +35,8 @@ struct MatchDetail: View {
                 
                 HStack {
                     Text(match.playerOneName ?? "You")
-                        .fontWeight(match.winner == .playerOne ? .bold : .regular)
                         .frame(maxWidth: .infinity)
                     Text(match.playerTwoName ?? "Opponent")
-                        .fontWeight(match.winner == .playerTwo ? .bold : .regular)
                         .frame(maxWidth: .infinity)
                 }
                 
@@ -50,7 +46,7 @@ struct MatchDetail: View {
                         Text(String(match.totalGamesWon(by: .playerOne)))
                         Text("\(match.playerOneServicePointsWon)/\(match.playerOneServicePointsPlayed)")
                         Text("\(match.playerOneReturnPointsWon)/\(match.playerTwoServicePointsPlayed)")
-                        Text("\(match.playerOneBreakPointsPlayed)")
+                        Text("\(match.playerOneBreakPointsWon)/\(match.playerOneBreakPointsPlayed)")
                     }
                     .padding(.leading)
                     
@@ -72,7 +68,7 @@ struct MatchDetail: View {
                         Text(String(match.totalGamesWon(by: .playerTwo)))
                         Text("\(match.playerTwoServicePointsWon)/\(match.playerTwoServicePointsPlayed)")
                         Text("\(match.playerTwoReturnPointsWon)/\(match.playerOneServicePointsPlayed)")
-                        Text("\(match.playerTwoBreakPointsPlayed)")
+                        Text("\(match.playerTwoBreakPointsWon)/\(match.playerTwoBreakPointsPlayed)")
                     }
                     .padding(.trailing)
                 }

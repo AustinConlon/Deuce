@@ -11,4 +11,5 @@ import Foundation
 struct Point: Codable, Hashable {
     var winner: Player?
     var servicePlayer: Player!
+    var isBreakpoint = false
 }

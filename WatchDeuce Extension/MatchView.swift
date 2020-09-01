@@ -95,7 +95,7 @@ struct MatchView: View {
         }
         if match.isMatchPoint() { return "Match Point" }
         if match.currentSet.isSetPoint() { return "Set Point" }
-        if match.isBreakPoint() { return "Break Point" }
+        if match.isBreakPoint { return "Break Point" }
         return ""
     }
 }

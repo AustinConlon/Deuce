@@ -7,17 +7,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "37CC8D64-8912-4AF8-B7A6-C84429BA7EB2"
+            uuid = "0126DBD3-67AF-4B96-9761-3F155FEF34AA"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Deuce/Models/Match.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "310"
-            endingLineNumber = "310"
-            landmarkName = "calculateServicePointsWon()"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
+            landmarkName = "calculateBreakPointsWon()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0126DBD3-67AF-4B96-9761-3F155FEF34AA - 88d27236f4992a9e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Deuce.Match.(calculateBreakPointsWon in _58647239D1AEA763C502BF9B3DA04F11)() -&gt; ()"
+                  moduleName = "Deuce"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/austinconlon/Developer/Deuce-iOS-watchOS/Deuce/Models/Match.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "348"
+                  endingLineNumber = "348"
+                  offsetFromSymbolStart = "1596">
+               </Location>
+               <Location
+                  uuid = "0126DBD3-67AF-4B96-9761-3F155FEF34AA - b2da9eff62b43d4f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in Deuce_PreviewReplacement_Match_6):Deuce.Match.(__preview__calculateBreakPointsWon in _B6C68F6E9E4030047C2FCD098379FB82)() -&gt; ()"
+                  moduleName = "Match.6.preview-thunk.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/austinconlon/Developer/Deuce-iOS-watchOS/Deuce/Models/Match.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "348"
+                  endingLineNumber = "348"
+                  offsetFromSymbolStart = "1418">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
