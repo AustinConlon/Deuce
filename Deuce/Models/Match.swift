@@ -32,19 +32,6 @@ struct Match: Codable {
         }
     }
     
-    /// Receiving player is one point away from winning the game.
-    var isBreakPoint: Bool {
-        get {
-            if let playerWithGamePoint = currentSet.currentGame.playerWithGamePoint() {
-                return playerWithGamePoint == returningPlayer
-            }
-            return false
-        }
-        set {
-            currentSet.currentGame.currentPoint.isBreakpoint = newValue
-        }
-    }
-    
     var setsWon = [0, 0] {
         didSet {
             if self.winner == nil { sets.append(Set(format: format)) }
@@ -111,6 +98,18 @@ struct Match: Codable {
     
     var playerOneTiebreaksWon = 0
     var playerTwoTiebreaksWon = 0
+    
+    private var allPoints: [Point] {
+        get {
+            var allPoints = [Point]()
+            for set in sets {
+                for game in set.games {
+                    allPoints += game.points
+                }
+            }
+            return allPoints
+        }
+    }
     
     // MARK: - Initialization
     init(format: Format) {
@@ -265,16 +264,6 @@ struct Match: Codable {
     
     // MARK: - Statistics
     
-    func totalBreakPointsPlayed(for player: Player) -> Int {
-        var totalBreakPointsPlayed = 0
-        for snapshot in undoStack.items {
-            if snapshot.isBreakPoint && snapshot.servicePlayer == player {
-                totalBreakPointsPlayed += 1
-            }
-        }
-        return totalBreakPointsPlayed
-    }
-    
     func totalPointsWon(by player: Player) -> Int {
         var totalPointsWon = 0
         for set in sets {
@@ -311,29 +300,25 @@ struct Match: Codable {
     }
     
     private mutating func calculateServicePointsWon() {
-        for set in sets {
-            for game in set.games {
-                for point in game.points {
-                    switch (point.servicePlayer, point.winner) {
-                    case (.playerOne, .playerOne):
-                        self.playerOneServicePointsWon += 1
-                    case (.playerTwo, .playerTwo):
-                        self.playerTwoServicePointsWon += 1
-                    default:
-                        break
-                    }
-                }
+        for point in allPoints {
+            switch (point.servicePlayer, point.winner) {
+            case (.playerOne, .playerOne):
+                self.playerOneServicePointsWon += 1
+            case (.playerTwo, .playerTwo):
+                self.playerTwoServicePointsWon += 1
+            default:
+                break
             }
         }
     }
     
     private mutating func calculateServicePointsPlayed() {
-        for snapshot in undoStack.items {
-            switch snapshot.servicePlayer {
+        for point in allPoints {
+            switch point.servicePlayer {
             case .playerOne:
-                self.playerOneServicePointsPlayed += 1
+                playerOneServicePointsPlayed += 1
             case .playerTwo:
-                self.playerTwoServicePointsPlayed += 1
+                playerTwoServicePointsPlayed += 1
             default:
                 break
             }
@@ -341,35 +326,25 @@ struct Match: Codable {
     }
     
     private mutating func calculateBreakPointsWon() {
-        for set in sets {
-            for game in set.games {
-                for point in game.points {
-                    if point.isBreakpoint {
-                        switch (currentSet.currentGame.playerWithGamePoint(), point.winner) {
-                        case (.playerOne, .playerOne):
-                            self.playerOneBreakPointsWon += 1
-                        case (.playerTwo, .playerTwo):
-                            self.playerTwoBreakPointsWon += 1
-                        default:
-                            break
-                        }
-                    }
-                }
+        for point in allPoints where point.isBreakpoint {
+            switch (point.returningPlayer, point.winner) {
+            case (.playerOne, .playerOne):
+                playerOneBreakPointsWon += 1
+            case (.playerTwo, .playerTwo):
+                playerTwoBreakPointsWon += 1
+            default:
+                break
             }
         }
     }
     
     private mutating func calculateBreakPointsPlayed() {
-        for snapshot in undoStack.items {
-            if snapshot.isBreakPoint {
-                switch snapshot.servicePlayer {
-                case .playerOne:
-                    self.playerOneBreakPointsPlayed += 1
-                case .playerTwo:
-                    self.playerTwoBreakPointsPlayed += 1
-                default:
-                    break
-                }
+        for point in allPoints where point.isBreakpoint {
+            switch point.servicePlayer! {
+            case .playerOne:
+                playerOneBreakPointsPlayed += 1
+            case .playerTwo:
+                playerTwoBreakPointsPlayed += 1
             }
         }
     }

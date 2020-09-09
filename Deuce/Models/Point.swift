@@ -11,5 +11,18 @@ import Foundation
 struct Point: Codable, Hashable {
     var winner: Player?
     var servicePlayer: Player!
+    
+    /// Player returning serve is one point away from winning the game.
     var isBreakpoint = false
+    
+    var returningPlayer: Player! {
+        switch servicePlayer {
+        case .playerOne:
+            return .playerTwo
+        case .playerTwo:
+            return .playerOne
+        default:
+            return nil
+        }
+    }
 }

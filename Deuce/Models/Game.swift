@@ -9,10 +9,11 @@
 import Foundation
 
 struct Game: Codable, Hashable {
-    // MARK: - Properties
+    
     var format: RulesFormats?
     
-    var points = [Point()]
+    private(set) var points = [Point()]
+    
     var currentPoint: Point {
         get { points.last! }
         set { points[points.count - 1] = newValue }
@@ -23,20 +24,18 @@ struct Game: Codable, Hashable {
     var pointsWon = [0, 0] {
         willSet {
             /// There is currently a Swift bug where you can't subscript a property in its `willSet`, so I use `first` instead.
-            if newValue[0] > pointsWon.first! {
-                currentPoint.winner = .playerOne
-                points.append(Point(servicePlayer: points.last?.servicePlayer))
-            }
-            if newValue[1] > pointsWon.last! {
-                currentPoint.winner = .playerTwo
-                points.append(Point(servicePlayer: points.last?.servicePlayer))
+            if newValue[0] > pointsWon.first! { currentPoint.winner = .playerOne }
+            if newValue[1] > pointsWon.last! { currentPoint.winner = .playerTwo }
+            points.append(Point(servicePlayer: points.last?.servicePlayer))
+        }
+        didSet {
+            if let playerWithGamePoint = playerWithGamePoint(), points.last?.returningPlayer == playerWithGamePoint {
+                currentPoint.isBreakpoint = true
             }
         }
     }
     
-    static var pointNames = [
-        0: "Love", 1: "15", 2: "30", 3: "40", 4: "Ad"
-    ]
+    static var pointNames = [0: "Love", 1: "15", 2: "30", 3: "40", 4: "Ad"]
     
     var isDeuce: Bool {
         if (pointsWon[0] >= 3 || pointsWon[1] >= 3) && pointsWon[0] == pointsWon[1] && !isTiebreak {
