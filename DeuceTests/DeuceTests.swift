@@ -19,4 +19,12 @@ class DeuceTests: XCTestCase {
             XCTAssert(match.playerTwoReturnPointsWon >= 0)
         }
     }
+    
+    func testPointCount() {
+        let match = Match.random()
+        let playerOnePointsPlayed = match.playerOneServicePointsPlayed + match.playerTwoServicePointsPlayed
+        let playerTwoPointsPlayed = match.playerTwoServicePointsPlayed + match.playerOneServicePointsPlayed
+        XCTAssertEqual(playerOnePointsPlayed, match.allPoints.count)
+        XCTAssertEqual(playerTwoPointsPlayed, match.allPoints.count)
+    }
 }

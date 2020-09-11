@@ -99,7 +99,7 @@ struct Match: Codable {
     var playerOneTiebreaksWon = 0
     var playerTwoTiebreaksWon = 0
     
-    private var allPoints: [Point] {
+    var allPoints: [Point] {
         get {
             var allPoints = [Point]()
             for set in sets {
@@ -313,7 +313,7 @@ struct Match: Codable {
     }
     
     private mutating func calculateServicePointsPlayed() {
-        for point in allPoints {
+        for point in allPoints where point.winner != nil {
             switch point.servicePlayer {
             case .playerOne:
                 playerOneServicePointsPlayed += 1
@@ -327,7 +327,7 @@ struct Match: Codable {
     
     private mutating func calculateBreakPointsWon() {
         for point in allPoints where point.isBreakpoint {
-            switch (point.returningPlayer, point.winner) {
+            switch (point.servicePlayer, point.winner) {
             case (.playerOne, .playerOne):
                 playerOneBreakPointsWon += 1
             case (.playerTwo, .playerTwo):
@@ -453,9 +453,4 @@ extension Match {
         match.stop()
         return match
     }
-}
-
-extension Notification.Name {
-    static let playerOneWonServicePoint = Notification.Name("playerOneWonServicePoint")
-    static let playerTwoWonServicePoint = Notification.Name("playerTwoWonServicePoint")
 }

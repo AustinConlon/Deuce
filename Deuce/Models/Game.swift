@@ -26,12 +26,12 @@ struct Game: Codable, Hashable {
             /// There is currently a Swift bug where you can't subscript a property in its `willSet`, so I use `first` instead.
             if newValue[0] > pointsWon.first! { currentPoint.winner = .playerOne }
             if newValue[1] > pointsWon.last! { currentPoint.winner = .playerTwo }
-            points.append(Point(servicePlayer: points.last?.servicePlayer))
         }
         didSet {
             if let playerWithGamePoint = playerWithGamePoint(), points.last?.returningPlayer == playerWithGamePoint {
                 currentPoint.isBreakpoint = true
             }
+            if self.winner == nil { points.append(Point(servicePlayer: points.last?.servicePlayer)) }
         }
     }
     
