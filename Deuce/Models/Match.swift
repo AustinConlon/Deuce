@@ -99,15 +99,17 @@ struct Match: Codable {
     var playerOneTiebreaksWon = 0
     var playerTwoTiebreaksWon = 0
     
-    var allPoints: [Point] {
+    var allPointsPlayed: [Point] {
         get {
-            var allPoints = [Point]()
+            var allPointsPlayed = [Point]()
             for set in sets {
                 for game in set.games {
-                    allPoints += game.points
+                    for point in game.points where point.winner != nil {
+                        allPointsPlayed.append(point)
+                    }
                 }
             }
-            return allPoints
+            return allPointsPlayed
         }
     }
     
@@ -300,7 +302,7 @@ struct Match: Codable {
     }
     
     private mutating func calculateServicePointsWon() {
-        for point in allPoints {
+        for point in allPointsPlayed {
             switch (point.servicePlayer, point.winner) {
             case (.playerOne, .playerOne):
                 self.playerOneServicePointsWon += 1
@@ -313,7 +315,7 @@ struct Match: Codable {
     }
     
     private mutating func calculateServicePointsPlayed() {
-        for point in allPoints where point.winner != nil {
+        for point in allPointsPlayed {
             switch point.servicePlayer {
             case .playerOne:
                 playerOneServicePointsPlayed += 1
@@ -326,7 +328,7 @@ struct Match: Codable {
     }
     
     private mutating func calculateBreakPointsWon() {
-        for point in allPoints where point.isBreakpoint {
+        for point in allPointsPlayed where point.isBreakpoint {
             switch (point.servicePlayer, point.winner) {
             case (.playerOne, .playerOne):
                 playerOneBreakPointsWon += 1
@@ -339,12 +341,18 @@ struct Match: Codable {
     }
     
     private mutating func calculateBreakPointsPlayed() {
-        for point in allPoints where point.isBreakpoint {
-            switch point.servicePlayer! {
-            case .playerOne:
-                playerOneBreakPointsPlayed += 1
-            case .playerTwo:
-                playerTwoBreakPointsPlayed += 1
+        for set in sets {
+            for game in set.games {
+                for point in game.points where point.isBreakpoint {
+                    switch (point.returningPlayer!, game.playerWithGamePoint()) {
+                    case (.playerOne, .playerOne):
+                        playerOneBreakPointsPlayed += 1
+                    case (.playerTwo, .playerTwo):
+                        playerTwoBreakPointsPlayed += 1
+                    default:
+                        break
+                    }
+                }
             }
         }
     }

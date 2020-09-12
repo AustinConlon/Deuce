@@ -28,10 +28,12 @@ struct Game: Codable, Hashable {
             if newValue[1] > pointsWon.last! { currentPoint.winner = .playerTwo }
         }
         didSet {
-            if let playerWithGamePoint = playerWithGamePoint(), points.last?.returningPlayer == playerWithGamePoint {
+            if self.winner == nil {
+                points.append(Point(servicePlayer: points.last?.servicePlayer))
+            }
+            if let playerWithGamePoint = playerWithGamePoint(), currentPoint.returningPlayer == playerWithGamePoint {
                 currentPoint.isBreakpoint = true
             }
-            if self.winner == nil { points.append(Point(servicePlayer: points.last?.servicePlayer)) }
         }
     }
     

@@ -24,7 +24,7 @@ class DeuceTests: XCTestCase {
         let match = Match.random()
         let playerOnePointsPlayed = match.playerOneServicePointsPlayed + match.playerTwoServicePointsPlayed
         let playerTwoPointsPlayed = match.playerTwoServicePointsPlayed + match.playerOneServicePointsPlayed
-        XCTAssertEqual(playerOnePointsPlayed, match.allPoints.count)
-        XCTAssertEqual(playerTwoPointsPlayed, match.allPoints.count)
+        XCTAssertEqual(playerOnePointsPlayed, match.allPointsPlayed.count)
+        XCTAssertEqual(playerTwoPointsPlayed, match.allPointsPlayed.count)
     }
 }
