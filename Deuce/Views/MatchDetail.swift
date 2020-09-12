@@ -34,9 +34,9 @@ struct MatchDetail: View {
                 Divider()
                 
                 HStack {
-                    Text(match.playerOneName ?? "You")
+                    Text(LocalizedStringKey(match.playerOneName ?? "You"))
                         .frame(maxWidth: .infinity)
-                    Text(match.playerTwoName ?? "Opponent")
+                    Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
                         .frame(maxWidth: .infinity)
                 }
                 
@@ -48,7 +48,7 @@ struct MatchDetail: View {
                         Text("\(match.playerOneServicePointsWon)/\(match.playerOneServicePointsPlayed)")
                         Text("\(match.playerOneReturnPointsWon)/\(match.playerTwoServicePointsPlayed)")
                     }
-                    .padding(.leading)
+                    .padding(.leading, 10)
                     
                     Spacer()
                     
@@ -70,7 +70,7 @@ struct MatchDetail: View {
                         Text("\(match.playerTwoServicePointsWon)/\(match.playerTwoServicePointsPlayed)")
                         Text("\(match.playerTwoReturnPointsWon)/\(match.playerOneServicePointsPlayed)")
                     }
-                    .padding(.trailing)
+                    .padding(.trailing, 10)
                 }
                 .padding(.top)
             }
@@ -89,5 +89,6 @@ struct MatchDetail_Previews: PreviewProvider {
         let randomlyGeneratedMatch = Match.random()
         return MatchDetail(match: randomlyGeneratedMatch)
             .preferredColorScheme(.dark)
+            .environment(\.locale, .init(identifier: "fr"))
     }
 }

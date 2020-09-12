@@ -126,3 +126,9 @@
 "Tiebreak at 6-6 for all sets" = "Tie-break à 6-6 à tous les sets";
 "Advantage games" = "Jeux à l’avantage";
 "No-ad games" = "Jeux à point décisif";
+
+"Points Won" = "Points Gagnés";
+"Games Won" = "Jeux Gagnés";
+"Break Points Won/Played" = "Balles de break Gagnées/Jouées";
+"Service Points Won/Played" = "Points au service Gagnés/Joués";
+"Return Points Won/Played" = "Points au retour Gagnés/Joués";
