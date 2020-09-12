@@ -81,23 +81,17 @@ struct Match: Codable {
         return false
     }
     
-    var playerOneServicePointsPlayed = 0
-    var playerTwoServicePointsPlayed = 0
+    var playerOneServicePointsPlayed: Int!
+    var playerTwoServicePointsPlayed: Int!
     
-    var playerOneServicePointsWon = 0
-    var playerTwoServicePointsWon = 0
+    var playerOneServicePointsWon: Int!
+    var playerTwoServicePointsWon: Int!
     
-    var playerOneReturnPointsWon: Int { playerTwoServicePointsPlayed - playerTwoServicePointsWon }
-    var playerTwoReturnPointsWon: Int { playerOneServicePointsPlayed - playerOneServicePointsWon }
+    var playerOneBreakPointsPlayed: Int!
+    var playerTwoBreakPointsPlayed: Int!
     
-    var playerOneBreakPointsPlayed = 0
-    var playerTwoBreakPointsPlayed = 0
-    
-    var playerOneBreakPointsWon = 0
-    var playerTwoBreakPointsWon = 0
-    
-    var playerOneTiebreaksWon = 0
-    var playerTwoTiebreaksWon = 0
+    var playerOneBreakPointsWon: Int!
+    var playerTwoBreakPointsWon: Int!
     
     var allPointsPlayed: [Point] {
         get {
@@ -374,8 +368,6 @@ extension Match {
         case playerTwoServicePointsWon
         case playerOneBreakPointsPlayed
         case playerTwoBreakPointsPlayed
-        case playerOneTiebreaksWon
-        case playerTwoTiebreaksWon
     }
     
     init(from decoder: Decoder) throws {
@@ -387,14 +379,12 @@ extension Match {
         numberOfSetsToWin = try container.decode(Int.self, forKey: .numberOfSetsToWin)
         playerOneName = try container.decodeIfPresent(String.self, forKey: .playerOneName)
         playerTwoName = try container.decodeIfPresent(String.self, forKey: .playerTwoName)
-        playerOneServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsPlayed) ?? 0
-        playerTwoServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsPlayed) ?? 0
-        playerOneServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsWon) ?? 0
-        playerTwoServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsWon) ?? 0
-        playerOneBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsPlayed) ?? 0
-        playerTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsPlayed) ?? 0
-        playerOneTiebreaksWon = try container.decodeIfPresent(Int.self, forKey: .playerOneTiebreaksWon) ?? 0
-        playerTwoTiebreaksWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoTiebreaksWon) ?? 0
+        playerOneServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsPlayed)
+        playerTwoServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsPlayed)
+        playerOneServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsWon)
+        playerTwoServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsWon)
+        playerOneBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsPlayed)
+        playerTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsPlayed)
     }
 }
 

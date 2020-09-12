@@ -44,9 +44,9 @@ struct MatchDetail: View {
                     VStack {
                         Text(String(match.totalPointsWon(by: .playerOne)))
                         Text(String(match.totalGamesWon(by: .playerOne)))
-                        Text("\(match.playerOneBreakPointsWon)/\(match.playerOneBreakPointsPlayed)")
-                        Text("\(match.playerOneServicePointsWon)/\(match.playerOneServicePointsPlayed)")
-                        Text("\(match.playerOneReturnPointsWon)/\(match.playerTwoServicePointsPlayed)")
+                        Text("\(playerOneBreakPointsWon)/\(playerOneBreakPointsPlayed)")
+                        Text("\(playerOneServicePointsWon)/\(playerOneServicePointsPlayed)")
+                        Text("\(playerOneReturnPointsWon)/\(playerTwoServicePointsPlayed)")
                     }
                     .padding(.leading, 10)
                     
@@ -66,14 +66,94 @@ struct MatchDetail: View {
                     VStack {
                         Text(String(match.totalPointsWon(by: .playerTwo)))
                         Text(String(match.totalGamesWon(by: .playerTwo)))
-                        Text("\(match.playerTwoBreakPointsWon)/\(match.playerTwoBreakPointsPlayed)")
-                        Text("\(match.playerTwoServicePointsWon)/\(match.playerTwoServicePointsPlayed)")
-                        Text("\(match.playerTwoReturnPointsWon)/\(match.playerOneServicePointsPlayed)")
+                        Text("\(playerTwoBreakPointsWon)/\(playerTwoBreakPointsPlayed)")
+                        Text("\(playerTwoServicePointsWon)/\(playerTwoServicePointsPlayed)")
+                        Text("\(playerTwoReturnPointsWon)/\(playerOneServicePointsPlayed)")
                     }
                     .padding(.trailing, 10)
                 }
                 .padding(.top)
             }
+        }
+    }
+    
+    var playerOneBreakPointsWon: String {
+        if let playerOneBreakPointsWon = match.playerOneBreakPointsWon {
+            return String(playerOneBreakPointsWon)
+        } else {
+            return "-"
+        }
+    }
+    
+    var playerTwoBreakPointsWon: String {
+        if let playerTwoBreakPointsWon = match.playerTwoBreakPointsWon {
+            return String(playerTwoBreakPointsWon)
+        } else {
+            return "-"
+        }
+    }
+    
+    var playerOneBreakPointsPlayed: String {
+        if let playerOneBreakPointsPlayed = match.playerOneBreakPointsPlayed {
+            return String(playerOneBreakPointsPlayed)
+        } else {
+            return "-"
+        }
+    }
+    
+    var playerTwoBreakPointsPlayed: String {
+        if let playerTwoBreakPointsPlayed = match.playerTwoBreakPointsPlayed {
+            return String(playerTwoBreakPointsPlayed)
+        } else {
+            return "-"
+        }
+    }
+    
+    var playerOneServicePointsWon: String {
+        if let playerOneServicePointsWon = match.playerOneServicePointsWon {
+            return String(playerOneServicePointsWon)
+        } else {
+            return "-"
+        }
+    }
+    
+    var playerTwoServicePointsWon: String {
+        if let playerTwoServicePointsWon = match.playerTwoServicePointsWon {
+            return String(playerTwoServicePointsWon)
+        } else {
+            return "-"
+        }
+    }
+    
+    var playerOneServicePointsPlayed: String {
+        if let playerOneServicePointsPlayed = match.playerOneServicePointsPlayed {
+            return String(playerOneServicePointsPlayed)
+        } else {
+            return "-"
+        }
+    }
+    
+    var playerTwoServicePointsPlayed: String {
+        if let playerTwoServicePointsPlayed = match.playerTwoServicePointsPlayed {
+            return String(playerTwoServicePointsPlayed)
+        } else {
+            return "-"
+        }
+    }
+    
+    var playerOneReturnPointsWon: String {
+        if let playerTwoServicePointsWon = match.playerTwoServicePointsWon, let playerTwoServicePointsPlayed = match.playerTwoServicePointsPlayed {
+            return String(playerTwoServicePointsPlayed - playerTwoServicePointsWon)
+        } else {
+            return "-"
+        }
+    }
+    
+    var playerTwoReturnPointsWon: String {
+        if let playerOneServicePointsWon = match.playerOneServicePointsWon, let playerOneServicePointsPlayed = match.playerOneServicePointsPlayed {
+            return String(playerOneServicePointsPlayed - playerOneServicePointsWon)
+        } else {
+            return "-"
         }
     }
     
@@ -89,6 +169,6 @@ struct MatchDetail_Previews: PreviewProvider {
         let randomlyGeneratedMatch = Match.random()
         return MatchDetail(match: randomlyGeneratedMatch)
             .preferredColorScheme(.dark)
-            .environment(\.locale, .init(identifier: "fr"))
+            .environment(\.locale, .init(identifier: "en"))
     }
 }
