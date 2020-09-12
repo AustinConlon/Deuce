@@ -329,7 +329,7 @@ struct Match: Codable {
     
     private mutating func calculateBreakPointsWon() {
         for point in allPointsPlayed where point.isBreakpoint {
-            switch (point.servicePlayer, point.winner) {
+            switch (point.winner, point.returningPlayer) {
             case (.playerOne, .playerOne):
                 playerOneBreakPointsWon += 1
             case (.playerTwo, .playerTwo):
