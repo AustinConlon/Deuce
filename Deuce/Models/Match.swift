@@ -380,6 +380,8 @@ extension Match {
         case playerTwoServicePointsWon
         case playerOneBreakPointsPlayed
         case playerTwoBreakPointsPlayed
+        case playerOneBreakPointsWon
+        case playerTwoBreakPointsWon
     }
     
     init(from decoder: Decoder) throws {
@@ -397,6 +399,8 @@ extension Match {
         playerTwoServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsWon)
         playerOneBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsPlayed)
         playerTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsPlayed)
+        playerOneBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsWon)
+        playerTwoBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsWon)
     }
 }
 
