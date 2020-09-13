@@ -117,6 +117,18 @@ struct Match: Codable {
         }
         self.numberOfSetsToWin = format.minimumSetsToWinMatch
         sets = [Set(format: self.format)]
+        
+        playerOneServicePointsPlayed = 0
+        playerTwoServicePointsPlayed = 0
+        
+        playerOneServicePointsWon = 0
+        playerTwoServicePointsWon = 0
+        
+        playerOneBreakPointsPlayed = 0
+        playerTwoBreakPointsPlayed = 0
+        
+        playerOneBreakPointsWon = 0
+        playerTwoBreakPointsWon = 0
     }
     
     // MARK: - Methods
