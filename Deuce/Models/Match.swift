@@ -15,7 +15,11 @@ struct Match: Codable {
     var playerOneName: String?
     var playerTwoName: String?
     
-    var servicePlayer: Player!
+    var servicePlayer: Player! {
+        didSet {
+            currentSet.currentGame.currentPoint.servicePlayer = servicePlayer
+        }
+    }
     
     var returningPlayer: Player! {
         switch servicePlayer {
@@ -77,17 +81,31 @@ struct Match: Codable {
         return false
     }
     
-    var playerOneServicePointsPlayed = 0
-    var playerTwoServicePointsPlayed = 0
+    var playerOneServicePointsPlayed: Int!
+    var playerTwoServicePointsPlayed: Int!
     
-    var playerOneServicePointsWon = 0
-    var playerTwoServicePointsWon = 0
+    var playerOneServicePointsWon: Int!
+    var playerTwoServicePointsWon: Int!
     
-    var playerOneBreakPointsPlayed = 0
-    var playerTwoBreakPointsPlayed = 0
+    var playerOneBreakPointsPlayed: Int!
+    var playerTwoBreakPointsPlayed: Int!
     
-    var playerOneTiebreaksWon = 0
-    var playerTwoTiebreaksWon = 0
+    var playerOneBreakPointsWon: Int!
+    var playerTwoBreakPointsWon: Int!
+    
+    var allPointsPlayed: [Point] {
+        get {
+            var allPointsPlayed = [Point]()
+            for set in sets {
+                for game in set.games {
+                    for point in game.points where point.winner != nil {
+                        allPointsPlayed.append(point)
+                    }
+                }
+            }
+            return allPointsPlayed
+        }
+    }
     
     // MARK: - Initialization
     init(format: Format) {
@@ -99,6 +117,18 @@ struct Match: Codable {
         }
         self.numberOfSetsToWin = format.minimumSetsToWinMatch
         sets = [Set(format: self.format)]
+        
+        playerOneServicePointsPlayed = 0
+        playerTwoServicePointsPlayed = 0
+        
+        playerOneServicePointsWon = 0
+        playerTwoServicePointsWon = 0
+        
+        playerOneBreakPointsPlayed = 0
+        playerTwoBreakPointsPlayed = 0
+        
+        playerOneBreakPointsWon = 0
+        playerTwoBreakPointsWon = 0
     }
     
     // MARK: - Methods
@@ -155,7 +185,7 @@ struct Match: Codable {
     
     mutating func stop() {
         date = Date()
-        updateStatistics()
+        calculateStatistics()
     }
     
     /// Updates the state of the service player and side of the court which they are serving on.
@@ -190,14 +220,6 @@ struct Match: Codable {
         case .none:
             break
         }
-    }
-    
-    /// Receiving player is one point away from winning the game.
-    func isBreakPoint() -> Bool {
-        if let playerWithGamePoint = currentSet.currentGame.playerWithGamePoint() {
-            return playerWithGamePoint == returningPlayer
-        }
-        return false
     }
     
     mutating func startSupertiebreak() {
@@ -248,17 +270,7 @@ struct Match: Codable {
         }
     }
     
-    // MARK: Statistics
-    
-    func totalBreakPointsPlayed(for player: Player) -> Int {
-        var totalBreakPointsPlayed = 0
-        for snapshot in undoStack.items {
-            if snapshot.isBreakPoint() && snapshot.servicePlayer == player {
-                totalBreakPointsPlayed += 1
-            }
-        }
-        return totalBreakPointsPlayed
-    }
+    // MARK: - Statistics
     
     func totalPointsWon(by player: Player) -> Int {
         var totalPointsWon = 0
@@ -288,34 +300,64 @@ struct Match: Codable {
         return totalGamesWon
     }
     
-    private mutating func updateStatistics() {
-        updateServicePointsPlayed()
-        updateBreakPointsPlayed()
+    private mutating func calculateStatistics() {
+        calculateServicePointsWon()
+        calculateServicePointsPlayed()
+        calculateBreakPointsWon()
+        calculateBreakPointsPlayed()
     }
     
-    private mutating func updateServicePointsPlayed() {
-        for snapshot in undoStack.items {
-            switch snapshot.servicePlayer {
-            case .playerOne:
-                self.playerOneServicePointsPlayed += 1
-            case .playerTwo:
-                self.playerTwoServicePointsPlayed += 1
+    private mutating func calculateServicePointsWon() {
+        for point in allPointsPlayed {
+            switch (point.servicePlayer, point.winner) {
+            case (.playerOne, .playerOne):
+                self.playerOneServicePointsWon += 1
+            case (.playerTwo, .playerTwo):
+                self.playerTwoServicePointsWon += 1
             default:
                 break
             }
         }
     }
     
-    private mutating func updateBreakPointsPlayed() {
-        for snapshot in undoStack.items {
-            if snapshot.isBreakPoint() {
-                switch snapshot.servicePlayer {
-                case .playerOne:
-                    self.playerOneBreakPointsPlayed += 1
-                case .playerTwo:
-                    self.playerTwoBreakPointsPlayed += 1
-                default:
-                    break
+    private mutating func calculateServicePointsPlayed() {
+        for point in allPointsPlayed {
+            switch point.servicePlayer {
+            case .playerOne:
+                playerOneServicePointsPlayed += 1
+            case .playerTwo:
+                playerTwoServicePointsPlayed += 1
+            default:
+                break
+            }
+        }
+    }
+    
+    private mutating func calculateBreakPointsWon() {
+        for point in allPointsPlayed where point.isBreakpoint {
+            switch (point.winner, point.returningPlayer) {
+            case (.playerOne, .playerOne):
+                playerOneBreakPointsWon += 1
+            case (.playerTwo, .playerTwo):
+                playerTwoBreakPointsWon += 1
+            default:
+                break
+            }
+        }
+    }
+    
+    private mutating func calculateBreakPointsPlayed() {
+        for set in sets {
+            for game in set.games {
+                for point in game.points where point.isBreakpoint {
+                    switch (point.returningPlayer!, game.playerWithGamePoint()) {
+                    case (.playerOne, .playerOne):
+                        playerOneBreakPointsPlayed += 1
+                    case (.playerTwo, .playerTwo):
+                        playerTwoBreakPointsPlayed += 1
+                    default:
+                        break
+                    }
                 }
             }
         }
@@ -338,8 +380,8 @@ extension Match {
         case playerTwoServicePointsWon
         case playerOneBreakPointsPlayed
         case playerTwoBreakPointsPlayed
-        case playerOneTiebreaksWon
-        case playerTwoTiebreaksWon
+        case playerOneBreakPointsWon
+        case playerTwoBreakPointsWon
     }
     
     init(from decoder: Decoder) throws {
@@ -351,14 +393,14 @@ extension Match {
         numberOfSetsToWin = try container.decode(Int.self, forKey: .numberOfSetsToWin)
         playerOneName = try container.decodeIfPresent(String.self, forKey: .playerOneName)
         playerTwoName = try container.decodeIfPresent(String.self, forKey: .playerTwoName)
-        playerOneServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsPlayed) ?? 0
-        playerTwoServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsPlayed) ?? 0
-        playerOneServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsWon) ?? 0
-        playerTwoServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsWon) ?? 0
-        playerOneBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsPlayed) ?? 0
-        playerTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsPlayed) ?? 0
-        playerOneTiebreaksWon = try container.decodeIfPresent(Int.self, forKey: .playerOneTiebreaksWon) ?? 0
-        playerTwoTiebreaksWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoTiebreaksWon) ?? 0
+        playerOneServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsPlayed)
+        playerTwoServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsPlayed)
+        playerOneServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsWon)
+        playerTwoServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsWon)
+        playerOneBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsPlayed)
+        playerTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsPlayed)
+        playerOneBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsWon)
+        playerTwoBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsWon)
     }
 }
 

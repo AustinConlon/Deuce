@@ -11,7 +11,7 @@ import SwiftUI
 struct InitialView: View {
     var body: some View {
         FormatList { MatchView(match: Match(format: $0)) }
-            .environmentObject(UserData())
+        .environmentObject(UserData())
     }
 }
 

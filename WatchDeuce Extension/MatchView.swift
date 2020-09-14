@@ -21,12 +21,12 @@ struct MatchView: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 PlayerTwo(match: self.$match)
-                .frame(maxHeight: geometry.size.height / 2)
+                .frame(height: geometry.size.height / 2)
                 
                 Divider()
                 
                 PlayerOne(match: self.$match)
-                .frame(maxHeight: geometry.size.height / 2)
+                .frame(height: geometry.size.height / 2)
             }
             
             HStack {
@@ -52,7 +52,11 @@ struct MatchView: View {
                 }
             }
             
-            NavigationLink(destination: FormatList { MatchView(match: Match(format: $0)) }.onAppear() {
+            NavigationLink(destination: FormatList {
+                MatchView(match: Match(format: $0))
+            }
+            .environmentObject(userData)
+            .onAppear() {
                 self.match.stop()
                 self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
             }) {
@@ -66,11 +70,11 @@ struct MatchView: View {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     self.match.servicePlayer = .playerOne
-                    self.userData.workout.start()
+                    self.userData.workout.startWorkout()
                 },
                   secondaryButton: .default(Text("Opponent")) {
                     self.match.servicePlayer = .playerTwo
-                    self.userData.workout.start()
+                    self.userData.workout.startWorkout()
                 })
         }
     }
@@ -91,7 +95,7 @@ struct MatchView: View {
         }
         if match.isMatchPoint() { return "Match Point" }
         if match.currentSet.isSetPoint() { return "Set Point" }
-        if match.isBreakPoint() { return "Break Point" }
+        if match.currentSet.currentGame.currentPoint.isBreakpoint { return "Break Point" }
         return ""
     }
 }
@@ -118,20 +122,19 @@ struct PlayerTwo: View {
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
                     .fontWeight(.medium)
+                    .foregroundColor(.blue)
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
                             Text(set.getScore(for: .playerTwo))
                         }
                     }
-                    .foregroundColor(.primary)
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(.default)
                 }
                 .frame(height: geometry.size.height)
             }
-            .accentColor(.blue)
         }
     }
     
@@ -196,13 +199,13 @@ struct PlayerOne: View {
                             Text(set.getScore(for: .playerOne))
                         }
                     }
-                    .foregroundColor(.primary)
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(.default)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerOneMedal() : self.playerOneGameScore()))
-                        .fontWeight(.medium)
+                    .fontWeight(.medium)
+                    .foregroundColor(.blue)
                     
                     HStack(alignment: .bottom) {
                         self.playerOneServiceImage()
@@ -215,7 +218,6 @@ struct PlayerOne: View {
                 }
                 .frame(height: geometry.size.height)
             }
-            .accentColor(.blue)
         }
     }
     
