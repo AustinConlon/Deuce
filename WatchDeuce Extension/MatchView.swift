@@ -42,30 +42,30 @@ struct MatchView: View {
         .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
-        .contextMenu {
-            Button(action: {
-                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
-            }) {
-                VStack {
-                    Image(systemName: "arrow.counterclockwise")
-                    Text("Undo")
-                }
-            }
-            
-            NavigationLink(destination: FormatList {
-                MatchView(match: Match(format: $0))
-            }
-            .environmentObject(userData)
-            .onAppear() {
-                self.match.stop()
-                self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
-            }) {
-                VStack {
-                    Image(systemName: "archivebox.fill")
-                    Text("End Match")
-                }
-            }
-        }
+//        .contextMenu {
+//            Button(action: {
+//                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
+//            }) {
+//                VStack {
+//                    Image(systemName: "arrow.counterclockwise")
+//                    Text("Undo")
+//                }
+//            }
+//            
+//            NavigationLink(destination: FormatList {
+//                MatchView(match: Match(format: $0))
+//            }
+//            .environmentObject(userData)
+//            .onAppear() {
+//                self.match.stop()
+//                self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
+//            }) {
+//                VStack {
+//                    Image(systemName: "archivebox.fill")
+//                    Text("End Match")
+//                }
+//            }
+//        }
         .alert(isPresented: $singlesServiceAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {

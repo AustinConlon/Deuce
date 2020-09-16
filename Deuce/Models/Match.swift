@@ -107,6 +107,26 @@ struct Match: Codable {
         }
     }
     
+    var teamOnePointsWon: Int {
+        var teamOnePointsWon = 0
+        for point in allPointsPlayed {
+            if point.winner == .playerOne {
+                teamOnePointsWon += 1
+            }
+        }
+        return teamOnePointsWon
+    }
+    
+    var teamTwoPointsWon: Int {
+        var teamTwoPointsWon = 0
+        for point in allPointsPlayed {
+            if point.winner == .playerTwo {
+                teamTwoPointsWon += 1
+            }
+        }
+        return teamTwoPointsWon
+    }
+    
     // MARK: - Initialization
     init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!
@@ -271,21 +291,6 @@ struct Match: Codable {
     }
     
     // MARK: - Statistics
-    
-    func totalPointsWon(by player: Player) -> Int {
-        var totalPointsWon = 0
-        for set in sets {
-            for game in set.games {
-                switch player {
-                case .playerOne:
-                    totalPointsWon += game.pointsWon[0]
-                case .playerTwo:
-                    totalPointsWon += game.pointsWon[1]
-                }
-            }
-        }
-        return totalPointsWon
-    }
     
     func totalGamesWon(by player: Player) -> Int {
         var totalGamesWon = 0
