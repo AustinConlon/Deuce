@@ -109,6 +109,7 @@ struct Match: Codable {
     
     var teamOnePointsWon: Int {
         var teamOnePointsWon = 0
+        
         for point in allPointsPlayed {
             if point.winner == .playerOne {
                 teamOnePointsWon += 1

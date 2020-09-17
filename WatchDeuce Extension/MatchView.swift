@@ -30,42 +30,40 @@ struct MatchView: View {
             }
             
             HStack {
-                Image(systemName: "arrow.down").padding()
-                Spacer()
-                Image(systemName: "arrow.up").padding()
+                Button(action: {
+                    self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
+                }) {
+                    Image(systemName: "arrow.counterclockwise.circle.fill")
+                }
+                .frame(width: 44, height: 44)
+                
+                Group {
+                    Image(systemName: "arrow.down")
+                    Spacer()
+                    Image(systemName: "arrow.up")
+                }
+                .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .primary : .clear)
+                .font(.headline)
+                
+                NavigationLink(destination: FormatList {
+                    MatchView(match: Match(format: $0))
+                }
+                .environmentObject(userData)
+                .onAppear() {
+                    self.match.stop()
+                    self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
+                }) {
+                    Image(systemName: "stop.circle.fill")
+                }
+                .frame(width: 44, height: 44)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
-            .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
+            .frame(height: geometry.size.height)
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
         .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
-//        .contextMenu {
-//            Button(action: {
-//                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
-//            }) {
-//                VStack {
-//                    Image(systemName: "arrow.counterclockwise")
-//                    Text("Undo")
-//                }
-//            }
-//            
-//            NavigationLink(destination: FormatList {
-//                MatchView(match: Match(format: $0))
-//            }
-//            .environmentObject(userData)
-//            .onAppear() {
-//                self.match.stop()
-//                self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
-//            }) {
-//                VStack {
-//                    Image(systemName: "archivebox.fill")
-//                    Text("End Match")
-//                }
-//            }
-//        }
         .alert(isPresented: $singlesServiceAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {

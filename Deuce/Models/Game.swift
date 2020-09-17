@@ -127,10 +127,12 @@ struct Game: Codable, Hashable {
 extension Game {
     enum CodingKeys: String, CodingKey {
         case pointsWon = "score"
+        case points
     }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         pointsWon = try values.decode(Array.self, forKey: .pointsWon)
+        points = try values.decodeIfPresent(Array.self, forKey: .points) ?? [Point]()
     }
 }
