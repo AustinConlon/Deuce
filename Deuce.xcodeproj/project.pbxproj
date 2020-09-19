@@ -55,6 +55,7 @@
 		FBABCBD6240BAACA00A589DA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB3AA163240BA3BF0090B894 /* Localizable.strings */; };
 		FBC3466124656BD6005BD3E3 /* MatchDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC3466024656BD6005BD3E3 /* MatchDetail.swift */; };
 		FBE56FFB2208571A00042188 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBE56FFA2208571A00042188 /* HealthKit.framework */; };
+		FBEFBF3D2515E20600E8E14A /* MatchMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEFBF3C2515E20600E8E14A /* MatchMenu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +176,7 @@
 		FBC3466024656BD6005BD3E3 /* MatchDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetail.swift; sourceTree = "<group>"; };
 		FBCB6E8823167FB0006CCF68 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		FBE56FFA2208571A00042188 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		FBEFBF3C2515E20600E8E14A /* MatchMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,6 +325,7 @@
 				FB7CD14E23EF8ED400EB4D04 /* FormatList.swift */,
 				FB00DDF423F23C15008751D2 /* FormatRow.swift */,
 				FB7A6A0023E99BD60065046E /* MatchView.swift */,
+				FBEFBF3C2515E20600E8E14A /* MatchMenu.swift */,
 				FB6DAA092210284400949669 /* WorkoutManager.swift */,
 				FB7A6A0223E99BD60065046E /* HostingController.swift */,
 				FB7A6A0423E99BD60065046E /* ExtensionDelegate.swift */,
@@ -599,6 +602,7 @@
 				FB7A6A0123E99BD60065046E /* MatchView.swift in Sources */,
 				FB1FDB4923FA782500CE03B1 /* Game.swift in Sources */,
 				FB68051423FFA18200735BE3 /* WorkoutManager.swift in Sources */,
+				FBEFBF3D2515E20600E8E14A /* MatchMenu.swift in Sources */,
 				FB7A6A1823E99EB40065046E /* Match.swift in Sources */,
 				FB4E49FE2430B2A40027B91A /* CloudController.swift in Sources */,
 				FB52F95223F2476C00AAC1FB /* InitialView.swift in Sources */,
@@ -798,7 +802,7 @@
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.30;
+				MARKETING_VERSION = 3.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -820,7 +824,7 @@
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.30;
+				MARKETING_VERSION = 3.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -881,7 +885,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "WatchDeuce Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 3.30;
+				MARKETING_VERSION = 3.31;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp.watchkitextension;
@@ -912,7 +916,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "WatchDeuce Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 3.30;
+				MARKETING_VERSION = 3.31;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -942,7 +946,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				IBSC_MODULE = WatchDeuce_Extension;
 				INFOPLIST_FILE = WatchDeuce/Info.plist;
-				MARKETING_VERSION = 3.30;
+				MARKETING_VERSION = 3.31;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp;
@@ -973,7 +977,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				IBSC_MODULE = WatchDeuce_Extension;
 				INFOPLIST_FILE = WatchDeuce/Info.plist;
-				MARKETING_VERSION = 3.30;
+				MARKETING_VERSION = 3.31;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

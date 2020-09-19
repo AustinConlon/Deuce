@@ -58,6 +58,8 @@ struct MatchView: View {
                 .frame(width: 44, height: 44)
             }
             .frame(height: geometry.size.height)
+            
+            Image(systemName: "ellipsis.menu")
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
