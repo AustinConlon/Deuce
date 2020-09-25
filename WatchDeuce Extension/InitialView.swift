@@ -9,15 +9,17 @@
 import SwiftUI
 
 struct InitialView: View {
+    @State var matchInProgress = false
+    
     var body: some View {
-        FormatList { MatchView(match: Match(format: $0)) }
+        FormatList(matchInProgress: $matchInProgress) { MatchView(match: Match(format: $0), matchInProgress: $matchInProgress) }
         .environmentObject(UserData())
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        FormatList { MatchView(match: Match(format: $0)) }
+        FormatList(matchInProgress: .constant(false)) { MatchView(match: Match(format: $0), matchInProgress: .constant(false)) }
         .environmentObject(UserData())
     }
 }
