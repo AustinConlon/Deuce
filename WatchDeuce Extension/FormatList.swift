@@ -20,8 +20,7 @@ struct FormatList<MatchView: View>: View {
             ForEach(userData.formats) { format in
                 NavigationLink(
                 destination:
-                self.matchViewProducer(format).environmentObject(self.userData),
-                isActive: $matchInProgress) {
+                self.matchViewProducer(format).environmentObject(self.userData)) {
                     FormatRow(format: format)
                 }
             }

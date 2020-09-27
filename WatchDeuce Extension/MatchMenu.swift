@@ -19,6 +19,8 @@ struct MatchMenu: View {
     
     @Binding var matchInProgress: Bool
     
+    @Binding var showingInitialView: Bool
+    
     var body: some View {
         VStack(alignment: .leading) {
             Button(action: {
@@ -32,19 +34,9 @@ struct MatchMenu: View {
             }
             .padding(.vertical)
             
-//            NavigationLink(destination: InitialView()
-//            .environmentObject(userData)
-//            .onAppear() {
-//                match.stop()
-//                cloudController.uploadToCloud(match: self.$match.wrappedValue)
-//            }) {
-//                Label("End", systemImage: "xmark.circle.fill")
-//                    .foregroundColor(.red)
-//            }
-//            .padding(.vertical)
             Button(action: {
-                matchInProgress.toggle()
-                showingMatchMenu.toggle()
+                showingMatchMenu = false
+                showingInitialView = true
             }) {
                 Label("End", systemImage: "xmark.circle.fill")
                     .foregroundColor(.red)
@@ -58,6 +50,6 @@ struct MatchMenu: View {
 
 struct MatchMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MatchMenu(match: .constant(Match.random()), singlesServiceAlert: .constant(false), showingMatchMenu: .constant(true), cloudController: .constant(CloudController()), matchInProgress: .constant(true))
+        MatchMenu(match: .constant(Match.random()), singlesServiceAlert: .constant(false), showingMatchMenu: .constant(true), cloudController: .constant(CloudController()), matchInProgress: .constant(true), showingInitialView: .constant(false))
     }
 }

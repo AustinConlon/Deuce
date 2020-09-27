@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Format: Codable, Identifiable {
+struct Format: Codable, Identifiable, Hashable {
     var id: Int
     var name: String
     var minimumSetsToWinMatch: Int

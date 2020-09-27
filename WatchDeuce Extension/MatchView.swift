@@ -20,6 +20,8 @@ struct MatchView: View {
     
     @Binding var matchInProgress: Bool
     
+    @State var showingInitialView = false
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
@@ -33,20 +35,14 @@ struct MatchView: View {
             }
             
             HStack {
-                Button(action: {
-                    matchInProgress.toggle()
-                }) {
-                    Image(systemName: "stop.circle.fill")
-                        .font(.title)
-                }
-                .buttonStyle(PlainButtonStyle())
+                NavigationLink(destination: InitialView()
                 .environmentObject(userData)
                 .onAppear() {
-                    self.match.stop()
-                    self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
+                    match.stop()
+                    cloudController.uploadToCloud(match: self.$match.wrappedValue)
+                }, isActive: $showingInitialView) {
+                    EmptyView()
                 }
-                .buttonStyle(PlainButtonStyle())
-                .disabled(false)
                 
                 Group {
                     Image(systemName: "arrow.down")
@@ -62,9 +58,9 @@ struct MatchView: View {
                         .foregroundColor(.secondary)
                         .font(.title)
                 }
-                .buttonStyle(PlainButtonStyle())
             }
             .frame(height: geometry.size.height)
+            .buttonStyle(PlainButtonStyle())
             
             VStack {
                 Spacer()
@@ -92,7 +88,7 @@ struct MatchView: View {
                 })
         }
         .sheet(isPresented: $showingMatchMenu) {
-            MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, cloudController: $cloudController, matchInProgress: $matchInProgress)
+            MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, cloudController: $cloudController, matchInProgress: $matchInProgress, showingInitialView: $showingInitialView)
         }
     }
     
@@ -135,7 +131,7 @@ struct PlayerTwo: View {
                     }
                     .foregroundColor(self.match.servicePlayer == .playerTwo && match.state == .playing ? .green : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
-                    .animation(self.match.currentSet.currentGame.pointsPlayed >= 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
+                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
                     .fontWeight(.medium)
