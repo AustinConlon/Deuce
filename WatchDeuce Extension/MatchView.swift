@@ -14,58 +14,68 @@ struct MatchView: View {
     @State var match: Match
     @State var singlesServiceAlert = true
     @State var showingNamesSheet = false
+    @State var showingMatchMenu = false
     
-    var cloudController = CloudController()
+    @State var cloudController = CloudController()
+    
+    @Binding var matchInProgress: Bool
+    
+    @State var showingInitialView = false
     
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 PlayerTwo(match: self.$match)
-                .frame(height: geometry.size.height / 2)
+                .frame(maxHeight: geometry.size.height / 2)
                 
                 Divider()
                 
                 PlayerOne(match: self.$match)
-                .frame(height: geometry.size.height / 2)
+                .frame(maxHeight: geometry.size.height / 2)
             }
             
             HStack {
-                Image(systemName: "arrow.down").padding()
+                NavigationLink(destination: InitialView()
+                .environmentObject(userData)
+                .onAppear() {
+                    match.stop()
+                    cloudController.uploadToCloud(match: self.$match.wrappedValue)
+                }, isActive: $showingInitialView) {
+                    EmptyView()
+                }
+                
+                Group {
+                    Image(systemName: "arrow.down")
+                    Spacer()
+                    Image(systemName: "arrow.up")
+                }
+                .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
+                
+                Button(action: {
+                    showingMatchMenu.toggle()
+                }) {
+                    Image(systemName: "ellipsis.circle.fill")
+                        .foregroundColor(.gray)
+                        .font(.title)
+                }
+            }
+            .frame(height: geometry.size.height)
+            .buttonStyle(PlainButtonStyle())
+            
+            VStack {
                 Spacer()
-                Image(systemName: "arrow.up").padding()
+                HStack {
+                    Spacer()
+                    
+                    .buttonStyle(PlainButtonStyle())
+                }
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
-            .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
         }
         .font(.largeTitle)
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
-        .disabled(match.state == .finished ? true : false)
         .edgesIgnoringSafeArea(.bottom)
-        .contextMenu {
-            Button(action: {
-                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
-            }) {
-                VStack {
-                    Image(systemName: "arrow.counterclockwise")
-                    Text("Undo")
-                }
-            }
-            
-            NavigationLink(destination: FormatList {
-                MatchView(match: Match(format: $0))
-            }
-            .environmentObject(userData)
-            .onAppear() {
-                self.match.stop()
-                self.cloudController.uploadToCloud(match: self.$match.wrappedValue)
-            }) {
-                VStack {
-                    Image(systemName: "archivebox.fill")
-                    Text("End Match")
-                }
-            }
-        }
         .alert(isPresented: $singlesServiceAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
@@ -76,6 +86,9 @@ struct MatchView: View {
                     self.match.servicePlayer = .playerTwo
                     self.userData.workout.startWorkout()
                 })
+        }
+        .sheet(isPresented: $showingMatchMenu) {
+            MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, cloudController: $cloudController, matchInProgress: $matchInProgress, showingInitialView: $showingInitialView)
         }
     }
     
@@ -116,7 +129,7 @@ struct PlayerTwo: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     }
-                    .foregroundColor(self.match.servicePlayer == .playerTwo ? .secondary : .clear)
+                    .foregroundColor(self.match.servicePlayer == .playerTwo && match.state == .playing ? .green : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
                     .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
@@ -131,10 +144,11 @@ struct PlayerTwo: View {
                     }
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
-                    .animation(.default)
+                    .animation(match.allPointsPlayed.count > 0 ? .default : .none)
                 }
                 .frame(height: geometry.size.height)
             }
+            .disabled(match.state == .finished ? true : false)
         }
     }
     
@@ -194,30 +208,31 @@ struct PlayerOne: View {
                 WKInterfaceDevice.current().play(self.match.isChangeover() ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
-                    HStack() {
+                    HStack {
                         ForEach(self.match.sets, id: \.self) { set in
                             Text(set.getScore(for: .playerOne))
                         }
                     }
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
-                    .animation(.default)
+                    .animation(match.allPointsPlayed.count > 0 ? .default : .none)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerOneMedal() : self.playerOneGameScore()))
                     .fontWeight(.medium)
                     .foregroundColor(.blue)
                     
-                    HStack(alignment: .bottom) {
+                    ZStack {
                         self.playerOneServiceImage()
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     }
-                    .foregroundColor(self.match.servicePlayer == .playerOne ? .green : .clear)
+                    .foregroundColor(self.match.servicePlayer == .playerOne && match.state == .playing ? .green : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerOneServiceAlignment())
                     .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                 }
                 .frame(height: geometry.size.height)
             }
+            .disabled(match.state == .finished ? true : false)
         }
     }
     
@@ -271,12 +286,9 @@ struct MatchView_Previews: PreviewProvider {
         let userData = UserData()
         let format = userData.formats[0]
         return Group {
-            MatchView(match: Match(format: format))
+            MatchView(match: Match(format: format), matchInProgress: .constant(true))
                 .environmentObject(userData)
                 .environment(\.locale, .init(identifier: "en"))
-//            MatchView(match: Match(format: format))
-//                .environmentObject(userData)
-//                .environment(\.locale, .init(identifier: "fr"))
         }
     }
 }

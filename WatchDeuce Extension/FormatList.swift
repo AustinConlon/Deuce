@@ -11,6 +11,8 @@ import SwiftUI
 struct FormatList<MatchView: View>: View {
     @EnvironmentObject private var userData: UserData
     
+    @Binding var matchInProgress: Bool
+    
     let matchViewProducer: (Format) -> MatchView
     
     var body: some View {
@@ -34,12 +36,9 @@ struct FormatList<MatchView: View>: View {
 struct FormatsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            FormatList { MatchView(match: Match(format: $0)) }
+            FormatList(matchInProgress: .constant(false)) { MatchView(match: Match(format: $0), matchInProgress: .constant(true)) }
                 .environmentObject(UserData())
                 .environment(\.locale, .init(identifier: "en"))
-            FormatList { MatchView(match: Match(format: $0)) }
-                .environmentObject(UserData())
-                .environment(\.locale, .init(identifier: "fr"))
         }
     }
 }

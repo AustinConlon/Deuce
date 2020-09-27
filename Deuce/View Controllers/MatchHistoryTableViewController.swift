@@ -278,6 +278,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             textField.autocapitalizationType = .words
             textField.returnKeyType = .done
             textField.clearButtonMode = .whileEditing
+            textField.textContentType = .name
             
             if let playerOneName = self.matches[indexPath.row].playerOneName {
                 textField.text = playerOneName

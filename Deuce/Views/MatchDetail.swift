@@ -15,7 +15,7 @@ struct MatchDetail: View {
         NavigationView {
             ScrollView {
                 HStack {
-                    Image(systemName: "calendar")
+                    Image(systemName: "calendar.circle.fill")
                     Text(date())
                 }
                 
@@ -42,7 +42,7 @@ struct MatchDetail: View {
                 
                 HStack() {
                     VStack {
-                        Text(String(match.totalPointsWon(by: .playerOne)))
+                        Text(String(match.teamOnePointsWon))
                         Text(String(match.totalGamesWon(by: .playerOne)))
                         Text("\(playerOneBreakPointsWon)/\(playerOneBreakPointsPlayed)")
                         Text("\(playerOneServicePointsWon)/\(playerOneServicePointsPlayed)")
@@ -64,7 +64,7 @@ struct MatchDetail: View {
                     Spacer()
                     
                     VStack {
-                        Text(String(match.totalPointsWon(by: .playerTwo)))
+                        Text(String(match.teamTwoPointsWon))
                         Text(String(match.totalGamesWon(by: .playerTwo)))
                         Text("\(playerTwoBreakPointsWon)/\(playerTwoBreakPointsPlayed)")
                         Text("\(playerTwoServicePointsWon)/\(playerTwoServicePointsPlayed)")
