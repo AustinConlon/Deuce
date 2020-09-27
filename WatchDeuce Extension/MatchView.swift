@@ -55,7 +55,7 @@ struct MatchView: View {
                     showingMatchMenu.toggle()
                 }) {
                     Image(systemName: "ellipsis.circle.fill")
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.gray)
                         .font(.title)
                 }
             }
