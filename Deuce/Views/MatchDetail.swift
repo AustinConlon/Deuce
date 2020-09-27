@@ -15,7 +15,7 @@ struct MatchDetail: View {
         NavigationView {
             ScrollView {
                 HStack {
-                    Image(systemName: "calendar")
+                    Image(systemName: "calendar.circle.fill")
                     Text(date())
                 }
                 

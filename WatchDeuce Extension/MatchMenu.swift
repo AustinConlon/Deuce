@@ -23,7 +23,9 @@ struct MatchMenu: View {
         VStack(alignment: .leading) {
             Button(action: {
                 showingMatchMenu.toggle()
-                self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.match.undoStack.items.count >= 1 ? self.match.undo() : self.singlesServiceAlert.toggle()
+                }
             }) {
                 Label("Undo", systemImage: "arrow.counterclockwise.circle.fill")
                     .foregroundColor(.blue)

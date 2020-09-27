@@ -135,7 +135,7 @@ struct PlayerTwo: View {
                     }
                     .foregroundColor(self.match.servicePlayer == .playerTwo && match.state == .playing ? .green : .clear)
                     .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
-                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
+                    .animation(self.match.currentSet.currentGame.pointsPlayed >= 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
                     .fontWeight(.medium)
