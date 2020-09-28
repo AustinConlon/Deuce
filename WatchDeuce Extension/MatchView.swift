@@ -18,8 +18,6 @@ struct MatchView: View {
     
     @State var cloudController = CloudController()
     
-    @Binding var matchInProgress: Bool
-    
     @State var showingInitialView = false
     
     var body: some View {
@@ -35,7 +33,7 @@ struct MatchView: View {
             }
             
             HStack {
-                NavigationLink(destination: InitialView()
+                NavigationLink(destination: FormatList() { MatchView(match: Match(format: $0)) }
                 .environmentObject(userData)
                 .onAppear() {
                     match.stop()
@@ -88,7 +86,7 @@ struct MatchView: View {
                 })
         }
         .sheet(isPresented: $showingMatchMenu) {
-            MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, cloudController: $cloudController, matchInProgress: $matchInProgress, showingInitialView: $showingInitialView)
+            MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, showingInitialView: $showingInitialView)
         }
     }
     
@@ -286,7 +284,7 @@ struct MatchView_Previews: PreviewProvider {
         let userData = UserData()
         let format = userData.formats[0]
         return Group {
-            MatchView(match: Match(format: format), matchInProgress: .constant(true))
+            MatchView(match: Match(format: format))
                 .environmentObject(userData)
                 .environment(\.locale, .init(identifier: "en"))
         }
