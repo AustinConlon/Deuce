@@ -43,9 +43,8 @@ struct MatchView: View {
                 }
                 
                 Group {
-                    Image(systemName: "arrow.down")
+                    Image(systemName: "arrow.up.arrow.down")
                     Spacer()
-                    Image(systemName: "arrow.up")
                 }
                 .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
                 
@@ -53,7 +52,7 @@ struct MatchView: View {
                     showingMatchMenu.toggle()
                 }) {
                     Image(systemName: "ellipsis.circle.fill")
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color(.gray))
                         .font(.title)
                 }
             }
@@ -70,7 +69,7 @@ struct MatchView: View {
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
-        .font(.largeTitle)
+        .font(.system(.largeTitle, design: .rounded))
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
         .edgesIgnoringSafeArea(.bottom)
@@ -132,8 +131,7 @@ struct PlayerTwo: View {
                     .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
-                    .fontWeight(.medium)
-                    .foregroundColor(.blue)
+                    .fontWeight(.semibold)
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
@@ -143,10 +141,12 @@ struct PlayerTwo: View {
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(match.allPointsPlayed.count > 0 ? .default : .none)
+                    .foregroundColor(.primary)
                 }
                 .frame(height: geometry.size.height)
             }
             .disabled(match.state == .finished ? true : false)
+            .buttonStyle(BorderedButtonStyle(tint: .blue))
         }
     }
     
@@ -214,10 +214,10 @@ struct PlayerOne: View {
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(match.allPointsPlayed.count > 0 ? .default : .none)
+                    .foregroundColor(.primary)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerOneMedal() : self.playerOneGameScore()))
-                    .fontWeight(.medium)
-                    .foregroundColor(.blue)
+                    .fontWeight(.semibold)
                     
                     ZStack {
                         self.playerOneServiceImage()
@@ -231,6 +231,7 @@ struct PlayerOne: View {
                 .frame(height: geometry.size.height)
             }
             .disabled(match.state == .finished ? true : false)
+            .buttonStyle(BorderedButtonStyle(tint: .blue))
         }
     }
     
