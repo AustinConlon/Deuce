@@ -288,6 +288,10 @@ struct MatchView_Previews: PreviewProvider {
             MatchView(match: Match(format: format))
                 .environmentObject(userData)
                 .environment(\.locale, .init(identifier: "en"))
+            
+            MatchView(match: Match(format: format))
+                .environmentObject(userData)
+                .environment(\.locale, .init(identifier: "fr"))
         }
     }
 }

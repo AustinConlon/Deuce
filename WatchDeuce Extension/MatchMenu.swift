@@ -34,7 +34,7 @@ struct MatchMenu: View {
                 showingMatchMenu = false
                 showingInitialView = true
             }) {
-                Label("End Match", systemImage: "xmark.circle.fill")
+                Label("End", systemImage: "xmark.circle.fill")
                     .foregroundColor(.red)
             }
             .padding(.vertical)
