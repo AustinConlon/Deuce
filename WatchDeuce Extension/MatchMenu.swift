@@ -34,18 +34,24 @@ struct MatchMenu: View {
                 showingMatchMenu = false
                 showingInitialView = true
             }) {
-                Label("End", systemImage: "xmark.circle.fill")
+                Label("End Match", systemImage: "xmark.circle.fill")
                     .foregroundColor(.red)
             }
             .padding(.vertical)
         }
         .buttonStyle(PlainButtonStyle())
-        .font(.title)
+        .font(Font.system(.title2, design: .rounded).bold())
     }
 }
 
 struct MatchMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MatchMenu(match: .constant(Match.random()), singlesServiceAlert: .constant(false), showingMatchMenu: .constant(true), showingInitialView: .constant(false))
+        Group {
+            MatchMenu(match: .constant(Match.random()), singlesServiceAlert: .constant(false), showingMatchMenu: .constant(true), showingInitialView: .constant(false))
+                .environment(\.locale, .init(identifier: "en"))
+            
+            MatchMenu(match: .constant(Match.random()), singlesServiceAlert: .constant(false), showingMatchMenu: .constant(true), showingInitialView: .constant(false))
+                .environment(\.locale, .init(identifier: "fr"))
+        }
     }
 }

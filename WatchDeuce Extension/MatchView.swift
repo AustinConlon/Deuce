@@ -42,19 +42,19 @@ struct MatchView: View {
                     EmptyView()
                 }
                 
-                Group {
-                    Image(systemName: "arrow.up.arrow.down")
-                    Spacer()
-                }
-                .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
-                
                 Button(action: {
                     showingMatchMenu.toggle()
                 }) {
                     Image(systemName: "ellipsis.circle.fill")
-                        .foregroundColor(Color(.gray))
+                        .foregroundColor(Color(.darkGray))
                         .font(.title)
                 }
+                
+                Group {
+                    Spacer()
+                    Image(systemName: "arrow.up.arrow.down")
+                }
+                .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
             }
             .frame(height: geometry.size.height)
             .buttonStyle(PlainButtonStyle())
