@@ -18,8 +18,6 @@ struct MatchView: View {
     
     @State var cloudController = CloudController()
     
-    @Binding var matchInProgress: Bool
-    
     @State var showingInitialView = false
     
     var body: some View {
@@ -35,7 +33,7 @@ struct MatchView: View {
             }
             
             HStack {
-                NavigationLink(destination: InitialView()
+                NavigationLink(destination: FormatList() { MatchView(match: Match(format: $0)) }
                 .environmentObject(userData)
                 .onAppear() {
                     match.stop()
@@ -44,20 +42,19 @@ struct MatchView: View {
                     EmptyView()
                 }
                 
-                Group {
-                    Image(systemName: "arrow.down")
-                    Spacer()
-                    Image(systemName: "arrow.up")
-                }
-                .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
-                
                 Button(action: {
                     showingMatchMenu.toggle()
                 }) {
                     Image(systemName: "ellipsis.circle.fill")
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color(.darkGray))
                         .font(.title)
                 }
+                
+                Group {
+                    Spacer()
+                    Image(systemName: "arrow.up.arrow.down")
+                }
+                .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
             }
             .frame(height: geometry.size.height)
             .buttonStyle(PlainButtonStyle())
@@ -72,7 +69,7 @@ struct MatchView: View {
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
-        .font(.largeTitle)
+        .font(.system(.largeTitle, design: .rounded))
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
         .edgesIgnoringSafeArea(.bottom)
@@ -88,7 +85,7 @@ struct MatchView: View {
                 })
         }
         .sheet(isPresented: $showingMatchMenu) {
-            MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, cloudController: $cloudController, matchInProgress: $matchInProgress, showingInitialView: $showingInitialView)
+            MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, showingInitialView: $showingInitialView)
         }
     }
     
@@ -134,8 +131,7 @@ struct PlayerTwo: View {
                     .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
-                    .fontWeight(.medium)
-                    .foregroundColor(.blue)
+                    .fontWeight(.semibold)
                     
                     HStack {
                         ForEach(self.match.sets, id: \.self) { set in
@@ -145,10 +141,12 @@ struct PlayerTwo: View {
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(match.allPointsPlayed.count > 0 ? .default : .none)
+                    .foregroundColor(.primary)
                 }
                 .frame(height: geometry.size.height)
             }
             .disabled(match.state == .finished ? true : false)
+            .buttonStyle(BorderedButtonStyle(tint: .blue))
         }
     }
     
@@ -216,10 +214,10 @@ struct PlayerOne: View {
                     .font(Font.title.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(match.allPointsPlayed.count > 0 ? .default : .none)
+                    .foregroundColor(.primary)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerOneMedal() : self.playerOneGameScore()))
-                    .fontWeight(.medium)
-                    .foregroundColor(.blue)
+                    .fontWeight(.semibold)
                     
                     ZStack {
                         self.playerOneServiceImage()
@@ -233,6 +231,7 @@ struct PlayerOne: View {
                 .frame(height: geometry.size.height)
             }
             .disabled(match.state == .finished ? true : false)
+            .buttonStyle(BorderedButtonStyle(tint: .blue))
         }
     }
     
@@ -286,9 +285,13 @@ struct MatchView_Previews: PreviewProvider {
         let userData = UserData()
         let format = userData.formats[0]
         return Group {
-            MatchView(match: Match(format: format), matchInProgress: .constant(true))
+            MatchView(match: Match(format: format))
                 .environmentObject(userData)
                 .environment(\.locale, .init(identifier: "en"))
+            
+            MatchView(match: Match(format: format))
+                .environmentObject(userData)
+                .environment(\.locale, .init(identifier: "fr"))
         }
     }
 }

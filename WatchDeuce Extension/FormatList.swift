@@ -9,9 +9,7 @@
 import SwiftUI
 
 struct FormatList<MatchView: View>: View {
-    @EnvironmentObject private var userData: UserData
-    
-    @Binding var matchInProgress: Bool
+    @EnvironmentObject var userData: UserData
     
     let matchViewProducer: (Format) -> MatchView
     
@@ -36,7 +34,7 @@ struct FormatList<MatchView: View>: View {
 struct FormatsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            FormatList(matchInProgress: .constant(false)) { MatchView(match: Match(format: $0), matchInProgress: .constant(true)) }
+            FormatList() { MatchView(match: Match(format: $0)) }
                 .environmentObject(UserData())
                 .environment(\.locale, .init(identifier: "en"))
         }

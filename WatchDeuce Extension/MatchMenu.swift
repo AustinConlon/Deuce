@@ -15,10 +15,6 @@ struct MatchMenu: View {
     @Binding var singlesServiceAlert: Bool
     @Binding var showingMatchMenu: Bool
     
-    @Binding var cloudController: CloudController
-    
-    @Binding var matchInProgress: Bool
-    
     @Binding var showingInitialView: Bool
     
     var body: some View {
@@ -44,12 +40,18 @@ struct MatchMenu: View {
             .padding(.vertical)
         }
         .buttonStyle(PlainButtonStyle())
-        .font(.title)
+        .font(Font.system(.title2, design: .rounded).bold())
     }
 }
 
 struct MatchMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MatchMenu(match: .constant(Match.random()), singlesServiceAlert: .constant(false), showingMatchMenu: .constant(true), cloudController: .constant(CloudController()), matchInProgress: .constant(true), showingInitialView: .constant(false))
+        Group {
+            MatchMenu(match: .constant(Match.random()), singlesServiceAlert: .constant(false), showingMatchMenu: .constant(true), showingInitialView: .constant(false))
+                .environment(\.locale, .init(identifier: "en"))
+            
+            MatchMenu(match: .constant(Match.random()), singlesServiceAlert: .constant(false), showingMatchMenu: .constant(true), showingInitialView: .constant(false))
+                .environment(\.locale, .init(identifier: "fr"))
+        }
     }
 }
