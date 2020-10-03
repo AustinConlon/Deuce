@@ -9,70 +9,79 @@
 import SwiftUI
 
 struct MatchDetail: View {
-    let match: Match
+    var match: Match
+    @State var notes
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                HStack {
-                    Image(systemName: "calendar.circle.fill")
-                    Text(date())
-                }
-                
-                Divider()
-                
-                HStack {
-                    ForEach(match.sets, id: \.self) { set in
-                        VStack {
-                            Text(String(set.gamesWon[1]))
-                            Text(String(set.gamesWon[0]))
-                        }
-                        .font(Font.largeTitle.monospacedDigit())
-                    }
-                }
-                
-                Divider()
-                
-                HStack {
-                    Text(LocalizedStringKey(match.playerOneName ?? "You"))
-                        .frame(maxWidth: .infinity)
-                    Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
-                        .frame(maxWidth: .infinity)
-                }
-                
-                HStack() {
+        VStack {
+            HStack {
+                Image(systemName: "calendar.circle.fill")
+                Text(date())
+            }
+            .padding(.top)
+            
+            Divider()
+            
+            HStack {
+                ForEach(match.sets, id: \.self) { set in
                     VStack {
-                        Text(String(match.teamOnePointsWon))
-                        Text(String(match.totalGamesWon(by: .playerOne)))
-                        Text("\(playerOneBreakPointsWon)/\(playerOneBreakPointsPlayed)")
-                        Text("\(playerOneServicePointsWon)/\(playerOneServicePointsPlayed)")
-                        Text("\(playerOneReturnPointsWon)/\(playerTwoServicePointsPlayed)")
+                        Text(String(set.gamesWon[1]))
+                        Text(String(set.gamesWon[0]))
                     }
-                    .padding(.leading, 10)
-                    
-                    Spacer()
-                    
-                    VStack {
-                        Text("Points Won")
-                        Text("Games Won")
-                        Text("Break Points Won/Played")
-                        Text("Service Points Won/Played")
-                        Text("Return Points Won/Played")
-                    }
-                    .foregroundColor(.secondary)
-                    
-                    Spacer()
-                    
-                    VStack {
-                        Text(String(match.teamTwoPointsWon))
-                        Text(String(match.totalGamesWon(by: .playerTwo)))
-                        Text("\(playerTwoBreakPointsWon)/\(playerTwoBreakPointsPlayed)")
-                        Text("\(playerTwoServicePointsWon)/\(playerTwoServicePointsPlayed)")
-                        Text("\(playerTwoReturnPointsWon)/\(playerOneServicePointsPlayed)")
-                    }
-                    .padding(.trailing, 10)
+                    .font(Font.largeTitle.monospacedDigit())
                 }
-                .padding(.top)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text(LocalizedStringKey(match.playerOneName ?? "You"))
+                    .frame(maxWidth: .infinity)
+                Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
+                    .frame(maxWidth: .infinity)
+            }
+            
+            HStack() {
+                VStack {
+                    Text(String(match.teamOnePointsWon))
+                    Text(String(match.totalGamesWon(by: .playerOne)))
+                    Text("\(playerOneBreakPointsWon)/\(playerOneBreakPointsPlayed)")
+                    Text("\(playerOneServicePointsWon)/\(playerOneServicePointsPlayed)")
+                    Text("\(playerOneReturnPointsWon)/\(playerTwoServicePointsPlayed)")
+                }
+                .padding(.leading, 10)
+                
+                Spacer()
+                
+                VStack {
+                    Text("Points Won")
+                    Text("Games Won")
+                    Text("Break Points Won/Played")
+                    Text("Service Points Won/Played")
+                    Text("Return Points Won/Played")
+                }
+                .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                VStack {
+                    Text(String(match.teamTwoPointsWon))
+                    Text(String(match.totalGamesWon(by: .playerTwo)))
+                    Text("\(playerTwoBreakPointsWon)/\(playerTwoBreakPointsPlayed)")
+                    Text("\(playerTwoServicePointsWon)/\(playerTwoServicePointsPlayed)")
+                    Text("\(playerTwoReturnPointsWon)/\(playerOneServicePointsPlayed)")
+                }
+                .padding(.trailing, 10)
+            }
+            .padding(.top)
+            
+            Divider()
+            
+            Form {
+                Section(header: Text("Notes")) {
+                    TextEditor(text: $notes)
+                        .font(.body)
+                }
             }
         }
     }
@@ -168,7 +177,7 @@ struct MatchDetail_Previews: PreviewProvider {
     static var previews: some View {
         let randomlyGeneratedMatch = Match.random()
         return MatchDetail(match: randomlyGeneratedMatch)
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .environment(\.locale, .init(identifier: "en"))
     }
 }
