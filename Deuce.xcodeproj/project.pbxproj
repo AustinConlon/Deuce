@@ -16,7 +16,7 @@
 		FB1FDB4923FA782500CE03B1 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1FDB4723FA782400CE03B1 /* Game.swift */; };
 		FB1FDB4B23FA793C00CE03B1 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1FDB4A23FA793C00CE03B1 /* Set.swift */; };
 		FB1FDB4C23FA793C00CE03B1 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1FDB4A23FA793C00CE03B1 /* Set.swift */; };
-		FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */; };
+		FB2958642297530900F9DFEB /* MatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2958632297530900F9DFEB /* MatchListViewController.swift */; };
 		FB35651922DCC81900E97919 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB35651822DCC81900E97919 /* CloudKit.framework */; };
 		FB3AA15F240BA3BF0090B894 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB3AA163240BA3BF0090B894 /* Localizable.strings */; };
 		FB3AA160240BA3BF0090B894 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB3AA163240BA3BF0090B894 /* Localizable.strings */; };
@@ -134,7 +134,7 @@
 		FB1AED35243AB6F100820E86 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		FB1FDB4723FA782400CE03B1 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		FB1FDB4A23FA793C00CE03B1 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
-		FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryTableViewController.swift; sourceTree = "<group>"; };
+		FB2958632297530900F9DFEB /* MatchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchListViewController.swift; sourceTree = "<group>"; };
 		FB3377421E6E3C89000B9E30 /* Deuce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Deuce.entitlements; sourceTree = "<group>"; };
 		FB35651822DCC81900E97919 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		FB3AA164240BA3E10090B894 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -278,7 +278,7 @@
 		FB5FF574244733920045E030 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */,
+				FB2958632297530900F9DFEB /* MatchListViewController.swift */,
 				FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */,
 			);
 			path = "View Controllers";
@@ -573,7 +573,7 @@
 				FB4E49FD2430B2A40027B91A /* CloudController.swift in Sources */,
 				FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */,
 				FB6DE88024AF041900C537CC /* Point.swift in Sources */,
-				FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */,
+				FB2958642297530900F9DFEB /* MatchListViewController.swift in Sources */,
 				FB7CD15C23EFAAE000EB4D04 /* Data.swift in Sources */,
 				FB00DDF523F23C15008751D2 /* FormatRow.swift in Sources */,
 			);
