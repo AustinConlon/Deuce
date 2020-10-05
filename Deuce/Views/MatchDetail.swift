@@ -9,8 +9,13 @@
 import SwiftUI
 
 struct MatchDetail: View {
-    var match: Match
-    @State var notes
+    @State private var match: Match
+    private var completion: (Match) -> Void
+    
+    init(match: Match, completion: @escaping (Match) -> Void) {
+        self._match = State(initialValue: match)
+        self.completion = completion
+    }
     
     var body: some View {
         VStack {
@@ -75,14 +80,16 @@ struct MatchDetail: View {
             }
             .padding(.top)
             
-            Divider()
-            
             Form {
                 Section(header: Text("Notes")) {
-                    TextEditor(text: $notes)
+                    TextEditor(text: $match.notes)
                         .font(.body)
+                        .frame(height: 200)
                 }
             }
+        }
+        .onDisappear() {
+            completion(match)
         }
     }
     
@@ -176,7 +183,9 @@ struct MatchDetail: View {
 struct MatchDetail_Previews: PreviewProvider {
     static var previews: some View {
         let randomlyGeneratedMatch = Match.random()
-        return MatchDetail(match: randomlyGeneratedMatch)
+        let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
+        
+        return matchDetail
             .preferredColorScheme(.light)
             .environment(\.locale, .init(identifier: "en"))
     }

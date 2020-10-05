@@ -7,18 +7,15 @@
 //
 
 import UIKit
-import WatchConnectivity
 import os.log
 import CloudKit
 import SafariServices
 import SwiftUI
 
-class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
+class MatchHistoryTableViewController: UITableViewController {
     // MARK: - Properties
     
     var matches = [Match]()
-    
-    var session: WCSession?
     
     let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
     
@@ -75,16 +72,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         super.viewWillAppear(true)
         configureRefreshControl()
         addObservers()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        if WCSession.isSupported() {
-            session = WCSession.default
-            session?.delegate = self
-            session?.activate()
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -209,23 +196,29 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        present(UIHostingController(rootView: MatchDetail(match: matches[indexPath.row])), animated: true)
+        let matchDetail = MatchDetail(match: self.matches[indexPath.row]) { [weak self] newMatch in
+            self?.dismiss(animated: true) {
+                self?.matches[indexPath.row] = newMatch
+                
+                let matchRecord = self?.records[indexPath.row]
+                
+                if let matchData = try? PropertyListEncoder().encode(self?.matches[indexPath.row]) {
+                    matchRecord?["matchData"] = matchData as NSData
+                    
+                    self?.database.save(matchRecord!) { (savedRecord, error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
+            }
+        }
+        
+        let hostingController = UIHostingController(rootView: matchDetail)
+        self.present(hostingController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    // MARK: - WCSessionDelegate
-    
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         
-    }
-    
-    func sessionDidBecomeInactive(_ session: WCSession) {
         
-    }
-    
-    func sessionDidDeactivate(_ session: WCSession) {
-        // Activate the new session after having switched to a new watch.
-        session.activate()
     }
     
     // MARK: - CloudKit

@@ -128,6 +128,8 @@ struct Match: Codable {
         return teamTwoPointsWon
     }
     
+    var notes = ""
+    
     // MARK: - Initialization
     init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!
@@ -388,6 +390,7 @@ extension Match {
         case playerTwoBreakPointsPlayed
         case playerOneBreakPointsWon
         case playerTwoBreakPointsWon
+        case notes
     }
     
     init(from decoder: Decoder) throws {
@@ -407,6 +410,7 @@ extension Match {
         playerTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsPlayed)
         playerOneBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsWon)
         playerTwoBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsWon)
+        notes = try container.decodeIfPresent(String.self, forKey: .notes) ?? ""
     }
 }
 
