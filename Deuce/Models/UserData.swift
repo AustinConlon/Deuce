@@ -11,5 +11,4 @@ import SwiftUI
 
 final class UserData: ObservableObject {
     @Published var formats = formatData
-    var workout = WorkoutManager()
 }

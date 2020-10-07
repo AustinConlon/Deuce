@@ -16,7 +16,7 @@ class WorkoutManager: NSObject, ObservableObject {
     var session: HKWorkoutSession?
     var builder: HKLiveWorkoutBuilder?
     
-    var start: Date?
+    var start = Date()
     var cancellable: Cancellable?
     var accumulatedTime: Int = 0
     
@@ -27,6 +27,22 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var elapsedSeconds: Int = 0
     
     var running = false
+    
+    func setUpTimer() {
+        start = Date()
+        cancellable = Timer.publish(every: 0.1, on: .main, in: .default)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.elapsedSeconds = self.incrementElapsedTime()
+            }
+    }
+    
+    // Calculate the elapsed time.
+    func incrementElapsedTime() -> Int {
+        let runningTime: Int = Int(-1 * (self.start.timeIntervalSinceNow))
+        return self.accumulatedTime + runningTime
+    }
     
     func requestAuthorization() {
         let typesToShare: Swift.Set = [
@@ -65,9 +81,30 @@ class WorkoutManager: NSObject, ObservableObject {
                                                       workoutConfiguration: workoutConfiguration)
         
         session?.startActivity(with: start)
-        builder!.beginCollection(withStart: start!) { (success, error) in
+        builder!.beginCollection(withStart: start) { (success, error) in
             
         }
+    }
+    
+    func togglePause() {
+        if running == true {
+            self.pauseWorkout()
+        } else {
+            resumeWorkout()
+        }
+    }
+    
+    func pauseWorkout() {
+        session?.pause()
+        cancellable?.cancel()
+        accumulatedTime = elapsedSeconds
+        running = false
+    }
+    
+    func resumeWorkout() {
+        session?.resume()
+        setUpTimer()
+        running = true
     }
     
     func endWorkout() {
@@ -134,7 +171,7 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
         if toState == .ended {
             let activeEnergyBurnedSample = HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
                                                            quantity: self.activeEnergyBurned,
-                                                           start: self.start!,
+                                                           start: self.start,
                                                            end: Date())
             
             builder?.add([activeEnergyBurnedSample]) { (success, error) in

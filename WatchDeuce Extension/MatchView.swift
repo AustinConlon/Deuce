@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MatchView: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var workoutManager: WorkoutManager
     
     @State var match: Match
     @State var singlesServiceAlert = true
@@ -77,11 +78,11 @@ struct MatchView: View {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     self.match.servicePlayer = .playerOne
-                    self.userData.workout.startWorkout()
+                    self.workoutManager.startWorkout()
                 },
                   secondaryButton: .default(Text("Opponent")) {
                     self.match.servicePlayer = .playerTwo
-                    self.userData.workout.startWorkout()
+                    self.workoutManager.startWorkout()
                 })
         }
         .sheet(isPresented: $showingMatchMenu) {

@@ -10,11 +10,16 @@ import SwiftUI
 
 struct FormatList<MatchView: View>: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var workoutManager: WorkoutManager
     
     let matchViewProducer: (Format) -> MatchView
     
     var body: some View {
         List {
+            Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
+                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Content@*/Text("Button")/*@END_MENU_TOKEN@*/
+            }
+            
             ForEach(userData.formats) { format in
                 NavigationLink(
                 destination:
@@ -26,7 +31,7 @@ struct FormatList<MatchView: View>: View {
         .listStyle(CarouselListStyle())
         .navigationBarBackButtonHidden(true)
         .onAppear() {
-            self.userData.workout.session?.state == .running ? self.userData.workout.endWorkout() : self.userData.workout.requestAuthorization()
+            self.workoutManager.session?.state == .running ? self.workoutManager.endWorkout() : self.workoutManager.requestAuthorization()
         }
     }
 }
