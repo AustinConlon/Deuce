@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Match: Codable {
+struct Match: Codable, Hashable {
     // MARK: - Properties
     var format: RulesFormats
     
@@ -432,7 +432,7 @@ enum SetType: String, Codable {
     case advantage
 }
 
-struct Stack<Element: Codable>: Codable {
+struct Stack<Element: Codable & Hashable>: Codable, Hashable {
     var items = [Element]()
     
     mutating func push(_ item: Element) {

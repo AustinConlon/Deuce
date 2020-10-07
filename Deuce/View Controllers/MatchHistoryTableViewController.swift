@@ -13,12 +13,36 @@ import CloudKit
 import SafariServices
 import SwiftUI
 
-class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate {
-    // MARK: - Properties
+class MatchHistoryTableViewController: UITableViewController {
+    enum Section {
+        case main
+    }
+    
+    class DataSource: UITableViewDiffableDataSource<Section, Match> {
+        override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            return true
+        }
+        
+        override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                if let identifierToDelete = itemIdentifier(for: indexPath) {
+                    var snapshot = self.snapshot()
+                    snapshot.deleteItems([identifierToDelete])
+                    apply(snapshot)
+                }
+                
+                database.delete(withRecordID: records[indexPath.row].recordID) { (recordID, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        self.records.remove(at: indexPath.row)
+                    }
+                }
+            }
+        }
+    }
     
     var matches = [Match]()
-    
-    var session: WCSession?
     
     let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
     
@@ -54,7 +78,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
                 }
                 
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    let snapshot = self.initialSnapshot()
+                    self.dataSource.apply(snapshot, animatingDifferences: false)
                     self.tableView.refreshControl?.endRefreshing()
                 }
             } else {
@@ -71,6 +96,8 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     
     let cloudController = CloudController()
     
+    var dataSource: DataSource!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         configureRefreshControl()
@@ -80,11 +107,7 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if WCSession.isSupported() {
-            session = WCSession.default
-            session?.delegate = self
-            session?.activate()
-        }
+        configureDataSource()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -111,98 +134,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
         matches.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MatchHistoryTableViewCell.reuseIdentifier, for: indexPath) as? MatchHistoryTableViewCell else {
-            fatalError("""
-                Expected `\(MatchHistoryTableViewCell.self)` type for reuseIdentifier "\(MatchHistoryTableViewCell.reuseIdentifier)".
-                Ensure that the `\(MatchHistoryTableViewCell.self)` class was registered with the table view (being passed from the view controller).
-                """
-            )
-        }
-        
-        let match = matches[indexPath.row]
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        let dateString = dateFormatter.string(from: match.date)
-        
-        cell.dateLabel.text = dateString
-        cell.playerTwoNameLabel.text = NSLocalizedString("Opponent", comment: "")
-        
-        if let playerOneName = match.playerOneName { cell.playerOneNameLabel.text = playerOneName }
-        if let playerTwoName = match.playerTwoName { cell.playerTwoNameLabel.text = playerTwoName }
-        
-        if match.sets.count >= 1 {
-            cell.setOneStackView.isHidden = false
-            cell.playerOneSetOneScoreLabel.text = String(match.sets[0].gamesWon[0])
-            cell.playerTwoSetOneScoreLabel.text = String(match.sets[0].gamesWon[1])
-            
-            if match.sets[0].winner == .playerOne { cell.playerOneSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[0].winner == .playerTwo { cell.playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-        }
-    
-        if match.sets.count >= 2 {
-            cell.setTwoStackView.isHidden = false
-            cell.playerOneSetTwoScoreLabel.text = String(match.sets[1].gamesWon[0])
-            cell.playerTwoSetTwoScoreLabel.text = String(match.sets[1].gamesWon[1])
-            
-            if match.sets[1].winner == .playerOne { cell.playerOneSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[1].winner == .playerTwo { cell.playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-        }
-        
-        if match.sets.count >= 3 {
-            cell.setThreeStackView.isHidden = false
-            cell.playerOneSetThreeScoreLabel.text = String(match.sets[2].gamesWon[0])
-            cell.playerTwoSetThreeScoreLabel.text = String(match.sets[2].gamesWon[1])
-            
-            if match.sets[2].winner == .playerOne { cell.playerOneSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[2].winner == .playerTwo { cell.playerTwoSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-        }
-        
-        if match.sets.count >= 4 {
-            cell.setFourStackView.isHidden = false
-            cell.playerOneSetFourScoreLabel.text = String(match.sets[3].gamesWon[0])
-            cell.playerTwoSetFourScoreLabel.text = String(match.sets[3].gamesWon[1])
-            
-            if match.sets[3].winner == .playerOne { cell.playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[3].winner == .playerTwo { cell.playerTwoSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-        }
-        
-        if match.sets.count >= 5 {
-            cell.setFiveStackView.isHidden = false
-            cell.playerOneSetFiveScoreLabel.text = String(match.sets[4].gamesWon[0])
-            cell.playerTwoSetFiveScoreLabel.text = String(match.sets[4].gamesWon[1])
-            
-            if match.sets[4].winner == .playerOne { cell.playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[4].winner == .playerTwo { cell.playerTwoSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-        }
-        
-        if match.winner == .playerOne { cell.playerOneNameLabel.font = .preferredFont(forTextStyle: .headline) }
-        if match.winner == .playerTwo { cell.playerTwoNameLabel.font = .preferredFont(forTextStyle: .headline) }
-
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        true
-    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            matches.remove(at: indexPath.row)
-            
-            database.delete(withRecordID: records[indexPath.row].recordID) { (recordID, error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    self.records.remove(at: indexPath.row)
-                }
-            }
-            
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         editNames(indexPath, tableView)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -211,21 +142,6 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         present(UIHostingController(rootView: MatchDetail(match: matches[indexPath.row])), animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    // MARK: - WCSessionDelegate
-    
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
-    }
-    
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        
-    }
-    
-    func sessionDidDeactivate(_ session: WCSession) {
-        // Activate the new session after having switched to a new watch.
-        session.activate()
     }
     
     // MARK: - CloudKit
@@ -334,4 +250,87 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
 
 extension UserDefaults {
     static let playerOneName = "playerOneName"
+}
+
+extension MatchHistoryTableViewController {
+    func configureDataSource() {
+        dataSource = DataSource(tableView: self.tableView) { (tableView, indexPath, match) -> MatchHistoryTableViewCell? in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MatchHistoryTableViewCell.reuseIdentifier, for: indexPath) as? MatchHistoryTableViewCell else {
+                fatalError("""
+                    Expected `\(MatchHistoryTableViewCell.self)` type for reuseIdentifier "\(MatchHistoryTableViewCell.reuseIdentifier)".
+                    Ensure that the `\(MatchHistoryTableViewCell.self)` class was registered with the table view (being passed from the view controller).
+                    """
+                )
+            }
+            
+            let match = self.matches[indexPath.row]
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .short
+            let dateString = dateFormatter.string(from: match.date)
+            
+            cell.dateLabel.text = dateString
+            cell.playerTwoNameLabel.text = NSLocalizedString("Opponent", comment: "")
+            
+            if let playerOneName = match.playerOneName { cell.playerOneNameLabel.text = playerOneName }
+            if let playerTwoName = match.playerTwoName { cell.playerTwoNameLabel.text = playerTwoName }
+            
+            if match.sets.count >= 1 {
+                cell.setOneStackView.isHidden = false
+                cell.playerOneSetOneScoreLabel.text = String(match.sets[0].gamesWon[0])
+                cell.playerTwoSetOneScoreLabel.text = String(match.sets[0].gamesWon[1])
+                
+                if match.sets[0].winner == .playerOne { cell.playerOneSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+                if match.sets[0].winner == .playerTwo { cell.playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            }
+        
+            if match.sets.count >= 2 {
+                cell.setTwoStackView.isHidden = false
+                cell.playerOneSetTwoScoreLabel.text = String(match.sets[1].gamesWon[0])
+                cell.playerTwoSetTwoScoreLabel.text = String(match.sets[1].gamesWon[1])
+                
+                if match.sets[1].winner == .playerOne { cell.playerOneSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+                if match.sets[1].winner == .playerTwo { cell.playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            }
+            
+            if match.sets.count >= 3 {
+                cell.setThreeStackView.isHidden = false
+                cell.playerOneSetThreeScoreLabel.text = String(match.sets[2].gamesWon[0])
+                cell.playerTwoSetThreeScoreLabel.text = String(match.sets[2].gamesWon[1])
+                
+                if match.sets[2].winner == .playerOne { cell.playerOneSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+                if match.sets[2].winner == .playerTwo { cell.playerTwoSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            }
+            
+            if match.sets.count >= 4 {
+                cell.setFourStackView.isHidden = false
+                cell.playerOneSetFourScoreLabel.text = String(match.sets[3].gamesWon[0])
+                cell.playerTwoSetFourScoreLabel.text = String(match.sets[3].gamesWon[1])
+                
+                if match.sets[3].winner == .playerOne { cell.playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+                if match.sets[3].winner == .playerTwo { cell.playerTwoSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            }
+            
+            if match.sets.count >= 5 {
+                cell.setFiveStackView.isHidden = false
+                cell.playerOneSetFiveScoreLabel.text = String(match.sets[4].gamesWon[0])
+                cell.playerTwoSetFiveScoreLabel.text = String(match.sets[4].gamesWon[1])
+                
+                if match.sets[4].winner == .playerOne { cell.playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+                if match.sets[4].winner == .playerTwo { cell.playerTwoSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            }
+            
+            if match.winner == .playerOne { cell.playerOneNameLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.winner == .playerTwo { cell.playerTwoNameLabel.font = .preferredFont(forTextStyle: .headline) }
+            
+            return cell
+        }
+    }
+    
+    func initialSnapshot() -> NSDiffableDataSourceSnapshot<Section, Match> {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(matches)
+        return snapshot
+    }
 }
