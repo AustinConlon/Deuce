@@ -85,6 +85,9 @@ class MatchHistoryTableViewController: UITableViewController, WCSessionDelegate 
             session?.delegate = self
             session?.activate()
         }
+        
+        fetchMatchRecords()
+        tableView.reloadData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
