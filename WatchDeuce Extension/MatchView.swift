@@ -58,16 +58,6 @@ struct MatchView: View {
             }
             .frame(height: geometry.size.height)
             .buttonStyle(PlainButtonStyle())
-            
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    
-                    .buttonStyle(PlainButtonStyle())
-                }
-            }
-            .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .font(.system(.largeTitle, design: .rounded))
         .navigationBarBackButtonHidden(true)
@@ -285,13 +275,37 @@ struct MatchView_Previews: PreviewProvider {
         let userData = UserData()
         let format = userData.formats[0]
         return Group {
-            MatchView(match: Match(format: format))
-                .environmentObject(userData)
-                .environment(\.locale, .init(identifier: "en"))
-            
-            MatchView(match: Match(format: format))
-                .environmentObject(userData)
-                .environment(\.locale, .init(identifier: "fr"))
+            Group {
+                Group {
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .extraSmall)
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .small)
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .medium)
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .large)
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .extraLarge)
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .extraExtraLarge)
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .extraExtraExtraLarge)
+                }
+                
+                Group {
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .accessibilityMedium)
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .accessibilityLarge)
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .accessibilityExtraLarge)
+                    MatchView(match: Match(format: format))
+                        .environment(\.sizeCategory, .accessibilityExtraExtraLarge)
+                }
+            }
+            .environment(\.locale, .init(identifier: "en"))
         }
+        .environmentObject(userData)
     }
 }
