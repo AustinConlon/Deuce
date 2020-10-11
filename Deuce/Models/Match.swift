@@ -128,7 +128,7 @@ struct Match: Codable {
         return teamTwoPointsWon
     }
     
-    var notes = ""
+    var notes = "Notes"
     
     // MARK: - Initialization
     init(format: Format) {
@@ -410,7 +410,7 @@ extension Match {
         playerTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsPlayed)
         playerOneBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsWon)
         playerTwoBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsWon)
-        notes = try container.decodeIfPresent(String.self, forKey: .notes) ?? ""
+        notes = try container.decodeIfPresent(String.self, forKey: .notes) ?? "Notes"
     }
 }
 

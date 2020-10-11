@@ -46,51 +46,76 @@ struct MatchDetail: View {
                     .frame(maxWidth: .infinity)
             }
             
-            HStack() {
-                VStack {
-                    Text(String(match.teamOnePointsWon))
-                    Text(String(match.totalGamesWon(by: .playerOne)))
-                    Text("\(playerOneBreakPointsWon)/\(playerOneBreakPointsPlayed)")
-                    Text("\(playerOneServicePointsWon)/\(playerOneServicePointsPlayed)")
-                    Text("\(playerOneReturnPointsWon)/\(playerTwoServicePointsPlayed)")
-                }
-                .padding(.leading, 10)
-                
-                Spacer()
-                
-                VStack {
-                    Text("Points Won")
-                    Text("Games Won")
-                    Text("Break Points Won/Played")
-                    Text("Service Points Won/Played")
-                    Text("Return Points Won/Played")
-                }
-                .foregroundColor(.secondary)
-                
-                Spacer()
-                
-                VStack {
-                    Text(String(match.teamTwoPointsWon))
-                    Text(String(match.totalGamesWon(by: .playerTwo)))
-                    Text("\(playerTwoBreakPointsWon)/\(playerTwoBreakPointsPlayed)")
-                    Text("\(playerTwoServicePointsWon)/\(playerTwoServicePointsPlayed)")
-                    Text("\(playerTwoReturnPointsWon)/\(playerOneServicePointsPlayed)")
-                }
-                .padding(.trailing, 10)
-            }
-            .padding(.top)
+            Statistics(match: match)
+            
+            Divider()
             
             Form {
-                Section(header: Text("Notes")) {
-                    TextEditor(text: $match.notes)
-                        .font(.body)
-                        .frame(height: 200)
-                }
+                TextEditor(text: $match.notes)
+                    .font(.body)
+                    .padding()
             }
         }
         .onDisappear() {
             completion(match)
         }
+    }
+    
+    func date() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .full
+        return dateFormatter.string(from: match.date)
+    }
+}
+
+struct MatchDetail_Previews: PreviewProvider {
+    static var previews: some View {
+        let randomlyGeneratedMatch = Match.random()
+        let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
+        
+        return matchDetail
+            .preferredColorScheme(.dark)
+            .environment(\.locale, .init(identifier: "en"))
+    }
+}
+
+struct Statistics: View {
+    let match: Match
+    
+    var body: some View {
+        HStack() {
+            VStack {
+                Text(String(match.teamOnePointsWon))
+                Text(String(match.totalGamesWon(by: .playerOne)))
+                Text("\(playerOneBreakPointsWon)/\(playerOneBreakPointsPlayed)")
+                Text("\(playerOneServicePointsWon)/\(playerOneServicePointsPlayed)")
+                Text("\(playerOneReturnPointsWon)/\(playerTwoServicePointsPlayed)")
+            }
+            .padding(.leading, 10)
+            
+            Spacer()
+            
+            VStack {
+                Text("Points Won")
+                Text("Games Won")
+                Text("Break Points Won/Played")
+                Text("Service Points Won/Played")
+                Text("Return Points Won/Played")
+            }
+            .foregroundColor(.secondary)
+            
+            Spacer()
+            
+            VStack {
+                Text(String(match.teamTwoPointsWon))
+                Text(String(match.totalGamesWon(by: .playerTwo)))
+                Text("\(playerTwoBreakPointsWon)/\(playerTwoBreakPointsPlayed)")
+                Text("\(playerTwoServicePointsWon)/\(playerTwoServicePointsPlayed)")
+                Text("\(playerTwoReturnPointsWon)/\(playerOneServicePointsPlayed)")
+            }
+            .padding(.trailing, 10)
+        }
+        .padding(.top)
     }
     
     var playerOneBreakPointsWon: String {
@@ -171,22 +196,5 @@ struct MatchDetail: View {
         } else {
             return "-"
         }
-    }
-    
-    func date() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
-        return dateFormatter.string(from: match.date)
-    }
-}
-
-struct MatchDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        let randomlyGeneratedMatch = Match.random()
-        let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
-        
-        return matchDetail
-            .preferredColorScheme(.light)
-            .environment(\.locale, .init(identifier: "en"))
     }
 }
