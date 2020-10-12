@@ -18,7 +18,7 @@ struct MatchDetail: View {
     }
     
     var body: some View {
-        VStack {
+        ScrollView {
             HStack {
                 Image(systemName: "calendar.circle.fill")
                 Text(date())
@@ -39,6 +39,12 @@ struct MatchDetail: View {
             
             Divider()
             
+            TextEditor(text: $match.notes)
+                .font(.body)
+                .padding(.horizontal)
+            
+            Divider()
+            
             HStack {
                 Text(LocalizedStringKey(match.playerOneName ?? "You"))
                     .frame(maxWidth: .infinity)
@@ -47,14 +53,6 @@ struct MatchDetail: View {
             }
             
             Statistics(match: match)
-            
-            Divider()
-            
-            Form {
-                TextEditor(text: $match.notes)
-                    .font(.body)
-                    .padding()
-            }
         }
         .onDisappear() {
             completion(match)
