@@ -31,7 +31,9 @@ struct MatchDetail: View {
                 ForEach(match.sets, id: \.self) { set in
                     VStack {
                         Text(String(set.gamesWon[1]))
+                            .fontWeight(match.winner == .playerTwo ? .bold : .regular)
                         Text(String(set.gamesWon[0]))
+                            .fontWeight(match.winner == .playerOne ? .bold : .regular)
                     }
                     .font(Font.largeTitle.monospacedDigit())
                 }
@@ -39,16 +41,26 @@ struct MatchDetail: View {
             
             Divider()
             
-            TextEditor(text: $match.notes)
-                .font(.body)
-                .padding(.horizontal)
+            ScrollView {
+                Text(match.notes)
+                    .padding(8)
+                    .frame(maxWidth: .infinity)
+                    
+                    .foregroundColor(.clear)
+                    .overlay(TextEditor(text: $match.notes))
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal)
+            
             
             Divider()
             
             HStack {
                 Text(LocalizedStringKey(match.playerOneName ?? "You"))
+                    .fontWeight(match.winner == .playerOne ? .bold : .regular)
                     .frame(maxWidth: .infinity)
                 Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
+                    .fontWeight(match.winner == .playerTwo ? .bold : .regular)
                     .frame(maxWidth: .infinity)
             }
             
@@ -72,7 +84,7 @@ struct MatchDetail_Previews: PreviewProvider {
         let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
         
         return matchDetail
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .environment(\.locale, .init(identifier: "en"))
     }
 }
