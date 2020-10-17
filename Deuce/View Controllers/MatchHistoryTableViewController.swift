@@ -73,7 +73,14 @@ class MatchHistoryTableViewController: UITableViewController {
         configureRefreshControl()
         addObservers()
     }
-    
+  
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        fetchMatchRecords()
+        tableView.reloadData()
+    }
+  
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         
