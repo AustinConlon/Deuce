@@ -13,7 +13,9 @@ struct Set: Codable, Hashable {
     
     var gamesWon = [0, 0] {
         didSet {
-            games.append(Game(format: format!))
+            if self.winner == nil {
+                games.append(Game(format: format!))
+            }
             
             if gamesWon == [6, 6] {
                 currentGame.isTiebreak = true
@@ -37,12 +39,19 @@ struct Set: Codable, Hashable {
     var marginToWin = 2
     
     var winner: Player? {
-        if gamesWon[0] >= numberOfGamesToWin && ((gamesWon[0] - gamesWon[1]) >= marginToWin) {
-            return .playerOne
-        }
-        
-        if gamesWon[1] >= numberOfGamesToWin && ((gamesWon[1] - gamesWon[0]) >= marginToWin) {
-            return .playerTwo
+        switch games.last?.isTiebreak {
+        case true:
+            return games.last?.winner
+        case false:
+            if gamesWon[0] >= numberOfGamesToWin && ((gamesWon[0] - gamesWon[1]) >= marginToWin) {
+                return .playerOne
+            }
+            
+            if gamesWon[1] >= numberOfGamesToWin && ((gamesWon[1] - gamesWon[0]) >= marginToWin) {
+                return .playerTwo
+            }
+        default:
+            return nil
         }
         
         return nil

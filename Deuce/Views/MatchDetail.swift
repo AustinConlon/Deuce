@@ -9,72 +9,118 @@
 import SwiftUI
 
 struct MatchDetail: View {
+    @State private var match: Match
+    private var completion: (Match) -> Void
+    
+    init(match: Match, completion: @escaping (Match) -> Void) {
+        self._match = State(initialValue: match)
+        self.completion = completion
+    }
+    
+    var body: some View {
+        ScrollView {
+            HStack {
+                Image(systemName: "calendar.circle.fill")
+                Text(date())
+            }
+            .padding(.top)
+            
+            Divider()
+            
+            Score(match: $match)
+            
+            Divider()
+            
+            ScrollView {
+                Text(match.notes)
+                    .padding(8)
+                    .frame(maxWidth: .infinity)
+                    
+                    .foregroundColor(.clear)
+                    .overlay(TextEditor(text: $match.notes))
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal)
+            
+            
+            Divider()
+            
+            HStack {
+                Label {
+                    Text(LocalizedStringKey(match.playerOneName ?? "You"))
+                        .fontWeight(match.winner == .playerOne ? .bold : .regular)
+                } icon: {
+                    Image(systemName: "applewatch")
+                }
+                .frame(maxWidth: .infinity)
+                
+                Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
+                    .fontWeight(match.winner == .playerTwo ? .bold : .regular)
+                    .frame(maxWidth: .infinity)
+            }
+            
+            Statistics(match: match)
+        }
+        .onDisappear() {
+            completion(match)
+        }
+    }
+    
+    func date() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .full
+        return dateFormatter.string(from: match.date)
+    }
+}
+
+struct MatchDetail_Previews: PreviewProvider {
+    static var previews: some View {
+        let randomlyGeneratedMatch = Match.random()
+        let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
+        
+        return matchDetail
+            .preferredColorScheme(.dark)
+            .environment(\.locale, .init(identifier: "en"))
+    }
+}
+
+struct Statistics: View {
     let match: Match
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                HStack {
-                    Image(systemName: "calendar.circle.fill")
-                    Text(date())
-                }
-                
-                Divider()
-                
-                HStack {
-                    ForEach(match.sets, id: \.self) { set in
-                        VStack {
-                            Text(String(set.gamesWon[1]))
-                            Text(String(set.gamesWon[0]))
-                        }
-                        .font(Font.largeTitle.monospacedDigit())
-                    }
-                }
-                
-                Divider()
-                
-                HStack {
-                    Text(LocalizedStringKey(match.playerOneName ?? "You"))
-                        .frame(maxWidth: .infinity)
-                    Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
-                        .frame(maxWidth: .infinity)
-                }
-                
-                HStack() {
-                    VStack {
-                        Text(String(match.teamOnePointsWon))
-                        Text(String(match.totalGamesWon(by: .playerOne)))
-                        Text("\(playerOneBreakPointsWon)/\(playerOneBreakPointsPlayed)")
-                        Text("\(playerOneServicePointsWon)/\(playerOneServicePointsPlayed)")
-                        Text("\(playerOneReturnPointsWon)/\(playerTwoServicePointsPlayed)")
-                    }
-                    .padding(.leading, 10)
-                    
-                    Spacer()
-                    
-                    VStack {
-                        Text("Points Won")
-                        Text("Games Won")
-                        Text("Break Points Won/Played")
-                        Text("Service Points Won/Played")
-                        Text("Return Points Won/Played")
-                    }
-                    .foregroundColor(.secondary)
-                    
-                    Spacer()
-                    
-                    VStack {
-                        Text(String(match.teamTwoPointsWon))
-                        Text(String(match.totalGamesWon(by: .playerTwo)))
-                        Text("\(playerTwoBreakPointsWon)/\(playerTwoBreakPointsPlayed)")
-                        Text("\(playerTwoServicePointsWon)/\(playerTwoServicePointsPlayed)")
-                        Text("\(playerTwoReturnPointsWon)/\(playerOneServicePointsPlayed)")
-                    }
-                    .padding(.trailing, 10)
-                }
-                .padding(.top)
+        HStack() {
+            VStack {
+                Text(String(match.teamOnePointsWon))
+                Text(String(match.totalGamesWon(by: .playerOne)))
+                Text("\(playerOneBreakPointsWon)/\(playerOneBreakPointsPlayed)")
+                Text("\(playerOneServicePointsWon)/\(playerOneServicePointsPlayed)")
+                Text("\(playerOneReturnPointsWon)/\(playerTwoServicePointsPlayed)")
             }
+            .padding(.leading, 10)
+            
+            Spacer()
+            
+            VStack {
+                Text("Points Won")
+                Text("Games Won")
+                Text("Break Points Won/Played")
+                Text("Service Points Won/Played")
+                Text("Return Points Won/Played")
+            }
+            .foregroundColor(.secondary)
+            
+            Spacer()
+            
+            VStack {
+                Text(String(match.teamTwoPointsWon))
+                Text(String(match.totalGamesWon(by: .playerTwo)))
+                Text("\(playerTwoBreakPointsWon)/\(playerTwoBreakPointsPlayed)")
+                Text("\(playerTwoServicePointsWon)/\(playerTwoServicePointsPlayed)")
+                Text("\(playerTwoReturnPointsWon)/\(playerOneServicePointsPlayed)")
+            }
+            .padding(.trailing, 10)
         }
+        .padding(.top)
     }
     
     var playerOneBreakPointsWon: String {
@@ -156,19 +202,28 @@ struct MatchDetail: View {
             return "-"
         }
     }
-    
-    func date() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
-        return dateFormatter.string(from: match.date)
-    }
 }
 
-struct MatchDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        let randomlyGeneratedMatch = Match.random()
-        return MatchDetail(match: randomlyGeneratedMatch)
-            .preferredColorScheme(.dark)
-            .environment(\.locale, .init(identifier: "en"))
+struct Score: View {
+    @Binding var match: Match
+    
+    var body: some View {
+        HStack(alignment: .bottom) {
+            Image(systemName: "applewatch").foregroundColor(.secondary)
+            
+            HStack {
+                ForEach(match.sets, id: \.self) { set in
+                    VStack {
+                        Text(String(set.gamesWon[1]))
+                            .fontWeight(set.winner == .playerTwo ? .bold : .regular)
+                        Text(String(set.gamesWon[0]))
+                            .fontWeight(set.winner == .playerOne ? .bold : .regular)
+                    }
+                    
+                }
+            }
+        }
+        .font(Font.largeTitle.monospacedDigit())
+        .padding(.trailing)
     }
 }
