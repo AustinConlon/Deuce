@@ -23,11 +23,11 @@ struct MatchDetail: View {
                 Image(systemName: "calendar.circle.fill")
                 Text(date())
             }
-            .padding(.top)
             
-            Divider()
-            
-            Score(match: $match)
+            GroupBox {
+                Score(match: $match)
+            }
+            .padding()
             
             Divider()
             
@@ -209,17 +209,16 @@ struct Score: View {
     
     var body: some View {
         HStack(alignment: .bottom) {
-            Image(systemName: "applewatch").foregroundColor(.secondary)
+            Image(systemName: "applewatch")
+                .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
+                .font(.title3)
             
-            HStack {
-                ForEach(match.sets, id: \.self) { set in
-                    VStack {
-                        Text(String(set.gamesWon[1]))
-                            .fontWeight(set.winner == .playerTwo ? .bold : .regular)
-                        Text(String(set.gamesWon[0]))
-                            .fontWeight(set.winner == .playerOne ? .bold : .regular)
-                    }
-                    
+            ForEach(match.sets, id: \.self) { set in
+                VStack {
+                    Text(String(set.gamesWon[1]))
+                        .fontWeight(set.winner == .playerTwo ? .semibold : .regular)
+                    Text(String(set.gamesWon[0]))
+                        .fontWeight(set.winner == .playerOne ? .semibold : .regular)
                 }
             }
         }
