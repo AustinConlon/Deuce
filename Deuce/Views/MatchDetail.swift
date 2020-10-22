@@ -51,6 +51,7 @@ struct MatchDetail: View {
                         .fontWeight(match.winner == .playerOne ? .bold : .regular)
                 } icon: {
                     Image(systemName: "applewatch")
+                        .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
                 }
                 .frame(maxWidth: .infinity)
                 
@@ -81,6 +82,34 @@ struct MatchDetail_Previews: PreviewProvider {
         return matchDetail
             .preferredColorScheme(.dark)
             .environment(\.locale, .init(identifier: "en"))
+    }
+}
+
+struct Score: View {
+    @Binding var match: Match
+    var rows: [GridItem] = Array(repeating: GridItem(.fixed(30)), count: 2)
+    
+    var body: some View {
+        LazyHGrid(rows: rows) {
+            HStack {
+                Spacer()
+                ForEach(match.sets, id: \.self) { set in
+                    Text(String(set.gamesWon[1]))
+                        .fontWeight(set.winner == .playerTwo ? .semibold : .regular)
+                }
+            }
+            
+            HStack {
+                Image(systemName: "applewatch")
+                    .font(.body)
+                    .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
+                ForEach(match.sets, id: \.self) { set in
+                    Text(String(set.gamesWon[0]))
+                        .fontWeight(set.winner == .playerOne ? .semibold : .regular)
+                }
+            }
+        }
+        .font(Font.largeTitle.monospacedDigit())
     }
 }
 
@@ -201,28 +230,5 @@ struct Statistics: View {
         } else {
             return "-"
         }
-    }
-}
-
-struct Score: View {
-    @Binding var match: Match
-    
-    var body: some View {
-        HStack(alignment: .bottom) {
-            Image(systemName: "applewatch")
-                .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
-                .font(.title3)
-            
-            ForEach(match.sets, id: \.self) { set in
-                VStack {
-                    Text(String(set.gamesWon[1]))
-                        .fontWeight(set.winner == .playerTwo ? .semibold : .regular)
-                    Text(String(set.gamesWon[0]))
-                        .fontWeight(set.winner == .playerOne ? .semibold : .regular)
-                }
-            }
-        }
-        .font(Font.largeTitle.monospacedDigit())
-        .padding(.trailing)
     }
 }
