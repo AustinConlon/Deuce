@@ -15,8 +15,6 @@ class DeuceTests: XCTestCase {
             let match = Match.random()
             XCTAssert(match.playerOneServicePointsWon >= 0)
             XCTAssert(match.playerTwoServicePointsWon >= 0)
-            XCTAssert(match.playerOneReturnPointsWon >= 0)
-            XCTAssert(match.playerTwoReturnPointsWon >= 0)
         }
     }
     

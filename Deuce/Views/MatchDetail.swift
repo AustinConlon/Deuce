@@ -23,6 +23,7 @@ struct MatchDetail: View {
                 Image(systemName: "calendar.circle.fill")
                 Text(date())
             }
+            .padding(.top)
             
             GroupBox {
                 Score(match: $match)
@@ -80,32 +81,29 @@ struct MatchDetail_Previews: PreviewProvider {
         let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
         
         return matchDetail
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .environment(\.locale, .init(identifier: "en"))
     }
 }
 
 struct Score: View {
     @Binding var match: Match
-    var rows: [GridItem] = Array(repeating: GridItem(.fixed(30)), count: 2)
     
     var body: some View {
-        LazyHGrid(rows: rows) {
-            HStack {
-                Spacer()
-                ForEach(match.sets, id: \.self) { set in
-                    Text(String(set.gamesWon[1]))
-                        .fontWeight(set.winner == .playerTwo ? .semibold : .regular)
-                }
-            }
-            
-            HStack {
+        VStack(alignment: .trailing) {
+            HStack(alignment: .bottom) {
                 Image(systemName: "applewatch")
-                    .font(.body)
+                    .scaleEffect(0.7)
                     .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
+                    .padding(.trailing)
+                
                 ForEach(match.sets, id: \.self) { set in
-                    Text(String(set.gamesWon[0]))
-                        .fontWeight(set.winner == .playerOne ? .semibold : .regular)
+                    VStack {
+                        Text(String(set.gamesWon[1]))
+                            .fontWeight(set.winner == .playerTwo ? .semibold : .regular)
+                        Text(String(set.gamesWon[0]))
+                            .fontWeight(set.winner == .playerOne ? .semibold : .regular)
+                    }
                 }
             }
         }
