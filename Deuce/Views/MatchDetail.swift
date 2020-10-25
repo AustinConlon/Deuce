@@ -25,9 +25,10 @@ struct MatchDetail: View {
             }
             .padding(.top)
             
-            Divider()
-            
-            Score(match: $match)
+            GroupBox {
+                Score(match: $match)
+            }
+            .padding()
             
             Divider()
             
@@ -51,6 +52,7 @@ struct MatchDetail: View {
                         .fontWeight(match.winner == .playerOne ? .bold : .regular)
                 } icon: {
                     Image(systemName: "applewatch")
+                        .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
                 }
                 .frame(maxWidth: .infinity)
                 
@@ -79,8 +81,33 @@ struct MatchDetail_Previews: PreviewProvider {
         let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
         
         return matchDetail
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .environment(\.locale, .init(identifier: "en"))
+    }
+}
+
+struct Score: View {
+    @Binding var match: Match
+    
+    var body: some View {
+        VStack(alignment: .trailing) {
+            HStack(alignment: .bottom) {
+                Image(systemName: "applewatch")
+                    .scaleEffect(0.7)
+                    .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
+                    .padding(.trailing)
+                
+                ForEach(match.sets, id: \.self) { set in
+                    VStack {
+                        Text(String(set.gamesWon[1]))
+                            .fontWeight(set.winner == .playerTwo ? .semibold : .regular)
+                        Text(String(set.gamesWon[0]))
+                            .fontWeight(set.winner == .playerOne ? .semibold : .regular)
+                    }
+                }
+            }
+        }
+        .font(Font.largeTitle.monospacedDigit())
     }
 }
 
@@ -201,29 +228,5 @@ struct Statistics: View {
         } else {
             return "-"
         }
-    }
-}
-
-struct Score: View {
-    @Binding var match: Match
-    
-    var body: some View {
-        HStack(alignment: .bottom) {
-            Image(systemName: "applewatch").foregroundColor(.secondary)
-            
-            HStack {
-                ForEach(match.sets, id: \.self) { set in
-                    VStack {
-                        Text(String(set.gamesWon[1]))
-                            .fontWeight(set.winner == .playerTwo ? .bold : .regular)
-                        Text(String(set.gamesWon[0]))
-                            .fontWeight(set.winner == .playerOne ? .bold : .regular)
-                    }
-                    
-                }
-            }
-        }
-        .font(Font.largeTitle.monospacedDigit())
-        .padding(.trailing)
     }
 }
