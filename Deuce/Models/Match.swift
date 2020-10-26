@@ -9,7 +9,6 @@
 import Foundation
 
 struct Match: Codable {
-    // MARK: - Properties
     var format: RulesFormats
     
     var playerOneName: String?
@@ -130,8 +129,10 @@ struct Match: Codable {
     
     var notes = "Notes"
     
+    var isDoubles = false
+    
     // MARK: - Initialization
-    init(format: Format) {
+    init(format: Format, isDoubles: Bool) {
         self.format = RulesFormats(rawValue: format.name)!
         if self.format == .noAd {
             Game.noAd = true
@@ -139,19 +140,21 @@ struct Match: Codable {
             Game.noAd = false
         }
         self.numberOfSetsToWin = format.minimumSetsToWinMatch
-        sets = [Set(format: self.format)]
+        self.sets = [Set(format: self.format)]
         
-        playerOneServicePointsPlayed = 0
-        playerTwoServicePointsPlayed = 0
+        self.playerOneServicePointsPlayed = 0
+        self.playerTwoServicePointsPlayed = 0
         
-        playerOneServicePointsWon = 0
-        playerTwoServicePointsWon = 0
+        self.playerOneServicePointsWon = 0
+        self.playerTwoServicePointsWon = 0
         
-        playerOneBreakPointsPlayed = 0
-        playerTwoBreakPointsPlayed = 0
+        self.playerOneBreakPointsPlayed = 0
+        self.playerTwoBreakPointsPlayed = 0
         
-        playerOneBreakPointsWon = 0
-        playerTwoBreakPointsWon = 0
+        self.playerOneBreakPointsWon = 0
+        self.playerTwoBreakPointsWon = 0
+        
+        self.isDoubles = isDoubles
     }
     
     // MARK: - Methods
