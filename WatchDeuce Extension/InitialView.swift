@@ -10,17 +10,10 @@ import SwiftUI
 
 struct InitialView: View {
     @State var matchInProgress = false
-    @State var isDoubles = false
     
     var body: some View {
-        FormatList() { MatchView(match: Match(format: $0, isDoubles: $isDoubles)) }
+        FormatList() { MatchView(match: Match(format: $0)) }
             .environmentObject(UserData())
-            .toolbar {
-                Toggle(isOn: $isDoubles) {
-                    Text("Doubles")
-                }
-                .padding()
-            }
     }
 }
 

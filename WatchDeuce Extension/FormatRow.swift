@@ -14,7 +14,11 @@ struct FormatRow: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(LocalizedStringKey(format.name)).bold()
+            HStack {
+                Text(format.isDoubles ? "Doubles" : "Singles")
+                Text(LocalizedStringKey(format.name))
+            }
+            .font(.headline)
             Text(LocalizedStringKey(sets))
             Text(format.thirdSetSupertiebreak ? "3rd set is supertiebreak game" : "Tiebreak at 6-6 for all sets")
             Text(format.noAd ? "No-ad games" : "Advantage games")

@@ -12,7 +12,8 @@ struct MatchView: View {
     @EnvironmentObject var userData: UserData
     
     @State var match: Match
-    @State var singlesServiceAlert = true
+    @State var singlesServiceAlert = false
+    @State var doublesServiceAlert = false
     @State var showingNamesSheet = false
     @State var showingMatchMenu = false
     
@@ -73,8 +74,19 @@ struct MatchView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
         .edgesIgnoringSafeArea(.bottom)
-        .alert(isPresented: $singlesServiceAlert) {
+        .alert(isPresented: $match.isSingles) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
+                  primaryButton: .default(Text(LocalizedStringKey("You"))) {
+                    self.match.servicePlayer = .playerOne
+                    self.userData.workout.startWorkout()
+                },
+                  secondaryButton: .default(Text("Opponent")) {
+                    self.match.servicePlayer = .playerTwo
+                    self.userData.workout.startWorkout()
+                })
+        }
+        .alert(isPresented: $match.isDoubles) {
+            Alert(title: Text("Doubles"),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     self.match.servicePlayer = .playerOne
                     self.userData.workout.startWorkout()

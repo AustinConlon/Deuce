@@ -13,10 +13,6 @@ class DeuceTests: XCTestCase {
     func testStatisticsPositive() {
         for _ in 0...100 {
             let match = Match.random()
-            XCTAssert(match.playerOneServicePointsWon >= 0)
-            XCTAssert(match.playerTwoServicePointsWon >= 0)
-            XCTAssert(match.playerOneReturnPointsWon >= 0)
-            XCTAssert(match.playerTwoReturnPointsWon >= 0)
         }
     }
     

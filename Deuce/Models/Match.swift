@@ -130,9 +130,17 @@ struct Match: Codable {
     var notes = "Notes"
     
     var isDoubles = false
+    var isSingles: Bool {
+        get {
+            !isDoubles
+        }
+        set {
+            isDoubles = !newValue
+        }
+    }
     
     // MARK: - Initialization
-    init(format: Format, isDoubles: Bool) {
+    init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!
         if self.format == .noAd {
             Game.noAd = true
@@ -154,7 +162,7 @@ struct Match: Codable {
         self.playerOneBreakPointsWon = 0
         self.playerTwoBreakPointsWon = 0
         
-        self.isDoubles = isDoubles
+        self.isDoubles = format.isDoubles
     }
     
     // MARK: - Methods

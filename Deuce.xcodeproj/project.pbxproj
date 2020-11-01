@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		FB00DDF223F2385D008751D2 /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00DDF123F2385D008751D2 /* Format.swift */; };
 		FB00DDF323F2385D008751D2 /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00DDF123F2385D008751D2 /* Format.swift */; };
-		FB00DDF523F23C15008751D2 /* FormatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00DDF423F23C15008751D2 /* FormatRow.swift */; };
 		FB00DDF623F23C15008751D2 /* FormatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00DDF423F23C15008751D2 /* FormatRow.swift */; };
 		FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */; };
 		FB1FDB4823FA782500CE03B1 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1FDB4723FA782400CE03B1 /* Game.swift */; };
@@ -575,7 +574,6 @@
 				FB6DE88024AF041900C537CC /* Point.swift in Sources */,
 				FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */,
 				FB7CD15C23EFAAE000EB4D04 /* Data.swift in Sources */,
-				FB00DDF523F23C15008751D2 /* FormatRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
