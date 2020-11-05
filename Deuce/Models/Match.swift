@@ -129,7 +129,8 @@ struct Match: Codable {
     
     var notes = "Notes"
     
-    var isDoubles = false
+    var isDoubles: Bool
+    
     var isSingles: Bool {
         get {
             !isDoubles
@@ -402,6 +403,7 @@ extension Match {
         case playerOneBreakPointsWon
         case playerTwoBreakPointsWon
         case notes
+        case isDoubles
     }
     
     init(from decoder: Decoder) throws {
@@ -422,6 +424,7 @@ extension Match {
         playerOneBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsWon)
         playerTwoBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsWon)
         notes = try container.decodeIfPresent(String.self, forKey: .notes) ?? "Notes"
+        isDoubles = try container.decode(Bool.self, forKey: .isDoubles)
     }
 }
 
