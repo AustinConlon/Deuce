@@ -20,17 +20,6 @@ struct Match: Codable {
         }
     }
     
-    var returningPlayer: Player! {
-        switch servicePlayer {
-        case .playerOne:
-            return .playerTwo
-        case .playerTwo:
-            return .playerOne
-        case .none:
-            return nil
-        }
-    }
-    
     var setsWon = [0, 0] {
         didSet {
             if self.winner == nil { sets.append(Set(format: format)) }
@@ -166,14 +155,13 @@ struct Match: Codable {
         self.isDoubles = format.isDoubles
     }
     
-    // MARK: - Methods
-    mutating func scorePoint(for player: Player) {
+    mutating func scorePoint(for team: Team) {
         undoStack.push(self)
         
-        switch player {
-        case .playerOne:
+        switch team {
+        case .teamOne:
             currentSet.currentGame.pointsWon[0] += 1
-        case .playerTwo:
+        case .teamTwo:
             currentSet.currentGame.pointsWon[1] += 1
         }
         
@@ -434,9 +422,20 @@ enum MatchState: String, Codable {
     case finished
 }
 
+/// Individual player for tracking service and statistics.
 enum Player: String, Codable {
+    /// The user.
     case playerOne
+    /// The user's partner in doubles.
+    case playerThree
+    /// The opponent in singles.
     case playerTwo
+    /// The opponent's partner in doubles.
+    case playerFour
+}
+
+enum Team: String, Codable {
+    case teamOne, teamTwo
 }
 
 enum Court: String, Codable {

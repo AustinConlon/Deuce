@@ -50,13 +50,13 @@ struct Game: Codable, Hashable {
     var numberOfPointsToWin = 4
     var marginToWin = 2
     
-    var winner: Player? {
+    var winner: Team? {
         get {
             if self.pointsWon.contains(where: { $0 >= numberOfPointsToWin }) {
                 if pointsWon[0] >= (pointsWon[1] + marginToWin) {
-                    return .playerOne
+                    return .teamOne
                 } else if pointsWon[1] >= (pointsWon[0] + marginToWin) {
-                    return .playerTwo
+                    return .teamTwo
                 }
             }
             
@@ -87,8 +87,6 @@ struct Game: Codable, Hashable {
             marginToWin = 2
         }
     }
-    
-    // MARK: - Methods
     
     func score(for player: Player) -> String {
         switch (player, isTiebreak) {

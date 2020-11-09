@@ -85,16 +85,26 @@ struct MatchView: View {
                     self.userData.workout.startWorkout()
                 })
         }
-        .alert(isPresented: $match.isDoubles) {
-            Alert(title: Text("Doubles"),
-                  primaryButton: .default(Text(LocalizedStringKey("You"))) {
-                    self.match.servicePlayer = .playerOne
-                    self.userData.workout.startWorkout()
-                },
-                  secondaryButton: .default(Text("Opponent")) {
-                    self.match.servicePlayer = .playerTwo
-                    self.userData.workout.startWorkout()
-                })
+        .actionSheet(isPresented: $match.isDoubles) {
+            ActionSheet(title: Text(serviceQuestion()),
+                        buttons: [
+                            .default(Text(LocalizedStringKey("Opponent"))) {
+                                self.match.servicePlayer = .playerTwo
+                                self.userData.workout.startWorkout()
+                            },
+                            .default(Text(LocalizedStringKey("Opponent's Partner"))) {
+                                self.match.servicePlayer = .playerOne
+                                self.userData.workout.startWorkout()
+                            },
+                            .default(Text(LocalizedStringKey("Your Partner"))) {
+                                self.match.servicePlayer = .playerOne
+                                self.userData.workout.startWorkout()
+                            },
+                            .default(Text(LocalizedStringKey("You"))) {
+                                self.match.servicePlayer = .playerOne
+                                self.userData.workout.startWorkout()
+                            }
+                        ])
         }
         .sheet(isPresented: $showingMatchMenu) {
             MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, showingInitialView: $showingInitialView)
