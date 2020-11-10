@@ -24,12 +24,12 @@ struct MatchView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                PlayerTwo(match: self.$match)
+                PlayerTwo(match: $match)
                 .frame(maxHeight: geometry.size.height / 2)
                 
                 Divider()
                 
-                PlayerOne(match: self.$match)
+                PlayerOne(match: $match)
                 .frame(maxHeight: geometry.size.height / 2)
             }
             
@@ -38,7 +38,7 @@ struct MatchView: View {
                 .environmentObject(userData)
                 .onAppear() {
                     match.stop()
-                    cloudController.uploadToCloud(match: self.$match.wrappedValue)
+                    cloudController.uploadToCloud(match: $match.wrappedValue)
                 }, isActive: $showingInitialView) {
                     EmptyView()
                 }
@@ -55,7 +55,7 @@ struct MatchView: View {
                     Spacer()
                     Image(systemName: "arrow.up.arrow.down")
                 }
-                .foregroundColor(self.match.isChangeover() && self.match.state == .playing ? .secondary : .clear)
+                .foregroundColor(match.isChangeover() && match.state == .playing ? .secondary : .clear)
             }
             .frame(height: geometry.size.height)
             .buttonStyle(PlainButtonStyle())
@@ -77,32 +77,32 @@ struct MatchView: View {
         .alert(isPresented: $match.isSingles) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
-                    self.match.servicePlayer = .playerOne
-                    self.userData.workout.startWorkout()
+                    match.servicePlayer = .playerOne
+                    userData.workout.startWorkout()
                 },
                   secondaryButton: .default(Text("Opponent")) {
-                    self.match.servicePlayer = .playerTwo
-                    self.userData.workout.startWorkout()
+                    match.servicePlayer = .playerTwo
+                    userData.workout.startWorkout()
                 })
         }
         .actionSheet(isPresented: $match.isDoubles) {
             ActionSheet(title: Text(serviceQuestion()),
                         buttons: [
                             .default(Text(LocalizedStringKey("Opponent"))) {
-                                self.match.servicePlayer = .playerTwo
-                                self.userData.workout.startWorkout()
+                                match.servicePlayer = .playerTwo
+                                userData.workout.startWorkout()
                             },
                             .default(Text(LocalizedStringKey("Opponent's Partner"))) {
-                                self.match.servicePlayer = .playerOne
-                                self.userData.workout.startWorkout()
+                                match.servicePlayer = .playerOne
+                                userData.workout.startWorkout()
                             },
                             .default(Text(LocalizedStringKey("Your Partner"))) {
-                                self.match.servicePlayer = .playerOne
-                                self.userData.workout.startWorkout()
+                                match.servicePlayer = .playerOne
+                                userData.workout.startWorkout()
                             },
                             .default(Text(LocalizedStringKey("You"))) {
-                                self.match.servicePlayer = .playerOne
-                                self.userData.workout.startWorkout()
+                                match.servicePlayer = .playerOne
+                                userData.workout.startWorkout()
                             }
                         ])
         }
@@ -139,25 +139,25 @@ struct PlayerTwo: View {
     var body: some View {
         GeometryReader { geometry in
             Button(action: {
-                self.match.scorePoint(for: .playerTwo)
-                WKInterfaceDevice.current().play(self.match.isChangeover() ? .stop : .start)
+                match.scorePoint(for: .teamTwo)
+                WKInterfaceDevice.current().play(match.isChangeover() ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
                     ZStack() {
-                        self.playerTwoServiceImage()
+                        playerTwoServiceImage()
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     }
-                    .foregroundColor(self.match.servicePlayer == .playerTwo && match.state == .playing ? .green : .clear)
-                    .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
-                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
+                    .foregroundColor(match.servicePlayer == .playerTwo && match.state == .playing ? .green : .clear)
+                    .frame(width: geometry.size.width / 2, alignment: playerTwoServiceAlignment())
+                    .animation(match.currentSet.currentGame.pointsPlayed > 0 && !match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
-                    Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
+                    Text(LocalizedStringKey(teamTwoGameScore()))
                     .fontWeight(.semibold)
                     
                     HStack {
-                        ForEach(self.match.sets, id: \.self) { set in
-                            Text(set.getScore(for: .playerTwo))
+                        ForEach(match.sets, id: \.self) { set in
+                            Text(set.score(of: .teamTwo))
                         }
                     }
                     .font(Font.title.monospacedDigit())
@@ -185,7 +185,7 @@ struct PlayerTwo: View {
         }
     }
     
-    func playerTwoGameScore() -> String {
+    func teamTwoGameScore() -> String {
         switch (match.currentSet.currentGame.advantage(), match.servicePlayer) {
         case (.playerTwo, .playerOne):
             return "Ad out"
@@ -198,22 +198,13 @@ struct PlayerTwo: View {
             case true:
                 return String(match.currentSet.currentGame.pointsWon[1])
             case false:
-                return match.currentSet.currentGame.score(for: .playerTwo)
+                return match.currentSet.currentGame.score(of: .teamTwo)
             }
         }
     }
     
     func playerTwoServiceImage() -> Image {
         Image(systemName: "circle.fill")
-    }
-    
-    func playerTwoMedal() -> String {
-        switch match.winner! {
-        case .playerOne:
-            return " "
-        case .playerTwo:
-            return "🏆"
-        }
     }
 }
 
@@ -224,13 +215,13 @@ struct PlayerOne: View {
     var body: some View {
         GeometryReader { geometry in
             Button(action: {
-                self.match.scorePoint(for: .playerOne)
-                WKInterfaceDevice.current().play(self.match.isChangeover() ? .stop : .start)
+                match.scorePoint(for: .teamOne)
+                WKInterfaceDevice.current().play(match.isChangeover() ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
                     HStack {
-                        ForEach(self.match.sets, id: \.self) { set in
-                            Text(set.getScore(for: .playerOne))
+                        ForEach(match.sets, id: \.self) { set in
+                            Text(set.score(of: .teamOne))
                         }
                     }
                     .font(Font.title.monospacedDigit())
@@ -238,17 +229,17 @@ struct PlayerOne: View {
                     .animation(match.allPointsPlayed.count > 0 ? .default : .none)
                     .foregroundColor(.primary)
                     
-                    Text(LocalizedStringKey(self.match.state == .finished ? self.playerOneMedal() : self.playerOneGameScore()))
+                    Text(LocalizedStringKey(playerOneGameScore()))
                     .fontWeight(.semibold)
                     
                     ZStack {
-                        self.playerOneServiceImage()
+                        playerOneServiceImage()
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     }
-                    .foregroundColor(self.match.servicePlayer == .playerOne && match.state == .playing ? .green : .clear)
-                    .frame(width: geometry.size.width / 2, alignment: self.playerOneServiceAlignment())
-                    .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
+                    .foregroundColor(match.servicePlayer == .playerOne && match.state == .playing ? .green : .clear)
+                    .frame(width: geometry.size.width / 2, alignment: playerOneServiceAlignment())
+                    .animation(match.currentSet.currentGame.pointsPlayed > 0 && !match.currentSet.currentGame.isTiebreak ? .default : nil)
                 }
                 .frame(height: geometry.size.height)
             }
@@ -283,22 +274,13 @@ struct PlayerOne: View {
             case true:
                 return String(match.currentSet.currentGame.pointsWon[0])
             case false:
-                return match.currentSet.currentGame.score(for: .playerOne)
+                return match.currentSet.currentGame.score(of: .teamOne)
             }
         }
     }
     
     func playerOneServiceImage() -> Image {
         Image(systemName: "circle.fill")
-    }
-    
-    func playerOneMedal() -> String {
-        switch match.winner! {
-        case .playerOne:
-            return "🏆"
-        case .playerTwo:
-            return " "
-        }
     }
 }
 

@@ -35,10 +35,10 @@ struct Match: Codable {
     /// Number of sets required to win the match. In a best-of 3 set series, the first to win 2 sets wins the match. In a best-of 5 it's 3 sets, and in a 1 set match it's of course 1 set.
     var numberOfSetsToWin: Int
     
-    var winner: Player? {
+    var winner: Team? {
         get {
-            if setsWon[0] >= numberOfSetsToWin { return .playerOne }
-            if setsWon[1] >= numberOfSetsToWin { return .playerTwo }
+            if setsWon[0] >= numberOfSetsToWin { return .teamOne }
+            if setsWon[1] >= numberOfSetsToWin { return .teamTwo }
             return nil
         }
     }
@@ -75,11 +75,11 @@ struct Match: Codable {
     var playerOneServicePointsWon: Int!
     var playerTwoServicePointsWon: Int!
     
-    var playerOneBreakPointsPlayed: Int!
-    var playerTwoBreakPointsPlayed: Int!
+    var teamOneBreakPointsPlayed: Int!
+    var teamTwoBreakPointsPlayed: Int!
     
-    var playerOneBreakPointsWon: Int!
-    var playerTwoBreakPointsWon: Int!
+    var teamOneBreakPointsWon: Int!
+    var teamTwoBreakPointsWon: Int!
     
     var allPointsPlayed: [Point] {
         get {
@@ -99,7 +99,7 @@ struct Match: Codable {
         var teamOnePointsWon = 0
         
         for point in allPointsPlayed {
-            if point.winner == .playerOne {
+            if point.winner == .teamOne {
                 teamOnePointsWon += 1
             }
         }
@@ -109,7 +109,7 @@ struct Match: Codable {
     var teamTwoPointsWon: Int {
         var teamTwoPointsWon = 0
         for point in allPointsPlayed {
-            if point.winner == .playerTwo {
+            if point.winner == .teamTwo {
                 teamTwoPointsWon += 1
             }
         }
@@ -146,11 +146,11 @@ struct Match: Codable {
         self.playerOneServicePointsWon = 0
         self.playerTwoServicePointsWon = 0
         
-        self.playerOneBreakPointsPlayed = 0
-        self.playerTwoBreakPointsPlayed = 0
+        self.teamOneBreakPointsPlayed = 0
+        self.teamTwoBreakPointsPlayed = 0
         
-        self.playerOneBreakPointsWon = 0
-        self.playerTwoBreakPointsWon = 0
+        self.teamOneBreakPointsWon = 0
+        self.teamTwoBreakPointsWon = 0
         
         self.isDoubles = format.isDoubles
     }
@@ -177,9 +177,9 @@ struct Match: Codable {
     private mutating func checkWonGame() {
         if let gameWinner = currentSet.currentGame.winner {
             switch gameWinner {
-            case .playerOne:
+            case .teamOne:
                 currentSet.gamesWon[0] += 1
-            case .playerTwo:
+            case .teamTwo:
                 currentSet.gamesWon[1] += 1
             }
             
@@ -190,9 +190,9 @@ struct Match: Codable {
     private mutating func checkWonSet() {
         if let setWinner = currentSet.winner {
             switch setWinner {
-            case .playerOne:
+            case .teamOne:
                 self.setsWon[0] += 1
-            case .playerTwo:
+            case .teamTwo:
                 self.setsWon[1] += 1
             }
             
@@ -235,12 +235,13 @@ struct Match: Codable {
     }
     
     private mutating func toggleServicePlayer() {
-        switch servicePlayer {
-        case .playerOne:
+        switch (isDoubles, servicePlayer) {
+        case (true, .playerOne):
             servicePlayer = .playerTwo
-        case .playerTwo:
+        case (true, .playerTwo):
             servicePlayer = .playerOne
-        case .none:
+        // TODO: Implement doubles service rotation.
+        default:
             break
         }
     }
@@ -267,16 +268,16 @@ struct Match: Codable {
         return false
     }
     
-    func playerWithMatchPoint() -> Player? {
-        if let playerWithSetPoint = currentSet.playerWithSetPoint() {
-            switch playerWithSetPoint {
-            case .playerOne:
+    func teamWithMatchPoint() -> Team? {
+        if let teamWithSetPoint = currentSet.teamWithSetPoint() {
+            switch teamWithSetPoint {
+            case .teamOne:
                 if self.setsWon[0] == numberOfSetsToWin - 1 {
-                    return .playerOne
+                    return .teamOne
                 }
-            case .playerTwo:
+            case .teamTwo:
                 if self.setsWon[1] == numberOfSetsToWin - 1 {
-                    return .playerTwo
+                    return .teamTwo
                 }
             }
         }
@@ -284,7 +285,7 @@ struct Match: Codable {
     }
     
     func isMatchPoint() -> Bool {
-        playerWithMatchPoint() != nil ? true : false
+        teamWithMatchPoint() != nil ? true : false
     }
     
     mutating func undo() {
@@ -295,13 +296,13 @@ struct Match: Codable {
     
     // MARK: - Statistics
     
-    func totalGamesWon(by player: Player) -> Int {
+    func totalGamesWon(by team: Team) -> Int {
         var totalGamesWon = 0
         for set in sets {
-            switch player {
-            case .playerOne:
+            switch team {
+            case .teamOne:
                 totalGamesWon += set.gamesWon[0]
-            case .playerTwo:
+            case .teamTwo:
                 totalGamesWon += set.gamesWon[1]
             }
         }
@@ -317,10 +318,10 @@ struct Match: Codable {
     
     private mutating func calculateServicePointsWon() {
         for point in allPointsPlayed {
-            switch (point.servicePlayer, point.winner) {
-            case (.playerOne, .playerOne):
+            switch (point.serviceTeam, point.winner) {
+            case (.teamOne, .teamOne):
                 self.playerOneServicePointsWon += 1
-            case (.playerTwo, .playerTwo):
+            case (.teamTwo, .teamTwo):
                 self.playerTwoServicePointsWon += 1
             default:
                 break
@@ -343,11 +344,11 @@ struct Match: Codable {
     
     private mutating func calculateBreakPointsWon() {
         for point in allPointsPlayed where point.isBreakpoint {
-            switch (point.winner, point.returningPlayer) {
-            case (.playerOne, .playerOne):
-                playerOneBreakPointsWon += 1
-            case (.playerTwo, .playerTwo):
-                playerTwoBreakPointsWon += 1
+            switch (point.winner, point.returningTeam) {
+            case (.teamOne, .teamOne):
+                teamOneBreakPointsWon += 1
+            case (.teamTwo, .teamTwo):
+                teamTwoBreakPointsWon += 1
             default:
                 break
             }
@@ -358,11 +359,11 @@ struct Match: Codable {
         for set in sets {
             for game in set.games {
                 for point in game.points where point.isBreakpoint {
-                    switch (point.returningPlayer!, game.playerWithGamePoint()) {
-                    case (.playerOne, .playerOne):
-                        playerOneBreakPointsPlayed += 1
-                    case (.playerTwo, .playerTwo):
-                        playerTwoBreakPointsPlayed += 1
+                    switch (point.returningTeam!, game.teamWithGamePoint()) {
+                    case (.teamOne, .teamOne):
+                        teamOneBreakPointsPlayed += 1
+                    case (.teamTwo, .teamTwo):
+                        teamTwoBreakPointsPlayed += 1
                     default:
                         break
                     }
@@ -386,10 +387,10 @@ extension Match {
         case playerTwoServicePointsPlayed
         case playerOneServicePointsWon
         case playerTwoServicePointsWon
-        case playerOneBreakPointsPlayed
-        case playerTwoBreakPointsPlayed
-        case playerOneBreakPointsWon
-        case playerTwoBreakPointsWon
+        case teamOneBreakPointsPlayed
+        case teamTwoBreakPointsPlayed
+        case teamOneBreakPointsWon
+        case teamTwoBreakPointsWon
         case notes
         case isDoubles
     }
@@ -407,10 +408,10 @@ extension Match {
         playerTwoServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsPlayed)
         playerOneServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsWon)
         playerTwoServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsWon)
-        playerOneBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsPlayed)
-        playerTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsPlayed)
-        playerOneBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneBreakPointsWon)
-        playerTwoBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .playerTwoBreakPointsWon)
+        teamOneBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .teamOneBreakPointsPlayed)
+        teamTwoBreakPointsPlayed = try container.decodeIfPresent(Int.self, forKey: .teamTwoBreakPointsPlayed)
+        teamOneBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .teamOneBreakPointsWon)
+        teamTwoBreakPointsWon = try container.decodeIfPresent(Int.self, forKey: .teamTwoBreakPointsWon)
         notes = try container.decodeIfPresent(String.self, forKey: .notes) ?? "Notes"
         isDoubles = try container.decode(Bool.self, forKey: .isDoubles)
     }
@@ -435,7 +436,10 @@ enum Player: String, Codable {
 }
 
 enum Team: String, Codable {
-    case teamOne, teamTwo
+    /// The user's team.
+    case teamOne
+    /// The opposing team.
+    case teamTwo
 }
 
 enum Court: String, Codable {
@@ -482,9 +486,9 @@ extension Match {
         while match.state != .finished {
             switch Bool.random() {
             case true:
-                match.scorePoint(for: .playerOne)
+                match.scorePoint(for: .teamOne)
             case false:
-                match.scorePoint(for: .playerTwo)
+                match.scorePoint(for: .teamTwo)
             }
         }
         match.stop()

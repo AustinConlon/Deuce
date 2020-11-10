@@ -131,8 +131,8 @@ class MatchHistoryTableViewController: UITableViewController {
             cell.playerOneSetOneScoreLabel.text = String(match.sets[0].gamesWon[0])
             cell.playerTwoSetOneScoreLabel.text = String(match.sets[0].gamesWon[1])
             
-            if match.sets[0].winner == .playerOne { cell.playerOneSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[0].winner == .playerTwo { cell.playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[0].winner == .teamOne { cell.playerOneSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[0].winner == .teamTwo { cell.playerTwoSetOneScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
     
         if match.sets.count >= 2 {
@@ -140,8 +140,8 @@ class MatchHistoryTableViewController: UITableViewController {
             cell.playerOneSetTwoScoreLabel.text = String(match.sets[1].gamesWon[0])
             cell.playerTwoSetTwoScoreLabel.text = String(match.sets[1].gamesWon[1])
             
-            if match.sets[1].winner == .playerOne { cell.playerOneSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[1].winner == .playerTwo { cell.playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[1].winner == .teamOne { cell.playerOneSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[1].winner == .teamTwo { cell.playerTwoSetTwoScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
         
         if match.sets.count >= 3 {
@@ -149,8 +149,8 @@ class MatchHistoryTableViewController: UITableViewController {
             cell.playerOneSetThreeScoreLabel.text = String(match.sets[2].gamesWon[0])
             cell.playerTwoSetThreeScoreLabel.text = String(match.sets[2].gamesWon[1])
             
-            if match.sets[2].winner == .playerOne { cell.playerOneSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[2].winner == .playerTwo { cell.playerTwoSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[2].winner == .teamOne { cell.playerOneSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[2].winner == .teamTwo { cell.playerTwoSetThreeScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
         
         if match.sets.count >= 4 {
@@ -158,8 +158,8 @@ class MatchHistoryTableViewController: UITableViewController {
             cell.playerOneSetFourScoreLabel.text = String(match.sets[3].gamesWon[0])
             cell.playerTwoSetFourScoreLabel.text = String(match.sets[3].gamesWon[1])
             
-            if match.sets[3].winner == .playerOne { cell.playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[3].winner == .playerTwo { cell.playerTwoSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[3].winner == .teamOne { cell.playerOneSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[3].winner == .teamTwo { cell.playerTwoSetFourScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
         
         if match.sets.count >= 5 {
@@ -167,12 +167,12 @@ class MatchHistoryTableViewController: UITableViewController {
             cell.playerOneSetFiveScoreLabel.text = String(match.sets[4].gamesWon[0])
             cell.playerTwoSetFiveScoreLabel.text = String(match.sets[4].gamesWon[1])
             
-            if match.sets[4].winner == .playerOne { cell.playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
-            if match.sets[4].winner == .playerTwo { cell.playerTwoSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[4].winner == .teamOne { cell.playerOneSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
+            if match.sets[4].winner == .teamTwo { cell.playerTwoSetFiveScoreLabel.font = .preferredFont(forTextStyle: .headline) }
         }
         
-        if match.winner == .playerOne { cell.playerOneNameLabel.font = .preferredFont(forTextStyle: .headline) }
-        if match.winner == .playerTwo { cell.playerTwoNameLabel.font = .preferredFont(forTextStyle: .headline) }
+        if match.winner == .teamOne { cell.playerOneNameLabel.font = .preferredFont(forTextStyle: .headline) }
+        if match.winner == .teamTwo { cell.playerTwoNameLabel.font = .preferredFont(forTextStyle: .headline) }
 
         return cell
     }

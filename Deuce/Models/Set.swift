@@ -38,17 +38,17 @@ struct Set: Codable, Hashable {
     
     var marginToWin = 2
     
-    var winner: Player? {
+    var winner: Team? {
         switch games.last?.isTiebreak {
         case true:
             return games.last?.winner
         case false:
             if gamesWon[0] >= numberOfGamesToWin && ((gamesWon[0] - gamesWon[1]) >= marginToWin) {
-                return .playerOne
+                return .teamOne
             }
             
             if gamesWon[1] >= numberOfGamesToWin && ((gamesWon[1] - gamesWon[0]) >= marginToWin) {
-                return .playerTwo
+                return .teamTwo
             }
         default:
             return nil
@@ -66,27 +66,25 @@ struct Set: Codable, Hashable {
         games = [Game(format: format)]
     }
     
-    // MARK: - Methods
-    
-    func getScore(for player: Player) -> String {
-        switch player {
-        case .playerOne:
+    func score(of team: Team) -> String {
+        switch team {
+        case .teamOne:
             return String(self.gamesWon[0])
-        case .playerTwo:
+        case .teamTwo:
             return String(self.gamesWon[1])
         }
     }
     
-    func playerWithSetPoint() -> Player? {
-        if let playerWithGamePoint = currentGame.playerWithGamePoint() {
-            switch playerWithGamePoint {
-            case .playerOne:
+    func teamWithSetPoint() -> Team? {
+        if let teamWithGamePoint = currentGame.teamWithGamePoint() {
+            switch teamWithGamePoint {
+            case .teamOne:
                 if ((self.gamesWon[0] == numberOfGamesToWin - 1) && (self.gamesWon[0] > self.gamesWon[1])) || currentGame.isTiebreak {
-                    return .playerOne
+                    return .teamOne
                 }
-            case .playerTwo:
+            case .teamTwo:
                 if ((self.gamesWon[1] == numberOfGamesToWin - 1) && (self.gamesWon[1] > self.gamesWon[0])) || currentGame.isTiebreak {
-                    return .playerTwo
+                    return .teamTwo
                 }
             }
         }
@@ -94,7 +92,7 @@ struct Set: Codable, Hashable {
     }
     
     func isSetPoint() -> Bool {
-        playerWithSetPoint() != nil ? true : false
+        teamWithSetPoint() != nil ? true : false
     }
 }
 

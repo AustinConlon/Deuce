@@ -48,14 +48,14 @@ struct MatchDetail: View {
             HStack {
                 Label {
                     Text(LocalizedStringKey(match.playerOneName ?? "You"))
-                        .fontWeight(match.winner == .playerOne ? .bold : .regular)
+                        .fontWeight(match.winner == .teamOne ? .bold : .regular)
                 } icon: {
                     Image(systemName: "applewatch")
                 }
                 .frame(maxWidth: .infinity)
                 
                 Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
-                    .fontWeight(match.winner == .playerTwo ? .bold : .regular)
+                    .fontWeight(match.winner == .teamTwo ? .bold : .regular)
                     .frame(maxWidth: .infinity)
             }
             
@@ -91,7 +91,7 @@ struct Statistics: View {
         HStack() {
             VStack {
                 Text(String(match.teamOnePointsWon))
-                Text(String(match.totalGamesWon(by: .playerOne)))
+                Text(String(match.totalGamesWon(by: .teamOne)))
                 Text("\(playerOneBreakPointsWon)/\(playerOneBreakPointsPlayed)")
                 Text("\(playerOneServicePointsWon)/\(playerOneServicePointsPlayed)")
                 Text("\(playerOneReturnPointsWon)/\(playerTwoServicePointsPlayed)")
@@ -113,7 +113,7 @@ struct Statistics: View {
             
             VStack {
                 Text(String(match.teamTwoPointsWon))
-                Text(String(match.totalGamesWon(by: .playerTwo)))
+                Text(String(match.totalGamesWon(by: .teamTwo)))
                 Text("\(playerTwoBreakPointsWon)/\(playerTwoBreakPointsPlayed)")
                 Text("\(playerTwoServicePointsWon)/\(playerTwoServicePointsPlayed)")
                 Text("\(playerTwoReturnPointsWon)/\(playerOneServicePointsPlayed)")
@@ -124,7 +124,7 @@ struct Statistics: View {
     }
     
     var playerOneBreakPointsWon: String {
-        if let playerOneBreakPointsWon = match.playerOneBreakPointsWon {
+        if let playerOneBreakPointsWon = match.teamOneBreakPointsWon {
             return String(playerOneBreakPointsWon)
         } else {
             return "-"
@@ -132,7 +132,7 @@ struct Statistics: View {
     }
     
     var playerTwoBreakPointsWon: String {
-        if let playerTwoBreakPointsWon = match.playerTwoBreakPointsWon {
+        if let playerTwoBreakPointsWon = match.teamTwoBreakPointsWon {
             return String(playerTwoBreakPointsWon)
         } else {
             return "-"
@@ -140,7 +140,7 @@ struct Statistics: View {
     }
     
     var playerOneBreakPointsPlayed: String {
-        if let playerOneBreakPointsPlayed = match.playerOneBreakPointsPlayed {
+        if let playerOneBreakPointsPlayed = match.teamOneBreakPointsPlayed {
             return String(playerOneBreakPointsPlayed)
         } else {
             return "-"
@@ -148,7 +148,7 @@ struct Statistics: View {
     }
     
     var playerTwoBreakPointsPlayed: String {
-        if let playerTwoBreakPointsPlayed = match.playerTwoBreakPointsPlayed {
+        if let playerTwoBreakPointsPlayed = match.teamTwoBreakPointsPlayed {
             return String(playerTwoBreakPointsPlayed)
         } else {
             return "-"
@@ -215,9 +215,9 @@ struct Score: View {
                 ForEach(match.sets, id: \.self) { set in
                     VStack {
                         Text(String(set.gamesWon[1]))
-                            .fontWeight(set.winner == .playerTwo ? .bold : .regular)
+                            .fontWeight(set.winner == .teamTwo ? .bold : .regular)
                         Text(String(set.gamesWon[0]))
-                            .fontWeight(set.winner == .playerOne ? .bold : .regular)
+                            .fontWeight(set.winner == .teamOne ? .bold : .regular)
                     }
                     
                 }

@@ -24,14 +24,14 @@ struct Game: Codable, Hashable {
     var pointsWon = [0, 0] {
         willSet {
             /// There is currently a Swift bug where you can't subscript a property in its `willSet`, so I use `first` instead.
-            if newValue[0] > pointsWon.first! { currentPoint.winner = .playerOne }
-            if newValue[1] > pointsWon.last! { currentPoint.winner = .playerTwo }
+            if newValue[0] > pointsWon.first! { currentPoint.winner = .teamOne }
+            if newValue[1] > pointsWon.last! { currentPoint.winner = .teamTwo }
         }
         didSet {
             if self.winner == nil {
                 points.append(Point(servicePlayer: points.last?.servicePlayer))
             }
-            if let playerWithGamePoint = playerWithGamePoint(), currentPoint.returningPlayer == playerWithGamePoint {
+            if let teamWithGamePoint = teamWithGamePoint(), currentPoint.returningTeam == teamWithGamePoint {
                 currentPoint.isBreakpoint = true
             }
         }
@@ -77,8 +77,6 @@ struct Game: Codable, Hashable {
     
     static var noAd = false
     
-    // MARK: - Initialization
-    
     init(format: RulesFormats) {
         self.format = format
         if format == .noAd {
@@ -88,26 +86,26 @@ struct Game: Codable, Hashable {
         }
     }
     
-    func score(for player: Player) -> String {
-        switch (player, isTiebreak) {
-        case (.playerOne, false):
+    func score(of team: Team) -> String {
+        switch (team, isTiebreak) {
+        case (.teamOne, false):
             return Game.pointNames[pointsWon[0]]!
-        case (.playerTwo, false):
+        case (.teamTwo, false):
             return Game.pointNames[pointsWon[1]]!
-        case (.playerOne, true):
+        case (.teamOne, true):
             return String(pointsWon[0])
-        case (.playerTwo, true):
+        case (.teamTwo, true):
             return String(pointsWon[1])
         }
     }
     
-    func playerWithGamePoint() -> Player? {
+    func teamWithGamePoint() -> Team? {
         if (pointsWon[0] >= numberOfPointsToWin - 1) && (pointsWon[0] > pointsWon[1]) {
-            return .playerOne
+            return .teamOne
         }
         
         if (pointsWon[1] >= numberOfPointsToWin - 1) && (pointsWon[1] > pointsWon[0]) {
-            return .playerTwo
+            return .teamTwo
         }
         
         return nil
