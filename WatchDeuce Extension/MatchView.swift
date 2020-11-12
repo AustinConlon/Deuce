@@ -74,7 +74,7 @@ struct MatchView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
         .edgesIgnoringSafeArea(.bottom)
-        .alert(isPresented: $match.isSingles) {
+        .alert(isPresented: $singlesServiceAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     match.servicePlayer = .playerOne
@@ -85,7 +85,7 @@ struct MatchView: View {
                     userData.workout.startWorkout()
                 })
         }
-        .actionSheet(isPresented: $match.isDoubles) {
+        .actionSheet(isPresented: $doublesServiceAlert) {
             ActionSheet(title: Text(serviceQuestion()),
                         buttons: [
                             .default(Text(LocalizedStringKey("Opponent"))) {
@@ -108,6 +108,11 @@ struct MatchView: View {
         }
         .sheet(isPresented: $showingMatchMenu) {
             MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, showingInitialView: $showingInitialView)
+        }
+        .onAppear {
+            if match.servicePlayer == nil {
+                match.isDoubles ? doublesServiceAlert.toggle() : singlesServiceAlert.toggle()
+            }
         }
     }
     
