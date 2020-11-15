@@ -24,12 +24,12 @@ struct MatchView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                PlayerTwo(match: $match)
+                TeamTwo(match: $match)
                 .frame(maxHeight: geometry.size.height / 2)
                 
                 Divider()
                 
-                PlayerOne(match: $match)
+                TeamOne(match: $match)
                 .frame(maxHeight: geometry.size.height / 2)
             }
             
@@ -93,18 +93,19 @@ struct MatchView: View {
                                 userData.workout.startWorkout()
                             },
                             .default(Text(LocalizedStringKey("Opponent's Partner"))) {
-                                match.servicePlayer = .playerOne
+                                match.servicePlayer = .playerFour
                                 userData.workout.startWorkout()
                             },
                             .default(Text(LocalizedStringKey("Your Partner"))) {
-                                match.servicePlayer = .playerOne
+                                match.servicePlayer = .playerThree
                                 userData.workout.startWorkout()
                             },
                             .default(Text(LocalizedStringKey("You"))) {
                                 match.servicePlayer = .playerOne
                                 userData.workout.startWorkout()
                             }
-                        ])
+                        ]
+                        .reversed())
         }
         .sheet(isPresented: $showingMatchMenu) {
             MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, showingInitialView: $showingInitialView)
@@ -138,7 +139,7 @@ struct MatchView: View {
 }
 
 // MARK: - Opponent
-struct PlayerTwo: View {
+struct TeamTwo: View {
     @Binding var match: Match
     
     var body: some View {
@@ -149,11 +150,11 @@ struct PlayerTwo: View {
             }) {
                 VStack(spacing: 0) {
                     ZStack() {
-                        playerTwoServiceImage()
+                        teamTwoServiceImage()
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     }
-                    .foregroundColor(match.servicePlayer == .playerTwo && match.state == .playing ? .green : .clear)
+                    .foregroundColor(teamTwoServiceColor())
                     .frame(width: geometry.size.width / 2, alignment: playerTwoServiceAlignment())
                     .animation(match.currentSet.currentGame.pointsPlayed > 0 && !match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
@@ -208,13 +209,24 @@ struct PlayerTwo: View {
         }
     }
     
-    func playerTwoServiceImage() -> Image {
+    func teamTwoServiceImage() -> Image {
         Image(systemName: "circle.fill")
+    }
+    
+    func teamTwoServiceColor() -> Color {
+        switch (match.state, match.currentSet.currentGame.points.first?.servicePlayer, match.servicePlayer) {
+        case (.playing, .playerTwo, .playerTwo):
+            return .green
+        case (.playing, .playerFour, .playerFour):
+            return .secondary
+        default:
+            return .clear
+        }
     }
 }
 
 // MARK: - User
-struct PlayerOne: View {
+struct TeamOne: View {
     @Binding var match: Match
     
     var body: some View {
@@ -234,16 +246,16 @@ struct PlayerOne: View {
                     .animation(match.allPointsPlayed.count > 0 ? .default : .none)
                     .foregroundColor(.primary)
                     
-                    Text(LocalizedStringKey(playerOneGameScore()))
+                    Text(LocalizedStringKey(teamOneGameScore()))
                     .fontWeight(.semibold)
                     
                     ZStack {
-                        playerOneServiceImage()
+                        teamOneServiceImage()
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     }
-                    .foregroundColor(match.servicePlayer == .playerOne && match.state == .playing ? .green : .clear)
-                    .frame(width: geometry.size.width / 2, alignment: playerOneServiceAlignment())
+                    .foregroundColor(teamOneServiceColor())
+                    .frame(width: geometry.size.width / 2, alignment: teamOneServiceAlignment())
                     .animation(match.currentSet.currentGame.pointsPlayed > 0 && !match.currentSet.currentGame.isTiebreak ? .default : nil)
                 }
                 .frame(height: geometry.size.height)
@@ -253,7 +265,7 @@ struct PlayerOne: View {
         }
     }
     
-    func playerOneServiceAlignment() -> Alignment {
+    func teamOneServiceAlignment() -> Alignment {
         if match.format == .noAd && match.currentSet.currentGame.pointsWon == [3, 3] && !match.currentSet.currentGame.isTiebreak {
             return .center
         } else {
@@ -266,7 +278,7 @@ struct PlayerOne: View {
         }
     }
     
-    func playerOneGameScore() -> String {
+    func teamOneGameScore() -> String {
         switch (match.currentSet.currentGame.advantage(), match.servicePlayer) {
         case (.playerOne, .playerOne):
             return "Ad in"
@@ -284,15 +296,26 @@ struct PlayerOne: View {
         }
     }
     
-    func playerOneServiceImage() -> Image {
+    func teamOneServiceImage() -> Image {
         Image(systemName: "circle.fill")
+    }
+    
+    func teamOneServiceColor() -> Color {
+        switch (match.state, match.currentSet.currentGame.points.first?.servicePlayer, match.servicePlayer) {
+        case (.playing, .playerOne, .playerOne):
+            return .green
+        case (.playing, .playerThree, .playerThree):
+            return .secondary
+        default:
+            return .clear
+        }
     }
 }
 
 struct MatchView_Previews: PreviewProvider {
     static var previews: some View {
         let userData = UserData()
-        let format = userData.formats[0]
+        let format = userData.formats[3]
         return Group {
             MatchView(match: Match(format: format))
                 .environmentObject(userData)

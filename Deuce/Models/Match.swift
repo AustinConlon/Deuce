@@ -214,10 +214,10 @@ struct Match: Codable {
     /// Updates the state of the service player and side of the court which they are serving on.
     private mutating func updateService() {
         if currentSet.currentGame.pointsWon == [0, 0] {
-            toggleServicePlayer()
+            updateServicePlayer()
         } else {
             if currentSet.currentGame.isTiebreak && currentSet.currentGame.pointsWon.sum.isOdd {
-                toggleServicePlayer()
+                updateServicePlayer()
                 currentSet.currentGame.serviceSide = .adCourt
             } else {
                 toggleServiceCourt()
@@ -234,13 +234,20 @@ struct Match: Codable {
         }
     }
     
-    private mutating func toggleServicePlayer() {
+    private mutating func updateServicePlayer() {
         switch (isDoubles, servicePlayer) {
         case (true, .playerOne):
             servicePlayer = .playerTwo
+        case (true, .playerThree):
+            servicePlayer = .playerFour
         case (true, .playerTwo):
             servicePlayer = .playerOne
-        // TODO: Implement doubles service rotation.
+        case (true, .playerFour):
+            servicePlayer = .playerThree
+        case (false, .playerOne):
+            servicePlayer = .playerTwo
+        case (false, .playerTwo):
+            servicePlayer = .playerOne
         default:
             break
         }
