@@ -107,6 +107,17 @@ struct MatchView: View {
                         ]
                         .reversed())
         }
+        .alert(isPresented: $match.isSelectingReturningPlayer) {
+            Alert(title: Text("Who will return?"),
+                  primaryButton: .default(Text(match.currentSet.currentGame.currentPoint.serviceTeam == .teamOne ? "You" : "Opponent's Partner")) {
+                    match.servicePlayer = match.currentSet.currentGame.currentPoint.serviceTeam == .teamOne ? .playerOne : .playerFour
+                    match.isSelectingReturningPlayer = false
+                },
+                  secondaryButton: .default(Text(match.currentSet.currentGame.currentPoint.serviceTeam == .teamTwo ? "Opponent" : "Your Partner")) {
+                    match.servicePlayer = match.currentSet.currentGame.currentPoint.serviceTeam == .teamTwo ? .playerTwo : .playerThree
+                    match.isSelectingReturningPlayer = false
+                })
+        }
         .sheet(isPresented: $showingMatchMenu) {
             MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, showingInitialView: $showingInitialView)
         }
@@ -159,7 +170,8 @@ struct TeamTwo: View {
                     .animation(match.currentSet.currentGame.pointsPlayed > 0 && !match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
                     Text(LocalizedStringKey(teamTwoGameScore()))
-                    .fontWeight(.semibold)
+                        .fontWeight(.semibold)
+                        .overlay(match.winner == .teamTwo ? Image(systemName: "crown.fill").foregroundColor(.yellow) : nil)
                     
                     HStack {
                         ForEach(match.sets, id: \.self) { set in
@@ -192,6 +204,8 @@ struct TeamTwo: View {
     }
     
     func teamTwoGameScore() -> String {
+        if match.winner != nil { return " " }
+        
         switch (match.currentSet.currentGame.advantage(), match.servicePlayer) {
         case (.playerTwo, .playerOne):
             return "Ad out"
@@ -247,7 +261,8 @@ struct TeamOne: View {
                     .foregroundColor(.primary)
                     
                     Text(LocalizedStringKey(teamOneGameScore()))
-                    .fontWeight(.semibold)
+                        .fontWeight(.semibold)
+                        .overlay(match.winner == .teamOne ? Image(systemName: "crown.fill").foregroundColor(.yellow) : nil)
                     
                     ZStack {
                         teamOneServiceImage()
@@ -279,6 +294,8 @@ struct TeamOne: View {
     }
     
     func teamOneGameScore() -> String {
+        if match.winner != nil { return " " }
+        
         switch (match.currentSet.currentGame.advantage(), match.servicePlayer) {
         case (.playerOne, .playerOne):
             return "Ad in"

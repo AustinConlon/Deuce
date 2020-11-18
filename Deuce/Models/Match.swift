@@ -129,6 +129,9 @@ struct Match: Codable {
         }
     }
     
+    /// In doubles, the returning team chooses who returns serve at the start of the second game of each set, and the pattern continues for the remainder of the set.
+    var isSelectingReturningPlayer = false
+    
     // MARK: - Initialization
     init(format: Format) {
         self.format = RulesFormats(rawValue: format.name)!
@@ -250,6 +253,10 @@ struct Match: Codable {
             servicePlayer = .playerOne
         default:
             break
+        }
+        
+        if self.isDoubles && currentSet.gamesPlayed == 1 && currentSet.currentGame.pointsWon == [0, 0] {
+            isSelectingReturningPlayer = true
         }
     }
     
