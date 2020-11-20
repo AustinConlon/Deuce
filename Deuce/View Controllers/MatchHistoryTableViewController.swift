@@ -70,7 +70,9 @@ class MatchHistoryTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        configureRefreshControl()
+        if traitCollection.userInterfaceIdiom != .mac {
+            configureRefreshControl()
+        }
         addObservers()
     }
   
@@ -249,6 +251,7 @@ class MatchHistoryTableViewController: UITableViewController {
     // MARK: - Refresh
     
     func configureRefreshControl () {
+        refreshControl?.isEnabled = true
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
