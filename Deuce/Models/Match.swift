@@ -9,7 +9,8 @@
 import Foundation
 
 struct Match: Codable, Hashable {
-    // MARK: - Properties
+    let id = UUID()
+    
     var format: RulesFormats
     
     var playerOneName: String?
@@ -472,5 +473,15 @@ extension Match {
         }
         match.stop()
         return match
+    }
+}
+
+extension Match: Identifiable {
+    static func ==(lhs: Match, rhs: Match) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }

@@ -7,16 +7,17 @@
 //
 
 import UIKit
-import WatchConnectivity
 import os.log
 import CloudKit
 import SafariServices
 import SwiftUI
 
+enum Section {
+    case main
+}
+
 class MatchHistoryTableViewController: UITableViewController {
-    enum Section {
-        case main
-    }
+    
     
     class DataSource: UITableViewDiffableDataSource<Section, Match> {
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -31,60 +32,12 @@ class MatchHistoryTableViewController: UITableViewController {
                     apply(snapshot)
                 }
                 
-                database.delete(withRecordID: records[indexPath.row].recordID) { (recordID, error) in
+                MatchHistoryController.shared.database.delete(withRecordID: MatchHistoryController.shared.records[indexPath.row].recordID) { (recordID, error) in
                     if let error = error {
                         print(error.localizedDescription)
                     } else {
-                        self.records.remove(at: indexPath.row)
+                        MatchHistoryController.shared.records.remove(at: indexPath.row)
                     }
-                }
-            }
-        }
-    }
-    
-    var matches = [Match]()
-    
-    let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
-    
-    var records = [CKRecord]() {
-        didSet {
-            if !records.isEmpty {
-                matches.removeAll()
-                
-                for record in records {
-                    let matchData = record["matchData"] as! Data
-                    let propertyListDecoder = PropertyListDecoder()
-                    do {
-                        let match = try propertyListDecoder.decode(Match.self, from: matchData)
-                        matches.append(match)
-                    } catch {
-                        print(error)
-                    }
-                }
-                
-                if records.count > oldValue.count && matches.count > 1, let previousMatchIndex = matches.index(0, offsetBy: 1, limitedBy: 1) {
-                    if let previousPlayerOneName = matches[previousMatchIndex].playerOneName {
-                        matches[0].playerOneName = previousPlayerOneName
-
-                        let matchRecord = self.records[0]
-                        if let matchData = try? PropertyListEncoder().encode(self.matches[0]) {
-                            matchRecord["matchData"] = matchData as NSData
-
-                            self.database.save(matchRecord) { (savedRecord, error) in
-                                if let error = error { print(error.localizedDescription) }
-                            }
-                        }
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    let snapshot = self.initialSnapshot()
-                    self.dataSource.apply(snapshot, animatingDifferences: false)
-                    self.tableView.refreshControl?.endRefreshing()
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.tableView.refreshControl?.endRefreshing()
                 }
             }
         }
@@ -120,8 +73,20 @@ class MatchHistoryTableViewController: UITableViewController {
     
     fileprivate func addObservers() {
         becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
-            self.fetchMatchRecords()
+            MatchHistoryController.shared.fetchMatchRecords()
+            DispatchQueue.main.async {
+                let snapshot = self.initialSnapshot()
+                self.dataSource.apply(snapshot, animatingDifferences: false)
+                self.tableView.refreshControl?.endRefreshing()
+            }
         }
+    }
+    
+    func initialSnapshot() -> NSDiffableDataSourceSnapshot<Section, Match> {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(MatchHistoryController.shared.matches)
+        return snapshot
     }
 
     // MARK: - Table view data source
@@ -131,7 +96,7 @@ class MatchHistoryTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        matches.count
+        MatchHistoryController.shared.matches.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -140,26 +105,8 @@ class MatchHistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        present(UIHostingController(rootView: MatchDetail(match: matches[indexPath.row])), animated: true)
+        present(UIHostingController(rootView: MatchDetail(match: MatchHistoryController.shared.matches[indexPath.row])), animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    // MARK: - CloudKit
-    
-    private func fetchMatchRecords() {
-        let predicate = NSPredicate(value: true)
-        let query = CKQuery(recordType: "Match", predicate: predicate)
-        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        
-        database.perform(query, inZoneWith: nil) { (fetchedRecords, error) in
-            if let fetchedRecords = fetchedRecords {
-                self.records = fetchedRecords
-            }
-            
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
     }
     
     // MARK: - Refresh
@@ -170,7 +117,12 @@ class MatchHistoryTableViewController: UITableViewController {
     }
     
     @objc func handleRefreshControl() {
-        fetchMatchRecords()
+        MatchHistoryController.shared.fetchMatchRecords()
+        DispatchQueue.main.async {
+            let snapshot = self.initialSnapshot()
+            self.dataSource.apply(snapshot, animatingDifferences: false)
+            self.tableView.refreshControl?.endRefreshing()
+        }
     }
     
     // MARK: - Editing
@@ -184,7 +136,7 @@ class MatchHistoryTableViewController: UITableViewController {
             textField.returnKeyType = .next
             textField.clearButtonMode = .whileEditing
             
-            if let playerTwoName = self.matches[indexPath.row].playerTwoName {
+            if let playerTwoName = MatchHistoryController.shared.matches[indexPath.row].playerTwoName {
                 textField.text = playerTwoName
             }
         }
@@ -196,7 +148,7 @@ class MatchHistoryTableViewController: UITableViewController {
             textField.clearButtonMode = .whileEditing
             textField.textContentType = .name
             
-            if let playerOneName = self.matches[indexPath.row].playerOneName {
+            if let playerOneName = MatchHistoryController.shared.matches[indexPath.row].playerOneName {
                 textField.text = playerOneName
             }
         }
@@ -207,24 +159,24 @@ class MatchHistoryTableViewController: UITableViewController {
         
         alert.addAction(UIAlertAction(title: NSLocalizedString("Save", tableName: "Main", comment: "Default action"), style: .default, handler: { _ in
             if let playerOneName = alert.textFields?.last?.text, !playerOneName.isEmpty {
-                self.matches[indexPath.row].playerOneName = playerOneName
+                MatchHistoryController.shared.matches[indexPath.row].playerOneName = playerOneName
             }
             
             if let playerTwoName = alert.textFields?.first?.text, !playerTwoName.isEmpty {
-                self.matches[indexPath.row].playerTwoName = playerTwoName
+                MatchHistoryController.shared.matches[indexPath.row].playerTwoName = playerTwoName
             }
             
-            let matchRecord = self.records[indexPath.row]
+            let matchRecord = MatchHistoryController.shared.records[indexPath.row]
             
-            if let matchData = try? PropertyListEncoder().encode(self.matches[indexPath.row]) {
+            if let matchData = try? PropertyListEncoder().encode(MatchHistoryController.shared.matches[indexPath.row]) {
                 matchRecord["matchData"] = matchData as NSData
                 
-                self.database.save(matchRecord) { (savedRecord, error) in
+                MatchHistoryController.shared.database.save(matchRecord) { (savedRecord, error) in
                     if let error = error {
                         print(error.localizedDescription)
                     } else {
                         DispatchQueue.main.async {
-                            self.fetchMatchRecords()
+                            MatchHistoryController.shared.fetchMatchRecords()
                         }
                     }
                 }
@@ -263,7 +215,7 @@ extension MatchHistoryTableViewController {
                 )
             }
             
-            let match = self.matches[indexPath.row]
+            let match = MatchHistoryController.shared.matches[indexPath.row]
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .short
@@ -325,12 +277,5 @@ extension MatchHistoryTableViewController {
             
             return cell
         }
-    }
-    
-    func initialSnapshot() -> NSDiffableDataSourceSnapshot<Section, Match> {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(matches)
-        return snapshot
     }
 }
