@@ -17,8 +17,6 @@ enum Section {
 }
 
 class MatchHistoryTableViewController: UITableViewController {
-    
-    
     class DataSource: UITableViewDiffableDataSource<Section, Match> {
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
             return true
@@ -61,6 +59,14 @@ class MatchHistoryTableViewController: UITableViewController {
         super.viewDidLoad()
         
         configureDataSource()
+        
+        MatchHistoryController.shared.fetchMatchRecords() { matches in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(MatchHistoryController.shared.matches)
+            dataSource.apply(snapshot, animatingDifferences: false)
+            tableView.refreshControl?.endRefreshing()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -72,12 +78,13 @@ class MatchHistoryTableViewController: UITableViewController {
     }
     
     fileprivate func addObservers() {
-        becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
-            MatchHistoryController.shared.fetchMatchRecords()
-            DispatchQueue.main.async {
-                let snapshot = self.initialSnapshot()
-                self.dataSource.apply(snapshot, animatingDifferences: false)
-                self.tableView.refreshControl?.endRefreshing()
+        becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { [self] notification in
+            MatchHistoryController.shared.fetchMatchRecords() { matches in
+                var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
+                snapshot.appendSections([.main])
+                snapshot.appendItems(MatchHistoryController.shared.matches)
+                dataSource.apply(snapshot, animatingDifferences: false)
+                tableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -117,11 +124,12 @@ class MatchHistoryTableViewController: UITableViewController {
     }
     
     @objc func handleRefreshControl() {
-        MatchHistoryController.shared.fetchMatchRecords()
-        DispatchQueue.main.async {
-            let snapshot = self.initialSnapshot()
-            self.dataSource.apply(snapshot, animatingDifferences: false)
-            self.tableView.refreshControl?.endRefreshing()
+        MatchHistoryController.shared.fetchMatchRecords() { matches in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(MatchHistoryController.shared.matches)
+            dataSource.apply(snapshot, animatingDifferences: false)
+            tableView.refreshControl?.endRefreshing()
         }
     }
     
@@ -175,8 +183,12 @@ class MatchHistoryTableViewController: UITableViewController {
                     if let error = error {
                         print(error.localizedDescription)
                     } else {
-                        DispatchQueue.main.async {
-                            MatchHistoryController.shared.fetchMatchRecords()
+                        MatchHistoryController.shared.fetchMatchRecords() { matches in
+                            var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
+                            snapshot.appendSections([.main])
+                            snapshot.appendItems(MatchHistoryController.shared.matches)
+                            self.dataSource.apply(snapshot, animatingDifferences: false)
+                            tableView.refreshControl?.endRefreshing()
                         }
                     }
                 }
