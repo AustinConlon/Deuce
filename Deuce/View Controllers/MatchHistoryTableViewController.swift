@@ -102,7 +102,27 @@ class MatchHistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        present(UIHostingController(rootView: MatchDetail(match: MatchHistoryController.shared.matches[indexPath.row])), animated: true)
+        let matchDetail = MatchDetail(match: MatchHistoryController.shared.matches[indexPath.row]) { [weak self] newMatch in
+            self?.dismiss(animated: true) {
+                // Save notes edits to CloudKit.
+                MatchHistoryController.shared.matches[indexPath.row] = newMatch
+                
+                let matchRecord = MatchHistoryController.shared.records[indexPath.row]
+                
+                if let matchData = try? PropertyListEncoder().encode(MatchHistoryController.shared.matches[indexPath.row]) {
+                    matchRecord["matchData"] = matchData as NSData
+                    
+                    MatchHistoryController.shared.database.save(matchRecord) { (savedRecord, error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
+            }
+        }
+        
+        let hostingController = UIHostingController(rootView: matchDetail)
+        self.navigationController!.showDetailViewController(hostingController, sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
