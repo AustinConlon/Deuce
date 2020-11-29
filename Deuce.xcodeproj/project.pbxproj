@@ -33,6 +33,7 @@
 		FB68051723FFA85E00735BE3 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB68051623FFA85E00735BE3 /* HealthKit.framework */; };
 		FB6DE88024AF041900C537CC /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DE87F24AF041900C537CC /* Point.swift */; };
 		FB6DE88124AF041900C537CC /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DE87F24AF041900C537CC /* Point.swift */; };
+		FB776C70256A83A00020D799 /* MatchHistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB776C6F256A83A00020D799 /* MatchHistoryController.swift */; };
 		FB7A69F323E99BD50065046E /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB7A69F123E99BD50065046E /* Interface.storyboard */; };
 		FB7A69F523E99BD60065046E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB7A69F423E99BD60065046E /* Assets.xcassets */; };
 		FB7A69FC23E99BD60065046E /* WatchDeuce Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FB7A69FB23E99BD60065046E /* WatchDeuce Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -156,6 +157,7 @@
 		FB6DAA092210284400949669 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
 		FB6DE87F24AF041900C537CC /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		FB712C152096EFA7005AA807 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS4.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		FB776C6F256A83A00020D799 /* MatchHistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryController.swift; sourceTree = "<group>"; };
 		FB7A69EF23E99BD50065046E /* WatchDeuce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchDeuce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB7A69F223E99BD50065046E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		FB7A69F423E99BD60065046E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				FB3377421E6E3C89000B9E30 /* Deuce.entitlements */,
 				FB51A00D1DEAD77C00B2E195 /* AppDelegate.swift */,
 				FB8281892210AC7500E6BAF9 /* Models */,
+				FB776C6E256A83730020D799 /* Controllers */,
 				FB5FF574244733920045E030 /* View Controllers */,
 				FB5FF577244733CD0045E030 /* Views */,
 				FB7CD15723EF947F00EB4D04 /* Resources */,
@@ -305,6 +308,14 @@
 			);
 			name = Frameworks;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		FB776C6E256A83730020D799 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FB776C6F256A83A00020D799 /* MatchHistoryController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		FB7A69F023E99BD50065046E /* WatchDeuce */ = {
@@ -567,6 +578,7 @@
 				FB1FDB4B23FA793C00CE03B1 /* Set.swift in Sources */,
 				FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */,
 				FB1FDB4823FA782500CE03B1 /* Game.swift in Sources */,
+				FB776C70256A83A00020D799 /* MatchHistoryController.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 				FBC3466124656BD6005BD3E3 /* MatchDetail.swift in Sources */,
 				FB00DDF223F2385D008751D2 /* Format.swift in Sources */,
@@ -803,7 +815,6 @@
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

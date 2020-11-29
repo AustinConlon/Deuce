@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct Match: Codable {
-    // MARK: - Properties
+struct Match: Codable, Hashable {
+    let id = UUID()
+    
     var format: RulesFormats
     
     var playerOneName: String?
@@ -436,7 +437,7 @@ enum SetType: String, Codable {
     case advantage
 }
 
-struct Stack<Element: Codable>: Codable {
+struct Stack<Element: Codable & Hashable>: Codable, Hashable {
     var items = [Element]()
     
     mutating func push(_ item: Element) {
@@ -476,5 +477,15 @@ extension Match {
         }
         match.stop()
         return match
+    }
+}
+
+extension Match: Identifiable {
+    static func ==(lhs: Match, rhs: Match) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
