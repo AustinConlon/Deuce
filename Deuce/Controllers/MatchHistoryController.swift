@@ -17,42 +17,36 @@ class MatchHistoryController {
     
     let database = CKContainer(identifier: "iCloud.com.example.Deuce.watchkitapp.watchkitextension").privateCloudDatabase
     
-    var records = [CKRecord]() {
-        didSet {
-            
-        }
-    }
+    var records = [CKRecord]()
     
-    func fetchMatchRecords(completion: ([Match]) -> Void) {
+    func fetchMatchRecords(completion: @escaping ([Match]) -> Void) {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Match", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        database.perform(query, inZoneWith: nil) { (fetchedRecords, error) in
+        database.perform(query, inZoneWith: nil) { [self] (fetchedRecords, error) in
             if let fetchedRecords = fetchedRecords {
                 self.records = fetchedRecords
+                
+                matches.removeAll()
+                
+                for record in records {
+                    let matchData = record["matchData"] as! Data
+                    let propertyListDecoder = PropertyListDecoder()
+                    do {
+                        let match = try propertyListDecoder.decode(Match.self, from: matchData)
+                        matches.append(match)
+                    } catch {
+                        print(error)
+                    }
+                }
+                
+                completion(matches)
             }
             
             if let error = error {
                 print(error.localizedDescription)
             }
         }
-        
-        if !records.isEmpty {
-            matches.removeAll()
-            
-            for record in records {
-                let matchData = record["matchData"] as! Data
-                let propertyListDecoder = PropertyListDecoder()
-                do {
-                    let match = try propertyListDecoder.decode(Match.self, from: matchData)
-                    matches.append(match)
-                } catch {
-                    print(error)
-                }
-            }
-        }
-        
-        completion(matches)
     }
 }

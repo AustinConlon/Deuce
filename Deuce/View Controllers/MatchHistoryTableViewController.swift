@@ -24,18 +24,18 @@ class MatchHistoryTableViewController: UITableViewController {
         
         override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             if editingStyle == .delete {
-                if let identifierToDelete = itemIdentifier(for: indexPath) {
-                    var snapshot = self.snapshot()
-                    snapshot.deleteItems([identifierToDelete])
-                    apply(snapshot)
-                }
-                
                 MatchHistoryController.shared.database.delete(withRecordID: MatchHistoryController.shared.records[indexPath.row].recordID) { (recordID, error) in
                     if let error = error {
                         print(error.localizedDescription)
                     } else {
                         MatchHistoryController.shared.records.remove(at: indexPath.row)
                     }
+                }
+                
+                if let identifierToDelete = itemIdentifier(for: indexPath) {
+                    var snapshot = self.snapshot()
+                    snapshot.deleteItems([identifierToDelete])
+                    apply(snapshot)
                 }
             }
         }
@@ -51,7 +51,9 @@ class MatchHistoryTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        configureRefreshControl()
+        if traitCollection.userInterfaceIdiom != .mac {
+            configureRefreshControl()
+        }
         addObservers()
     }
     
@@ -61,11 +63,9 @@ class MatchHistoryTableViewController: UITableViewController {
         configureDataSource()
         
         MatchHistoryController.shared.fetchMatchRecords() { matches in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(MatchHistoryController.shared.matches)
-            dataSource.apply(snapshot, animatingDifferences: false)
-            tableView.refreshControl?.endRefreshing()
+            DispatchQueue.main.async {
+                self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
+            }
         }
     }
     
@@ -78,13 +78,11 @@ class MatchHistoryTableViewController: UITableViewController {
     }
     
     fileprivate func addObservers() {
-        becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { [self] notification in
+        becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
             MatchHistoryController.shared.fetchMatchRecords() { matches in
-                var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
-                snapshot.appendSections([.main])
-                snapshot.appendItems(MatchHistoryController.shared.matches)
-                dataSource.apply(snapshot, animatingDifferences: false)
-                tableView.refreshControl?.endRefreshing()
+                DispatchQueue.main.async {
+                    self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
+                }
             }
         }
     }
@@ -97,14 +95,6 @@ class MatchHistoryTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MatchHistoryController.shared.matches.count
-    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         editNames(indexPath, tableView)
@@ -119,17 +109,17 @@ class MatchHistoryTableViewController: UITableViewController {
     // MARK: - Refresh
     
     func configureRefreshControl () {
+        refreshControl?.isEnabled = true
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
     
     @objc func handleRefreshControl() {
         MatchHistoryController.shared.fetchMatchRecords() { matches in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(MatchHistoryController.shared.matches)
-            dataSource.apply(snapshot, animatingDifferences: false)
-            tableView.refreshControl?.endRefreshing()
+            DispatchQueue.main.async {
+                self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
+                self.tableView.refreshControl?.endRefreshing()
+            }
         }
     }
     
@@ -184,11 +174,9 @@ class MatchHistoryTableViewController: UITableViewController {
                         print(error.localizedDescription)
                     } else {
                         MatchHistoryController.shared.fetchMatchRecords() { matches in
-                            var snapshot = NSDiffableDataSourceSnapshot<Section, Match>()
-                            snapshot.appendSections([.main])
-                            snapshot.appendItems(MatchHistoryController.shared.matches)
-                            self.dataSource.apply(snapshot, animatingDifferences: false)
-                            tableView.refreshControl?.endRefreshing()
+                            DispatchQueue.main.async {
+                                self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
+                            }
                         }
                     }
                 }
