@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17700" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8bG-JW-CSv">
-    <device id="mac" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -251,7 +251,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="800" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" systemColor="systemBlueColor"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" systemColor="systemBlueColor"/>
+                        </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="31"/>
                             <color key="textColor" systemColor="systemBlueColor"/>
                         </textAttributes>
                     </navigationBar>

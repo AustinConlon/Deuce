@@ -56,7 +56,7 @@ class MatchHistoryTableViewController: UITableViewController {
         }
         addObservers()
     }
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,7 +68,7 @@ class MatchHistoryTableViewController: UITableViewController {
             }
         }
     }
-    
+  
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         

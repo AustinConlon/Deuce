@@ -18,6 +18,8 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.sports</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSHealthShareUsageDescription</key>
@@ -48,7 +50,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 </dict>
 </plist>

@@ -1,116 +1,176 @@
 {
   "images" : [
     {
-      "size" : "20x20",
-      "idiom" : "iphone",
       "filename" : "Deuce.png",
-      "scale" : "2x"
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "20x20"
     },
     {
-      "size" : "20x20",
-      "idiom" : "iphone",
       "filename" : "Deuce-1.png",
-      "scale" : "3x"
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "20x20"
     },
     {
-      "size" : "29x29",
-      "idiom" : "iphone",
       "filename" : "Deuce-2.png",
-      "scale" : "2x"
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "29x29"
     },
     {
-      "size" : "29x29",
-      "idiom" : "iphone",
       "filename" : "Deuce-3.png",
-      "scale" : "3x"
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "29x29"
     },
     {
-      "size" : "40x40",
-      "idiom" : "iphone",
       "filename" : "Deuce-4.png",
-      "scale" : "2x"
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "40x40"
     },
     {
-      "size" : "40x40",
-      "idiom" : "iphone",
       "filename" : "Deuce-5.png",
-      "scale" : "3x"
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "40x40"
     },
     {
-      "size" : "60x60",
-      "idiom" : "iphone",
       "filename" : "Deuce-6.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "60x60",
       "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "60x60"
+    },
+    {
       "filename" : "Deuce-7.png",
-      "scale" : "3x"
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "60x60"
     },
     {
-      "size" : "20x20",
-      "idiom" : "ipad",
       "filename" : "Deuce-8.png",
-      "scale" : "1x"
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "size" : "20x20"
     },
     {
-      "size" : "20x20",
-      "idiom" : "ipad",
       "filename" : "Deuce-9.png",
-      "scale" : "2x"
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "size" : "20x20"
     },
     {
-      "size" : "29x29",
-      "idiom" : "ipad",
       "filename" : "Deuce-10.png",
-      "scale" : "1x"
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "size" : "29x29"
     },
     {
-      "size" : "29x29",
-      "idiom" : "ipad",
       "filename" : "Deuce-11.png",
-      "scale" : "2x"
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "size" : "29x29"
     },
     {
-      "size" : "40x40",
-      "idiom" : "ipad",
       "filename" : "Deuce-12.png",
-      "scale" : "1x"
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "size" : "40x40"
     },
     {
-      "size" : "40x40",
-      "idiom" : "ipad",
       "filename" : "Deuce-13.png",
-      "scale" : "2x"
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "size" : "40x40"
     },
     {
-      "size" : "76x76",
-      "idiom" : "ipad",
       "filename" : "Deuce-14.png",
-      "scale" : "1x"
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "size" : "76x76"
     },
     {
-      "size" : "76x76",
-      "idiom" : "ipad",
       "filename" : "Deuce-15.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "Deuce-16.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "76x76"
     },
     {
-      "size" : "1024x1024",
-      "idiom" : "ios-marketing",
+      "filename" : "Deuce-16.png",
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "size" : "83.5x83.5"
+    },
+    {
       "filename" : "Deuce-17.png",
-      "scale" : "1x"
+      "idiom" : "ios-marketing",
+      "scale" : "1x",
+      "size" : "1024x1024"
+    },
+    {
+      "filename" : "Deuce-27.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "16x16"
+    },
+    {
+      "filename" : "Deuce-26.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "16x16"
+    },
+    {
+      "filename" : "Deuce-25.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "32x32"
+    },
+    {
+      "filename" : "Deuce-24.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "32x32"
+    },
+    {
+      "filename" : "Deuce-23.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "128x128"
+    },
+    {
+      "filename" : "Deuce-22.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "128x128"
+    },
+    {
+      "filename" : "Deuce-21.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "256x256"
+    },
+    {
+      "filename" : "Deuce-20.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "256x256"
+    },
+    {
+      "filename" : "Deuce-19.png",
+      "idiom" : "mac",
+      "scale" : "1x",
+      "size" : "512x512"
+    },
+    {
+      "filename" : "Deuce-18.png",
+      "idiom" : "mac",
+      "scale" : "2x",
+      "size" : "512x512"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
