@@ -9,8 +9,6 @@
 import Foundation
 
 struct Match: Codable, Hashable {
-    let id = UUID()
-    
     var format: RulesFormats
     
     var playerOneName: String?
@@ -155,7 +153,6 @@ struct Match: Codable, Hashable {
         playerTwoBreakPointsWon = 0
     }
     
-    // MARK: - Methods
     mutating func scorePoint(for player: Player) {
         undoStack.push(self)
         
@@ -477,15 +474,5 @@ extension Match {
         }
         match.stop()
         return match
-    }
-}
-
-extension Match: Identifiable {
-    static func ==(lhs: Match, rhs: Match) -> Bool {
-        return lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
 }
