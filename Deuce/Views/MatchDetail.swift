@@ -12,60 +12,69 @@ struct MatchDetail: View {
     @State private var match: Match
     private var completion: (Match) -> Void
     
+    var dismiss: (() -> Void)?
+    
     init(match: Match, completion: @escaping (Match) -> Void) {
         self._match = State(initialValue: match)
         self.completion = completion
     }
     
     var body: some View {
-        ScrollView {
-            HStack {
-                Image(systemName: "calendar.circle.fill")
-                    .renderingMode(.original)
-                Text(date())
-            }
-            .padding(.top)
-            
-            GroupBox {
-                Score(match: $match)
-            }
-            .padding()
-            
-            Divider()
-            
+        NavigationView {
             ScrollView {
-                Text(match.notes)
-                    .padding(8)
-                    .frame(maxWidth: .infinity)
-                    
-                    .foregroundColor(.clear)
-                    .overlay(TextEditor(text: $match.notes))
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.horizontal)
-            
-            
-            Divider()
-            
-            HStack {
-                Label {
-                    Text(LocalizedStringKey(match.playerOneName ?? "You"))
-                        .fontWeight(match.winner == .playerOne ? .bold : .regular)
-                } icon: {
-                    Image(systemName: "applewatch")
-                        .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
+                HStack {
+                    Image(systemName: "calendar.circle.fill")
+                        .renderingMode(.original)
+                    Text(date())
+                }
+                .font(.title3)
+                
+                GroupBox {
+                    Score(match: $match)
+                }
+                .padding()
+                
+                Divider()
+                
+                ScrollView {
+                    Text(match.notes)
+                        .padding(8)
+                        .frame(maxWidth: .infinity)
+                        
+                        .foregroundColor(.clear)
+                        .overlay(TextEditor(text: $match.notes))
                 }
                 .frame(maxWidth: .infinity)
+                .padding(.horizontal)
                 
-                Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
-                    .fontWeight(match.winner == .playerTwo ? .bold : .regular)
+                
+                Divider()
+                
+                HStack {
+                    Label {
+                        Text(LocalizedStringKey(match.playerOneName ?? "You"))
+                            .fontWeight(match.winner == .playerOne ? .bold : .regular)
+                    } icon: {
+                        Image(systemName: "applewatch")
+                            .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
+                    }
                     .frame(maxWidth: .infinity)
+                    
+                    Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
+                        .fontWeight(match.winner == .playerTwo ? .bold : .regular)
+                        .frame(maxWidth: .infinity)
+                }
+                
+                Statistics(match: match)
             }
-            
-            Statistics(match: match)
-        }
-        .onDisappear() {
-            completion(match)
+            .onDisappear() {
+                completion(match)
+            }
+            .navigationBarItems(trailing: Button(action: {
+                dismiss?()
+            }) {
+                Text("Done")
+            })
         }
     }
     
@@ -82,7 +91,7 @@ struct MatchDetail_Previews: PreviewProvider {
         let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
         
         return matchDetail
-            .preferredColorScheme(.light)
+            .preferredColorScheme(.dark)
             .environment(\.locale, .init(identifier: "en"))
     }
 }
