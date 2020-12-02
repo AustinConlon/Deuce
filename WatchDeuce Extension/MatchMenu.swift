@@ -14,11 +14,10 @@ struct MatchMenu: View {
     @Binding var match: Match
     @Binding var singlesServiceAlert: Bool
     @Binding var showingMatchMenu: Bool
-    
     @Binding var showingInitialView: Bool
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack {
             Button(action: {
                 showingMatchMenu.toggle()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -39,7 +38,6 @@ struct MatchMenu: View {
             }
             .padding(.vertical)
         }
-        .buttonStyle(PlainButtonStyle())
         .font(Font.system(.title2, design: .rounded).bold())
     }
 }

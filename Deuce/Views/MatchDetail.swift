@@ -21,6 +21,7 @@ struct MatchDetail: View {
         ScrollView {
             HStack {
                 Image(systemName: "calendar.circle.fill")
+                    .renderingMode(.original)
                 Text(date())
             }
             .padding(.top)
