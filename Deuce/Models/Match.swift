@@ -9,6 +9,8 @@
 import Foundation
 
 struct Match: Codable, Hashable {
+    let uuid = UUID()
+    
     var format: RulesFormats
     
     var playerOneName: String?

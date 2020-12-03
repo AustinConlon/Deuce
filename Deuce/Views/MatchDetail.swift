@@ -76,6 +76,7 @@ struct MatchDetail: View {
                 Text("Done")
             })
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func date() -> String {

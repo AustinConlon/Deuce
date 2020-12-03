@@ -63,9 +63,7 @@ class MatchHistoryTableViewController: UITableViewController {
         configureDataSource()
         
         MatchHistoryController.shared.fetchMatchRecords() { matches in
-            DispatchQueue.main.async {
-                self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
-            }
+            self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
         }
     }
   
@@ -80,9 +78,7 @@ class MatchHistoryTableViewController: UITableViewController {
     fileprivate func addObservers() {
         becomeActiveObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { notification in
             MatchHistoryController.shared.fetchMatchRecords() { matches in
-                DispatchQueue.main.async {
-                    self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
-                }
+                self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
             }
         }
     }
@@ -139,8 +135,8 @@ class MatchHistoryTableViewController: UITableViewController {
     
     @objc func handleRefreshControl() {
         MatchHistoryController.shared.fetchMatchRecords() { matches in
+            self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
             DispatchQueue.main.async {
-                self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
                 self.tableView.refreshControl?.endRefreshing()
             }
         }
@@ -197,9 +193,7 @@ class MatchHistoryTableViewController: UITableViewController {
                         print(error.localizedDescription)
                     } else {
                         MatchHistoryController.shared.fetchMatchRecords() { matches in
-                            DispatchQueue.main.async {
-                                self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
-                            }
+                            self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
                         }
                     }
                 }
