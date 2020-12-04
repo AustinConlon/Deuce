@@ -28,6 +28,7 @@ struct MatchDetail: View {
                     Text(date())
                 }
                 .font(.title3)
+                .padding()
                 
                 GroupBox {
                     Score(match: $match)
@@ -75,6 +76,7 @@ struct MatchDetail: View {
             }) {
                 Text("Done")
             })
+            .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -92,7 +94,7 @@ struct MatchDetail_Previews: PreviewProvider {
         let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
         
         return matchDetail
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .environment(\.locale, .init(identifier: "en"))
     }
 }
