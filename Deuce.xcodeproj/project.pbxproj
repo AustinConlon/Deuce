@@ -29,6 +29,7 @@
 		FB51A0181DEAD77C00B2E195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0161DEAD77C00B2E195 /* LaunchScreen.storyboard */; };
 		FB51A0231DEAD77C00B2E195 /* DeuceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A0221DEAD77C00B2E195 /* DeuceTests.swift */; };
 		FB52F95223F2476C00AAC1FB /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB52F95123F2476C00AAC1FB /* InitialView.swift */; };
+		FB5CE5B1257CA15900F4D27E /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5CE5B0257CA15900F4D27E /* ComplicationController.swift */; };
 		FB68051423FFA18200735BE3 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DAA092210284400949669 /* WorkoutManager.swift */; };
 		FB68051723FFA85E00735BE3 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB68051623FFA85E00735BE3 /* HealthKit.framework */; };
 		FB6DE88024AF041900C537CC /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DE87F24AF041900C537CC /* Point.swift */; };
@@ -40,7 +41,6 @@
 		FB7A6A0123E99BD60065046E /* MatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7A6A0023E99BD60065046E /* MatchView.swift */; };
 		FB7A6A0323E99BD60065046E /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7A6A0223E99BD60065046E /* HostingController.swift */; };
 		FB7A6A0523E99BD60065046E /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7A6A0423E99BD60065046E /* ExtensionDelegate.swift */; };
-		FB7A6A0723E99BD60065046E /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7A6A0623E99BD60065046E /* ComplicationController.swift */; };
 		FB7A6A0923E99BD70065046E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB7A6A0823E99BD70065046E /* Assets.xcassets */; };
 		FB7A6A0C23E99BD70065046E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB7A6A0B23E99BD70065046E /* Preview Assets.xcassets */; };
 		FB7A6A1023E99BD70065046E /* WatchDeuce.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FB7A69EF23E99BD50065046E /* WatchDeuce.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -152,6 +152,7 @@
 		FB51A0241DEAD77C00B2E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB51A03C1DEAD77C00B2E195 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		FB52F95123F2476C00AAC1FB /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
+		FB5CE5B0257CA15900F4D27E /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		FB68051523FFA85E00735BE3 /* WatchDeuce Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WatchDeuce Extension.entitlements"; sourceTree = "<group>"; };
 		FB68051623FFA85E00735BE3 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FB6DAA092210284400949669 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
@@ -166,7 +167,6 @@
 		FB7A6A0023E99BD60065046E /* MatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchView.swift; sourceTree = "<group>"; };
 		FB7A6A0223E99BD60065046E /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		FB7A6A0423E99BD60065046E /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		FB7A6A0623E99BD60065046E /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		FB7A6A0823E99BD70065046E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB7A6A0B23E99BD70065046E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FB7A6A0D23E99BD70065046E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -340,7 +340,7 @@
 				FB6DAA092210284400949669 /* WorkoutManager.swift */,
 				FB7A6A0223E99BD60065046E /* HostingController.swift */,
 				FB7A6A0423E99BD60065046E /* ExtensionDelegate.swift */,
-				FB7A6A0623E99BD60065046E /* ComplicationController.swift */,
+				FB5CE5B0257CA15900F4D27E /* ComplicationController.swift */,
 				FB7A6A0823E99BD70065046E /* Assets.xcassets */,
 				FB7A6A0D23E99BD70065046E /* Info.plist */,
 				FB712C142096EFA7005AA807 /* Frameworks */,
@@ -607,10 +607,10 @@
 				FB00DDF323F2385D008751D2 /* Format.swift in Sources */,
 				FB7CD15D23EFAAE000EB4D04 /* Data.swift in Sources */,
 				FB1FDB4C23FA793C00CE03B1 /* Set.swift in Sources */,
+				FB5CE5B1257CA15900F4D27E /* ComplicationController.swift in Sources */,
 				FB7A6A0323E99BD60065046E /* HostingController.swift in Sources */,
 				FB7CD15223EF91DD00EB4D04 /* UserData.swift in Sources */,
 				FB7CD14F23EF8ED400EB4D04 /* FormatList.swift in Sources */,
-				FB7A6A0723E99BD60065046E /* ComplicationController.swift in Sources */,
 				FB7A6A0123E99BD60065046E /* MatchView.swift in Sources */,
 				FB1FDB4923FA782500CE03B1 /* Game.swift in Sources */,
 				FB68051423FFA18200735BE3 /* WorkoutManager.swift in Sources */,

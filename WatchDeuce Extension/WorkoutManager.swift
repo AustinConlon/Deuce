@@ -38,10 +38,8 @@ class WorkoutManager: NSObject, ObservableObject {
             HKObjectType.quantityType(forIdentifier: .heartRate)!
         ]
         
-        if healthStore.authorizationStatus(for: .workoutType()) == .notDetermined {
-            healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
-                
-            }
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
+            
         }
     }
     // MARK: - State Control

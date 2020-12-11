@@ -2,55 +2,43 @@
 //  ComplicationController.swift
 //  WatchDeuce Extension
 //
-//  Created by Austin Conlon on 2/4/20.
+//  Created by Austin Conlon on 12/5/20.
 //  Copyright © 2020 Austin Conlon. All rights reserved.
 //
 
 import ClockKit
 
-
 class ComplicationController: NSObject, CLKComplicationDataSource {
-    
-    // MARK: - Timeline Configuration
-    
-    func getSupportedTimeTravelDirections(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimeTravelDirections) -> Void) {
-        handler([.forward, .backward])
-    }
-    
-    func getTimelineStartDate(for complication: CLKComplication, withHandler handler: @escaping (Date?) -> Void) {
-        handler(nil)
-    }
-    
-    func getTimelineEndDate(for complication: CLKComplication, withHandler handler: @escaping (Date?) -> Void) {
-        handler(nil)
-    }
-    
-    func getPrivacyBehavior(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationPrivacyBehavior) -> Void) {
-        handler(.showOnLockScreen)
-    }
-    
-    // MARK: - Timeline Population
-    
     func getCurrentTimelineEntry(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimelineEntry?) -> Void) {
-        // Call the handler with the current timeline entry
-        handler(nil)
+        handler(createTimelineEntry(forComplication: complication, date: Date()))
     }
     
-    func getTimelineEntries(for complication: CLKComplication, before date: Date, limit: Int, withHandler handler: @escaping ([CLKComplicationTimelineEntry]?) -> Void) {
-        // Call the handler with the timeline entries prior to the given date
-        handler(nil)
+    // MARK: - Private Methods
+    
+    // Return a timeline entry for the specified complication and date.
+    private func createTimelineEntry(forComplication complication: CLKComplication, date: Date) -> CLKComplicationTimelineEntry {
+        
+        // Get the correct template based on the complication.
+        let template = createTemplate(forComplication: complication, date: date)
+        
+        // Use the template and date to create a timeline entry.
+        return CLKComplicationTimelineEntry(date: date, complicationTemplate: template!)
     }
     
-    func getTimelineEntries(for complication: CLKComplication, after date: Date, limit: Int, withHandler handler: @escaping ([CLKComplicationTimelineEntry]?) -> Void) {
-        // Call the handler with the timeline entries after to the given date
-        handler(nil)
+    // Select the correct template based on the complication's family.
+    private func createTemplate(forComplication complication: CLKComplication, date: Date) -> CLKComplicationTemplate? {
+        switch complication.family {
+        case .graphicCorner:
+            return createGraphicCornerTemplate(forDate: date)
+        default:
+            return nil
+        }
     }
     
-    // MARK: - Placeholder Templates
-    
-    func getLocalizableSampleTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
-        // This method will be called once per supported complication, and the results will be cached
-        handler(nil)
+    private func createGraphicCornerTemplate(forDate date: Date) -> CLKComplicationTemplate {
+        let imageProvider = CLKFullColorImageProvider(fullColorImage: UIImage(imageLiteralResourceName: <#T##String#>))
+        let template = CLKComplicationTemplateGraphicCornerCircularImage(imageProvider: imageProvider)
+        template.imageProvider = imageProvider
+        return template
     }
-    
 }

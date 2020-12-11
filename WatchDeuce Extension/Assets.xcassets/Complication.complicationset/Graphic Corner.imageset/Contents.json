@@ -1,25 +1,23 @@
 {
   "images" : [
     {
-      "filename" : "Deuce.pdf",
       "idiom" : "watch",
       "scale" : "2x",
       "screen-width" : "<=145"
     },
     {
-      "filename" : "Deuce-1.pdf",
+      "filename" : "Extra-Large-42mm-2 copy.pdf",
       "idiom" : "watch",
       "scale" : "2x",
       "screen-width" : ">161"
     },
     {
-      "filename" : "Deuce-2.pdf",
       "idiom" : "watch",
       "scale" : "2x",
       "screen-width" : ">145"
     },
     {
-      "filename" : "Deuce-3.pdf",
+      "filename" : "Extra-Large-42mm-2.png",
       "idiom" : "watch",
       "scale" : "2x",
       "screen-width" : ">183"
@@ -28,5 +26,8 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "auto-scaling" : "auto"
   }
 }
