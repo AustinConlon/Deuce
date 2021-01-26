@@ -11,6 +11,7 @@ import os.log
 import CloudKit
 import SafariServices
 import SwiftUI
+import AVFoundation
 
 enum Section {
     case main
@@ -48,6 +49,8 @@ class MatchHistoryTableViewController: UITableViewController {
     let cloudController = CloudController()
     
     var dataSource: DataSource!
+    
+    private let matchVideoController = MatchVideoController.shared
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

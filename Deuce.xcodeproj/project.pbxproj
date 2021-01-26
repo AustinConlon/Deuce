@@ -53,8 +53,11 @@
 		FB7CD15D23EFAAE000EB4D04 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15B23EFAAE000EB4D04 /* Data.swift */; };
 		FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB82818A2210ACA000E6BAF9 /* Match.swift */; };
 		FBA3439C240B39D400BF3D13 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB7A69F123E99BD50065046E /* Interface.storyboard */; };
+		FBAB302025BBB625000AED11 /* MatchVideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAB301F25BBB625000AED11 /* MatchVideoController.swift */; };
+		FBAB302525BBE06D000AED11 /* MatchVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAB302425BBE06D000AED11 /* MatchVideoViewController.swift */; };
 		FBABCBD6240BAACA00A589DA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB3AA163240BA3BF0090B894 /* Localizable.strings */; };
 		FBC3466124656BD6005BD3E3 /* MatchDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC3466024656BD6005BD3E3 /* MatchDetail.swift */; };
+		FBE51A8625BC1EDD0058157A /* VideoRenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE51A8525BC1EDD0058157A /* VideoRenderView.swift */; };
 		FBE56FFB2208571A00042188 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBE56FFA2208571A00042188 /* HealthKit.framework */; };
 		FBEFBF3D2515E20600E8E14A /* MatchMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEFBF3C2515E20600E8E14A /* MatchMenu.swift */; };
 /* End PBXBuildFile section */
@@ -175,8 +178,11 @@
 		FB7CD15823EF949300EB4D04 /* formatData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = formatData.json; sourceTree = "<group>"; };
 		FB7CD15B23EFAAE000EB4D04 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		FB82818A2210ACA000E6BAF9 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
+		FBAB301F25BBB625000AED11 /* MatchVideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchVideoController.swift; sourceTree = "<group>"; };
+		FBAB302425BBE06D000AED11 /* MatchVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchVideoViewController.swift; sourceTree = "<group>"; };
 		FBC3466024656BD6005BD3E3 /* MatchDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetail.swift; sourceTree = "<group>"; };
 		FBCB6E8823167FB0006CCF68 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		FBE51A8525BC1EDD0058157A /* VideoRenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRenderView.swift; sourceTree = "<group>"; };
 		FBE56FFA2208571A00042188 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		FBEFBF3C2515E20600E8E14A /* MatchMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -283,6 +289,7 @@
 			children = (
 				FB2958632297530900F9DFEB /* MatchHistoryTableViewController.swift */,
 				FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */,
+				FBAB302425BBE06D000AED11 /* MatchVideoViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -291,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				FBC3466024656BD6005BD3E3 /* MatchDetail.swift */,
+				FBE51A8525BC1EDD0058157A /* VideoRenderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -314,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				FB776C6F256A83A00020D799 /* MatchHistoryController.swift */,
+				FBAB301F25BBB625000AED11 /* MatchVideoController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -577,16 +586,19 @@
 			files = (
 				FB1FDB4B23FA793C00CE03B1 /* Set.swift in Sources */,
 				FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */,
+				FBE51A8625BC1EDD0058157A /* VideoRenderView.swift in Sources */,
 				FB1FDB4823FA782500CE03B1 /* Game.swift in Sources */,
 				FB776C70256A83A00020D799 /* MatchHistoryController.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 				FBC3466124656BD6005BD3E3 /* MatchDetail.swift in Sources */,
 				FB00DDF223F2385D008751D2 /* Format.swift in Sources */,
+				FBAB302025BBB625000AED11 /* MatchVideoController.swift in Sources */,
 				FB4E49FD2430B2A40027B91A /* CloudController.swift in Sources */,
 				FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */,
 				FB6DE88024AF041900C537CC /* Point.swift in Sources */,
 				FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */,
 				FB7CD15C23EFAAE000EB4D04 /* Data.swift in Sources */,
+				FBAB302525BBE06D000AED11 /* MatchVideoViewController.swift in Sources */,
 				FB00DDF523F23C15008751D2 /* FormatRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
