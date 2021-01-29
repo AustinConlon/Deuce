@@ -256,7 +256,7 @@ struct Match: Codable {
         }
         
         if self.isDoubles && currentSet.gamesPlayed == 1 && currentSet.currentGame.pointsWon == [0, 0] {
-            isSelectingReturningPlayer = true
+            servicePlayer = nil
         }
     }
     

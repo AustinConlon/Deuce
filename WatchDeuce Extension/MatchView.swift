@@ -74,7 +74,7 @@ struct MatchView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
         .edgesIgnoringSafeArea(.bottom)
-        .alert(isPresented: $singlesServiceAlert) {
+        .alert(isPresented: .constant(match.servicePlayer == nil)) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     match.servicePlayer = .playerOne
@@ -106,17 +106,6 @@ struct MatchView: View {
                             }
                         ]
                         .reversed())
-        }
-        .alert(isPresented: $match.isSelectingReturningPlayer) {
-            Alert(title: Text("Who will return?"),
-                  primaryButton: .default(Text(match.currentSet.currentGame.currentPoint.serviceTeam == .teamOne ? "You" : "Opponent's Partner")) {
-                    match.servicePlayer = match.currentSet.currentGame.currentPoint.serviceTeam == .teamOne ? .playerOne : .playerFour
-                    match.isSelectingReturningPlayer = false
-                },
-                  secondaryButton: .default(Text(match.currentSet.currentGame.currentPoint.serviceTeam == .teamTwo ? "Opponent" : "Your Partner")) {
-                    match.servicePlayer = match.currentSet.currentGame.currentPoint.serviceTeam == .teamTwo ? .playerTwo : .playerThree
-                    match.isSelectingReturningPlayer = false
-                })
         }
         .sheet(isPresented: $showingMatchMenu) {
             MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, showingInitialView: $showingInitialView)
