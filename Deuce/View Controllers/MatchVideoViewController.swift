@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Vision
 
-protocol MatchVideoViewControllerOutputDelegate: class {
+protocol MatchVideoViewControllerOutputDelegate: AnyObject {
     func matchVideoViewController(_ controller: MatchVideoViewController, didReceiveBuffer buffer: CMSampleBuffer, orientation: CGImagePropertyOrientation)
 }
 
@@ -32,6 +32,8 @@ class MatchVideoViewController: UIViewController {
     private let trajectoryDetectionMinConfidence: VNConfidence = 0.9
     private lazy var detectTrajectoryRequest: VNDetectTrajectoriesRequest! =
                         VNDetectTrajectoriesRequest(frameAnalysisSpacing: .zero, trajectoryLength: 15)
+    
+    private var mutableComposition: AVMutableComposition?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +69,14 @@ class MatchVideoViewController: UIViewController {
             return
         }
         
-        let playerItem = AVPlayerItem(asset: asset)
+        trim(asset: asset)
+        
+        guard let mutableComposition = mutableComposition else {
+            print("No mutable composition found.")
+            return
+        }
+        
+        let playerItem = AVPlayerItem(asset: mutableComposition)
         let player = AVPlayer(playerItem: playerItem)
         let settings = [
             String(kCVPixelBufferPixelFormatTypeKey): kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
@@ -85,6 +94,51 @@ class MatchVideoViewController: UIViewController {
         displayLink.isPaused = false
     }
     
+    func trim(asset: AVAsset) {
+        var assetVideoTrack: AVAssetTrack?
+        var assetAudioTrack: AVAssetTrack?
+        
+        if asset.tracks(withMediaType: .video).count != 0 {
+            assetVideoTrack = asset.tracks(withMediaType: .video)[0]
+        }
+        
+        if asset.tracks(withMediaType: .audio).count != 0 {
+            assetAudioTrack = asset.tracks(withMediaType: .audio)[0]
+        }
+        
+        let insertionPoint: CMTime = CMTime.zero
+        
+        // Trim to half duration.
+        let halfDuration: Double = CMTimeGetSeconds(asset.duration)/2.0
+        let trimmedDuration: CMTime = CMTimeMakeWithSeconds(halfDuration, preferredTimescale: 1)
+        
+        if mutableComposition == nil {
+            self.mutableComposition = AVMutableComposition()
+            
+            // Insert half of the time range of the video and audio tracks from the AVAsset.
+            if let assetVideoTrack = assetVideoTrack {
+                let compositionVideoTrack = self.mutableComposition?.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)
+                do {
+                    try compositionVideoTrack?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: trimmedDuration), of: assetVideoTrack, at: insertionPoint)
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
+            
+            if let assetAudioTrack = assetAudioTrack {
+                let compositionAudioTrack = self.mutableComposition?.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+                do {
+                    try compositionAudioTrack?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: trimmedDuration), of: assetAudioTrack, at: insertionPoint)
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
+        } else {
+            // Remove the second half of the existing composition to trim.
+            self.mutableComposition?.removeTimeRange(CMTimeRangeMake(start: trimmedDuration, duration: self.mutableComposition!.duration))
+        }
+    }
+    
     @objc private func handleDisplayLink(_ displayLink: CADisplayLink) {
         guard let output = playerItemOutput else {
             return
@@ -99,7 +153,7 @@ class MatchVideoViewController: UIViewController {
             guard let pixelBuffer = output.copyPixelBuffer(forItemTime: itemTime, itemTimeForDisplay: nil) else {
                 return
             }
-            // Create sample buffer from pixel buffer
+            // Create sample buffer from pixel buffer.
             var sampleBuffer: CMSampleBuffer?
             var formatDescription: CMVideoFormatDescription?
             CMVideoFormatDescriptionCreateForImageBuffer(allocator: nil, imageBuffer: pixelBuffer, formatDescriptionOut: &formatDescription)
@@ -144,6 +198,7 @@ extension MatchVideoViewController: UIDocumentPickerDelegate {
         matchVideoController.recordedVideoSource = AVAsset(url: url)
         if let video = matchVideoController.recordedVideoSource {
             startReading(asset: video)
+            
         }
     }
 }
