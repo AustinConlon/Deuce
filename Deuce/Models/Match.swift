@@ -254,10 +254,6 @@ struct Match: Codable {
         default:
             break
         }
-        
-        if self.isDoubles && currentSet.gamesPlayed == 1 && currentSet.currentGame.pointsWon == [0, 0] {
-            servicePlayer = nil
-        }
     }
     
     mutating func startSupertiebreak() {

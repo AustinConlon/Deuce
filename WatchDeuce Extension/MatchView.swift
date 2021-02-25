@@ -74,7 +74,7 @@ struct MatchView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
         .edgesIgnoringSafeArea(.bottom)
-        .alert(isPresented: .constant(match.servicePlayer == nil)) {
+        .alert(isPresented: .constant(match.servicePlayer == nil && match.isSingles)) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     match.servicePlayer = .playerOne
@@ -85,27 +85,8 @@ struct MatchView: View {
                     userData.workout.startWorkout()
                 })
         }
-        .actionSheet(isPresented: $doublesServiceAlert) {
-            ActionSheet(title: Text(serviceQuestion()),
-                        buttons: [
-                            .default(Text(LocalizedStringKey("Opponent"))) {
-                                match.servicePlayer = .playerTwo
-                                userData.workout.startWorkout()
-                            },
-                            .default(Text(LocalizedStringKey("Opponent's Partner"))) {
-                                match.servicePlayer = .playerFour
-                                userData.workout.startWorkout()
-                            },
-                            .default(Text(LocalizedStringKey("Your Partner"))) {
-                                match.servicePlayer = .playerThree
-                                userData.workout.startWorkout()
-                            },
-                            .default(Text(LocalizedStringKey("You"))) {
-                                match.servicePlayer = .playerOne
-                                userData.workout.startWorkout()
-                            }
-                        ]
-                        .reversed())
+        .actionSheet(isPresented: .constant(match.servicePlayer == nil && match.isDoubles)) {
+            match.currentSet.gamesPlayed == 0 ? firstGameDoublesServiceSelection() : secondGameDoublesServiceSelection()
         }
         .sheet(isPresented: $showingMatchMenu) {
             MatchMenu(match: $match, singlesServiceAlert: $singlesServiceAlert, showingMatchMenu: $showingMatchMenu, showingInitialView: $showingInitialView)
@@ -114,6 +95,62 @@ struct MatchView: View {
             if match.servicePlayer == nil {
                 match.isDoubles ? doublesServiceAlert.toggle() : singlesServiceAlert.toggle()
             }
+        }
+    }
+    
+    func firstGameDoublesServiceSelection() -> ActionSheet {
+        ActionSheet(title: Text(serviceQuestion()),
+                    buttons: [
+                        .default(Text(LocalizedStringKey("Opponent"))) {
+                            match.servicePlayer = .playerTwo
+                            userData.workout.startWorkout()
+                        },
+                        .default(Text(LocalizedStringKey("Opponent's Partner"))) {
+                            match.servicePlayer = .playerFour
+                            userData.workout.startWorkout()
+                        },
+                        .default(Text(LocalizedStringKey("Your Partner"))) {
+                            match.servicePlayer = .playerThree
+                            userData.workout.startWorkout()
+                        },
+                        .default(Text(LocalizedStringKey("You"))) {
+                            match.servicePlayer = .playerOne
+                            userData.workout.startWorkout()
+                        }
+                    ]
+                    .reversed())
+    }
+    
+    func secondGameDoublesServiceSelection() -> ActionSheet {
+        ActionSheet(title: Text(serviceQuestion()),
+                    buttons: secondGameActionSheetButtons()
+                    .reversed())
+    }
+    
+    func secondGameActionSheetButtons() -> [ActionSheet.Button] {
+        switch match.currentSet.currentGame.currentPoint.serviceTeam! {
+        case .teamOne:
+            return [
+                .default(Text(LocalizedStringKey("Your Partner"))) {
+                    match.servicePlayer = .playerThree
+                    userData.workout.startWorkout()
+                },
+                .default(Text(LocalizedStringKey("You"))) {
+                    match.servicePlayer = .playerOne
+                    userData.workout.startWorkout()
+                }
+            ]
+        case .teamTwo:
+            return [
+                .default(Text(LocalizedStringKey("Opponent"))) {
+                    match.servicePlayer = .playerTwo
+                    userData.workout.startWorkout()
+                },
+                .default(Text(LocalizedStringKey("Opponent's Partner"))) {
+                    match.servicePlayer = .playerFour
+                    userData.workout.startWorkout()
+                }
+            ]
         }
     }
     
