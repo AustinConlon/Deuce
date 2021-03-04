@@ -3,7 +3,7 @@
 //  WatchDeuce Extension
 //
 //  Created by Austin Conlon on 2/4/20.
-//  Copyright © 2020 Austin Conlon. All rights reserved.
+//  Copyright © 2021 Austin Conlon. All rights reserved.
 //
 
 import SwiftUI
@@ -85,7 +85,7 @@ struct MatchView: View {
                     userData.workout.startWorkout()
                 })
         }
-        .actionSheet(isPresented: .constant(match.servicePlayer == nil && match.isDoubles)) {
+        .actionSheet(isPresented: .constant(match.isDoubles && match.currentSet.currentGame.pointsPlayed == 0 && match.currentSet.currentGame.currentPoint.serviceTeam == nil)) {
             match.currentSet.gamesPlayed == 0 ? firstGameDoublesServiceSelection() : secondGameDoublesServiceSelection()
         }
         .sheet(isPresented: $showingMatchMenu) {
@@ -128,8 +128,8 @@ struct MatchView: View {
     }
     
     func secondGameActionSheetButtons() -> [ActionSheet.Button] {
-        switch match.currentSet.currentGame.currentPoint.serviceTeam! {
-        case .teamOne:
+        switch match.currentSet.currentGame.currentPoint.servicePlayer! {
+        case .playerOne, .playerThree:
             return [
                 .default(Text(LocalizedStringKey("Your Partner"))) {
                     match.servicePlayer = .playerThree
@@ -140,7 +140,7 @@ struct MatchView: View {
                     userData.workout.startWorkout()
                 }
             ]
-        case .teamTwo:
+        case .playerTwo, .playerFour:
             return [
                 .default(Text(LocalizedStringKey("Opponent"))) {
                     match.servicePlayer = .playerTwo
