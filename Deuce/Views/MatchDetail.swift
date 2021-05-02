@@ -19,12 +19,6 @@ struct MatchDetail: View {
     
     var body: some View {
         ScrollView {
-            HStack {
-                Image(systemName: "calendar.circle.fill")
-                Text(date())
-            }
-            .padding(.top)
-            
             GroupBox {
                 Score(match: $match)
             }
@@ -63,6 +57,7 @@ struct MatchDetail: View {
             
             Statistics(match: match)
         }
+        .navigationTitle(date())
         .onDisappear() {
             completion(match)
         }
@@ -70,7 +65,7 @@ struct MatchDetail: View {
     
     func date() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
+        dateFormatter.dateStyle = .long
         return dateFormatter.string(from: match.date)
     }
 }

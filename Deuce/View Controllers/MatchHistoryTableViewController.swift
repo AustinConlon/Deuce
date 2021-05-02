@@ -122,7 +122,7 @@ class MatchHistoryTableViewController: UITableViewController {
         }
         
         let hostingController = UIHostingController(rootView: matchDetail)
-        self.navigationController!.showDetailViewController(hostingController, sender: self)
+        self.navigationController!.show(hostingController, sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
