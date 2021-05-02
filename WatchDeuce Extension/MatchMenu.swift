@@ -39,7 +39,7 @@ struct MatchMenu: View {
             }
             .padding(.vertical)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(DefaultButtonStyle())
         .font(Font.system(.title2, design: .rounded).bold())
     }
 }
