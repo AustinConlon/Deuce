@@ -26,8 +26,6 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var activeCalories: Double = 0
     @Published var elapsedSeconds: Int = 0
     
-    var running = false
-    
     func requestAuthorization() {
         let typesToShare: Swift.Set = [
             HKQuantityType.workoutType()
@@ -38,10 +36,8 @@ class WorkoutManager: NSObject, ObservableObject {
             HKObjectType.quantityType(forIdentifier: .heartRate)!
         ]
         
-        if healthStore.authorizationStatus(for: .workoutType()) == .notDetermined {
-            healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
-                
-            }
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
+            
         }
     }
     // MARK: - State Control

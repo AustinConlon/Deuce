@@ -18,7 +18,7 @@ struct FormatList<MatchView: View>: View {
             ForEach(userData.formats) { format in
                 NavigationLink(
                 destination:
-                self.matchViewProducer(format).environmentObject(self.userData)) {
+                matchViewProducer(format).environmentObject(self.userData)) {
                     FormatRow(format: format)
                 }
             }
@@ -26,7 +26,7 @@ struct FormatList<MatchView: View>: View {
         .listStyle(CarouselListStyle())
         .navigationBarBackButtonHidden(true)
         .onAppear() {
-            self.userData.workout.session?.state == .running ? self.userData.workout.endWorkout() : self.userData.workout.requestAuthorization()
+            userData.workout.session?.state == .running ? userData.workout.endWorkout() : userData.workout.requestAuthorization()
         }
     }
 }

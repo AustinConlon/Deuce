@@ -58,6 +58,7 @@ struct MatchDetail: View {
             Statistics(match: match)
         }
         .navigationTitle(date())
+        .navigationBarTitleDisplayMode(.inline)
         .onDisappear() {
             completion(match)
         }
@@ -67,17 +68,6 @@ struct MatchDetail: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         return dateFormatter.string(from: match.date)
-    }
-}
-
-struct MatchDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        let randomlyGeneratedMatch = Match.random()
-        let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
-        
-        return matchDetail
-            .preferredColorScheme(.light)
-            .environment(\.locale, .init(identifier: "en"))
     }
 }
 
@@ -223,5 +213,16 @@ struct Statistics: View {
         } else {
             return "-"
         }
+    }
+}
+
+struct MatchDetail_Previews: PreviewProvider {
+    static var previews: some View {
+        let randomlyGeneratedMatch = Match.random()
+        let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
+        
+        return matchDetail
+            .preferredColorScheme(.dark)
+            .environment(\.locale, .init(identifier: "fr"))
     }
 }
