@@ -68,6 +68,14 @@ class MatchHistoryTableViewController: UITableViewController {
             }
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let navigationController = navigationController,
+           navigationController.isToolbarHidden {
+            navigationController.setToolbarHidden(false, animated: animated)
+        }
+    }
   
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
@@ -206,7 +214,7 @@ class MatchHistoryTableViewController: UITableViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func presentRules(_ sender: UIBarButtonItem) {
+    @IBAction func rulesButtonTriggered(_ sender: UIBarButtonItem) {
         var url: URL
         switch Locale.current.languageCode {
         case "fr":
@@ -217,6 +225,9 @@ class MatchHistoryTableViewController: UITableViewController {
         let rulesViewController = SFSafariViewController(url: url)
         rulesViewController.modalPresentationStyle = .pageSheet
         self.present(rulesViewController, animated: true)
+    }
+    
+    @IBAction func addButtonTriggered(_ sender: UIBarButtonItem) {
     }
 }
 
