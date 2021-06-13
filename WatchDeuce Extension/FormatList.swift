@@ -23,8 +23,9 @@ struct FormatList<MatchView: View>: View {
                 }
             }
         }
-        .listStyle(CarouselListStyle())
+        .listStyle(.carousel)
         .navigationBarBackButtonHidden(true)
+        .navigationBarTitle(Text("Deuce"))
         .onAppear() {
             userData.workout.session?.state == .running ? userData.workout.endWorkout() : userData.workout.requestAuthorization()
         }

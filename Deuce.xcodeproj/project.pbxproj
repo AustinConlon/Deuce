@@ -811,7 +811,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -837,7 +837,7 @@
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

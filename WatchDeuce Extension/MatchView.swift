@@ -70,8 +70,9 @@ struct MatchView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .font(.system(.largeTitle, design: .rounded))
+        // This doesn't work if there's no title set.
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle(match.state == .playing ? LocalizedStringKey(title()) : "")
+        .navigationBarTitle("")
         .edgesIgnoringSafeArea(.bottom)
         .alert(isPresented: $singlesServiceAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),

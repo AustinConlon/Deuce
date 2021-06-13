@@ -50,7 +50,7 @@ struct MatchDetail: View {
                 }
                 .frame(maxWidth: .infinity)
                 
-                Text(LocalizedStringKey(match.playerTwoName ?? "Opponent"))
+                Text(match.playerTwoName ?? "Opponent")
                     .fontWeight(match.winner == .playerTwo ? .bold : .regular)
                     .frame(maxWidth: .infinity)
             }
@@ -222,7 +222,7 @@ struct MatchDetail_Previews: PreviewProvider {
         let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
         
         return matchDetail
-            .preferredColorScheme(.dark)
-            .environment(\.locale, .init(identifier: "fr"))
+            .preferredColorScheme(.light)
+            .environment(\.locale, .init(identifier: "en"))
     }
 }
