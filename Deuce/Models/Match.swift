@@ -13,8 +13,8 @@ struct Match: Codable, Hashable {
     
     var format: RulesFormats
     
-    var playerOneName: String?
-    var playerTwoName: String?
+    var playerOneName: String = NSLocalizedString("You", comment: "")
+    var playerTwoName: String = NSLocalizedString("Opponent", comment: "")
     
     var servicePlayer: Player! {
         didSet {
@@ -57,7 +57,10 @@ struct Match: Codable, Hashable {
     }
     
     var state: MatchState = .playing
+    
     var date: Date!
+    var startTime = Date()
+    var endTime: Date!
     
     var currentSet: Set {
         get { sets.last! }
@@ -401,8 +404,8 @@ extension Match {
         date = try container.decode(Date.self, forKey: .date)
         format = try container.decode(RulesFormats.self, forKey: .format)
         numberOfSetsToWin = try container.decode(Int.self, forKey: .numberOfSetsToWin)
-        playerOneName = try container.decodeIfPresent(String.self, forKey: .playerOneName)
-        playerTwoName = try container.decodeIfPresent(String.self, forKey: .playerTwoName)
+        playerOneName = try container.decodeIfPresent(String.self, forKey: .playerOneName) ?? NSLocalizedString("You", comment: "")
+        playerTwoName = try container.decodeIfPresent(String.self, forKey: .playerTwoName) ?? NSLocalizedString("Opponent", comment: "")
         playerOneServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsPlayed)
         playerTwoServicePointsPlayed = try container.decodeIfPresent(Int.self, forKey: .playerTwoServicePointsPlayed)
         playerOneServicePointsWon = try container.decodeIfPresent(Int.self, forKey: .playerOneServicePointsWon)

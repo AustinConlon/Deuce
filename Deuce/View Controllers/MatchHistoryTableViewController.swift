@@ -105,14 +105,13 @@ class MatchHistoryTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        editNames(indexPath, tableView)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let matchDetail = MatchDetail(match: MatchHistoryController.shared.matches[indexPath.row]) { [weak self] newMatch in
             self?.dismiss(animated: true) {
-                // Save notes edits to CloudKit.
+                // Save any match detail edits to CloudKit.
                 MatchHistoryController.shared.matches[indexPath.row] = newMatch
                 
                 let matchRecord = MatchHistoryController.shared.records[indexPath.row]
@@ -149,69 +148,6 @@ class MatchHistoryTableViewController: UITableViewController {
                 self.tableView.refreshControl?.endRefreshing()
             }
         }
-    }
-    
-    // MARK: - Editing
-    
-    fileprivate func editNames(_ indexPath: IndexPath, _ tableView: UITableView) {
-        let alert = UIAlertController(title: "Player Names", message: nil, preferredStyle: .alert)
-        
-        alert.addTextField { textField in
-            textField.placeholder = "\(NSLocalizedString("Opponent", tableName: "Main", comment: "")) (e.g. Benoit Paire)"
-            textField.autocapitalizationType = .words
-            textField.returnKeyType = .next
-            textField.clearButtonMode = .whileEditing
-            
-            if let playerTwoName = MatchHistoryController.shared.matches[indexPath.row].playerTwoName {
-                textField.text = playerTwoName
-            }
-        }
-        
-        alert.addTextField { textField in
-            textField.placeholder = "\(NSLocalizedString("You", tableName: "Main", comment: "")) (e.g. Gael Monfils)"
-            textField.autocapitalizationType = .words
-            textField.returnKeyType = .done
-            textField.clearButtonMode = .whileEditing
-            textField.textContentType = .name
-            
-            if let playerOneName = MatchHistoryController.shared.matches[indexPath.row].playerOneName {
-                textField.text = playerOneName
-            }
-        }
-        
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", tableName: "Main", comment: ""), style: .cancel, handler: { _ in
-            tableView.deselectRow(at: indexPath, animated: true)
-        }))
-        
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Save", tableName: "Main", comment: "Default action"), style: .default, handler: { _ in
-            if let playerOneName = alert.textFields?.last?.text, !playerOneName.isEmpty {
-                MatchHistoryController.shared.matches[indexPath.row].playerOneName = playerOneName
-            }
-            
-            if let playerTwoName = alert.textFields?.first?.text, !playerTwoName.isEmpty {
-                MatchHistoryController.shared.matches[indexPath.row].playerTwoName = playerTwoName
-            }
-            
-            let matchRecord = MatchHistoryController.shared.records[indexPath.row]
-            
-            if let matchData = try? PropertyListEncoder().encode(MatchHistoryController.shared.matches[indexPath.row]) {
-                matchRecord["matchData"] = matchData as NSData
-                
-                MatchHistoryController.shared.database.save(matchRecord) { (savedRecord, error) in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    } else {
-                        MatchHistoryController.shared.fetchMatchRecords() { matches in
-                            DispatchQueue.main.async {
-                                self.dataSource.apply(self.initialSnapshot(), animatingDifferences: false)
-                            }
-                        }
-                    }
-                }
-            }
-        }))
-        
-        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func rulesButtonTriggered(_ sender: UIBarButtonItem) {
@@ -255,8 +191,8 @@ extension MatchHistoryTableViewController {
             cell.dateLabel.text = dateString
             cell.playerTwoNameLabel.text = NSLocalizedString("Opponent", comment: "")
             
-            if let playerOneName = match.playerOneName { cell.playerOneNameLabel.text = playerOneName }
-            if let playerTwoName = match.playerTwoName { cell.playerTwoNameLabel.text = playerTwoName }
+            cell.playerOneNameLabel.text = match.playerOneName
+            cell.playerTwoNameLabel.text = match.playerTwoName
             
             if match.sets.count >= 1 {
                 cell.setOneStackView.isHidden = false

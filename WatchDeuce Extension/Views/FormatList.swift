@@ -23,7 +23,7 @@ struct FormatList<MatchView: View>: View {
                 }
             }
         }
-        .listStyle(.carousel)
+        .listStyle(CarouselListStyle())
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(Text("Deuce"))
         .onAppear() {

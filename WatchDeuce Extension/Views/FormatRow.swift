@@ -16,7 +16,9 @@ struct FormatRow: View {
         VStack(alignment: .leading) {
             Text(LocalizedStringKey(format.name)).bold()
             Text(LocalizedStringKey(sets))
+            Divider()
             Text(format.thirdSetSupertiebreak ? "3rd set is supertiebreak game" : "Tiebreak at 6-6 for all sets")
+            Divider()
             Text(format.noAd ? "No-ad games" : "Advantage games")
         }
         .padding()

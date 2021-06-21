@@ -3,7 +3,7 @@
 //  Deuce
 //
 //  Created by Austin Conlon on 5/8/20.
-//  Copyright © 2020 Austin Conlon. All rights reserved.
+//  Copyright © 2021 Austin Conlon. All rights reserved.
 //
 
 import SwiftUI
@@ -41,19 +41,10 @@ struct MatchDetail: View {
             Divider()
             
             HStack {
-                Label {
-                    Text(LocalizedStringKey(match.playerOneName ?? "You"))
-                        .fontWeight(match.winner == .playerOne ? .bold : .regular)
-                } icon: {
-                    Image(systemName: "applewatch")
-                        .foregroundColor(match.winner == .playerOne ? .primary : .secondary)
-                }
-                .frame(maxWidth: .infinity)
-                
-                Text(match.playerTwoName ?? "Opponent")
-                    .fontWeight(match.winner == .playerTwo ? .bold : .regular)
-                    .frame(maxWidth: .infinity)
+                TextField(match.playerOneName, text: $match.playerOneName)
+                TextField(match.playerTwoName, text: $match.playerTwoName)
             }
+            .multilineTextAlignment(.center)
             
             Statistics(match: match)
         }
@@ -222,7 +213,7 @@ struct MatchDetail_Previews: PreviewProvider {
         let matchDetail = MatchDetail(match: randomlyGeneratedMatch) { newMatch in }
         
         return matchDetail
-            .preferredColorScheme(.light)
+            .preferredColorScheme(.dark)
             .environment(\.locale, .init(identifier: "en"))
     }
 }

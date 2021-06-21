@@ -72,17 +72,19 @@ struct MatchView: View {
         .font(.system(.largeTitle, design: .rounded))
         // This doesn't work if there's no title set.
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle("")
+        .navigationTitle(title())
         .edgesIgnoringSafeArea(.bottom)
         .alert(isPresented: $singlesServiceAlert) {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
-                    self.match.servicePlayer = .playerOne
-                    self.userData.workout.startWorkout()
+                    match.servicePlayer = .playerOne
+                    userData.workout.startWorkout()
+                    match.startTime = Date()
                 },
                   secondaryButton: .default(Text("Opponent")) {
-                    self.match.servicePlayer = .playerTwo
-                    self.userData.workout.startWorkout()
+                    match.servicePlayer = .playerTwo
+                    userData.workout.startWorkout()
+                    match.startTime = Date()
                 })
         }
         .sheet(isPresented: $showingMatchMenu) {

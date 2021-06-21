@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		FB00DDF223F2385D008751D2 /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00DDF123F2385D008751D2 /* Format.swift */; };
 		FB00DDF323F2385D008751D2 /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00DDF123F2385D008751D2 /* Format.swift */; };
-		FB00DDF523F23C15008751D2 /* FormatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00DDF423F23C15008751D2 /* FormatRow.swift */; };
 		FB00DDF623F23C15008751D2 /* FormatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00DDF423F23C15008751D2 /* FormatRow.swift */; };
 		FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB185192229756A30058C323 /* MatchHistoryTableViewCell.swift */; };
 		FB1FDB4823FA782500CE03B1 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1FDB4723FA782400CE03B1 /* Game.swift */; };
@@ -332,11 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				FB68051523FFA85E00735BE3 /* WatchDeuce Extension.entitlements */,
-				FB52F95123F2476C00AAC1FB /* InitialView.swift */,
-				FB7CD14E23EF8ED400EB4D04 /* FormatList.swift */,
-				FB00DDF423F23C15008751D2 /* FormatRow.swift */,
-				FB7A6A0023E99BD60065046E /* MatchView.swift */,
-				FBEFBF3C2515E20600E8E14A /* MatchMenu.swift */,
+				FB7E30B6267894170097FB9C /* Views */,
 				FB6DAA092210284400949669 /* WorkoutManager.swift */,
 				FB7A6A0223E99BD60065046E /* HostingController.swift */,
 				FB7A6A0423E99BD60065046E /* ExtensionDelegate.swift */,
@@ -363,6 +358,18 @@
 				FB7CD15823EF949300EB4D04 /* formatData.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		FB7E30B6267894170097FB9C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FB52F95123F2476C00AAC1FB /* InitialView.swift */,
+				FB7CD14E23EF8ED400EB4D04 /* FormatList.swift */,
+				FB00DDF423F23C15008751D2 /* FormatRow.swift */,
+				FB7A6A0023E99BD60065046E /* MatchView.swift */,
+				FBEFBF3C2515E20600E8E14A /* MatchMenu.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		FB8281892210AC7500E6BAF9 /* Models */ = {
@@ -467,9 +474,7 @@
 				TargetAttributes = {
 					FB51A0091DEAD77C00B2E195 = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = AV84QJNZ49;
 						LastSwiftMigration = 1010;
-						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -494,13 +499,9 @@
 					};
 					FB7A69EE23E99BD50065046E = {
 						CreatedOnToolsVersion = 11.3;
-						DevelopmentTeam = AV84QJNZ49;
-						ProvisioningStyle = Automatic;
 					};
 					FB7A69FA23E99BD60065046E = {
 						CreatedOnToolsVersion = 11.3;
-						DevelopmentTeam = AV84QJNZ49;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -587,7 +588,6 @@
 				FB6DE88024AF041900C537CC /* Point.swift in Sources */,
 				FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */,
 				FB7CD15C23EFAAE000EB4D04 /* Data.swift in Sources */,
-				FB00DDF523F23C15008751D2 /* FormatRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -809,9 +809,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -819,9 +821,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.40;
+				MARKETING_VERSION = 3.41;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
@@ -835,9 +839,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Deuce/Deuce.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				INFOPLIST_FILE = Deuce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -846,9 +852,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.40;
+				MARKETING_VERSION = 3.41;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
@@ -907,8 +915,9 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "WatchDeuce Extension/WatchDeuce Extension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchDeuce Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				ENABLE_PREVIEWS = YES;
@@ -920,11 +929,12 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.40;
+				MARKETING_VERSION = 3.41;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -942,8 +952,9 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = "WatchDeuce Extension/WatchDeuce Extension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchDeuce Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				ENABLE_PREVIEWS = YES;
@@ -955,10 +966,11 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.40;
+				MARKETING_VERSION = 3.41;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -976,20 +988,21 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				IBSC_MODULE = WatchDeuce_Extension;
 				INFOPLIST_FILE = WatchDeuce/Info.plist;
-				MARKETING_VERSION = 3.40;
+				MARKETING_VERSION = 3.41;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -1007,19 +1020,20 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = AV84QJNZ49;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				IBSC_MODULE = WatchDeuce_Extension;
 				INFOPLIST_FILE = WatchDeuce/Info.plist;
-				MARKETING_VERSION = 3.40;
+				MARKETING_VERSION = 3.41;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Deuce.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;

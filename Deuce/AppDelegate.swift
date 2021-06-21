@@ -3,7 +3,7 @@
 //  Deuce
 //
 //  Created by Austin Conlon on 11/27/16.
-//  Copyright © 2020 Austin Conlon. All rights reserved.
+//  Copyright © 2021 Austin Conlon. All rights reserved.
 //
 
 import UIKit

@@ -12,8 +12,14 @@ struct InitialView: View {
     @State var matchInProgress = false
     
     var body: some View {
-        FormatList() { MatchView(match: Match(format: $0)) }
-        .environmentObject(UserData())
+        if #available(watchOSApplicationExtension 8.0, *) {
+            FormatList() { MatchView(match: Match(format: $0)) }
+            .environmentObject(UserData())
+            .navigationBarTitleDisplayMode(.inline)
+        } else {
+            FormatList() { MatchView(match: Match(format: $0)) }
+            .environmentObject(UserData())
+        }
     }
 }
 
