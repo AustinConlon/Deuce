@@ -46,9 +46,9 @@
 		<string>com.apple.watchkit</string>
 	</dict>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Health share usage description.</string>
+	<string>Saving your tennis workout to the Fitness and Health apps.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>Health update usage description.</string>
+	<string>Saving your tennis workout to the Fitness and Health apps.</string>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>WKBackgroundModes</key>

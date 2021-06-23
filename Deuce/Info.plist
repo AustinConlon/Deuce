@@ -23,9 +23,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSHealthShareUsageDescription</key>
-	<string>This is for saving your tennis workout to the Activity and Health apps.</string>
+	<string>Saving your tennis workout to the Fitness and Health apps.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>This is for saving your tennis workout to the Activity and Health apps.</string>
+	<string>Saving your tennis workout to the Fitness and Health apps.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
