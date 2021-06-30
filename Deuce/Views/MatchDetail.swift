@@ -19,10 +19,11 @@ struct MatchDetail: View {
     
     var body: some View {
         ScrollView {
+            Text("\(startTime) - \(endTime)")
+            
             GroupBox {
                 Score(match: $match)
             }
-            .padding()
             
             Divider()
             
@@ -48,17 +49,41 @@ struct MatchDetail: View {
             
             Statistics(match: match)
         }
-        .navigationTitle(date())
+        .navigationTitle(date)
         .navigationBarTitleDisplayMode(.inline)
         .onDisappear() {
             completion(match)
         }
     }
     
-    func date() -> String {
+    var date: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         return dateFormatter.string(from: match.date)
+    }
+    
+    var startTime: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        
+        // Previous versions of the model didn't log the start time.
+        if let startTime = match.startTime {
+            return dateFormatter.string(from: startTime)
+        } else {
+            return "Start Time"
+        }
+    }
+    
+    var endTime: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        
+        // Previous versions of the model didn't log the end time.
+        if let endTime = match.endTime {
+            return dateFormatter.string(from: endTime)
+        } else {
+            return "End Time"
+        }
     }
 }
 

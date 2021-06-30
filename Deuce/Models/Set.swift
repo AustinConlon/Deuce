@@ -59,6 +59,9 @@ struct Set: Codable, Hashable {
     
     var gamesPlayed: Int { gamesWon.sum }
     
+    var startTime: Date!
+    var endTime: Date!
+    
     // MARK: - Initialization
     
     init(format: RulesFormats) {

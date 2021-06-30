@@ -59,7 +59,7 @@ struct Match: Codable, Hashable {
     var state: MatchState = .playing
     
     var date: Date!
-    var startTime = Date()
+    var startTime: Date!
     var endTime: Date!
     
     var currentSet: Set {
@@ -212,6 +212,7 @@ struct Match: Codable, Hashable {
     
     mutating func stop() {
         date = Date()
+        endTime = Date()
         calculateStatistics()
     }
     

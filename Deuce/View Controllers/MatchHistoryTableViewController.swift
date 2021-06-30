@@ -156,7 +156,7 @@ class MatchHistoryTableViewController: UITableViewController {
         case "fr":
             url = URL(string: "https://www.fft.fr/file/7966/download?token=DmjkAHAr")!
         default:
-            url = URL(string: "https://www.itftennis.com/media/2510/2020-rules-of-tennis-english.pdf")!
+            url = URL(string: "https://www.itftennis.com/media/4421/2021-rules-of-tennis-english.pdf")!
         }
         let rulesViewController = SFSafariViewController(url: url)
         rulesViewController.modalPresentationStyle = .pageSheet
