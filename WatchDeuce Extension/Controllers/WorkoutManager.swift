@@ -3,7 +3,7 @@
 //  Deuce WatchKit Extension
 //
 //  Created by Austin Conlon on 2/10/19.
-//  Copyright © 2020 Austin Conlon. All rights reserved.
+//  Copyright © 2021 Austin Conlon. All rights reserved.
 //
 
 import Foundation
@@ -11,12 +11,10 @@ import HealthKit
 import Combine
 
 class WorkoutManager: NSObject, ObservableObject {
-    
     let healthStore = HKHealthStore()
     var session: HKWorkoutSession?
     var builder: HKLiveWorkoutBuilder?
     
-    var start: Date?
     var cancellable: Cancellable?
     var accumulatedTime: Int = 0
     
@@ -43,13 +41,13 @@ class WorkoutManager: NSObject, ObservableObject {
     // MARK: - State Control
     
     func startWorkout() {
-        let workoutConfiguration = HKWorkoutConfiguration()
-        workoutConfiguration.activityType = .tennis
+        let configuration = HKWorkoutConfiguration()
+        configuration.activityType = .tennis
         
+        // Create the session and obtain the workout builder.
         do {
-            session = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
-            builder = session!.associatedWorkoutBuilder()
-            start = Date()
+            session = try HKWorkoutSession(healthStore: healthStore, configuration: configuration)
+            builder = session?.associatedWorkoutBuilder()
         } catch {
             return
         }
@@ -58,11 +56,12 @@ class WorkoutManager: NSObject, ObservableObject {
         builder?.delegate = self
         
         builder?.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
-                                                      workoutConfiguration: workoutConfiguration)
+                                                      workoutConfiguration: configuration)
         
-        session?.startActivity(with: start)
-        builder!.beginCollection(withStart: start!) { (success, error) in
-            
+        let startDate = Date()
+        session?.startActivity(with: startDate)
+        builder?.beginCollection(withStart: startDate) { (success, error) in
+            // The workout has started.
         }
     }
     
@@ -128,16 +127,7 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
                         from fromState: HKWorkoutSessionState, date: Date) {
         // Wait for the session to transition states before ending the builder.
         if toState == .ended {
-            let activeEnergyBurnedSample = HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
-                                                           quantity: self.activeEnergyBurned,
-                                                           start: self.start!,
-                                                           end: Date())
-            
-            builder?.add([activeEnergyBurnedSample]) { (success, error) in
-                
-            }
-            
-            builder?.endCollection(withEnd: Date()) { (success, error) in
+            builder?.endCollection(withEnd: date) { (success, error) in
                 self.builder?.finishWorkout { (workout, error) in
                     self.resetWorkout()
                 }

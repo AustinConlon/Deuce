@@ -1,8 +1,8 @@
 //
 //  MatchView.swift
-//  WatchDeuce Extension
+//  Deuce
 //
-//  Created by Austin Conlon on 2/4/20.
+//  Created by Austin Conlon on 7/5/21.
 //  Copyright © 2021 Austin Conlon. All rights reserved.
 //
 
@@ -10,7 +10,6 @@ import SwiftUI
 
 struct MatchView: View {
     @EnvironmentObject var userData: UserData
-    @EnvironmentObject var workout: WorkoutManager
     
     @State var match: Match
     @State var singlesServiceAlert = true
@@ -23,14 +22,12 @@ struct MatchView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: 0) {
+            VStack {
                 PlayerTwo(match: self.$match)
-                .frame(maxHeight: geometry.size.height / 2)
                 
                 Divider()
                 
                 PlayerOne(match: self.$match)
-                .frame(maxHeight: geometry.size.height / 2)
             }
             
             HStack {
@@ -48,7 +45,7 @@ struct MatchView: View {
                 }) {
                     Image(systemName: "ellipsis.circle.fill")
                         .foregroundColor(Color(.darkGray))
-                        .font(.title)
+                        .font(.largeTitle)
                 }
                 
                 Group {
@@ -79,12 +76,10 @@ struct MatchView: View {
             Alert(title: Text(LocalizedStringKey(serviceQuestion())),
                   primaryButton: .default(Text(LocalizedStringKey("You"))) {
                     match.servicePlayer = .playerOne
-                    workout.startWorkout()
                     match.startTime = Date()
                 },
                   secondaryButton: .default(Text("Opponent")) {
                     match.servicePlayer = .playerTwo
-                    workout.startWorkout()
                     match.startTime = Date()
                 })
         }
@@ -122,16 +117,13 @@ struct PlayerTwo: View {
         GeometryReader { geometry in
             Button(action: {
                 self.match.scorePoint(for: .playerTwo)
-                WKInterfaceDevice.current().play(self.match.isChangeover() ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
                     ZStack() {
                         self.playerTwoServiceImage()
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
                     }
                     .foregroundColor(self.match.servicePlayer == .playerTwo && match.state == .playing ? .green : .clear)
-                    .frame(width: geometry.size.width / 2, alignment: self.playerTwoServiceAlignment())
+                    .frame(width: geometry.size.width, alignment: self.playerTwoServiceAlignment())
                     .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                     
                     Text(LocalizedStringKey(self.match.state == .finished ? self.playerTwoMedal() : self.playerTwoGameScore()))
@@ -142,7 +134,7 @@ struct PlayerTwo: View {
                             Text(set.getScore(for: .playerTwo))
                         }
                     }
-                    .font(Font.title.monospacedDigit())
+                    .font(Font.largeTitle.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(match.allPointsPlayed.count > 0 ? .default : .none)
                     .foregroundColor(.primary)
@@ -150,7 +142,6 @@ struct PlayerTwo: View {
                 .frame(height: geometry.size.height)
             }
             .disabled(match.state == .finished ? true : false)
-            .buttonStyle(BorderedButtonStyle(tint: .blue))
         }
     }
     
@@ -207,7 +198,6 @@ struct PlayerOne: View {
         GeometryReader { geometry in
             Button(action: {
                 self.match.scorePoint(for: .playerOne)
-                WKInterfaceDevice.current().play(self.match.isChangeover() ? .stop : .start)
             }) {
                 VStack(spacing: 0) {
                     HStack {
@@ -215,7 +205,7 @@ struct PlayerOne: View {
                             Text(set.getScore(for: .playerOne))
                         }
                     }
-                    .font(Font.title.monospacedDigit())
+                    .font(Font.largeTitle.monospacedDigit())
                     .minimumScaleFactor(0.7)
                     .animation(match.allPointsPlayed.count > 0 ? .default : .none)
                     .foregroundColor(.primary)
@@ -225,17 +215,14 @@ struct PlayerOne: View {
                     
                     ZStack {
                         self.playerOneServiceImage()
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
                     }
                     .foregroundColor(self.match.servicePlayer == .playerOne && match.state == .playing ? .green : .clear)
-                    .frame(width: geometry.size.width / 2, alignment: self.playerOneServiceAlignment())
+                    .frame(width: geometry.size.width, alignment: self.playerOneServiceAlignment())
                     .animation(self.match.currentSet.currentGame.pointsPlayed > 0 && !self.match.currentSet.currentGame.isTiebreak ? .default : nil)
                 }
                 .frame(height: geometry.size.height)
             }
             .disabled(match.state == .finished ? true : false)
-            .buttonStyle(BorderedButtonStyle(tint: .blue))
         }
     }
     
@@ -290,6 +277,7 @@ struct MatchView_Previews: PreviewProvider {
         let format = userData.formats[0]
         return Group {
             MatchView(match: Match(format: format))
+                .preferredColorScheme(.dark)
                 .environmentObject(userData)
                 .environment(\.locale, .init(identifier: "en"))
             

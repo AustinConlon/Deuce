@@ -28,6 +28,11 @@
 		FB51A0181DEAD77C00B2E195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB51A0161DEAD77C00B2E195 /* LaunchScreen.storyboard */; };
 		FB51A0231DEAD77C00B2E195 /* DeuceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51A0221DEAD77C00B2E195 /* DeuceTests.swift */; };
 		FB52F95223F2476C00AAC1FB /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB52F95123F2476C00AAC1FB /* InitialView.swift */; };
+		FB55491C2692F5CD00B688C6 /* MatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55491B2692F5CD00B688C6 /* MatchView.swift */; };
+		FB55491D2692F70B00B688C6 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7CD15023EF91DD00EB4D04 /* UserData.swift */; };
+		FB55491F2692F91F00B688C6 /* MatchMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEFBF3C2515E20600E8E14A /* MatchMenu.swift */; };
+		FB5549222692FA5C00B688C6 /* FormatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5549212692FA5C00B688C6 /* FormatList.swift */; };
+		FB5549242692FA9900B688C6 /* FormatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5549232692FA9900B688C6 /* FormatRow.swift */; };
 		FB68051423FFA18200735BE3 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DAA092210284400949669 /* WorkoutManager.swift */; };
 		FB68051723FFA85E00735BE3 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB68051623FFA85E00735BE3 /* HealthKit.framework */; };
 		FB6DE88024AF041900C537CC /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6DE87F24AF041900C537CC /* Point.swift */; };
@@ -151,6 +156,9 @@
 		FB51A0241DEAD77C00B2E195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB51A03C1DEAD77C00B2E195 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		FB52F95123F2476C00AAC1FB /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
+		FB55491B2692F5CD00B688C6 /* MatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchView.swift; sourceTree = "<group>"; };
+		FB5549212692FA5C00B688C6 /* FormatList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatList.swift; sourceTree = "<group>"; };
+		FB5549232692FA9900B688C6 /* FormatRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatRow.swift; sourceTree = "<group>"; };
 		FB68051523FFA85E00735BE3 /* WatchDeuce Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WatchDeuce Extension.entitlements"; sourceTree = "<group>"; };
 		FB68051623FFA85E00735BE3 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FB6DAA092210284400949669 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
@@ -277,6 +285,15 @@
 			path = "Deuce WatchKit Extension";
 			sourceTree = "<group>";
 		};
+		FB5549262693FA9B00B688C6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FB7A6A0223E99BD60065046E /* HostingController.swift */,
+				FB6DAA092210284400949669 /* WorkoutManager.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		FB5FF574244733920045E030 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,6 +307,9 @@
 			isa = PBXGroup;
 			children = (
 				FBC3466024656BD6005BD3E3 /* MatchDetail.swift */,
+				FB5549212692FA5C00B688C6 /* FormatList.swift */,
+				FB5549232692FA9900B688C6 /* FormatRow.swift */,
+				FB55491B2692F5CD00B688C6 /* MatchView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -331,9 +351,8 @@
 			isa = PBXGroup;
 			children = (
 				FB68051523FFA85E00735BE3 /* WatchDeuce Extension.entitlements */,
+				FB5549262693FA9B00B688C6 /* Controllers */,
 				FB7E30B6267894170097FB9C /* Views */,
-				FB6DAA092210284400949669 /* WorkoutManager.swift */,
-				FB7A6A0223E99BD60065046E /* HostingController.swift */,
 				FB7A6A0423E99BD60065046E /* ExtensionDelegate.swift */,
 				FB7A6A0623E99BD60065046E /* ComplicationController.swift */,
 				FB7A6A0823E99BD70065046E /* Assets.xcassets */,
@@ -576,16 +595,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB5549222692FA5C00B688C6 /* FormatList.swift in Sources */,
 				FB1FDB4B23FA793C00CE03B1 /* Set.swift in Sources */,
 				FB185193229756A30058C323 /* MatchHistoryTableViewCell.swift in Sources */,
+				FB55491D2692F70B00B688C6 /* UserData.swift in Sources */,
 				FB1FDB4823FA782500CE03B1 /* Game.swift in Sources */,
 				FB776C70256A83A00020D799 /* MatchHistoryController.swift in Sources */,
 				FB51A00E1DEAD77C00B2E195 /* AppDelegate.swift in Sources */,
 				FBC3466124656BD6005BD3E3 /* MatchDetail.swift in Sources */,
+				FB55491F2692F91F00B688C6 /* MatchMenu.swift in Sources */,
 				FB00DDF223F2385D008751D2 /* Format.swift in Sources */,
 				FB4E49FD2430B2A40027B91A /* CloudController.swift in Sources */,
+				FB5549242692FA9900B688C6 /* FormatRow.swift in Sources */,
 				FB82818B2210ACA000E6BAF9 /* Match.swift in Sources */,
 				FB6DE88024AF041900C537CC /* Point.swift in Sources */,
+				FB55491C2692F5CD00B688C6 /* MatchView.swift in Sources */,
 				FB2958642297530900F9DFEB /* MatchHistoryTableViewController.swift in Sources */,
 				FB7CD15C23EFAAE000EB4D04 /* Data.swift in Sources */,
 			);

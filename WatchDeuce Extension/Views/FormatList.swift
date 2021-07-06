@@ -10,6 +10,7 @@ import SwiftUI
 
 struct FormatList<MatchView: View>: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var workout: WorkoutManager
     
     let matchViewProducer: (Format) -> MatchView
     
@@ -27,7 +28,7 @@ struct FormatList<MatchView: View>: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(Text("Deuce"))
         .onAppear() {
-            userData.workout.session?.state == .running ? userData.workout.endWorkout() : userData.workout.requestAuthorization()
+            workout.session?.state == .running ? workout.endWorkout() : workout.requestAuthorization()
         }
     }
 }
